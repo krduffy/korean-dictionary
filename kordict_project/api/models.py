@@ -13,7 +13,7 @@ class KoreanWord(models.Model):
   
   # Called word_unit in dictionary JSON files.
   # 'word_type' as defined in those files is both rarely useful and easily calculable using
-  # the Unicode values of self.origin. 어휘, 속당, ...
+  # the Unicode values of self.origin. 어휘, 속담, ...
   word_type = models.CharField(max_length = 3)
 
   # Implicit foreign keys;
@@ -45,12 +45,13 @@ class Sense(models.Model):
   pos = models.CharField(max_length = 6)
   
   # JSONB fields for optional additional data.
-  # Six possible contained fields below
+  # Eight possible contained fields below
   # This information is only queried when the user inspects a word,
   # making it less important to have fast querying
   additional_info = models.JSONField(null = True, default = None)
-  # patterns, relations, examples, norms, grammar, history
+  # patterns, relations, examples, norms, grammar, history, proverb, region
   # Can view full tree 
+
 
 class HanjaCharacter(models.Model):
   # This character. 金, 韓, 朴, 安 are examples of what might be in this field.
@@ -60,7 +61,7 @@ class HanjaCharacter(models.Model):
   meaning_reading = models.CharField(max_length = 30) # Longest is for character '閄'
   
   # KoreanWords that contain this character as part of their origin field.
-  words_that_contain = models.ManyToManyField(KoreanWord, null=True, related_name="hanja_chars")
+  words_that_contain = models.ManyToManyField(KoreanWord, null=True, related_name="hanja_char")
 
 
 
