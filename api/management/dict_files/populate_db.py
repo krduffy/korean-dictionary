@@ -1,11 +1,11 @@
 
 from django.core.management.base import BaseCommand
-from ..models import KoreanWord, Sense, HanjaCharacter
+from .. models import KoreanWord, Sense, HanjaCharacter
 import os
 import hanja
 import re
 
-def read_dict_jsons():
+def read_dict_jsons(BaseCommand):
   dict_dir = ".\dictionary"
   json_files = os.listdir(dict_dir)
 
