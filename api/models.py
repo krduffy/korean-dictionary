@@ -19,6 +19,9 @@ class KoreanWord(models.Model):
   # Implicit foreign keys;
   # can also refer to KoreanWord.senses and KoreanWord.hanja_chars
 
+  def __str__(self):
+    return f"Word {self.word}, tc {self.target_code}"
+
 # A sense is a "meaning" associated with a word.
 # Multiple senses can refer to the same word.
 class Sense(models.Model):

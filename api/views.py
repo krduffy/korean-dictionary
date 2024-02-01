@@ -3,17 +3,22 @@ from rest_framework import generics
 from . models import KoreanWord, Sense, HanjaCharacter
 from . serializers import KoreanWordSerializer, SenseSerializer, HanjaCharacterSerializer
 
-class WordList(generics.ListCreateAPIView):
+class WordList(generics.ListAPIView):
   serializer_class = KoreanWordSerializer
 
   def get_queryset(self):
     queryset = KoreanWord.objects.all()
-    tc = self.request.query_params.get('target_code')
-    if tc is not None:
-      queryset = queryset.filter(target_code = tc)
+
+    search_type = self.request.query_params.get('search_type', 'exact')
+    search_term = self.request.query_params.get('search_term', '')
+    
+    if search_type == 'exact':
+      queryset = queryset.filter(word = search_term)
+    elif search_type == 'startswith':
+      queryset = queryset.filter(word__startswith = search_term)
     return queryset
   
-class WordDetail(generics.RetrieveUpdateDestroyAPIView):
+class WordDetail(generics.ListAPIView):
   serializer_class = KoreanWordSerializer
   queryset = KoreanWord.objects.all()
 
@@ -22,7 +27,7 @@ class SenseList(generics.ListCreateAPIView):
 
   def get_queryset(self):
     queryset = Sense.objects.all()
-    tc = self.request.query_params.get('target_code')
+    tc = self.request.query_params.get('tc')
     if tc is not None:
       queryset = queryset.filter(target_code = tc)
     return queryset
