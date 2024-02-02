@@ -1,10 +1,17 @@
 
+from django.http import HttpResponse
+from rest_framework.response import Response
 from rest_framework import generics
+from rest_framework.pagination import PageNumberPagination
 from . models import KoreanWord, Sense, HanjaCharacter
-from . serializers import KoreanWordSerializer, SenseSerializer, HanjaCharacterSerializer
+from . serializers import *
+
+class PaginationClass(PageNumberPagination):
+  page_size = 10
 
 class WordList(generics.ListAPIView):
   serializer_class = KoreanWordSerializer
+  pagination_class = PaginationClass
 
   def get_queryset(self):
     queryset = KoreanWord.objects.all()
@@ -18,9 +25,22 @@ class WordList(generics.ListAPIView):
       queryset = queryset.filter(word__startswith = search_term)
     return queryset
   
-class WordDetail(generics.ListAPIView):
-  serializer_class = KoreanWordSerializer
-  queryset = KoreanWord.objects.all()
+class WordDetail(generics.RetrieveAPIView):
+  serializer_class = KoreanWordDetailedSerializer
+  
+  def retrieve(self, request, *args, **kwargs):
+    target_code = self.kwargs.get('target_code', None)
+        
+    if target_code is not None:
+        # Retrieve the KoreanWord object based on its primary key (target_code)
+        try:
+            instance = KoreanWord.objects.get(target_code=target_code)
+            serializer = self.get_serializer(instance)
+            return Response(serializer.data)
+        except KoreanWord.DoesNotExist:
+            return Response({"error": "KoreanWord not found"}, status=404)
+    else:
+        return Response({"error": "You must specify a target_code"}, status=400)
 
 class SenseList(generics.ListCreateAPIView):
   serializer_class = SenseSerializer

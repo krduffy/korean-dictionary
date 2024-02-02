@@ -20,7 +20,9 @@ class Command(BaseCommand):
     if not file:
       raise CommandError('You must supply kwargs')
     if file == 'all':
-      json_files.append(dir for dir in os.listdir(dict_dir))
+      json_files = [os.path.join(dict_dir, fileindir) for fileindir in os.listdir(dict_dir)]
+      self.stdout.write(f"it is {json_files}")
+      self.stdout.write(f"type is {type(json_files[0])}")
     else:
       json_files.append(os.path.join(dict_dir, file))
 
@@ -51,7 +53,7 @@ def add_sense(channel_item):
 
   sense_def = senseinfo["definition"]
   sense_type = senseinfo["type"]
-  sense_order = int(senseinfo["sense_no"])
+  sense_order = channel_item["group_order"]
   sense_category = senseinfo.get("cat_info", "")
   if sense_category:
     sense_category = sense_category[0]["cat"]
@@ -61,8 +63,10 @@ def add_sense(channel_item):
   # Additional information to be stored in the json field.
   additional_info_choices = ["pattern_info", "relation_info", "example_info", "norm_info", 
                              "grammar_info", "history_info", "proverb_info", "region_info"]
-  additional_info_or_none = [senseinfo.get(info, None) for info in additional_info_choices]
-  sense_additional_info = [info for info in additional_info_or_none if info]
+  additional_info_or_none = {info: senseinfo.get(info, None) for info in additional_info_choices}
+  sense_additional_info = {info_key: info_value for 
+                           info_key, info_value in additional_info_or_none.items() 
+                           if info_value is not None}
 
   new_sense = Sense(target_code = sense_target_code, 
                     referent = sense_referent, 
