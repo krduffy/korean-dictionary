@@ -1,18 +1,27 @@
 
 import React, {useState, useEffect} from "react";
 
-const SearchForm = ({ onFormSubmit }) => {
+const SearchBar = ({ onFormSubmit }) => {
 
-  const [ searchTerm, setSearchTerm ] = useState("")
+  const [ boxContent, setBoxContent ] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onFormSubmit(boxContent);
+  }
 
   return (
-    <form onSubmit={onFormSubmit}>
+    <form id="form_content" onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="검색어를 입력해주세요"
-        value={searchTerm}
+        value={boxContent}
+        onChange={(e) => { setBoxContent(e.target.value) }}
+        onKeyDown={(e) => { if(e.key == "Enter") handleSubmit(e)}}
       />
+      <button type="submit">검색</button>
     </form>
   )
-
 }
+
+export default SearchBar;

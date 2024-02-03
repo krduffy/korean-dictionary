@@ -4,16 +4,23 @@ import React, { useState, useEffect } from "react";
 import SearchResult from './SearchResult.jsx'
 import './styles.css' 
 
-const PaginatedResults = ({ searchArgs }) => {
-
-  const [searchResults, setSearchResults] = useState([]);
-  const [totalResults, setTotalResults] = useState(1);
+const PaginatedResults = ({ formParams }) => {
+  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchType, setSearchType] = useState("startswith");
   const [currentPage, setCurrentPage] = useState(1);
+  
+  const [totalResults, setTotalResults] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Gets search results from api
-  useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/korean_word/?search_term=추격&search_type=startswith")
+  const [searchResults, setSearchResults] = useState([]);
+
+  const getFromApi = () => {
+    console.log("GET FROM API")
+    const apiUrl = `http://127.0.0.1:8000/api/korean_word/?page=${currentPage}&`+
+                                                          `search_term=${searchTerm}&`+
+                                                          `search_type=${searchType}`;
+    fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
       setSearchResults(data.results);
@@ -23,7 +30,28 @@ const PaginatedResults = ({ searchArgs }) => {
     .catch(error => {
       console.error("Error while fetching results: ", error);
     });
-  }, [currentPage]);
+  };
+
+  useEffect(() => {
+    setSearchTerm(prevSearchTerm => formParams["search_term"]);
+    setSearchType(prevSearchType => formParams["search_type"]);
+  }, [formParams]);
+
+  useEffect(() => {
+    const apiUrl = `http://127.0.0.1:8000/api/korean_word/?page=${currentPage}&`+
+    `search_term=${searchTerm}&`+
+    `search_type=${searchType}`;
+    fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+    setSearchResults(data.results);
+    setTotalResults(data.count);
+    setTotalPages(Math.ceil(data.count / 10));
+    })
+    .catch(error => {
+    console.error("Error while fetching results: ", error);
+    });
+  }, [searchTerm, searchType, currentPage]);
 
   return (
     <div>

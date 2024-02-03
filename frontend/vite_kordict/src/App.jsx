@@ -1,14 +1,14 @@
 import { useState } from 'react'
 //import './App.css'
 
-import PaginatedResults from './components/search/listed_korean/PaginatedResults.jsx'
+import SearchPage from './components/search/SearchPage.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <PaginatedResults />
+      <SearchPage />
     </>
   )
 }
