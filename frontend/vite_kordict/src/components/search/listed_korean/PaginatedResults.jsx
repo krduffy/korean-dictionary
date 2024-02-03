@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import SearchResult from './SearchResult.jsx'
+import './styles.css' 
 
-const PaginatedResults = () => {
+const PaginatedResults = ({ searchArgs }) => {
 
   const [searchResults, setSearchResults] = useState([]);
   const [totalResults, setTotalResults] = useState(1);
@@ -12,7 +13,7 @@ const PaginatedResults = () => {
 
   // Gets search results from api
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/korean_word/?search_term=%EA%B0%84%EB%8B%A8&search_type=startswith")
+    fetch("http://127.0.0.1:8000/api/korean_word/?search_term=추격&search_type=startswith")
     .then(response => response.json())
     .then(data => {
       setSearchResults(data.results);
@@ -26,7 +27,7 @@ const PaginatedResults = () => {
 
   return (
     <div>
-      <h1> Search results </h1>
+      <span>결과 {totalResults}</span>
       { searchResults && (
         searchResults.map((result) => (
           <SearchResult key={result.kw_target_code} result={result} />

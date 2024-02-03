@@ -6,22 +6,17 @@ class KoreanWordSerializer(serializers.ModelSerializer):
   kw_word = serializers.CharField(source='word', default = None)
   kw_origin = serializers.CharField(source='origin', default = None)
   kw_word_type = serializers.CharField(source='word_type', default = None)
-  kw_first_sense_def = serializers.SerializerMethodField()
-  kw_first_sense_cat = serializers.SerializerMethodField()
+  kw_senses = serializers.SerializerMethodField()
   
   class Meta:
     model = KoreanWord
-    fields = ['kw_target_code', 'kw_word', 'kw_origin', 'kw_word_type', 
-              'kw_first_sense_def', 'kw_first_sense_cat']
+    fields = ['kw_target_code', 'kw_word', 'kw_origin', 'kw_word_type', 'kw_senses']
     read_only_fields = ['__all__']
 
-  def get_kw_first_sense_def(self, obj):
-    first_sense_def = obj.senses.filter(order = 1)
-    return first_sense_def[0].definition if first_sense_def else None
-  
-  def get_kw_first_sense_cat(self, obj):
-    first_sense_cat = obj.senses.filter(order = 1)
-    return first_sense_cat[0].category if first_sense_cat else None
+  def get_kw_senses(self, obj):
+    first_five = obj.senses.all().order_by('order')[:5]
+    sense_serializer = SimplifiedSenseSerializer(first_five, many=True)
+    return sense_serializer.data
 
 class KoreanWordDetailedSerializer(serializers.ModelSerializer):
   senses = serializers.SerializerMethodField()
@@ -32,9 +27,24 @@ class KoreanWordDetailedSerializer(serializers.ModelSerializer):
     read_only_fields = ['__all__']
 
   def get_senses(self, obj):
-    senses = obj.senses.all()
+    senses = obj.senses.all().order_by('order')
     sense_serializer = SenseSerializer(senses, many = True)
     return sense_serializer.data
+
+class SimplifiedSenseSerializer(serializers.ModelSerializer):
+
+  s_target_code = serializers.IntegerField(source='target_code', default = None)
+  s_definition = serializers.CharField(source='definition', default = None)
+  s_type = serializers.CharField(source='type', default = None)
+  s_order = serializers.IntegerField(source='order', default = None)
+  s_category = serializers.CharField(source='category', default = None)
+  s_pos = serializers.CharField(source='pos', default = None)
+
+  class Meta:
+    model = Sense
+    fields = ['s_target_code', 's_definition', 's_type', 's_order', 
+              's_category', 's_pos']
+    read_only_fields = ['__all__']
 
 class SenseSerializer(serializers.ModelSerializer):
   

@@ -1,5 +1,28 @@
 
-.definition {
-  font-size: 10px;
-  font-family: 
+.result_box {
+  border-bottom: 10px bold transparent;
+  max-width: 50vw;
+  padding: 5px;
+}
+
+.header {
+  font-family: sans-serif;
+  margin-bottom: 5px;
+}
+
+.word_header {
+  color: #72a1ed;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.origin_header {
+  font-size: 16px;
+}
+
+.listed_senses {
+  line-height: 1.5;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
