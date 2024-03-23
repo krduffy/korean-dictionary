@@ -38,18 +38,19 @@ const PaginatedResults = ({ formParams }) => {
   }, [formParams]);
 
   useEffect(() => {
-    const apiUrl = `http://127.0.0.1:8000/api/korean_word/?page=${currentPage}&`+
-    `search_term=${searchTerm}&`+
-    `search_type=${searchType}`;
+    const apiUrl = `http://127.0.0.1:8000/api/korean_word/?`+
+                    `page=${currentPage}&`+
+                    `search_term=${searchTerm}&`+
+                    `search_type=${searchType}`;
     fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
-    setSearchResults(data.results);
-    setTotalResults(data.count);
-    setTotalPages(Math.ceil(data.count / 10));
+      setSearchResults(data.results);
+      setTotalResults(data.count);
+      setTotalPages(Math.ceil(data.count / 10));
     })
     .catch(error => {
-    console.error("Error while fetching results: ", error);
+      console.error("Error while fetching results: ", error);
     });
   }, [searchTerm, searchType, currentPage]);
 

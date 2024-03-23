@@ -66,21 +66,24 @@ class HanjaCharacter(models.Model):
   # KoreanWords that contain this character as part of their origin field.
   words_that_contain = models.ManyToManyField(KoreanWord, related_name="hanja_char")
 
-
-
-
+########################################################################################
 
 #class User(models.Model):
-#  id = models.AutoField(primary_key = True)
-#  lang = models.CharField(max_length=1) # K for Korean, E for Korean-English
-#  known_words =
-#  study_words = models.
+#  id = models.BigAutoField(primary_key = True)
+#  known_words = models.ManyToManyRel(KoreanWord, related_name="users_that_know")
 
-#class UserDefinition(models.Model):
-#  id = models.AutoBigField(primary_key = True)
+#class UserWord(models.Model):
+#  id = models.BigAutoField(primary_key=True)
+#  word = models.CharField(max_length = 100)
+#  user_that_created = models.ForeignKey(User, related_name="created_words")
 
 #class UserNote(models.Model):
-#  id = models.
+#  id = models.BigAutoField(primary_key=True)
+#  word_ref = models.ForeignKey(UserWord, related_name = "notes")
+#  order = models.SmallIntegerField(blank = False)
+#  note_text = models.CharField(max_length = 1000)
+
+  #note_image = 
 
 #class StudyWord(models.Model):
 #  id = models.AutoField(primary_key = True)

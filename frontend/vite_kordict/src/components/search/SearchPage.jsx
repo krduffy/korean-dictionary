@@ -13,7 +13,6 @@ const SearchPage = () => {
       "search_type": "startswith",
     };
     setSearchBarParams(params);
-    console.log("Just finished setting")
   };
 
   return (
