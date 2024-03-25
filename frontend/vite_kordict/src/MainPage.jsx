@@ -7,13 +7,13 @@ import "./main_page.css"
 const MainPage = () => {
 
   return (
-    <div id="main_page">
+    <div id="main-page">
       <NavBar />
-      <div className="panels-div">
-        <div className="left-panel">
+      <div id="both-panels-container">
+        <div className="panel-container" id="left-panel-container">
           <Panel />
         </div>
-        <div className="right-panel">
+        <div className="panel-container" id="right-panel-container">
           <Panel />
         </div>
       </div>
