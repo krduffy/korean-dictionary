@@ -3,7 +3,6 @@ import React, {useState, useEffect} from "react";
 
 const SearchBar = ({ onFormSubmit }) => {
 
-  const [ searchBarParams, setSearchBarParams ] = useState({});
   const [ boxContent, setBoxContent ] = useState("");
 
   const handleSubmit = (e) => {

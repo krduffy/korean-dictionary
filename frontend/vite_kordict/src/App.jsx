@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import NavBar from "./components/nav_bar/NavBar.jsx";
 import Panel from "./components/Panel.jsx";
-import "./main_page.css"
+import "./app.css"
 
-const MainPage = () => {
+const App = () => {
 
   return (
     <div id="main-page">
@@ -21,4 +21,4 @@ const MainPage = () => {
   );
 }
 
-export default MainPage;
+export default App;
