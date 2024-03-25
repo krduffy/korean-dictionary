@@ -1,7 +1,6 @@
 
 .result_box {
   border-bottom: 10px bold transparent;
-  max-width: 50vw;
   padding: 5px;
 }
 
@@ -24,5 +23,4 @@
   line-height: 1.5;
   list-style: none;
   padding: 0;
-  margin: 0;
 }

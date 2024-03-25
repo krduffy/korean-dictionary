@@ -1,9 +1,9 @@
 
 import React, { useState } from "react";
-import SearchBar from "./search_bar/SearchBar.jsx";
-import PaginatedResults from "./listed_korean/PaginatedResults.jsx";
+import SearchBar from "./search/search_bar/SearchBar.jsx";
+import PaginatedResults from "./search/listed_korean/PaginatedResults.jsx";
 
-const SearchPage = () => {
+const Panel = () => {
 
   const [ searchBarParams, setSearchBarParams ] = useState({});
   
@@ -17,11 +17,10 @@ const SearchPage = () => {
 
   return (
     <>
-    <span> {searchBarParams["search_term"]}</span>
     <SearchBar onFormSubmit={submitSearchForm} />
     <PaginatedResults formParams={searchBarParams} />
     </>
   );
 }
 
-export default SearchPage;
+export default Panel;
