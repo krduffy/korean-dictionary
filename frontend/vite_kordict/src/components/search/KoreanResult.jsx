@@ -1,5 +1,6 @@
 
 import React from "react";
+import "./korean-result-styles.css"
 
 const KoreanResult = ({ result }) => {
   return (

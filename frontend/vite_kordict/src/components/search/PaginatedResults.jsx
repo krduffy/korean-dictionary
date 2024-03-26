@@ -1,8 +1,8 @@
 
 
 import React, { useState, useEffect } from "react";
-import KoreanResult from './KoreanResult.jsx'
-import './styles.css' 
+import KoreanResult from './KoreanResult.jsx' 
+import PageChanger from './PageChanger.jsx'
 
 const PaginatedResults = ({ formParams }) => {
   
@@ -43,6 +43,7 @@ const PaginatedResults = ({ formParams }) => {
             <HanjaResult key={result.kw_target_code} result={result} />
         ))
       )}
+      <PageChanger page={currentPage} numberOfPages={totalPages} setPageFunction={setCurrentPage}/>
     </div>
   );
 }
