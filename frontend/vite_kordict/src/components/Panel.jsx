@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
-import SearchBar from "./search/search_bar/SearchBar.jsx";
-import PaginatedResults from "./search/listed_korean/PaginatedResults.jsx";
+import SearchBar from "./search/SearchBar.jsx";
+import PaginatedResults from "./search/PaginatedResults.jsx";
 
 const Panel = () => {
 
@@ -10,10 +10,10 @@ const Panel = () => {
   const [ viewParams, setViewParams] = useState({"show_results": false, "show_word": false});
   // show_results, show_word
 
-  const submitSearchForm = (searchTerm) => {
+  const submitSearchForm = (searchInfo) => {
     const searchParams = {
-      "search_term": searchTerm,
-      "search_type": "startswith",
+      "search_term": searchInfo["search_term"],
+      "search_type": searchInfo["search_type"],
     };
     setSearchBarParams(searchParams);
 
@@ -27,9 +27,9 @@ const Panel = () => {
 
   return (
     <>
-    <SearchBar onFormSubmit={submitSearchForm} />
+    <SearchBar updateSearchParamsFunction={submitSearchForm} />
 
-    {viewParams.show_results &&
+    {viewParams["show_results"] &&
       <PaginatedResults formParams={searchBarParams} />
     }
     </>

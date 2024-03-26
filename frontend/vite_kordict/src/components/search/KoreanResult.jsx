@@ -1,7 +1,7 @@
 
 import React from "react";
 
-const SearchResult = ({ result }) => {
+const KoreanResult = ({ result }) => {
   return (
     <div className="result_box">
       <p className="header">
@@ -25,4 +25,4 @@ const SearchResult = ({ result }) => {
   );
 }
 
-export default SearchResult;
+export default KoreanResult;

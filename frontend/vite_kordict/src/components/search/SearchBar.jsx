@@ -1,13 +1,19 @@
 
 import React, {useState, useEffect} from "react";
 
-const SearchBar = ({ onFormSubmit }) => {
+const SearchBar = ({ updateSearchParamsFunction }) => {
 
   const [ boxContent, setBoxContent ] = useState("");
+  const [ dictionary, setDictionary ] = useState("kor");
+  const [ searchType, setSearchType ] = useState("startswith")
 
   const handleSubmit = (e) => {
+    console.log("kkkkkkkkkkkkk");
     e.preventDefault();
-    onFormSubmit(boxContent);
+    updateSearchParamsFunction({
+      "search_term": boxContent,
+      "search_type": searchType,
+    });
   }
 
   return (
