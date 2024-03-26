@@ -14,7 +14,7 @@ const KoreanResult = ({ result, clickedKorWordFunc, mouseOverHanFunc }) => {
   return (
     <div className="result_box">
       <p className="header">
-        <span onClick={clickedKorWordFunc(result.kw_target_code)} className="word_header">
+        <span onClick={() => clickedKorWordFunc(result.kw_target_code)} className="word_header">
             {result.kw_word}
         </span>
             
