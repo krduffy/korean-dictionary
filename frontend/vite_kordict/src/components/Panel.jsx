@@ -9,6 +9,14 @@ const Panel = () => {
   // search_term, search_type, dictionary
   const [ viewParams, setViewParams] = useState({"show_results": false, "show_word": false});
   // show_results, show_word
+  
+  const mouseOverHanja = (character) => {
+    
+  };
+
+  const clickKoreanWord = (targetCode) => {
+    console.log(targetCode);
+  }
 
   const submitSearchForm = (searchInfo) => {
     const searchParams = {
@@ -32,7 +40,12 @@ const Panel = () => {
     <SearchBar updateSearchParamsFunction={submitSearchForm} />
 
     {viewParams["show_results"] &&
-      <PaginatedResults formParams={searchBarParams} />
+      <PaginatedResults formParams={searchBarParams} functions={
+        {
+          "click_kor": clickKoreanWord,
+          "click_han": mouseOverHanja,
+        }
+      } />
     }
     </>
   );

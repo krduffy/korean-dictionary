@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import KoreanResult from './KoreanResult.jsx' 
 import PageChanger from './PageChanger.jsx'
 
-const PaginatedResults = ({ formParams }) => {
+const PaginatedResults = ({ formParams, functions }) => {
   
   const [currentPage, setCurrentPage] = useState(1);
   
@@ -35,7 +35,10 @@ const PaginatedResults = ({ formParams }) => {
       <span>결과 {totalResults}</span>
       { searchResults && formParams["dictionary"] === "kor" && (
         searchResults.map((result) => (
-            <KoreanResult key={result.kw_target_code} result={result} />
+            <KoreanResult key={result.kw_target_code} result={result} 
+                          clickedKorWordFunc={functions["click_kor"]}
+                          mouseOverHanFunc={functions["click_han"]}
+            />
         ))
       )}
       { searchResults && formParams["dictionary"] === "han" && (
