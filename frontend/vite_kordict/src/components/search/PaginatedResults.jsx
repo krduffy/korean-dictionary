@@ -28,7 +28,7 @@ const PaginatedResults = ({ formParams }) => {
     .catch(error => {
       console.error("Error while fetching results: ", error);
     });
-  }, [currentPage]);
+  }, [formParams, currentPage]);
 
   return (
     <div>

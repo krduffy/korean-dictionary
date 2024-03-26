@@ -14,7 +14,9 @@ const Panel = () => {
     const searchParams = {
       "search_term": searchInfo["search_term"],
       "search_type": searchInfo["search_type"],
+      "dictionary": searchInfo["dictionary"],
     };
+    console.log(searchParams);
     setSearchBarParams(searchParams);
 
     console.log("qqqqq");

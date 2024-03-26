@@ -12,6 +12,7 @@ const SearchBar = ({ updateSearchParamsFunction }) => {
     e.preventDefault();
     updateSearchParamsFunction({
       "search_term": boxContent,
+      "dictionary": dictionary,
       "search_type": searchType,
     });
   }
