@@ -1,13 +1,24 @@
 
 import React from "react";
+import "./sense-info-styles.css"
 
 const SenseExample = ({ exampleData }) => {
 
+  const removeBrackets = (word) => {
+    return word.replace(/{(.*?)}/g, '$1');
+  }
+
   return (
     <div className="example-container">
-      <div>{exampleData["example"]}</div>
+      <div className="example-text">
+        {exampleData["example"].split(" ").map((word, id) => (
+          <span className={word.match(/{.*?}/) ? "bracketed-word" : ""} key={id}>
+            {removeBrackets(word)}{' '}
+          </span>
+        ))}
+      </div>
       {exampleData["source"] && (
-        <div>출처: {exampleData["source"]}</div>
+        <div className="example-source">출처: {exampleData["source"]}</div>
       )}
     </div>
   );
