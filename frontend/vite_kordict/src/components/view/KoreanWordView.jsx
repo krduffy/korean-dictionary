@@ -21,8 +21,8 @@ const KoreanWordView = ({ targetCode }) => {
   return (
     <div className="korean-word-view">
       <span>{wordData["word"]}</span>
-      <span>{wordData["origin"]}</span>
-      <span>{wordData["word_type"]}</span>
+      <span>{'  '}{wordData["origin"]}</span>
+      <div>{wordData["word_type"]}</div>
 
       <div className="senses-container">
       { wordData["senses"] && wordData["senses"].map( (data) => (

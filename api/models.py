@@ -53,7 +53,7 @@ class Sense(models.Model):
   # making it less important to have fast querying
   additional_info = models.JSONField(null = True, default = None)
   # patterns, relations, examples, norms, grammar, history, proverb, region
-  # Can view full tree 
+  # Can view full tree in korean-dictionary/api/management/dict_files/json_structure.txt
 
 
 class HanjaCharacter(models.Model):
