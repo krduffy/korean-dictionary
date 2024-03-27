@@ -33,6 +33,7 @@ const PaginatedResults = ({ formParams, functions }) => {
   return (
     <div>
       <span>결과 {totalResults}</span>
+      
       { searchResults && formParams["dictionary"] === "kor" && (
         searchResults.map((result) => (
             <KoreanResult key={result.kw_target_code} result={result} 
@@ -41,11 +42,13 @@ const PaginatedResults = ({ formParams, functions }) => {
             />
         ))
       )}
+      
       { searchResults && formParams["dictionary"] === "han" && (
         searchResults.map((result) => (
             <HanjaResult key={result.kw_target_code} result={result} />
         ))
       )}
+      
       <PageChanger page={currentPage} numberOfPages={totalPages} setPageFunction={setCurrentPage}/>
     </div>
   );

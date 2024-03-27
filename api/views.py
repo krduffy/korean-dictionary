@@ -26,21 +26,8 @@ class WordList(generics.ListAPIView):
     return queryset
   
 class WordDetail(generics.RetrieveAPIView):
+  queryset = KoreanWord.objects.all()
   serializer_class = KoreanWordDetailedSerializer
-  
-  def retrieve(self, request, *args, **kwargs):
-    target_code = self.kwargs.get('target_code', None)
-        
-    if target_code is not None:
-        # Retrieve the KoreanWord object based on its primary key (target_code)
-        try:
-            instance = KoreanWord.objects.get(target_code=target_code)
-            serializer = self.get_serializer(instance)
-            return Response(serializer.data)
-        except KoreanWord.DoesNotExist:
-            return Response({"error": "KoreanWord not found"}, status=404)
-    else:
-        return Response({"error": "You must specify a target_code"}, status=400)
 
 class SenseList(generics.ListCreateAPIView):
   serializer_class = SenseSerializer
