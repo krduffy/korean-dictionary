@@ -7,7 +7,6 @@ const KoreanResult = ({ result, clickedKorWordFunc, mouseOverHanFunc }) => {
   const isHanja = (character) => {
     const charCode = character.charCodeAt(0);
     /* 4E00 - 9FFF = CJK Unified ideographs */
-    if (charCode >= 0x4E00 && charCode <= 0x9FFF) console.log ("ishanja");
     return charCode >= 0x4E00 && charCode <= 0x9FFF;
   }
 

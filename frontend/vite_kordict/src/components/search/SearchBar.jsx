@@ -8,7 +8,6 @@ const SearchBar = ({ updateSearchParamsFunction }) => {
   const [ searchType, setSearchType ] = useState("startswith")
 
   const handleSubmit = (e) => {
-    console.log("kkkkkkkkkkkkk");
     e.preventDefault();
     updateSearchParamsFunction({
       "search_term": boxContent,
