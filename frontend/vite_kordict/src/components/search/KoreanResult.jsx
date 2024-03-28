@@ -1,6 +1,7 @@
 
 import React from "react";
-import "./korean-result-styles.css"
+import "./styles/korean-result-styles.css";
+import "./styles/hanja-char-styles.css";
 
 const KoreanResult = ({ result, clickedKorWordFunc, mouseOverHanFunc }) => {
 
@@ -22,7 +23,7 @@ const KoreanResult = ({ result, clickedKorWordFunc, mouseOverHanFunc }) => {
         {[...result.kw_origin].map((character, index) => (
           <span
             key={index}
-            className={isHanja(character) ? "hover-glow" : ""}
+            className={isHanja(character) ? "hanja-char" : ""}
             onMouseOver={() => {
               /* Call function if character is Hanja character */
               if (isHanja(character)) {

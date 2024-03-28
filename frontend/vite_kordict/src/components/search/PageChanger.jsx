@@ -1,6 +1,6 @@
 
 import React from "react";
-import "./page-changer-styles.css"
+import "./styles/page-changer-styles.css"
 
 const PageChanger = ({ page, numberOfPages, setPageFunction }) => {
 

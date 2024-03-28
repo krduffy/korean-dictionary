@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import KoreanResult from './KoreanResult.jsx' 
 import HanjaResult from "./HanjaResult.jsx";
+import HanjaExampleResult from "./HanjaExampleResult.jsx";
 import PageChanger from './PageChanger.jsx'
 
 const PaginatedResults = ({ formParams, functions }) => {
@@ -14,18 +15,24 @@ const PaginatedResults = ({ formParams, functions }) => {
 
   const [searchResults, setSearchResults] = useState([]);
 
-  const resultsAreValid = (dictionary) => {
-    if (dictionary == "kor")
+  const resultsAreValid = (resultType) => {
+    if (resultType == "kor")
       return searchResults && formParams["dictionary"] === "kor" && 
             searchResults.length > 0 && searchResults[0].kw_target_code;
-    else if (dictionary == "han")
+    else if (resultType == "han")
       return searchResults && formParams["dictionary"] === "han" && 
              searchResults.length > 0 && searchResults[0].character
+    else if (resultType == "examples")
+      return searchResults && formParams["dictionary"] === "han" && 
+             searchResults.length > 0 && searchResults[0].kw_first_definition
+    else if (resultType == "any")
+      return resultsAreValid("kor") || resultsAreValid("han") || resultsAreValid("examples");
   }
 
   const fetchFromApi = () => {
     let apiUrl;
-    
+    console.log(formParams);
+
     if (formParams["dictionary"] == "kor")
     {
       apiUrl = `http://127.0.0.1:8000/api/korean_word/?`+
@@ -34,12 +41,19 @@ const PaginatedResults = ({ formParams, functions }) => {
                       `search_type=${formParams["search_type"]}`;
     }
 
-    else if (formParams["dictionary"] == "han")
+    else if (formParams["dictionary"] == "han" && !formParams["get_hanja_examples"])
     {
       apiUrl = `http://127.0.0.1:8000/api/hanja_char/?`+
                       `page=${currentPage}&`+
                       `search_term=${formParams["search_term"]}&`+
                       `input_language=${formParams["input_language"]}`;
+    }
+
+    else if (formParams["get_hanja_examples"])
+    {
+      apiUrl = `http://127.0.0.1:8000/api/hanja_examples/?`+
+                      `page=${currentPage}&`+
+                      `character=${formParams["character"]}`;
     }
 
     console.log("in the fetch");
@@ -90,6 +104,13 @@ const PaginatedResults = ({ formParams, functions }) => {
         (
         searchResults.map((result) => (
             <HanjaResult key={result.character} result={result} />
+        ))
+      )}
+
+      { resultsAreValid("examples") &&
+        (
+        searchResults.map((result) => (
+          <HanjaExampleResult key={result.kw_target_code} result={result} />
         ))
       )}
       

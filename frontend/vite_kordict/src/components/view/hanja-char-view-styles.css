@@ -1,0 +1,22 @@
+
+.jahuneum {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.word-list-header {
+  font-size: 20px;
+  display: flex;
+  justify-content: center; /* Horizontally center the child */
+  align-items: center; /* Vertically center the child */
+}
+
+.hanja-header {
+  color: #72a1ed;
+  font-size: 40px;
+}
+
+.meaning-reading-header {
+  color: red;
+  font-size: 30px;
+}

@@ -5,8 +5,7 @@ const HanjaResult = ({ result }) => {
 
   return (
     <div>
-      {result["character"]}
-      {result["meaning_reading"]}
+      {result["character"]}{' '}{result["meaning_reading"]}
     </div>
   );
 }

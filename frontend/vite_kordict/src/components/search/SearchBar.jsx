@@ -21,7 +21,7 @@ const SearchBar = ({ updateSearchParamsFunction }) => {
     else if (dictionary == "han")
     {
       let language = "";
-      if (boxContent.match("/[\u4E00-\u9FFF]/"))
+      if (boxContent.match(/[\u4E00-\u9FFF]/g))
         language = "han";
       else
         language = "kor";
