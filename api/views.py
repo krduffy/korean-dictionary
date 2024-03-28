@@ -1,5 +1,6 @@
 
 from django.http import HttpResponse
+from django.db.models import Case, When, Value, BooleanField
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
@@ -45,14 +46,49 @@ class SenseDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class HanjaList(generics.ListAPIView):
   serializer_class = HanjaCharacterSerializer
+  pagination_class = PaginationClass
 
   def get_queryset(self):
     queryset = HanjaCharacter.objects.all()
-    char = self.request.query_params.get('character')
-    if char is not None:
-      queryset = queryset.filter(character = char)
-    return queryset
+    
+    # Search term is korean, hanja, or both
+    search_term = self.request.query_params.get('search_term')
+    input_language = self.request.query_params.get('input_language')
+
+    if search_term is not None and input_language == "kor":
+      queryset = queryset.filter(meaning_reading__contains = search_term)
+
+      if len(search_term) != 1:
+        return queryset
+      
+      # if length is 1, move results where this is the reading (always exactly 1 character) instead
+      # of a substring of the meaning (can be 2+ characters); almost all of the time this is what 
+      # users would intend when inputting a single korean character (syllable block)
+      queryset = queryset.annotate(
+        is_reading = Case(
+          When(meaning_reading__iregex = r'(?<!,)\s' + search_term, then = Value(True)),
+          default = Value(False),
+          output_field=BooleanField(),
+        )
+      )
+      return queryset.order_by('-is_reading')
+    
+    elif search_term is not None and input_language == "han":
+      queryset = queryset.filter(character__icontains = search_term)
+      return queryset
   
 class HanjaDetail(generics.RetrieveAPIView):
-  serializer_class = HanjaCharacterSerializer
   queryset = HanjaCharacter.objects.all()
+  serializer_class = HanjaCharacterSerializer
+
+class HanjaExamples(generics.ListAPIView):
+  queryset = KoreanWord.objects.all()
+  serializer_class = KoreanSerializerForHanja
+  pagination_class = PaginationClass
+
+  def get_queryset(self):
+    character = self.request.query_params.get('character')
+
+    queryset = KoreanWord.objects.all()
+    return queryset.filter(origin__icontains = character)
+    # TODO have user as query param
