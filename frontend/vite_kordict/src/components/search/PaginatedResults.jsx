@@ -23,8 +23,8 @@ const PaginatedResults = ({ formParams, functions }) => {
              searchResults.length > 0 && searchResults[0].character
   }
 
-  useEffect(() => {
-    var apiUrl;
+  const fetchFromApi = () => {
+    let apiUrl;
     
     if (formParams["dictionary"] == "kor")
     {
@@ -54,7 +54,23 @@ const PaginatedResults = ({ formParams, functions }) => {
     .catch(error => {
       console.error("Error while fetching results: ", error);
     });
-  }, [formParams, currentPage]);
+  }
+
+  useEffect(() => {
+    console.log("form change");
+    if(currentPage != 1)
+    {
+      console.log("page wasnt 1")
+      setCurrentPage(1);
+    }
+    else
+      fetchFromApi();
+  }, [formParams]);
+
+  useEffect(() => {
+    console.log("page change");
+    fetchFromApi();
+  }, [currentPage]);
 
   return (
     <div>
