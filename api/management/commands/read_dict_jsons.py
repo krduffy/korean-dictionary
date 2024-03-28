@@ -21,8 +21,6 @@ class Command(BaseCommand):
       raise CommandError('You must supply kwargs')
     if file == 'all':
       json_files = [os.path.join(dict_dir, fileindir) for fileindir in os.listdir(dict_dir)]
-      self.stdout.write(f"it is {json_files}")
-      self.stdout.write(f"type is {type(json_files[0])}")
     else:
       json_files.append(os.path.join(dict_dir, file))
 
@@ -97,7 +95,7 @@ def add_word(wordinfo: dict, word_target_code: int) -> int:
       return -1
     
   # If here, word needs to be added and return 0
-  word: str = wordinfo["word"]
+  word: str = wordinfo["word"].replace("-", "")
   word_type: str = wordinfo["word_unit"]
   origin: str = ""
   if originlang_info:

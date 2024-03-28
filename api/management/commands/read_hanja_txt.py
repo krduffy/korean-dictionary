@@ -4,11 +4,11 @@ import django
 
 django.setup()
 
-class Command(CommandParser):
+class Command(BaseCommand):
   
   @no_translations
   def handle(self, *args, **kwargs):
-    hanja_fname = "..\dict_files\hanjachars.txt"
+    hanja_fname = "api\\management\\dict_files\\hanjachars.txt"
 
     with open(hanja_fname, 'r', encoding='utf-8') as hanja_file:
       next(hanja_file)
@@ -18,7 +18,6 @@ class Command(CommandParser):
         hanja_character: str = hanja_line[0]
         hanja_meaning_reading: str = hanja_line[2:-1]
         new_hanja = HanjaCharacter(character = hanja_character, meaning_reading = hanja_meaning_reading)
-        new_hanja.words_that_contain.add(
-          korword for korword in KoreanWord.objects.filter(origin__contains = hanja_character))
+        new_hanja.save()
         
     self.stdout.write(self.style.SUCCESS('Successfully finished executing command'))

@@ -57,3 +57,4 @@ class HanjaCharacterSerializer(serializers.ModelSerializer):
   class Meta:
     model = HanjaCharacter
     fields = ('__all__')
+    read_only_fields = ['__all__']

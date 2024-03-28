@@ -29,7 +29,7 @@ class WordDetail(generics.RetrieveAPIView):
   queryset = KoreanWord.objects.all()
   serializer_class = KoreanWordDetailedSerializer
 
-class SenseList(generics.ListCreateAPIView):
+class SenseList(generics.ListAPIView):
   serializer_class = SenseSerializer
 
   def get_queryset(self):
@@ -43,7 +43,7 @@ class SenseDetail(generics.RetrieveUpdateDestroyAPIView):
   serializer_class = SenseSerializer
   queryset = Sense.objects.all()
 
-class HanjaList(generics.ListCreateAPIView):
+class HanjaList(generics.ListAPIView):
   serializer_class = HanjaCharacterSerializer
 
   def get_queryset(self):
@@ -53,6 +53,6 @@ class HanjaList(generics.ListCreateAPIView):
       queryset = queryset.filter(character = char)
     return queryset
   
-class HanjaDetail(generics.RetrieveUpdateDestroyAPIView):
+class HanjaDetail(generics.RetrieveAPIView):
   serializer_class = HanjaCharacterSerializer
   queryset = HanjaCharacter.objects.all()

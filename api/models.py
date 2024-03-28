@@ -62,9 +62,6 @@ class HanjaCharacter(models.Model):
 
   # 이 한자의 훈음. The meaning(s) and reading(s) associated with this character. 
   meaning_reading = models.CharField(max_length = 30) # Longest is for character '閄'
-  
-  # KoreanWords that contain this character as part of their origin field.
-  words_that_contain = models.ManyToManyField(KoreanWord, related_name="hanja_char")
 
 ########################################################################################
 
