@@ -17,14 +17,17 @@ const HanjaCharView = ({ hanjaChar }) => {
     .catch(error => {
       console.error("Error while fetching results: ", error);
     });
-  }, []);
+  }, [hanjaChar]);
 
   return (
     <div>
-      <div className="jahuneum">
-        <span className="hanja-header">{charData["character"]}</span>{' '}
-        <span className="meaning-reading-header">{charData["meaning_reading"]}</span>
-      </div>
+      { charData &&
+        <div className="jahuneum">
+          <span className="hanja-header">{charData["character"]}</span>{' '}
+          <span className="meaning-reading-header">{charData["meaning_reading"]}</span>
+        </div>
+      }
+
       <div className="word-list-header">
         연관단어 검색
       </div>
