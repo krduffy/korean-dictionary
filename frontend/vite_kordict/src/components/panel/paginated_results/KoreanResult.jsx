@@ -1,7 +1,7 @@
 
 import React from "react";
 import "./styles/korean-result-styles.css";
-import "./styles/hanja-char-styles.css";
+import "../universal-styles.css";
 
 const KoreanResult = ({ result, clickedKorWordFunc, mouseOverHanFunc }) => {
 
@@ -14,7 +14,8 @@ const KoreanResult = ({ result, clickedKorWordFunc, mouseOverHanFunc }) => {
   return (
     <div className="result_box">
       <p className="header">
-        <span onClick={() => clickedKorWordFunc(result.kw_target_code)} className="word_header">
+        <span onClick={() => clickedKorWordFunc(result.kw_target_code)} 
+          className="word_header clickable-result">
             {result.kw_word}
         </span>
             

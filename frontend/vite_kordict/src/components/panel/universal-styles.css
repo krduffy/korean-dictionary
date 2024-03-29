@@ -1,0 +1,16 @@
+
+.clickable-result {
+  transition: all 0.3s ease;
+}
+
+.clickable-result:hover {
+  text-shadow: 0 0 5px #00ffff;
+}
+
+.hanja-char {
+  transition: all 0.3s ease;
+}
+
+.hanja-char:hover {  
+  text-shadow: 0 0 5px #00ffff;
+}

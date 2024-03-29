@@ -1,7 +1,7 @@
 
 import React from "react"
 import "./styles/hanja-example-result-styles.css";
-import "./styles/hanja-char-styles.css";
+import "../universal-styles.css";
 
 const HanjaExampleResult = ({ result }) => {
 

@@ -83,7 +83,7 @@ const PaginatedResults = ({ searchType, searchTerm, functions }) => {
 
   return (
     <div>
-      <span>결과 {totalResults}</span>
+      <span>결과 {totalResults}건</span>
       
       { resultsAreValid() && searchType === "search_korean" &&
         searchResults.map((result) => (

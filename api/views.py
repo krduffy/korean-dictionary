@@ -7,7 +7,6 @@ from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from . models import KoreanWord, Sense, HanjaCharacter
 from . serializers import *
-import re
 
 class PaginationClass(PageNumberPagination):
   page_size = 10

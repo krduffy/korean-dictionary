@@ -1,8 +1,0 @@
-
-.hanja-char {
-  transition: all 0.3s ease;
-}
-
-.hanja-char:hover {  
-  text-shadow: 0 0 5px #00ffff;
-}
