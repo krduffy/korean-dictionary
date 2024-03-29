@@ -1,9 +1,11 @@
 
-import React, { useState } from "react";
+import React, { useState, useContext, createContext } from "react";
 import SearchBar from "./SearchBar.jsx";
 import PaginatedResults from "./paginated_results/PaginatedResults.jsx";
 import KoreanWordView from "./detail_view/KoreanWordView.jsx";
 import HanjaCharView from "./detail_view/HanjaCharView.jsx";
+
+export const SetViewFunctionContext = createContext(null);
 
 const Panel = () => {
 
@@ -25,24 +27,9 @@ const Panel = () => {
     setCurrentView({"view": "detail_korean", "value": targetCode});
   }
 
-  const submitSearchForm = (searchInfo) => {
-    if (searchInfo["search_term"].match(/^[\u4E00-\u9FFF]$/g))
-      setCurrentView({
-          "view": "detail_hanja", 
-          "value": searchInfo["search_term"]});
-    else if (searchInfo["dictionary"] === "korean")
-      setCurrentView({
-          "view": "search_korean", 
-          "value": searchInfo["search_term"]});
-    else if (searchInfo["dictionary"] === "hanja")
-      setCurrentView({
-          "view": "search_hanja", 
-          "value": searchInfo["search_term"]})
-  }
-
   return (
-    <>
-      <SearchBar updateSearchParamsFunction={submitSearchForm} />
+    <SetViewFunctionContext.Provider value={setCurrentView}>
+      <SearchBar />
 
       {(currentView["view"] === "search_korean" || currentView["view"] === "search_hanja") 
         &&
@@ -67,7 +54,7 @@ const Panel = () => {
             }
           </div>
       }
-    </>
+    </SetViewFunctionContext.Provider>
   );
 }
 

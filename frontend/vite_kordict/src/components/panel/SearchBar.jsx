@@ -1,19 +1,30 @@
 
-import React, {useState, useEffect} from "react";
+import React, {useState, useContext} from "react";
+import { SetViewFunctionContext } from "./Panel.jsx";
 import "./styles/search-bar-styles.css";
 
-const SearchBar = ({ updateSearchParamsFunction }) => {
+const SearchBar = () => {
 
   const [ boxContent, setBoxContent ] = useState("");
   const [ dictionary, setDictionary ] = useState("korean");
 
+  const setView = useContext(SetViewFunctionContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    updateSearchParamsFunction({
-      "search_term": boxContent,
-      "dictionary": dictionary,
-    });
+    if (boxContent.match(/^[\u4E00-\u9FFF]$/g))
+      setView({
+          "view": "detail_hanja", 
+          "value": boxContent});
+    else if (dictionary === "korean")
+      setView({
+          "view": "search_korean", 
+          "value": boxContent});
+    else if (dictionary === "hanja")
+      setView({
+          "view": "search_hanja", 
+          "value": boxContent})
   }
 
   return (
