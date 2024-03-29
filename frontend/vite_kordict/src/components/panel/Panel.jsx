@@ -19,6 +19,15 @@ const Panel = () => {
     
   };
 
+  const clickOnHanja = (character) => {
+    setHanjaInView(character);
+
+    setViewParams({
+      "show_results": false,
+      "show_word": true,
+    })
+  }
+
   const clickKoreanWord = (targetCode) => {
 
     setWordInViewTargetCode(targetCode);
@@ -62,7 +71,8 @@ const Panel = () => {
         <PaginatedResults formParams={searchBarParams} functions={
           {
             "click_kor": clickKoreanWord,
-            "click_han": mouseOverHanja,
+            "mouse_han": mouseOverHanja,
+            "click_han": clickOnHanja,
           }
         } />
       }

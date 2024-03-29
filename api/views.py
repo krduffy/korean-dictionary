@@ -1,7 +1,7 @@
 
 from django.http import HttpResponse
 from django.db.models import Case, When, Value, BooleanField, Q
-from django.db.models.functions import StrIndex
+from django.db.models.functions import StrIndex, Length
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
@@ -100,5 +100,7 @@ class HanjaExamples(generics.ListAPIView):
     character = self.request.query_params.get('character')
 
     queryset = KoreanWord.objects.all()
-    return queryset.filter(origin__icontains = character)
+    queryset = queryset.filter(origin__contains = character)
+    queryset = queryset.order_by(Length("word").asc())
     # TODO have user as query param
+    return queryset

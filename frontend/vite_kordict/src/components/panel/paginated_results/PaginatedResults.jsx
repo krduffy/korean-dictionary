@@ -37,8 +37,7 @@ const PaginatedResults = ({ formParams, functions }) => {
     {
       apiUrl = `http://127.0.0.1:8000/api/korean_word/?`+
                       `page=${currentPage}&`+
-                      `search_term=${formParams["search_term"]}&`+
-                      `search_type=${formParams["search_type"]}`;
+                      `search_term=${formParams["search_term"]}`;
     }
 
     else if (formParams["dictionary"] == "han" && !formParams["get_hanja_examples"])
@@ -95,7 +94,7 @@ const PaginatedResults = ({ formParams, functions }) => {
         searchResults.map((result) => (
             <KoreanResult key={result.kw_target_code} result={result} 
                           clickedKorWordFunc={functions["click_kor"]}
-                          mouseOverHanFunc={functions["click_han"]}
+                          mouseOverHanFunc={functions["mouse_han"]}
             />
         ))
       )}
@@ -103,7 +102,7 @@ const PaginatedResults = ({ formParams, functions }) => {
       { resultsAreValid("han") &&
         (
         searchResults.map((result) => (
-            <HanjaResult key={result.character} result={result} />
+            <HanjaResult key={result.character} result={result} clickFunction={functions["click_han"]}/>
         ))
       )}
 
