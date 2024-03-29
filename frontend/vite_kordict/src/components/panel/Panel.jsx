@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect, createContext } from "react";
 import FixedHeader from "./fixed_header/PanelHeader.jsx";
+import HomePage from "./home/HomePage.jsx";
+
 import PaginatedResults from "./paginated_results/PaginatedResults.jsx";
 import KoreanWordView from "./detail_view/KoreanWordView.jsx";
 import HanjaCharView from "./detail_view/HanjaCharView.jsx";
@@ -11,7 +13,7 @@ export const EntireHistoryContext = createContext(null);
 
 const Panel = () => {
 
-  const [ currentView, setCurrentView ] = useState({});
+  const [ currentView, setCurrentView ] = useState({"view": "homepage"});
   /* Values
      "view": search_korean, detail_korean, search_hanja, detail_hanja
      "value": search_term, [target_code, word], character, etc
@@ -19,9 +21,9 @@ const Panel = () => {
   
   /* History management */
   const [ historyNeedsUpdating, setHistoryNeedsUpdating ] = useState(false);
-  const [ history, setHistory ] = useState([]);
-  const [ historyTop, setHistoryTop ] = useState(-1);
-  const [ pointer, setPointer ] = useState(-1);
+  const [ history, setHistory ] = useState([{"view": "homepage"}]);
+  const [ historyTop, setHistoryTop ] = useState(0);
+  const [ pointer, setPointer ] = useState(0);
 
   const [ searchInitialState, setSearchInitialState ] = useState(
     {
@@ -75,8 +77,7 @@ const Panel = () => {
         "dictionary": dictionaryFromView(history[pointer]["view"]),
         });
       }
-      
-      else
+      else if(history[pointer]["view"] != "homepage")
       {
         setSearchInitialState({
           "boxContent": history[pointer]["value"],
@@ -104,7 +105,6 @@ const Panel = () => {
       </EntireHistoryContext.Provider>
       
       <UpdateHistoryContext.Provider value={setHistoryNeedsUpdating}>
-        {console.log(currentView)}
         {(currentView["view"] === "search_korean" || currentView["view"] === "search_hanja") 
           &&
           <PaginatedResults searchType={currentView["view"]} searchTerm={currentView["value"]} />
@@ -119,6 +119,13 @@ const Panel = () => {
               {currentView["view"] == "detail_hanja" &&
                 <HanjaCharView hanjaChar={currentView["value"]} />
               }
+            </div>
+        }
+
+        {(currentView["view"] === "homepage")
+          &&
+            <div>
+              <HomePage />
             </div>
         }
       </UpdateHistoryContext.Provider>

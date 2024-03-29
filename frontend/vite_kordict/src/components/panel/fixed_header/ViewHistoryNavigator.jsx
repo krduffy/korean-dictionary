@@ -1,12 +1,14 @@
 
 import React, { useContext } from "react";
-import { EntireHistoryContext } from "../Panel.jsx";
+import { EntireHistoryContext, ViewContext } from "../Panel.jsx";
 
 const ViewHistoryNavigator = () => {
 
   const pointer = useContext(EntireHistoryContext)["pointer"];
   const setPointer = useContext(EntireHistoryContext)["setPointer"];
   const historyTop = useContext(EntireHistoryContext)["historyTop"];
+
+  const setView = useContext(ViewContext)["setCurrentView"];
 
   const canMoveBack = () => {
     return pointer - 1 >= 0;
