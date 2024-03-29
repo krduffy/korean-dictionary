@@ -7,6 +7,7 @@ from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from . models import KoreanWord, Sense, HanjaCharacter
 from . serializers import *
+import re
 
 class PaginationClass(PageNumberPagination):
   page_size = 10
@@ -54,7 +55,11 @@ class HanjaList(generics.ListAPIView):
     
     # Search term is korean, hanja, or both
     search_term = self.request.query_params.get('search_term')
-    input_language = self.request.query_params.get('input_language')
+    input_language = "kor"
+    for character in search_term:
+      if ord(character) >= 0x4e00 and ord(character) <= 0x9fff:
+        input_language = "han"
+        break
 
     if search_term is not None and input_language == "kor":
       queryset = queryset.filter(meaning_reading__contains = search_term)

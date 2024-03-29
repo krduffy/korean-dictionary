@@ -5,44 +5,25 @@ import "./styles/search-bar-styles.css";
 const SearchBar = ({ updateSearchParamsFunction }) => {
 
   const [ boxContent, setBoxContent ] = useState("");
-  const [ dictionary, setDictionary ] = useState("kor");
-  const [ searchType, setSearchType ] = useState("startswith")
+  const [ dictionary, setDictionary ] = useState("korean");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (dictionary == "kor")
-    {
-      updateSearchParamsFunction({
-        "search_term": boxContent,
-        "dictionary": dictionary,
-        "search_type": searchType,
-      });
-    }
-
-    else if (dictionary == "han")
-    {
-      let language = "";
-      if (boxContent.match(/[\u4E00-\u9FFF]/g))
-        language = "han";
-      else
-        language = "kor";
-
-      updateSearchParamsFunction({
-        "search_term": boxContent,
-        "dictionary": dictionary,
-        "input_language": language,
-      });
-    }
+    
+    updateSearchParamsFunction({
+      "search_term": boxContent,
+      "dictionary": dictionary,
+    });
   }
 
   return (
     <div>
-      <button className = { dictionary === "kor" ? "activated-button" : "not-activated-button"}
-              onClick = { () => setDictionary("kor") }>
+      <button className = { dictionary === "korean" ? "activated-button" : "not-activated-button"}
+              onClick = { () => setDictionary("korean") }>
         한
       </button>
-      <button className = { dictionary === "han" ? "activated-button" : "not-activated-button"}
-              onClick = { () => setDictionary("han") }>
+      <button className = { dictionary === "hanja" ? "activated-button" : "not-activated-button"}
+              onClick = { () => setDictionary("hanja") }>
         漢
       </button>
 

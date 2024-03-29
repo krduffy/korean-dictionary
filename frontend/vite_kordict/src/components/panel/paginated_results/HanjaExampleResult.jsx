@@ -6,6 +6,7 @@ import "./styles/hanja-char-styles.css";
 const HanjaExampleResult = ({ result }) => {
 
   const isHanja = (character) => {
+    console.log(result);
     const charCode = character.charCodeAt(0);
     /* 4E00 - 9FFF = CJK Unified ideographs */
     return charCode >= 0x4E00 && charCode <= 0x9FFF;
@@ -17,7 +18,7 @@ const HanjaExampleResult = ({ result }) => {
         {result["kw_word"]}
           (
             { [...result["kw_origin"]].map((character, id) => (
-              <span className= { isHanja(character) ? "hanja-char" : ""} >{character}</span>
+              <span key={id} className= { isHanja(character) ? "hanja-char" : ""} >{character}</span>
               ))
             }
           )

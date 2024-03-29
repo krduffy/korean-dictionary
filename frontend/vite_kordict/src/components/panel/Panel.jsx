@@ -7,85 +7,65 @@ import HanjaCharView from "./detail_view/HanjaCharView.jsx";
 
 const Panel = () => {
 
-  const [ searchBarParams, setSearchBarParams ] = useState({});
-  // search_term, (*search_type), dictionary, (*input_language)
-  const [ viewParams, setViewParams] = useState({"show_results": false, "show_word": false});
-  // show_results, show_word
-  const [ wordInViewTargetCode, setWordInViewTargetCode ] = useState();
-
-  const [ hanjaInView, setHanjaInView ] = useState();
+  const [ currentView, setCurrentView ] = useState({});
+  /* Values
+     "view": search_korean, detail_korean, search_hanja, detail_hanja
+     "value": search_term, target_code, character, etc
+  */
   
   const mouseOverHanja = (character) => {
     
   };
 
   const clickOnHanja = (character) => {
-    setHanjaInView(character);
-
-    setViewParams({
-      "show_results": false,
-      "show_word": true,
-    })
+    setCurrentView({"view": "detail_hanja", "value": character});
   }
 
   const clickKoreanWord = (targetCode) => {
-
-    setWordInViewTargetCode(targetCode);
-
-    setViewParams({
-      "show_results": false,
-      "show_word": true,
-    });
+    setCurrentView({"view": "detail_korean", "value": targetCode});
   }
 
   const submitSearchForm = (searchInfo) => {
-    console.log(searchInfo);
-    setSearchBarParams(searchInfo);
-
-    console.log(searchBarParams);
-    if(searchInfo["input_language"] == "han" && searchInfo["search_term"].length == 1)
-    {
-      console.log(1);
-      setHanjaInView(searchInfo["search_term"]);
-      setViewParams({
-        "show_results": false,
-        "show_word": true,
-      });
-    }
-
-    else
-    {
-      console.log(2);
-      setViewParams({
-        "show_results": true,
-        "show_word": false,
-      });
-    }
-  };
+    if (searchInfo["search_term"].match(/^[\u4E00-\u9FFF]$/g))
+      setCurrentView({
+          "view": "detail_hanja", 
+          "value": searchInfo["search_term"]});
+    else if (searchInfo["dictionary"] === "korean")
+      setCurrentView({
+          "view": "search_korean", 
+          "value": searchInfo["search_term"]});
+    else if (searchInfo["dictionary"] === "hanja")
+      setCurrentView({
+          "view": "search_hanja", 
+          "value": searchInfo["search_term"]})
+  }
 
   return (
     <>
       <SearchBar updateSearchParamsFunction={submitSearchForm} />
 
-      {viewParams["show_results"] &&
-        <PaginatedResults formParams={searchBarParams} functions={
-          {
-            "click_kor": clickKoreanWord,
-            "mouse_han": mouseOverHanja,
-            "click_han": clickOnHanja,
-          }
-        } />
+      {(currentView["view"] === "search_korean" || currentView["view"] === "search_hanja") 
+        &&
+        <PaginatedResults searchType={currentView["view"]} searchTerm={currentView["value"]}
+          functions= {
+            {
+              "click_kor": clickKoreanWord,
+              "mouse_han": mouseOverHanja,
+              "click_han": clickOnHanja,
+            }
+          } />
       }
 
-      {viewParams["show_word"] &&
-      <div>
-        {searchBarParams["dictionary"] == "kor" &&
-          <KoreanWordView targetCode={wordInViewTargetCode} />
-        }
-        {searchBarParams["dictionary"] == "han" &&
-          <HanjaCharView hanjaChar={hanjaInView} />
-        }
-      </div>
+      {(currentView["view"] === "detail_korean" || currentView["view"] === "detail_hanja") 
+        &&
+          <div>
+            {currentView["view"] == "detail_korean" &&
+              <KoreanWordView targetCode={currentView["value"]} />
+            }
+            {currentView["view"] == "detail_hanja" &&
+              <HanjaCharView hanjaChar={currentView["value"]} />
+            }
+          </div>
       }
     </>
   );

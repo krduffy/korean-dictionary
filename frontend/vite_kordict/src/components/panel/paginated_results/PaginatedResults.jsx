@@ -6,57 +6,56 @@ import HanjaResult from "./HanjaResult.jsx";
 import HanjaExampleResult from "./HanjaExampleResult.jsx";
 import PageChanger from './PageChanger.jsx'
 
-const PaginatedResults = ({ formParams, functions }) => {
-  
+const PaginatedResults = ({ searchType, searchTerm, functions }) => {
+  /* Below are the result types and required keys in formParms and functions (both dictionaries)
+     Form params always search_term, may just switch to using a basic string
+    SEARCH TYPE              FORM PARAMS              FUNCTIONS
+    search_korean            "search_term"            click_kor, click_han (to be added)
+    search_hanja             "search_term"            click_han
+    search_hanja_examples    "search_term"            click_han (to be added)
+  */
+
   const [currentPage, setCurrentPage] = useState(1);
-  
   const [totalResults, setTotalResults] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-
   const [searchResults, setSearchResults] = useState([]);
 
-  const resultsAreValid = (resultType) => {
-    if (resultType == "kor")
-      return searchResults && formParams["dictionary"] === "kor" && 
-            searchResults.length > 0 && searchResults[0].kw_target_code;
-    else if (resultType == "han")
-      return searchResults && formParams["dictionary"] === "han" && 
-             searchResults.length > 0 && searchResults[0].character
-    else if (resultType == "examples")
-      return searchResults && formParams["dictionary"] === "han" && 
-             searchResults.length > 0 && searchResults[0].kw_first_definition
-    else if (resultType == "any")
-      return resultsAreValid("kor") || resultsAreValid("han") || resultsAreValid("examples");
+  const resultsAreValid = () => {
+    if (searchType === "search_korean")
+      return searchResults && searchResults.length > 0 && searchResults[0].kw_target_code;
+    else if (searchType === "search_hanja")
+      return searchResults && searchResults.length > 0 && searchResults[0].character;
+    else if (searchType == "search_hanja_examples")
+      return searchResults && searchResults.length > 0 && searchResults[0].kw_first_definition;
+    /* Checking that >= 1 result and first result has a field no other result type has */
+    return false;
   }
 
   const fetchFromApi = () => {
     let apiUrl;
-    console.log(formParams);
 
-    if (formParams["dictionary"] == "kor")
+    if (searchType === "search_korean")
     {
       apiUrl = `http://127.0.0.1:8000/api/korean_word/?`+
                       `page=${currentPage}&`+
-                      `search_term=${formParams["search_term"]}`;
+                      `search_term=${searchTerm}`;
     }
 
-    else if (formParams["dictionary"] == "han" && !formParams["get_hanja_examples"])
+    else if (searchType === "search_hanja")
     {
       apiUrl = `http://127.0.0.1:8000/api/hanja_char/?`+
                       `page=${currentPage}&`+
-                      `search_term=${formParams["search_term"]}&`+
-                      `input_language=${formParams["input_language"]}`;
+                      `search_term=${searchTerm}&`;
     }
 
-    else if (formParams["get_hanja_examples"])
+    else if (searchType === "search_hanja_examples")
     {
+      console.log(searchTerm);
       apiUrl = `http://127.0.0.1:8000/api/hanja_examples/?`+
                       `page=${currentPage}&`+
-                      `character=${formParams["character"]}`;
+                      `character=${searchTerm}`;
     }
 
-    console.log("in the fetch");
-    console.log(apiUrl);
     fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
@@ -70,18 +69,15 @@ const PaginatedResults = ({ formParams, functions }) => {
   }
 
   useEffect(() => {
-    console.log("form change");
     if(currentPage != 1)
     {
-      console.log("page wasnt 1")
       setCurrentPage(1);
     }
     else
       fetchFromApi();
-  }, [formParams]);
+  }, [searchType, searchTerm]);
 
   useEffect(() => {
-    console.log("page change");
     fetchFromApi();
   }, [currentPage]);
 
@@ -89,31 +85,30 @@ const PaginatedResults = ({ formParams, functions }) => {
     <div>
       <span>결과 {totalResults}</span>
       
-      { resultsAreValid("kor") &&
-        (
+      { resultsAreValid() && searchType === "search_korean" &&
         searchResults.map((result) => (
             <KoreanResult key={result.kw_target_code} result={result} 
                           clickedKorWordFunc={functions["click_kor"]}
                           mouseOverHanFunc={functions["mouse_han"]}
             />
         ))
-      )}
+      }
       
-      { resultsAreValid("han") &&
-        (
+      { resultsAreValid() && searchType === "search_hanja" &&
         searchResults.map((result) => (
-            <HanjaResult key={result.character} result={result} clickFunction={functions["click_han"]}/>
+            <HanjaResult key={result.character} result={result} 
+                         clickFunction={functions["click_han"]}/>
         ))
-      )}
+      }
 
-      { resultsAreValid("examples") &&
-        (
+      
+      { resultsAreValid() && searchType === "search_hanja_examples" &&
         searchResults.map((result) => (
           <HanjaExampleResult key={result.kw_target_code} result={result} />
         ))
-      )}
+      }
       
-      { searchResults &&
+      { resultsAreValid() &&
         <PageChanger page={currentPage} numberOfPages={totalPages} setPageFunction={setCurrentPage}/>
       }
     </div>

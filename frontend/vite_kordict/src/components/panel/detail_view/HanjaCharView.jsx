@@ -32,12 +32,9 @@ const HanjaCharView = ({ hanjaChar }) => {
         연관단어 검색
       </div>
       <div className="example-container">
-        <PaginatedResults formParams={{
-          "character": hanjaChar,
-          "get_hanja_examples": true,
-          "dictionary": "han",
-          }
-        } />
+        <PaginatedResults searchType="search_hanja_examples" searchTerm={hanjaChar}
+                          functions={null}
+        />
       </div>
     </div>
   );
