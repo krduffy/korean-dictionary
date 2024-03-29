@@ -14,7 +14,7 @@ const Panel = () => {
   const [ currentView, setCurrentView ] = useState({});
   /* Values
      "view": search_korean, detail_korean, search_hanja, detail_hanja
-     "value": search_term, target_code, character, etc
+     "value": search_term, [target_code, word], character, etc
   */
   
   /* History management */
@@ -67,10 +67,22 @@ const Panel = () => {
       setCurrentView(history[pointer]);
       console.log("updated view (async): ");
       console.table({history, historyTop, pointer, currentView});
-      setSearchInitialState({
-        "boxContent": history[pointer]["value"],
+
+      if(history[pointer]["view"] === "detail_korean")
+      {
+        setSearchInitialState({
+        "boxContent": history[pointer]["detail_korean_word"],
         "dictionary": dictionaryFromView(history[pointer]["view"]),
-      });
+        });
+      }
+      
+      else
+      {
+        setSearchInitialState({
+          "boxContent": history[pointer]["value"],
+          "dictionary": dictionaryFromView(history[pointer]["view"]),
+          });
+      }
     }
   }, [pointer]);
 

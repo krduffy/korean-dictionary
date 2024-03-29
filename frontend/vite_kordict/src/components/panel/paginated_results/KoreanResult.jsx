@@ -14,7 +14,10 @@ const KoreanResult = ({ result }) => {
     viewContext["setCurrentView"](
       {
         "view": "detail_korean",
-        "value": targetCode
+        "value": targetCode,
+        /* search_word specifically for filling search box when history is restored;
+           is read in Panel.jsx when "view" === "detail_korean" */
+        "detail_korean_word": result.kw_word,
       }
     )
     setHistoryNeedsUpdating(true);
