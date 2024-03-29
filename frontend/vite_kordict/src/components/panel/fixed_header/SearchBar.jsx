@@ -1,5 +1,5 @@
 
-import React, {useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import { ViewContext } from "../Panel.jsx";
 import "./styles/search-bar-styles.css";
 
@@ -9,6 +9,10 @@ const SearchBar = ({ setHistoryNeedsUpdating }) => {
   const [ dictionary, setDictionary ] = useState("korean");
 
   const setView = useContext(ViewContext)["setCurrentView"];
+
+  const restoreBarState = (state) => {
+
+  };
 
   const sanitize = (content) => {
     content = content.trim();
