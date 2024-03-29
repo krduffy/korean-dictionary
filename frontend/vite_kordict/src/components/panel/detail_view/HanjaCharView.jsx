@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
-import PaginatedResults from "../search/PaginatedResults.jsx";
-import "./hanja-char-view-styles.css";
+import PaginatedResults from "../paginated_results/PaginatedResults.jsx";
+import "./styles/hanja-char-view-styles.css";
 
 const HanjaCharView = ({ hanjaChar }) => {
 

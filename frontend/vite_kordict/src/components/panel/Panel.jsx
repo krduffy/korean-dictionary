@@ -1,9 +1,9 @@
 
 import React, { useState } from "react";
-import SearchBar from "./search/SearchBar.jsx";
-import PaginatedResults from "./search/PaginatedResults.jsx";
-import KoreanWordView from "./view/KoreanWordView.jsx";
-import HanjaCharView from "./view/HanjaCharView.jsx";
+import SearchBar from "./SearchBar.jsx";
+import PaginatedResults from "./paginated_results/PaginatedResults.jsx";
+import KoreanWordView from "./detail_view/KoreanWordView.jsx";
+import HanjaCharView from "./detail_view/HanjaCharView.jsx";
 
 const Panel = () => {
 

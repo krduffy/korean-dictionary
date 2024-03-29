@@ -1,6 +1,6 @@
 
 import React from "react";
-import "./sense-info-styles.css"
+import "./styles/sense-info-styles.css"
 
 const SenseExample = ({ exampleData }) => {
 
