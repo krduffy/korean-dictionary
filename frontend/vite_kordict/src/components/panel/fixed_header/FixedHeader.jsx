@@ -11,8 +11,22 @@ const FixedHeader = () => {
   const [ historyTop, setHistoryTop ] = useState(-1);
   const [ pointer, setPointer ] = useState(-1);
 
+  const [ searchInitialState, setSearchInitialState ] = useState(
+    {
+      "boxContent": "",
+      "dictionary": "korean",
+    }
+  );
+
   const currentView = useContext(ViewContext)["currentView"];
   const setCurrentView = useContext(ViewContext)["setCurrentView"];
+
+  const dictionaryFromView = (viewString) => {
+    if(viewString === "search_korean" || viewString === "detail_korean")
+      return "korean";
+    else if(viewString === "search_hanja" || viewString === "detail_hanja")
+      return "hanja";
+  };
 
   useEffect(() => {
     if(historyTop >= 0)
@@ -24,6 +38,10 @@ const FixedHeader = () => {
       setCurrentView(history[pointer]);
       console.log("updated view (async): ");
       console.table({history, historyTop, pointer, currentView});
+      setSearchInitialState({
+        "boxContent": history[pointer]["value"],
+        "dictionary": dictionaryFromView(history[pointer]["view"]),
+      });
     }
   }, [pointer]);
 
@@ -43,7 +61,7 @@ const FixedHeader = () => {
 
   return (
     <div className="fixed-header">
-      <SearchBar setHistoryNeedsUpdating={setHistoryNeedsUpdating} />
+      <SearchBar initialState={searchInitialState} setHistoryNeedsUpdating={setHistoryNeedsUpdating} />
       <ViewHistoryNavigator pointer={pointer} setPointer={setPointer} historyTop={historyTop}/>
     </div>
   );
