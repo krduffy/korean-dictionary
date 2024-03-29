@@ -19,7 +19,17 @@ class WordList(generics.ListAPIView):
     queryset = KoreanWord.objects.all()
 
     search_term = self.request.query_params.get('search_term', '')
+    input_language = "kor"
+    for character in search_term:
+      if ord(character) >= 0x4e00 and ord(character) <= 0x9fff:
+        input_language = "han"
+        break
+
+    if input_language == "han":
+      queryset = queryset.filter(origin__exact = search_term)
+      return queryset
     
+    # Word is not hanja input
     regized_search_term = '^'
     regized_search_term += search_term.replace('_', '.').replace('*', '.*')
     regized_search_term += '$'

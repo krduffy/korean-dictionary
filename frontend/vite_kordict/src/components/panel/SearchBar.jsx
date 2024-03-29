@@ -10,6 +10,28 @@ const SearchBar = () => {
 
   const setView = useContext(ViewContext)["setCurrentView"];
 
+  const sanitize = (content) => {
+    content = content.trim();
+  
+    const allowedUnicodeRanges = [
+      // Korean Hangul characters
+      "\uAC00-\uD7AF", // Hangul Syllables
+      "\u1100-\u11FF", // Hangul Jamo
+      "\u3130-\u318F", // Hangul Compatibility Jamo
+      "\uA960-\uA97F", // Hangul Jamo Extended-A
+      "\uD7B0-\uD7FF", // Hangul Jamo Extended-B
+  
+      "\u005f", // underscore (_)
+      "\u002a", // asterisk (*)
+      "\u4e00-\u9fff", // Hanja characters (CJK Unified Ideographs)
+    ];
+  
+    const pattern = new RegExp(`[^${allowedUnicodeRanges.join('')}]`, 'g');
+  
+    return content.replace(pattern, "");
+  };
+  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -43,7 +65,7 @@ const SearchBar = () => {
           type="text"
           placeholder="검색어를 입력해주세요"
           value={boxContent}
-          onChange={(e) => { setBoxContent(e.target.value) }}
+          onChange={(e) => { setBoxContent(sanitize(e.target.value)) }}
           onKeyDown={(e) => { if(e.key == "Enter") handleSubmit(e)}}
         />
         <button type="submit">검색</button>
