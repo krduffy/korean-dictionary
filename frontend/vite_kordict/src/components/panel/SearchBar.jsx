@@ -1,6 +1,6 @@
 
 import React, {useState, useContext} from "react";
-import { SetViewFunctionContext } from "./Panel.jsx";
+import { ViewContext } from "./Panel.jsx";
 import "./styles/search-bar-styles.css";
 
 const SearchBar = () => {
@@ -8,7 +8,7 @@ const SearchBar = () => {
   const [ boxContent, setBoxContent ] = useState("");
   const [ dictionary, setDictionary ] = useState("korean");
 
-  const setView = useContext(SetViewFunctionContext);
+  const setView = useContext(ViewContext)["setCurrentView"];
 
   const handleSubmit = (e) => {
     e.preventDefault();

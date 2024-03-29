@@ -6,7 +6,7 @@ import HanjaResult from "./HanjaResult.jsx";
 import HanjaExampleResult from "./HanjaExampleResult.jsx";
 import PageChanger from './PageChanger.jsx'
 
-const PaginatedResults = ({ searchType, searchTerm, functions }) => {
+const PaginatedResults = ({ searchType, searchTerm }) => {
   /* Below are the result types and required keys in formParms and functions (both dictionaries)
      Form params always search_term, may just switch to using a basic string
     SEARCH TYPE              FORM PARAMS              FUNCTIONS
@@ -88,17 +88,13 @@ const PaginatedResults = ({ searchType, searchTerm, functions }) => {
       
       { resultsAreValid() && searchType === "search_korean" &&
         searchResults.map((result) => (
-            <KoreanResult key={result.kw_target_code} result={result} 
-                          clickedKorWordFunc={functions["click_kor"]}
-                          mouseOverHanFunc={functions["mouse_han"]}
-            />
+            <KoreanResult key={result.kw_target_code} result={result} />
         ))
       }
       
       { resultsAreValid() && searchType === "search_hanja" &&
         searchResults.map((result) => (
-            <HanjaResult key={result.character} result={result} 
-                         clickFunction={functions["click_han"]}/>
+            <HanjaResult key={result.character} result={result} />
         ))
       }
 
