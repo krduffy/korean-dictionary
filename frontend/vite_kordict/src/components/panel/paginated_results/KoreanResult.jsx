@@ -1,6 +1,6 @@
 
 import React, { useContext } from "react";
-import { ViewContext } from "../Panel.jsx";
+import { UpdateHistoryContext, ViewContext } from "../Panel.jsx";
 import StringWithHanja from "../StringWithHanja.jsx";
 import "./styles/korean-result-styles.css";
 import "../universal-styles.css";
@@ -8,6 +8,7 @@ import "../universal-styles.css";
 const KoreanResult = ({ result }) => {
 
   const viewContext = useContext(ViewContext);
+  const setHistoryNeedsUpdating = useContext(UpdateHistoryContext);
 
   const viewKoreanDetail = (targetCode) => {
     viewContext["setCurrentView"](
@@ -16,6 +17,7 @@ const KoreanResult = ({ result }) => {
         "value": targetCode
       }
     )
+    setHistoryNeedsUpdating(true);
   };
 
   return (

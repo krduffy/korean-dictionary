@@ -16,62 +16,63 @@ const Panel = () => {
      "view": search_korean, detail_korean, search_hanja, detail_hanja
      "value": search_term, target_code, character, etc
   */
-   /* History management */
-    const [ historyNeedsUpdating, setHistoryNeedsUpdating ] = useState(false);
-    const [ history, setHistory ] = useState([]);
-    const [ historyTop, setHistoryTop ] = useState(-1);
-    const [ pointer, setPointer ] = useState(-1);
+  
+  /* History management */
+  const [ historyNeedsUpdating, setHistoryNeedsUpdating ] = useState(false);
+  const [ history, setHistory ] = useState([]);
+  const [ historyTop, setHistoryTop ] = useState(-1);
+  const [ pointer, setPointer ] = useState(-1);
 
-    const [ searchInitialState, setSearchInitialState ] = useState(
-      {
-        "boxContent": "",
-        "dictionary": "korean",
-      }
-    );
+  const [ searchInitialState, setSearchInitialState ] = useState(
+    {
+      "boxContent": "",
+      "dictionary": "korean",
+    }
+  );
 
-    const dictionaryFromView = (viewString) => {
-      if(viewString === "search_korean" || viewString === "detail_korean")
-        return "korean";
-      else if(viewString === "search_hanja" || viewString === "detail_hanja")
-        return "hanja";
-    };
+  const dictionaryFromView = (viewString) => {
+    if(viewString === "search_korean" || viewString === "detail_korean")
+      return "korean";
+    else if(viewString === "search_hanja" || viewString === "detail_hanja")
+      return "hanja";
+  };
 
-    /* All of these use effects trigger in a chain due to asynchronicity */
-    useEffect(() => {
-      if(historyNeedsUpdating) {
-        setHistoryTop(pointer + 1);
-        setHistoryNeedsUpdating(false);
-      }
-    }, [historyNeedsUpdating]);
-    
-    /* THEN */
-    
-    useEffect(() => {
-      const updatedHistory = [...history.slice(0, historyTop)];
-      updatedHistory[historyTop] = currentView;
-      setHistory(updatedHistory);
-    }, [historyTop]);
-    
-    /* THEN */
-    
-    useEffect(() => {
-      if(historyTop >= 0)
-        setPointer(historyTop);
-    }, [history]);
-    
-    /* THEN */
-    
-    useEffect(() => {
-      if (pointer != -1) {
-        setCurrentView(history[pointer]);
-        console.log("updated view (async): ");
-        console.table({history, historyTop, pointer, currentView});
-        setSearchInitialState({
-          "boxContent": history[pointer]["value"],
-          "dictionary": dictionaryFromView(history[pointer]["view"]),
-        });
-      }
-    }, [pointer]);
+  /* All of these use effects trigger in a chain due to asynchronicity */
+  useEffect(() => {
+    if(historyNeedsUpdating) {
+      setHistoryTop(pointer + 1);
+      setHistoryNeedsUpdating(false);
+    }
+  }, [historyNeedsUpdating]);
+  
+  /* THEN */
+  
+  useEffect(() => {
+    const updatedHistory = [...history.slice(0, historyTop)];
+    updatedHistory[historyTop] = currentView;
+    setHistory(updatedHistory);
+  }, [historyTop]);
+  
+  /* THEN */
+  
+  useEffect(() => {
+    if(historyTop >= 0)
+      setPointer(historyTop);
+  }, [history]);
+  
+  /* THEN */
+  
+  useEffect(() => {
+    if (pointer != -1) {
+      setCurrentView(history[pointer]);
+      console.log("updated view (async): ");
+      console.table({history, historyTop, pointer, currentView});
+      setSearchInitialState({
+        "boxContent": history[pointer]["value"],
+        "dictionary": dictionaryFromView(history[pointer]["view"]),
+      });
+    }
+  }, [pointer]);
 
   return (
     <ViewContext.Provider value={{"currentView": currentView, "setCurrentView": setCurrentView}}>

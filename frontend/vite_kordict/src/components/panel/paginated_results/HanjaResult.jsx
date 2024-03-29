@@ -1,11 +1,12 @@
 
 import React, { useContext } from "react";
-import { ViewContext } from "../Panel";
+import { UpdateHistoryContext, ViewContext } from "../Panel";
 import "../universal-styles.css";
 
 const HanjaResult = ({ result }) => {
 
   const viewContext = useContext(ViewContext);
+  const setHistoryNeedsUpdating = useContext(UpdateHistoryContext);
 
   const viewHanjaDetail = (character) => {
     viewContext["setCurrentView"](
@@ -14,6 +15,7 @@ const HanjaResult = ({ result }) => {
         "value": character
       }
     );
+    setHistoryNeedsUpdating(true);
   };
 
   return (
