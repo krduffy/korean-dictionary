@@ -62,6 +62,7 @@ const PaginatedResults = ({ searchType, searchTerm, functions }) => {
       setSearchResults(data.results);
       setTotalResults(data.count);
       setTotalPages(Math.ceil(data.count / 10));
+      console.log("fetch");
     })
     .catch(error => {
       console.error("Error while fetching results: ", error);
