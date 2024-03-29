@@ -1,9 +1,9 @@
 
 import React, {useState, useContext} from "react";
-import { ViewContext } from "./Panel.jsx";
+import { ViewContext } from "../Panel.jsx";
 import "./styles/search-bar-styles.css";
 
-const SearchBar = () => {
+const SearchBar = ({ setHistoryNeedsUpdating }) => {
 
   const [ boxContent, setBoxContent ] = useState("");
   const [ dictionary, setDictionary ] = useState("korean");
@@ -34,6 +34,8 @@ const SearchBar = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    console.log("here in search bar");
     
     if (boxContent.match(/^[\u4E00-\u9FFF]$/g))
       setView({
@@ -46,7 +48,9 @@ const SearchBar = () => {
     else if (dictionary === "hanja")
       setView({
           "view": "search_hanja", 
-          "value": boxContent})
+          "value": boxContent});
+
+    setHistoryNeedsUpdating(true);
   }
 
   return (
