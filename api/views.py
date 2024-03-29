@@ -1,6 +1,7 @@
 
 from django.http import HttpResponse
-from django.db.models import Case, When, Value, BooleanField
+from django.db.models import Case, When, Value, BooleanField, Q
+from django.db.models.functions import StrIndex
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
@@ -17,13 +18,13 @@ class WordList(generics.ListAPIView):
   def get_queryset(self):
     queryset = KoreanWord.objects.all()
 
-    search_type = self.request.query_params.get('search_type', 'exact')
     search_term = self.request.query_params.get('search_term', '')
     
-    if search_type == 'exact':
-      queryset = queryset.filter(word = search_term)
-    elif search_type == 'startswith':
-      queryset = queryset.filter(word__startswith = search_term)
+    regized_search_term = '^'
+    regized_search_term += search_term.replace('_', '.').replace('*', '.*')
+    regized_search_term += '$'
+
+    queryset = queryset.filter(word__iregex = regized_search_term)
     return queryset
   
 class WordDetail(generics.RetrieveAPIView):
@@ -71,11 +72,20 @@ class HanjaList(generics.ListAPIView):
           output_field=BooleanField(),
         )
       )
-      return queryset.order_by('-is_reading')
+      return queryset.order_by("-is_reading")
     
     elif search_term is not None and input_language == "han":
-      queryset = queryset.filter(character__icontains = search_term)
-      return queryset
+
+      individual_char_queries = [Q(character__icontains=char) for char in search_term]
+      has_any_char = individual_char_queries[0]
+      for query in individual_char_queries:
+        has_any_char = has_any_char | query
+      queryset = queryset.filter(has_any_char)
+
+      queryset = queryset.annotate(
+        order = StrIndex(Value(search_term), "character")
+      )
+      return queryset.order_by("order")
   
 class HanjaDetail(generics.RetrieveAPIView):
   queryset = HanjaCharacter.objects.all()

@@ -1,5 +1,6 @@
 
 import React, {useState, useEffect} from "react";
+import "./styles/search-bar-styles.css";
 
 const SearchBar = ({ updateSearchParamsFunction }) => {
 
@@ -36,10 +37,12 @@ const SearchBar = ({ updateSearchParamsFunction }) => {
 
   return (
     <div>
-      <button onClick = { () => setDictionary("kor") }>
+      <button className = { dictionary === "kor" ? "activated-button" : "not-activated-button"}
+              onClick = { () => setDictionary("kor") }>
         한
       </button>
-      <button onClick = { () => setDictionary("han") }>
+      <button className = { dictionary === "han" ? "activated-button" : "not-activated-button"}
+              onClick = { () => setDictionary("han") }>
         漢
       </button>
 
