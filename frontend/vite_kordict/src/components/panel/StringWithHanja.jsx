@@ -19,7 +19,7 @@ const StringWithHanja = ({ stringWithHanja, mouseOverHanFunc }) => {
 
   return (
     <span>
-      {isolateHanja(stringWithHanja).map((substring, index) => (
+      {stringWithHanja && isolateHanja(stringWithHanja).map((substring, index) => (
         <span
           key={index}
           className={isSingleHanja(substring) ? "hanja-char" : ""}

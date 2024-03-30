@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect } from "react"
-import KoreanSenseView from "./KoreanSenseView";
+import KoreanSenseView from "./sense_info_components/KoreanSenseView";
+import StringWithHanja from "../StringWithHanja";
+import "./styles/korean-word-view-styles.css";
 
 const KoreanWordView = ({ targetCode }) => {
 
@@ -20,8 +22,11 @@ const KoreanWordView = ({ targetCode }) => {
 
   return (
     <div className="korean-word-view">
-      <span>{wordData["word"]}</span>
-      <span>{'  '}{wordData["origin"]}</span>
+      <span className="word-header">
+        <span>{wordData["word"]}</span>{'  '}
+        <StringWithHanja stringWithHanja={wordData["origin"]} />
+      </span>
+
       <div>{wordData["word_type"]}</div>
 
       <div className="senses-container">

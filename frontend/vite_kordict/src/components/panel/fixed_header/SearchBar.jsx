@@ -42,8 +42,6 @@ const SearchBar = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log("here in search bar");
     
     if (boxContent.match(/^[\u4E00-\u9FFF]$/g))
       setView({

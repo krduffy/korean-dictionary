@@ -8,8 +8,6 @@ const ViewHistoryNavigator = () => {
   const setPointer = useContext(EntireHistoryContext)["setPointer"];
   const historyTop = useContext(EntireHistoryContext)["historyTop"];
 
-  const setView = useContext(ViewContext)["setCurrentView"];
-
   const canMoveBack = () => {
     return pointer - 1 >= 0;
   };
@@ -33,10 +31,10 @@ const ViewHistoryNavigator = () => {
   return (
     <div>
       <button onClick = {() => { back(); }}>
-        back
+      ←
       </button>
       <button onClick = {() => { forward(); }}>
-        forward
+      ⇨
       </button>
     </div>
   );

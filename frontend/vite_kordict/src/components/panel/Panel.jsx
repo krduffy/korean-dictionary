@@ -67,8 +67,6 @@ const Panel = () => {
   useEffect(() => {
     if (pointer != -1) {
       setCurrentView(history[pointer]);
-      console.log("updated view (async): ");
-      console.table({history, historyTop, pointer, currentView});
 
       if(history[pointer]["view"] === "detail_korean")
       {

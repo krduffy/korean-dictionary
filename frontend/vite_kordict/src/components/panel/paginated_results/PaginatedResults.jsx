@@ -50,7 +50,6 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
 
     else if (searchType === "search_hanja_examples")
     {
-      console.log(searchTerm);
       apiUrl = `http://127.0.0.1:8000/api/hanja_examples/?`+
                       `page=${currentPage}&`+
                       `character=${searchTerm}`;
@@ -62,7 +61,6 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
       setSearchResults(data.results);
       setTotalResults(data.count);
       setTotalPages(Math.ceil(data.count / 10));
-      console.log("fetch");
     })
     .catch(error => {
       console.error("Error while fetching results: ", error);
