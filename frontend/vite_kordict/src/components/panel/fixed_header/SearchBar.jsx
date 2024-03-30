@@ -8,8 +8,6 @@ const SearchBar = () => {
 
   const setView = useContext(ViewContext)["setCurrentView"];
   const initialState = useContext(EntireHistoryContext)["searchInitialState"];
-  const setHistoryNeedsUpdating =
-    useContext(EntireHistoryContext)["setHistoryNeedsUpdating"];
 
   useEffect(() => {
     setBoxContent(initialState["boxContent"]);
@@ -55,8 +53,6 @@ const SearchBar = () => {
         view: "search_hanja",
         value: boxContent,
       });
-
-    setHistoryNeedsUpdating(true);
   };
 
   return (

@@ -1,18 +1,16 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { UpdateHistoryContext, ViewContext } from "../Panel";
+import { ViewContext } from "../Panel";
 import "../universal-styles.css";
 
 const HanjaResult = ({ result }) => {
   const viewContext = useContext(ViewContext);
-  const setHistoryNeedsUpdating = useContext(UpdateHistoryContext);
 
   const viewHanjaDetail = (character) => {
     viewContext["setCurrentView"]({
       view: "detail_hanja",
       value: character,
     });
-    setHistoryNeedsUpdating(true);
   };
 
   return (

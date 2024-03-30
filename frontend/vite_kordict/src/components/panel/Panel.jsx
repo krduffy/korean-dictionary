@@ -7,7 +7,6 @@ import KoreanWordView from "./detail_view/KoreanWordView.jsx";
 import HanjaCharView from "./detail_view/HanjaCharView.jsx";
 
 export const ViewContext = createContext(null);
-export const UpdateHistoryContext = createContext(null);
 export const EntireHistoryContext = createContext(null);
 
 const Panel = () => {
@@ -78,8 +77,6 @@ const Panel = () => {
     else if (viewString === "search_hanja" || viewString === "detail_hanja")
       return "hanja";
   };
-
-  const doesNothing = (v) => {};
 
   /* Performs a deep comparison of 2 views */
   const viewsIdentical = (view1, view2) => {
@@ -197,7 +194,6 @@ const Panel = () => {
     >
       <EntireHistoryContext.Provider
         value={{
-          setHistoryNeedsUpdating: doesNothing,
           pointer: pointer,
           setPointer: setPointer,
           history: history,
@@ -210,33 +206,31 @@ const Panel = () => {
              because it contains the ViewHistoryNavigator */}
       </EntireHistoryContext.Provider>
 
-      <UpdateHistoryContext.Provider value={doesNothing}>
-        {(currentView["view"] === "search_korean" ||
-          currentView["view"] === "search_hanja") && (
-          <PaginatedResults
-            searchType={currentView["view"]}
-            searchTerm={currentView["value"]}
-          />
-        )}
+      {(currentView["view"] === "search_korean" ||
+        currentView["view"] === "search_hanja") && (
+        <PaginatedResults
+          searchType={currentView["view"]}
+          searchTerm={currentView["value"]}
+        />
+      )}
 
-        {(currentView["view"] === "detail_korean" ||
-          currentView["view"] === "detail_hanja") && (
-          <div>
-            {currentView["view"] == "detail_korean" && (
-              <KoreanWordView targetCode={currentView["value"]} />
-            )}
-            {currentView["view"] == "detail_hanja" && (
-              <HanjaCharView hanjaChar={currentView["value"]} />
-            )}
-          </div>
-        )}
+      {(currentView["view"] === "detail_korean" ||
+        currentView["view"] === "detail_hanja") && (
+        <div>
+          {currentView["view"] == "detail_korean" && (
+            <KoreanWordView targetCode={currentView["value"]} />
+          )}
+          {currentView["view"] == "detail_hanja" && (
+            <HanjaCharView hanjaChar={currentView["value"]} />
+          )}
+        </div>
+      )}
 
-        {currentView["view"] === "homepage" && (
-          <div>
-            <HomePage />
-          </div>
-        )}
-      </UpdateHistoryContext.Provider>
+      {currentView["view"] === "homepage" && (
+        <div>
+          <HomePage />
+        </div>
+      )}
     </ViewContext.Provider>
   );
 };
