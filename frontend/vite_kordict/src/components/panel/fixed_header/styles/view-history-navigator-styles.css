@@ -1,0 +1,12 @@
+
+.enabled-button {
+  color:green;
+}
+
+.disabled-button {
+  color:red;
+}
+
+.view-history-navigator {
+  display: inline-block;
+}

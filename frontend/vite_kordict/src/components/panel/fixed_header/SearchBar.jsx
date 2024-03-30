@@ -60,17 +60,19 @@ const SearchBar = () => {
   }
 
   return (
-    <div>
-      <button className = { dictionary === "korean" ? "activated-button" : "not-activated-button"}
-              onClick = { () => setDictionary("korean") }>
-        한
-      </button>
-      <button className = { dictionary === "hanja" ? "activated-button" : "not-activated-button"}
-              onClick = { () => setDictionary("hanja") }>
-        漢
-      </button>
+    <div className="search-bar">
+      <div className="dictionary-button-container">
+        <button className = { dictionary === "korean" ? "activated-button" : "not-activated-button"}
+                onClick = { () => setDictionary("korean") }>
+          한
+        </button>
+        <button className = { dictionary === "hanja" ? "activated-button" : "not-activated-button"}
+                onClick = { () => setDictionary("hanja") }>
+          漢
+        </button>
+      </div>
 
-      <form id="form_content" onSubmit={handleSubmit}>
+      <form className="form-content" onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="검색어를 입력해주세요"

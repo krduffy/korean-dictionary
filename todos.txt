@@ -1,0 +1,25 @@
+
+Next tasks
+=================
+add know/study buttons for results
+finish results for korean word ( add other result things and make dropdown potentially0)
+get rid of ^ in word defs, closingparenthentical in hanja
+login, users, knowledge of words ^ (above)
+
+input cleansing 
+==========
+strip input
+maybe get better hanja 훈음
+get rid of html tags in definitions
+
+
+also add saving of search options if the last view had that kind of view in place (can have const restoreState() in search bar jsx file)
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,7 @@
 
 import React, { useContext } from "react";
 import { EntireHistoryContext, ViewContext } from "../Panel.jsx";
+import "./styles/view-history-navigator-styles.css";
 
 const ViewHistoryNavigator = () => {
 
@@ -29,11 +30,11 @@ const ViewHistoryNavigator = () => {
   }
 
   return (
-    <div>
-      <button onClick = {() => { back(); }}>
+    <div className="view-history-navigator">
+      <button className = {canMoveBack() ? "enabled-button" : "disabled-button"} onClick = {() => { back(); }}>
       ←
       </button>
-      <button onClick = {() => { forward(); }}>
+      <button className = {canMoveForward() ? "enabled-button" : "disabled-button"} onClick = {() => { forward(); }}>
       ⇨
       </button>
     </div>
