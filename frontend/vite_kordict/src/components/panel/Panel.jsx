@@ -77,12 +77,44 @@ const Panel = () => {
       return "hanja";
   };
 
+  const doesNothing = (v) => {};
+
+  const viewsIdentical = (view1, view2) => {
+    console.log("values");
+    console.log({ view1, view2 });
+
+    if (view1["view"] !== view2["view"]) return false;
+    if (view1["value"] !== view2["value"]) return false;
+    console.log("made it here");
+    return true;
+  };
+
+  useEffect(() => {
+    console.log("pointer");
+    console.log(history);
+    console.log(pointer);
+    if (!viewsIdentical(currentView, history[pointer])) {
+      console.log("new view");
+      setHistoryNeedsUpdating(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentView]);
+
   /* All of these use effects trigger in a chain to enforce synchronicity */
   /* History needs updating whenever a brand new view is loaded (as opposed to reloading a previous one) */
   useEffect(() => {
     if (historyNeedsUpdating) {
-      setHistoryTop(pointer + 1);
+      if (pointer == 0 && viewsIdentical(currentView, { view: "homepage" })) {
+        //do nothing; just mounted and this is a false alarm
+      } else if (pointer + 1 == historyTop) {
+        const newHistory = structuredClone(history).slice(0, pointer + 1);
+        newHistory.push(currentView);
+        setHistory(newHistory);
+      } else {
+        setHistoryTop(pointer + 1);
+      }
       setHistoryNeedsUpdating(false);
+      console.log("history needs updating!");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [historyNeedsUpdating]);
@@ -90,27 +122,37 @@ const Panel = () => {
   /* THEN */
 
   useEffect(() => {
-    const updatedHistory = [...history.slice(0, historyTop)];
-    updatedHistory[historyTop] = currentView;
-    setHistory(updatedHistory);
+    /* Need to force newHistory to be a new size even if the history is technically
+       the same size; this would happen if you make several searches and then go back
+       once and then make a new search. Only one view would normally be overwritten, but
+       this does not lead to a different address for history, meaning the next use effect
+       would not be triggered and the history would still include what should have been
+       overwritten. */
+    if (historyTop > 0) {
+      const newHistory = structuredClone(history).slice(0, pointer + 1);
+      newHistory.push(currentView);
+      console.log(newHistory);
+      setHistory(newHistory);
+      console.log("history top~~~~~");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [historyTop]);
 
   /* THEN */
 
   useEffect(() => {
-    if (historyTop >= 0) setPointer(historyTop);
+    setPointer(historyTop);
+    console.log("set pointer");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history]);
 
   /* THEN */
 
   useEffect(() => {
-    if (pointer != -1) {
-      console.log("History: ");
-      console.log(history);
-
+    if (pointer != 0) {
       setCurrentView(history[pointer]);
+
+      console.table({ pointer, currentView, history, historyTop });
 
       if (history[pointer]["view"] === "detail_korean") {
         setSearchInitialState({
@@ -129,13 +171,17 @@ const Panel = () => {
 
   return (
     <ViewContext.Provider
-      value={{ currentView: currentView, setCurrentView: setCurrentView }}
+      value={{
+        currentView: currentView,
+        setCurrentView: setCurrentView,
+      }}
     >
       <EntireHistoryContext.Provider
         value={{
-          setHistoryNeedsUpdating: setHistoryNeedsUpdating,
+          setHistoryNeedsUpdating: doesNothing,
           pointer: pointer,
           setPointer: setPointer,
+          history: history,
           historyTop: historyTop,
           searchInitialState: searchInitialState,
         }}
@@ -145,7 +191,7 @@ const Panel = () => {
              because it contains the ViewHistoryNavigator */}
       </EntireHistoryContext.Provider>
 
-      <UpdateHistoryContext.Provider value={setHistoryNeedsUpdating}>
+      <UpdateHistoryContext.Provider value={doesNothing}>
         {(currentView["view"] === "search_korean" ||
           currentView["view"] === "search_hanja") && (
           <PaginatedResults

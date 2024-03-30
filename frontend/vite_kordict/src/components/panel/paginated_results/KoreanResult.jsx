@@ -32,7 +32,7 @@ const KoreanResult = ({ result }) => {
 
         {"   "}
 
-        <StringWithHanja stringWithHanja={result.kw_origin} />
+        <StringWithHanja string={result.kw_origin} />
       </div>
 
       <ul className="listed_senses">
@@ -41,7 +41,7 @@ const KoreanResult = ({ result }) => {
             {sense.s_order}.{" "}
             <span style={{ color: "#8e44ad" }}>{sense.s_pos}</span>{" "}
             <span style={{ color: "#3498db" }}>{sense.s_category}</span>{" "}
-            <StringWithHanja stringWithHanja={sense.s_definition} />
+            <StringWithHanja string={sense.s_definition} />
           </li>
         ))}
       </ul>

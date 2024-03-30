@@ -15,7 +15,7 @@ const KoreanSenseView = ({ senseData }) => {
         )}
         <span style={{ color: "#8e44ad" }}>{senseData["pos"]}</span>{" "}
         <span style={{ color: "#3498db" }}>{senseData["category"]}</span>{" "}
-        <StringWithHanja stringWithHanja={senseData["definition"]} />
+        <StringWithHanja string={senseData["definition"]} />
       </div>
 
       {/* is a drop down menu because there can be a lot of data*/}
