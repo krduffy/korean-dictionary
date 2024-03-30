@@ -65,11 +65,13 @@ const Panel = () => {
    */
   const [pointer, setPointer] = useState(0);
 
+  /* What to populate the search bar with when a state from history is restored; purely aesthetic */
   const [searchInitialState, setSearchInitialState] = useState({
     boxContent: "",
     dictionary: "korean",
   });
 
+  /* Util */
   const dictionaryFromView = (viewString) => {
     if (viewString === "search_korean" || viewString === "detail_korean")
       return "korean";
@@ -79,34 +81,60 @@ const Panel = () => {
 
   const doesNothing = (v) => {};
 
+  /* Performs a deep comparison of 2 views */
   const viewsIdentical = (view1, view2) => {
-    console.log("values");
-    console.log({ view1, view2 });
-
     if (view1["view"] !== view2["view"]) return false;
     if (view1["value"] !== view2["value"]) return false;
-    console.log("made it here");
     return true;
   };
 
+  /* Callbacks
+    All of these use effects trigger in a chain to enforce synchronicity
+    setCurrentView can be called by the following child components:
+    1. fixed_header/SearchBar
+    2. paginated_results/PaginatedResults (-> KoreanResult and HanjaResult)
+
+    setPointer is only called in this Panel component and in fixed_header/ViewHistoryNavigator
+
+    *There is a difference between changing these two things that correspond to two
+    entrypoints into the useEffects!*
+
+    Changing currentView is a certain change in view called when the user searches anything,
+    clicks on anything that directs them to a page, etc. It is only after currentView has changed
+    that it is checked whether there is an actual change in the history. If there is, the 
+    callbacks start.
+
+    Changing pointer is an uncertain change in view and is a "shortcut" to the end of the
+    callbacks. Because it is only called by ViewHistoryNavigator and ViewHistoryNavigator
+    cannot change history, there is no need to check and update it. However,  
+    
+    The reason for this callback hell implementation of a history feature
+    is that the panels need separate histories that are stored separately and can be
+    navigated without any effect on each other.
+  */
+
+  /* Entry point for any search made or word detail clicked on */
   useEffect(() => {
-    console.log("pointer");
-    console.log(history);
-    console.log(pointer);
+    /* Check that the user hasn't just paged back and forth from the same view
+       before updating anything */
     if (!viewsIdentical(currentView, history[pointer])) {
-      console.log("new view");
       setHistoryNeedsUpdating(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentView]);
 
-  /* All of these use effects trigger in a chain to enforce synchronicity */
   /* History needs updating whenever a brand new view is loaded (as opposed to reloading a previous one) */
   useEffect(() => {
     if (historyNeedsUpdating) {
       if (pointer == 0 && viewsIdentical(currentView, { view: "homepage" })) {
         //do nothing; just mounted and this is a false alarm
       } else if (pointer + 1 == historyTop) {
+        /*Need to force newHistory to be a new size even if the history is technically
+          the same size; this would happen if you make several searches and then go back
+          once and then make a new search. (ie pointer + 1 == historyTop) Only one view 
+          would normally be overwritten, but this does not lead to a different address for 
+          history, meaning the next use effect would not be triggered and the history would 
+          still include what should have been overwritten. */
         const newHistory = structuredClone(history).slice(0, pointer + 1);
         newHistory.push(currentView);
         setHistory(newHistory);
@@ -114,57 +142,48 @@ const Panel = () => {
         setHistoryTop(pointer + 1);
       }
       setHistoryNeedsUpdating(false);
-      console.log("history needs updating!");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [historyNeedsUpdating]);
 
-  /* THEN */
+  /* THEN (assuming not edge case explained above) */
 
   useEffect(() => {
-    /* Need to force newHistory to be a new size even if the history is technically
-       the same size; this would happen if you make several searches and then go back
-       once and then make a new search. Only one view would normally be overwritten, but
-       this does not lead to a different address for history, meaning the next use effect
-       would not be triggered and the history would still include what should have been
-       overwritten. */
+    /* Prevent trigger on mount by checking > 0 */
     if (historyTop > 0) {
-      const newHistory = structuredClone(history).slice(0, pointer + 1);
+      const newHistory = history.slice(0, pointer + 1);
       newHistory.push(currentView);
-      console.log(newHistory);
+
       setHistory(newHistory);
-      console.log("history top~~~~~");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [historyTop]);
 
   /* THEN */
 
+  /* Finally set pointer so next update functions correctly */
   useEffect(() => {
     setPointer(historyTop);
-    console.log("set pointer");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history]);
 
   /* THEN */
 
   useEffect(() => {
-    if (pointer != 0) {
-      setCurrentView(history[pointer]);
+    /* unnecessary if from the callbacks above but here for when ViewHistoryNavigator
+         calls setPointer */
+    setCurrentView(history[pointer]);
 
-      console.table({ pointer, currentView, history, historyTop });
-
-      if (history[pointer]["view"] === "detail_korean") {
-        setSearchInitialState({
-          boxContent: history[pointer]["detail_korean_word"],
-          dictionary: dictionaryFromView(history[pointer]["view"]),
-        });
-      } else if (history[pointer]["view"] != "homepage") {
-        setSearchInitialState({
-          boxContent: history[pointer]["value"],
-          dictionary: dictionaryFromView(history[pointer]["view"]),
-        });
-      }
+    if (history[pointer]["view"] === "detail_korean") {
+      setSearchInitialState({
+        boxContent: history[pointer]["detail_korean_word"],
+        dictionary: dictionaryFromView(history[pointer]["view"]),
+      });
+    } else if (history[pointer]["view"] != "homepage") {
+      setSearchInitialState({
+        boxContent: history[pointer]["value"],
+        dictionary: dictionaryFromView(history[pointer]["view"]),
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pointer]);
