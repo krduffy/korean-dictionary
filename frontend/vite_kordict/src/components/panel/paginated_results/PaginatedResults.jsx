@@ -1,10 +1,8 @@
-
-
 import React, { useState, useEffect } from "react";
-import KoreanResult from './KoreanResult.jsx' 
+import KoreanResult from "./KoreanResult.jsx";
 import HanjaResult from "./HanjaResult.jsx";
 import HanjaExampleResult from "./HanjaExampleResult.jsx";
-import PageChanger from './PageChanger.jsx'
+import PageChanger from "./PageChanger.jsx";
 
 const PaginatedResults = ({ searchType, searchTerm }) => {
   /* Below are the result types and required keys in formParms and functions (both dictionaries)
@@ -22,58 +20,61 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
 
   const resultsAreValid = () => {
     if (searchType === "search_korean")
-      return searchResults && searchResults.length > 0 && searchResults[0].kw_target_code;
+      return (
+        searchResults &&
+        searchResults.length > 0 &&
+        searchResults[0].kw_target_code
+      );
     else if (searchType === "search_hanja")
-      return searchResults && searchResults.length > 0 && searchResults[0].character;
+      return (
+        searchResults && searchResults.length > 0 && searchResults[0].character
+      );
     else if (searchType == "search_hanja_examples")
-      return searchResults && searchResults.length > 0 && searchResults[0].kw_first_definition;
+      return (
+        searchResults &&
+        searchResults.length > 0 &&
+        searchResults[0].kw_first_definition
+      );
     /* Checking that >= 1 result and first result has a field no other result type has */
     return false;
-  }
+  };
 
   const fetchFromApi = () => {
     let apiUrl;
 
-    if (searchType === "search_korean")
-    {
-      apiUrl = `http://127.0.0.1:8000/api/korean_word/?`+
-                      `page=${currentPage}&`+
-                      `search_term=${searchTerm}`;
-    }
-
-    else if (searchType === "search_hanja")
-    {
-      apiUrl = `http://127.0.0.1:8000/api/hanja_char/?`+
-                      `page=${currentPage}&`+
-                      `search_term=${searchTerm}&`;
-    }
-
-    else if (searchType === "search_hanja_examples")
-    {
-      apiUrl = `http://127.0.0.1:8000/api/hanja_examples/?`+
-                      `page=${currentPage}&`+
-                      `character=${searchTerm}`;
+    if (searchType === "search_korean") {
+      apiUrl =
+        `http://127.0.0.1:8000/api/korean_word/?` +
+        `page=${currentPage}&` +
+        `search_term=${searchTerm}`;
+    } else if (searchType === "search_hanja") {
+      apiUrl =
+        `http://127.0.0.1:8000/api/hanja_char/?` +
+        `page=${currentPage}&` +
+        `search_term=${searchTerm}&`;
+    } else if (searchType === "search_hanja_examples") {
+      apiUrl =
+        `http://127.0.0.1:8000/api/hanja_examples/?` +
+        `page=${currentPage}&` +
+        `character=${searchTerm}`;
     }
 
     fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-      setSearchResults(data.results);
-      setTotalResults(data.count);
-      setTotalPages(Math.ceil(data.count / 10));
-    })
-    .catch(error => {
-      console.error("Error while fetching results: ", error);
-    });
-  }
+      .then((response) => response.json())
+      .then((data) => {
+        setSearchResults(data.results);
+        setTotalResults(data.count);
+        setTotalPages(Math.ceil(data.count / 10));
+      })
+      .catch((error) => {
+        console.error("Error while fetching results: ", error);
+      });
+  };
 
   useEffect(() => {
-    if(currentPage != 1)
-    {
+    if (currentPage != 1) {
       setCurrentPage(1);
-    }
-    else
-      fetchFromApi();
+    } else fetchFromApi();
   }, [searchType, searchTerm]);
 
   useEffect(() => {
@@ -83,31 +84,34 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
   return (
     <div>
       <span>결과 {totalResults}건</span>
-      
-      { resultsAreValid() && searchType === "search_korean" &&
-        searchResults.map((result) => (
-            <KoreanResult key={result.kw_target_code} result={result} />
-        ))
-      }
-      
-      { resultsAreValid() && searchType === "search_hanja" &&
-        searchResults.map((result) => (
-            <HanjaResult key={result.character} result={result} />
-        ))
-      }
 
-      
-      { resultsAreValid() && searchType === "search_hanja_examples" &&
+      {resultsAreValid() &&
+        searchType === "search_korean" &&
+        searchResults.map((result) => (
+          <KoreanResult key={result.kw_target_code} result={result} />
+        ))}
+
+      {resultsAreValid() &&
+        searchType === "search_hanja" &&
+        searchResults.map((result) => (
+          <HanjaResult key={result.character} result={result} />
+        ))}
+
+      {resultsAreValid() &&
+        searchType === "search_hanja_examples" &&
         searchResults.map((result) => (
           <HanjaExampleResult key={result.kw_target_code} result={result} />
-        ))
-      }
-      
-      { resultsAreValid() &&
-        <PageChanger page={currentPage} numberOfPages={totalPages} setPageFunction={setCurrentPage}/>
-      }
+        ))}
+
+      {resultsAreValid() && (
+        <PageChanger
+          page={currentPage}
+          numberOfPages={totalPages}
+          setPageFunction={setCurrentPage}
+        />
+      )}
     </div>
   );
-}
+};
 
 export default PaginatedResults;
