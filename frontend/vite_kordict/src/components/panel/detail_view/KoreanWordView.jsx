@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import KoreanSenseView from "./sense_info_components/KoreanSenseView";
 import StringWithHanja from "../StringWithHanja";
+import PropTypes from "prop-types";
 import "./styles/korean-word-view-styles.css";
 
 const KoreanWordView = ({ targetCode }) => {
@@ -36,6 +37,10 @@ const KoreanWordView = ({ targetCode }) => {
       </div>
     </div>
   );
+};
+
+KoreanWordView.propTypes = {
+  targetCode: PropTypes.number.isRequired,
 };
 
 export default KoreanWordView;

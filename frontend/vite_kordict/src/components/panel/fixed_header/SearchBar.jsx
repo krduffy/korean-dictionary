@@ -6,7 +6,6 @@ const SearchBar = () => {
   const [boxContent, setBoxContent] = useState("");
   const [dictionary, setDictionary] = useState("korean");
 
-  const view = useContext(ViewContext)["currentView"];
   const setView = useContext(ViewContext)["setCurrentView"];
   const initialState = useContext(EntireHistoryContext)["searchInitialState"];
   const setHistoryNeedsUpdating =

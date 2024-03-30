@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { EntireHistoryContext, ViewContext } from "../Panel.jsx";
+import { EntireHistoryContext } from "../Panel.jsx";
 import "./styles/view-history-navigator-styles.css";
 
 const ViewHistoryNavigator = () => {

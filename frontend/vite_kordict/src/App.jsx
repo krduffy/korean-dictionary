@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import NavBar from "./components/nav_bar/NavBar.jsx";
 import Panel from "./components/panel/Panel.jsx";
 import "./app.css";

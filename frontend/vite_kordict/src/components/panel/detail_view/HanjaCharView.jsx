@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import PaginatedResults from "../paginated_results/PaginatedResults.jsx";
 import "./styles/hanja-char-view-styles.css";
 
@@ -38,6 +39,10 @@ const HanjaCharView = ({ hanjaChar }) => {
       </div>
     </div>
   );
+};
+
+HanjaCharView.propTypes = {
+  hanjaChar: PropTypes.string.isRequired,
 };
 
 export default HanjaCharView;

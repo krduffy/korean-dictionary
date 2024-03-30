@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import PropTypes from "prop-types";
 import { UpdateHistoryContext, ViewContext } from "../Panel.jsx";
 import StringWithHanja from "../StringWithHanja.jsx";
 import "./styles/korean-result-styles.css";
@@ -48,6 +49,22 @@ const KoreanResult = ({ result }) => {
       <p>출처: 우리말샘</p>
     </div>
   );
+};
+
+KoreanResult.propTypes = {
+  result: PropTypes.shape({
+    kw_target_code: PropTypes.number.isRequired,
+    kw_word: PropTypes.string.isRequired,
+    kw_origin: PropTypes.string.isRequired,
+    kw_senses: PropTypes.arrayOf(
+      PropTypes.shape({
+        s_order: PropTypes.number.isRequired,
+        s_pos: PropTypes.string.isRequired,
+        s_category: PropTypes.string.isRequired,
+        s_definition: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+  }).isRequired,
 };
 
 export default KoreanResult;

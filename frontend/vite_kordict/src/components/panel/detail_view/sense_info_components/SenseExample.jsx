@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./styles/korean-sense-styles.css";
 
 const SenseExample = ({ exampleData }) => {
@@ -11,6 +12,13 @@ const SenseExample = ({ exampleData }) => {
       )}
     </div>
   );
+};
+
+SenseExample.propTypes = {
+  exampleData: PropTypes.shape({
+    example: PropTypes.string.isRequired,
+    source: PropTypes.string, // Source is optional
+  }).isRequired,
 };
 
 const ExampleTextWithHighlighting = ({ string }) => {
@@ -30,6 +38,10 @@ const ExampleTextWithHighlighting = ({ string }) => {
       ))}
     </span>
   );
+};
+
+ExampleTextWithHighlighting.propTypes = {
+  string: PropTypes.string.isRequired,
 };
 
 export default SenseExample;

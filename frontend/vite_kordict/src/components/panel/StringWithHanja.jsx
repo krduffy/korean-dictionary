@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./universal-styles.css";
 
 /*
@@ -17,30 +18,29 @@ import "./universal-styles.css";
  * - stringWithHanja (string): The input string containing both Hanja characters and other text.
  */
 
-const StringWithHanja = ({ stringWithHanja }) => {
-  const isolateHanja = (string) => {
+const StringWithHanja = ({ string }) => {
+  const isolateHanja = (originalString) => {
     /* 4e00 through 9fff is block of CJK unified ideographs in unicode */
-    return string.split(/([\u4e00-\u9fff])/g).filter((str) => str.length > 0);
+    return originalString
+      .split(/([\u4e00-\u9fff])/g)
+      .filter((str) => str.length > 0);
   };
 
-  const isSingleHanja = (string) => {
-    if (string.length != 1) return false;
-    const charCode = string.charCodeAt(0);
+  const isSingleHanja = (substr) => {
+    if (substr.length != 1) return false;
+    const charCode = substr.charCodeAt(0);
     return charCode >= 0x4e00 && charCode <= 0x9fff;
   };
 
   return (
     <span>
-      {stringWithHanja &&
-        isolateHanja(stringWithHanja).map((substring, index) => (
+      {string &&
+        isolateHanja(string).map((substring, index) => (
           <span
             key={index}
             className={isSingleHanja(substring) ? "hanja-char" : ""}
             onMouseOver={() => {
               /* Call function if character is Hanja character */
-              if (isSingleHanja(substring)) {
-                mouseOverHanFunc(substring);
-              }
             }}
           >
             {substring}
@@ -48,6 +48,10 @@ const StringWithHanja = ({ stringWithHanja }) => {
         ))}
     </span>
   );
+};
+
+StringWithHanja.propTypes = {
+  string: PropTypes.string.isRequired,
 };
 
 export default StringWithHanja;

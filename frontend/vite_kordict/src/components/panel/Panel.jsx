@@ -84,6 +84,7 @@ const Panel = () => {
       setHistoryTop(pointer + 1);
       setHistoryNeedsUpdating(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [historyNeedsUpdating]);
 
   /* THEN */
@@ -92,12 +93,14 @@ const Panel = () => {
     const updatedHistory = [...history.slice(0, historyTop)];
     updatedHistory[historyTop] = currentView;
     setHistory(updatedHistory);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [historyTop]);
 
   /* THEN */
 
   useEffect(() => {
     if (historyTop >= 0) setPointer(historyTop);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history]);
 
   /* THEN */
@@ -121,6 +124,7 @@ const Panel = () => {
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pointer]);
 
   return (

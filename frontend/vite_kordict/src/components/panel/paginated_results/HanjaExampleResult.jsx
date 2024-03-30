@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import StringWithHanja from "../StringWithHanja";
 import "./styles/hanja-example-result-styles.css";
 
@@ -16,6 +17,14 @@ const HanjaExampleResult = ({ result }) => {
       </div>
     </div>
   );
+};
+
+HanjaExampleResult.propTypes = {
+  result: PropTypes.shape({
+    kw_word: PropTypes.string.isRequired,
+    kw_origin: PropTypes.string.isRequired,
+    kw_first_definition: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default HanjaExampleResult;

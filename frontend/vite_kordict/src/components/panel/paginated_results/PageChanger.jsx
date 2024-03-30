@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./styles/page-changer-styles.css";
 
 const PageChanger = ({ page, numberOfPages, setPageFunction }) => {
@@ -45,6 +46,12 @@ const PageChanger = ({ page, numberOfPages, setPageFunction }) => {
       )}
     </div>
   );
+};
+
+PageChanger.propTypes = {
+  page: PropTypes.number.isRequired,
+  numberOfPages: PropTypes.number.isRequired,
+  setPageFunction: PropTypes.func.isRequired,
 };
 
 export default PageChanger;

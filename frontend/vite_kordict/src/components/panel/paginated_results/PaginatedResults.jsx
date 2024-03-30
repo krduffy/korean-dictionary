@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import KoreanResult from "./KoreanResult.jsx";
 import HanjaResult from "./HanjaResult.jsx";
 import HanjaExampleResult from "./HanjaExampleResult.jsx";
@@ -75,10 +76,12 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
     if (currentPage != 1) {
       setCurrentPage(1);
     } else fetchFromApi();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchType, searchTerm]);
 
   useEffect(() => {
     fetchFromApi();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   return (
@@ -112,6 +115,15 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
       )}
     </div>
   );
+};
+
+PaginatedResults.propTypes = {
+  searchType: PropTypes.oneOf([
+    "search_korean",
+    "search_hanja",
+    "search_hanja_examples",
+  ]).isRequired,
+  searchTerm: PropTypes.string.isRequired,
 };
 
 export default PaginatedResults;

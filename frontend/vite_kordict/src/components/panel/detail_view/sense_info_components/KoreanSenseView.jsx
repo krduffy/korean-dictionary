@@ -1,8 +1,9 @@
 import React from "react";
-
 import SenseExample from "./SenseExample.jsx";
 import StringWithHanja from "../../StringWithHanja.jsx";
 import "./styles/korean-sense-styles.css";
+
+import PropTypes from "prop-types";
 
 const KoreanSenseView = ({ senseData }) => {
   return (
@@ -31,6 +32,27 @@ const KoreanSenseView = ({ senseData }) => {
       </div>
     </div>
   );
+};
+
+/* Representation of sense can be found in korean-dictionary/api/management/dict_files/json_structure.txt */
+KoreanSenseView.propTypes = {
+  senseData: PropTypes.shape({
+    order: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    pos: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+    definition: PropTypes.string.isRequired,
+    additional_info: PropTypes.shape({
+      region_info: PropTypes.shape({
+        region: PropTypes.string,
+      }),
+      example_info: PropTypes.arrayOf(
+        PropTypes.shape({
+          // Define the structure of example_info object if needed
+        }),
+      ),
+    }),
+  }).isRequired,
 };
 
 export default KoreanSenseView;
