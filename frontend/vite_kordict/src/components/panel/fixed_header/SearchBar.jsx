@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ViewContext, EntireHistoryContext } from "../Panel.jsx";
+import { ViewContext } from "../Panel.jsx";
 import "./styles/search-bar-styles.css";
 
-const SearchBar = () => {
+const SearchBar = ({ searchBarInitialState }) => {
   const [boxContent, setBoxContent] = useState("");
   const [dictionary, setDictionary] = useState("korean");
 
   const setView = useContext(ViewContext)["setCurrentView"];
-  const searchBarInitialState =
-    useContext(EntireHistoryContext)["searchBarInitialState"];
 
   useEffect(() => {
     setBoxContent(searchBarInitialState["boxContent"]);

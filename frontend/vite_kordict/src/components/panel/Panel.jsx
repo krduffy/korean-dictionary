@@ -7,7 +7,6 @@ import KoreanWordView from "./detail_view/KoreanWordView.jsx";
 import HanjaCharView from "./detail_view/HanjaCharView.jsx";
 
 export const ViewContext = createContext(null);
-export const EntireHistoryContext = createContext(null);
 
 const Panel = () => {
   /*
@@ -198,19 +197,14 @@ const Panel = () => {
         setCurrentView: setCurrentView,
       }}
     >
-      <EntireHistoryContext.Provider
-        value={{
-          historyPointer: historyPointer,
-          setHistoryPointer: setHistoryPointer,
-          history: history,
-          historySize: historySize,
-          searchBarInitialState: searchBarInitialState,
-        }}
-      >
-        <FixedHeader />
-        {/* Fixed header needs more than just setHistoryNeedsUpdating
+      <FixedHeader
+        historyPointer={historyPointer}
+        setHistoryPointer={setHistoryPointer}
+        historySize={historySize}
+        searchBarInitialState={searchBarInitialState}
+      />
+      {/* Fixed header needs more than just setHistoryNeedsUpdating
              because it contains the ViewHistoryNavigator */}
-      </EntireHistoryContext.Provider>
 
       {(currentView["view"] === "search_korean" ||
         currentView["view"] === "search_hanja") && (
