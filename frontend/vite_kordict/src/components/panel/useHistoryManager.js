@@ -34,12 +34,12 @@ export function useHistoryManager() {
     setHistorySize(historyPointer + 1);
   };
 
-  const navigateBack = () => {
+  const getPrecedingView = () => {
     setHistoryPointer((prevPointer) => prevPointer - 1);
     return history[historyPointer];
   };
 
-  const navigateForward = () => {
+  const getFollowingView = () => {
     setHistoryPointer((prevPointer) => prevPointer + 1);
     return history[historyPointer];
   };
@@ -55,8 +55,8 @@ export function useHistoryManager() {
   return {
     pushViewToHistory,
     canNavigateBack,
-    navigateBack,
+    getPrecedingView,
     canNavigateForward,
-    navigateForward,
+    getFollowingView,
   };
 }

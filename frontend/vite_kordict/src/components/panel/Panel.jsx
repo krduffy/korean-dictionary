@@ -31,9 +31,9 @@ const Panel = () => {
   const {
     pushViewToHistory,
     canNavigateBack,
-    navigateBack,
+    getPrecedingView,
     canNavigateForward,
-    navigateForward,
+    getFollowingView,
   } = useHistoryManager();
 
   return (
@@ -46,9 +46,9 @@ const Panel = () => {
     >
       <FixedHeader
         canNavigateBack={canNavigateBack}
-        navigateBack={navigateBack}
+        getPrecedingView={getPrecedingView}
         canNavigateForward={canNavigateForward}
-        navigateForward={navigateForward}
+        getFollowingView={getFollowingView}
       />
       {/* Fixed header needs more than just setHistoryNeedsUpdating
              because it contains the ViewHistoryNavigator */}

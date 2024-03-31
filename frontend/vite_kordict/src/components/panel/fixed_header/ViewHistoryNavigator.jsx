@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import "./styles/view-history-navigator-styles.css";
+import { ViewContext } from "../Panel";
 
 const ViewHistoryNavigator = ({
   canNavigateBack,
-  navigateBack,
+  getPrecedingView,
   canNavigateForward,
-  navigateForward,
+  getFollowingView,
 }) => {
+  const updateViewWithoutPushingToHistory =
+    useContext(ViewContext)["updateViewWithoutPushingToHistory"];
+
   return (
     <div className="view-history-navigator">
       <button
         className={canNavigateBack() ? "enabled-button" : "disabled-button"}
         onClick={() => {
-          navigateBack();
+          updateViewWithoutPushingToHistory(getPrecedingView());
         }}
       >
         ←
@@ -21,7 +25,7 @@ const ViewHistoryNavigator = ({
       <button
         className={canNavigateForward() ? "enabled-button" : "disabled-button"}
         onClick={() => {
-          navigateForward();
+          updateViewWithoutPushingToHistory(getFollowingView());
         }}
       >
         ⇨

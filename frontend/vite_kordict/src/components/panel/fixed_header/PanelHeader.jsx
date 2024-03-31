@@ -6,18 +6,18 @@ import "./styles/panel-header-styles.css";
 
 const FixedHeader = ({
   canNavigateBack,
-  navigateBack,
+  getPrecedingView,
   canNavigateForward,
-  navigateForward,
+  getFollowingView,
 }) => {
   return (
     <div className="fixed-header">
       <SearchBar />
       <ViewHistoryNavigator
         canNavigateBack={canNavigateBack}
-        navigateBack={navigateBack}
+        getPrecedingView={getPrecedingView}
         canNavigateForward={canNavigateForward}
-        navigateForward={navigateForward}
+        getFollowingView={getFollowingView}
       />
     </div>
   );
