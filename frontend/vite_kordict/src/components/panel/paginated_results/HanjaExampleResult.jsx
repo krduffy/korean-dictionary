@@ -9,11 +9,11 @@ const HanjaExampleResult = ({ result }) => {
       <div className="hanja_example_word">
         {result["kw_word"]}
         (
-        <StringWithHanja stringWithHanja={result["kw_origin"]} />)
+        <StringWithHanja string={result["kw_origin"]} />)
       </div>
 
       <div className="hanja_example_definition">
-        <StringWithHanja stringWithHanja={result["kw_first_definition"]} />
+        <StringWithHanja string={result["kw_first_definition"]} />
       </div>
     </div>
   );

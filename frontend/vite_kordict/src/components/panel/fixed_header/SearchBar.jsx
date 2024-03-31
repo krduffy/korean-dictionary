@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import PropTypes from "prop-types";
 import { ViewContext } from "../Panel.jsx";
 import "./styles/search-bar-styles.css";
 
@@ -93,6 +94,13 @@ const SearchBar = ({ searchBarInitialState }) => {
       </form>
     </div>
   );
+};
+
+SearchBar.propTypes = {
+  searchBarInitialState: PropTypes.shape({
+    boxContent: PropTypes.string.isRequired,
+    dictionary: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default SearchBar;

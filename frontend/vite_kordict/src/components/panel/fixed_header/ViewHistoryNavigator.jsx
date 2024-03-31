@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./styles/view-history-navigator-styles.css";
 
 const ViewHistoryNavigator = ({
@@ -46,6 +47,12 @@ const ViewHistoryNavigator = ({
       </button>
     </div>
   );
+};
+
+ViewHistoryNavigator.propTypes = {
+  historyPointer: PropTypes.number.isRequired, // History pointer prop type
+  setHistoryPointer: PropTypes.func.isRequired, // History pointer setter prop type
+  historySize: PropTypes.number.isRequired, // History size prop type
 };
 
 export default ViewHistoryNavigator;
