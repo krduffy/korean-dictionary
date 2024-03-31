@@ -1,5 +1,5 @@
 import React, { useState, createContext } from "react";
-import FixedHeader from "./fixed_header/PanelHeader.jsx";
+import PanelHeader from "./fixed_header/PanelHeader.jsx";
 import HomePage from "./home/HomePage.jsx";
 
 import PaginatedResults from "./paginated_results/PaginatedResults.jsx";
@@ -51,7 +51,7 @@ const Panel = () => {
         updateViewWithoutPushingToHistory: updateViewWithoutPushingToHistory,
       }}
     >
-      <FixedHeader
+      <PanelHeader
         canNavigateBack={canNavigateBack}
         getPrecedingView={getPrecedingView}
         canNavigateForward={canNavigateForward}

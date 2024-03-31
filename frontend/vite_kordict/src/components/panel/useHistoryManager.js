@@ -6,7 +6,9 @@ export function useHistoryManager(initialView) {
     [{"view: "homepage}, {"view": "search_korean", "value": "가다"}, ...] for example
    */
   const [history, setHistory] = useState([initialView]);
-  /* historySize is the logical size of history */
+  /*
+   * historySize is the logical size of history
+   */
   const [historySize, setHistorySize] = useState(0);
   /*
    * historyPointer is the index of the current view in history.

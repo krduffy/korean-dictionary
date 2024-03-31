@@ -4,7 +4,7 @@ import SearchBar from "./SearchBar.jsx";
 import ViewHistoryNavigator from "./ViewHistoryNavigator.jsx";
 import "./styles/panel-header-styles.css";
 
-const FixedHeader = ({
+const PanelHeader = ({
   canNavigateBack,
   getPrecedingView,
   canNavigateForward,
@@ -23,4 +23,11 @@ const FixedHeader = ({
   );
 };
 
-export default FixedHeader;
+PanelHeader.propTypes = {
+  canNavigateBack: PropTypes.func.isRequired,
+  getPrecedingView: PropTypes.func.isRequired,
+  canNavigateForward: PropTypes.func.isRequired,
+  getFollowingView: PropTypes.func.isRequired,
+};
+
+export default PanelHeader;

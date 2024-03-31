@@ -10,7 +10,7 @@ const KoreanResult = ({ result }) => {
 
   const viewKoreanDetail = (targetCode) => {
     viewContext["updateViewAndPushToHistory"]({
-      view: "detail_hanja",
+      view: "detail_korean",
       value: targetCode,
       searchBarInitialState: {
         boxContent: result["kw_word"],

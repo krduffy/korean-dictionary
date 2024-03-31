@@ -34,4 +34,11 @@ const ViewHistoryNavigator = ({
   );
 };
 
+ViewHistoryNavigator.propTypes = {
+  canNavigateBack: PropTypes.func.isRequired,
+  getPrecedingView: PropTypes.func.isRequired,
+  canNavigateForward: PropTypes.func.isRequired,
+  getFollowingView: PropTypes.func.isRequired,
+};
+
 export default ViewHistoryNavigator;

@@ -85,4 +85,8 @@ const HanjaCharacterSpan = ({ character }) => {
   );
 };
 
+HanjaCharacterSpan.propTypes = {
+  character: PropTypes.string.isRequired,
+};
+
 export default StringWithHanja;

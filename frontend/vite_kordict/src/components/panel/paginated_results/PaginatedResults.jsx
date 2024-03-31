@@ -85,35 +85,36 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
   }, [currentPage]);
 
   return (
-    <div>
-      <span>결과 {totalResults}건</span>
-
-      {resultsAreValid() &&
-        searchType === "search_korean" &&
-        searchResults.map((result) => (
-          <KoreanResult key={result.kw_target_code} result={result} />
-        ))}
-
-      {resultsAreValid() &&
-        searchType === "search_hanja" &&
-        searchResults.map((result) => (
-          <HanjaResult key={result.character} result={result} />
-        ))}
-
-      {resultsAreValid() &&
-        searchType === "search_hanja_examples" &&
-        searchResults.map((result) => (
-          <HanjaExampleResult key={result.kw_target_code} result={result} />
-        ))}
-
+    <>
       {resultsAreValid() && (
-        <PageChanger
-          page={currentPage}
-          numberOfPages={totalPages}
-          setPageFunction={setCurrentPage}
-        />
+        <div className="paginated-results">
+          <span>결과 {totalResults}건</span>
+
+          {searchType === "search_korean" &&
+            searchResults.map((result) => (
+              <KoreanResult key={result.kw_target_code} result={result} />
+            ))}
+
+          {searchType === "search_hanja" &&
+            searchResults.map((result) => (
+              <HanjaResult key={result.character} result={result} />
+            ))}
+
+          {searchType === "search_hanja_examples" &&
+            searchResults.map((result) => (
+              <HanjaExampleResult key={result.kw_target_code} result={result} />
+            ))}
+
+          {searchType !== "search_korean" && searchResults.length > 0 && (
+            <PageChanger
+              page={currentPage}
+              numberOfPages={totalPages}
+              setPageFunction={setCurrentPage}
+            />
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
