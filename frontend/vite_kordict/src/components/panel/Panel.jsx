@@ -62,10 +62,10 @@ const Panel = () => {
    *             ^
    *            ptr
    */
-  const [historyPointer, setHistoryhistoryPointer] = useState(0);
+  const [historyPointer, setHistoryPointer] = useState(0);
 
   /* What to populate the search bar with when a state from history is restored; purely aesthetic */
-  const [searchInitialState, setSearchInitialState] = useState({
+  const [searchBarInitialState, setSearchBarInitialState] = useState({
     boxContent: "",
     dictionary: "korean",
   });
@@ -91,7 +91,7 @@ const Panel = () => {
     1. fixed_header/SearchBar
     2. paginated_results/PaginatedResults (-> KoreanResult and HanjaResult)
 
-    setHistoryhistoryPointer is only called in this Panel component and in fixed_header/ViewHistoryNavigator
+    setHistoryPointer is only called in this Panel component and in fixed_header/ViewHistoryNavigator
 
     *There is a difference between changing these two things that correspond to two
     entrypoints into the useEffects!*
@@ -166,7 +166,7 @@ const Panel = () => {
 
   /* Finally set historyPointer so next update functions correctly */
   useEffect(() => {
-    setHistoryhistoryPointer(historySize);
+    setHistoryPointer(historySize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history]);
 
@@ -174,16 +174,16 @@ const Panel = () => {
 
   useEffect(() => {
     /* unnecessary if from the callbacks above but here for when ViewHistoryNavigator
-         calls setHistoryhistoryPointer */
+         calls setHistoryPointer */
     setCurrentView(history[historyPointer]);
 
     if (history[historyPointer]["view"] === "detail_korean") {
-      setSearchInitialState({
+      setSearchBarInitialState({
         boxContent: history[historyPointer]["detail_korean_word"],
         dictionary: dictionaryFromView(history[historyPointer]["view"]),
       });
     } else if (history[historyPointer]["view"] != "homepage") {
-      setSearchInitialState({
+      setSearchBarInitialState({
         boxContent: history[historyPointer]["value"],
         dictionary: dictionaryFromView(history[historyPointer]["view"]),
       });
@@ -201,10 +201,10 @@ const Panel = () => {
       <EntireHistoryContext.Provider
         value={{
           historyPointer: historyPointer,
-          setHistoryhistoryPointer: setHistoryhistoryPointer,
+          setHistoryPointer: setHistoryPointer,
           history: history,
           historySize: historySize,
-          searchInitialState: searchInitialState,
+          searchBarInitialState: searchBarInitialState,
         }}
       >
         <FixedHeader />

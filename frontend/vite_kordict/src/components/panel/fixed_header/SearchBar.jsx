@@ -7,12 +7,13 @@ const SearchBar = () => {
   const [dictionary, setDictionary] = useState("korean");
 
   const setView = useContext(ViewContext)["setCurrentView"];
-  const initialState = useContext(EntireHistoryContext)["searchInitialState"];
+  const searchBarInitialState =
+    useContext(EntireHistoryContext)["searchBarInitialState"];
 
   useEffect(() => {
-    setBoxContent(initialState["boxContent"]);
-    setDictionary(initialState["dictionary"]);
-  }, [initialState]);
+    setBoxContent(searchBarInitialState["boxContent"]);
+    setDictionary(searchBarInitialState["dictionary"]);
+  }, [searchBarInitialState]);
 
   const sanitize = (content) => {
     content = content.trim();

@@ -4,8 +4,8 @@ import "./styles/view-history-navigator-styles.css";
 
 const ViewHistoryNavigator = () => {
   const historyPointer = useContext(EntireHistoryContext)["historyPointer"];
-  const setHistoryhistoryPointer =
-    useContext(EntireHistoryContext)["setHistoryhistoryPointer"];
+  const setHistoryPointer =
+    useContext(EntireHistoryContext)["setHistoryPointer"];
   const historySize = useContext(EntireHistoryContext)["historySize"];
 
   const canMoveBack = () => {
@@ -18,13 +18,13 @@ const ViewHistoryNavigator = () => {
 
   const back = () => {
     if (canMoveBack()) {
-      setHistoryhistoryPointer(historyPointer - 1);
+      setHistoryPointer(historyPointer - 1);
     }
   };
 
   const forward = () => {
     if (canMoveForward()) {
-      setHistoryhistoryPointer(historyPointer + 1);
+      setHistoryPointer(historyPointer + 1);
     }
   };
 
