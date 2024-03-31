@@ -61,8 +61,10 @@ const HanjaCharacterSpan = ({ character }) => {
     setTimeout(() => {
       if (mouseIn) {
         setHoverBoxEnabled(true);
+      } else {
+        setHoverBoxEnabled(false);
       }
-    }, 300);
+    }, 1000);
   }, [mouseIn]);
 
   return (

@@ -12,7 +12,6 @@ const HanjaHoverBox = ({ character }) => {
       .then((response) => response.json())
       .then((data) => {
         setHoverBoxData(data);
-        console.log(data);
       })
       .catch((error) => {
         console.error("Error while fetching results: ", error);
@@ -21,14 +20,18 @@ const HanjaHoverBox = ({ character }) => {
 
   return (
     <div className="hanja-hover-box">
-      <div className="meaning-reading-section">
-        <span>
-          {character}
-          {}
-          {hoverBoxData["meaning_reading"]}
-        </span>
-      </div>
-      <KoreanWordSection hoverBoxData={hoverBoxData} />
+      {hoverBoxData && (
+        <div>
+          <div className="meaning-reading-section">
+            <span>
+              {character}
+              {}
+              {hoverBoxData["meaning_reading"]}
+            </span>
+          </div>
+          <KoreanWordSection hoverBoxData={hoverBoxData} />
+        </div>
+      )}
     </div>
   );
 };
@@ -47,7 +50,7 @@ const KoreanWordSection = (hoverBoxData) => {
           <div key={id}>{wordData["kw_origin"]}</div>
         ))
       ) : (
-        <div>연관단어가 없습니다.</div>
+        <div>연관단어가 없습니다.{hoverBoxData["retrieved_words"]}</div>
       )}
     </div>
   );
