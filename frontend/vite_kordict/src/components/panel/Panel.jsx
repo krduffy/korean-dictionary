@@ -19,6 +19,21 @@ const Panel = () => {
     },
   });
 
+  const {
+    pushViewToHistory,
+    canNavigateBack,
+    getPrecedingView,
+    canNavigateForward,
+    getFollowingView,
+  } = useHistoryManager({
+    view: "homepage",
+    value: 0,
+    searchBarInitialState: {
+      boxContent: "",
+      dictionary: "korean",
+    },
+  });
+
   const updateViewAndPushToHistory = (newView) => {
     pushViewToHistory(newView);
     setCurrentView(newView);
@@ -27,14 +42,6 @@ const Panel = () => {
   const updateViewWithoutPushingToHistory = (newView) => {
     setCurrentView(newView);
   };
-
-  const {
-    pushViewToHistory,
-    canNavigateBack,
-    getPrecedingView,
-    canNavigateForward,
-    getFollowingView,
-  } = useHistoryManager();
 
   return (
     <ViewContext.Provider
@@ -52,6 +59,8 @@ const Panel = () => {
       />
       {/* Fixed header needs more than just setHistoryNeedsUpdating
              because it contains the ViewHistoryNavigator */}
+
+      {console.log(history)}
 
       {(currentView["view"] === "search_korean" ||
         currentView["view"] === "search_hanja") && (
