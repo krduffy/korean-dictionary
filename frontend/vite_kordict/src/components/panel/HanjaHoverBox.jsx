@@ -12,13 +12,14 @@ const HanjaHoverBox = ({ character }) => {
       .then((response) => response.json())
       .then((data) => {
         setHoverBoxData(data);
+        console.log(data);
       })
       .catch((error) => {
         console.error("Error while fetching results: ", error);
       });
   }, [character]);
 
-  return <div className="hanja-hover-box">{hoverBoxData}</div>;
+  return <div className="hanja-hover-box">{"qq"};</div>;
 };
 
 HanjaHoverBox.propTypes = {

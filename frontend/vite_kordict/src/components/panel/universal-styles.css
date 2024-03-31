@@ -13,3 +13,7 @@
 .hanja-char:hover {
   text-shadow: 0 0 5px #00ffff;
 }
+
+.hanja-hover-box {
+  position: fixed;
+}

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./universal-styles.css";
+import HanjaHoverBox from "./HanjaHoverBox";
 
 /*
  * A React component that takes in a string containing both Hanja characters and other text,
@@ -27,7 +28,7 @@ const StringWithHanja = ({ string }) => {
   };
 
   const isSingleHanja = (substr) => {
-    if (substr.length != 1) return false;
+    if (substr.length !== 1) return false;
     const charCode = substr.charCodeAt(0);
     return charCode >= 0x4e00 && charCode <= 0x9fff;
   };
@@ -36,14 +37,12 @@ const StringWithHanja = ({ string }) => {
     <span>
       {string &&
         isolateHanja(string).map((substring, index) => (
-          <span
-            key={index}
-            className={isSingleHanja(substring) ? "hanja-char" : ""}
-            onMouseOver={() => {
-              /* Call function if character is Hanja character */
-            }}
-          >
-            {substring}
+          <span key={index}>
+            {isSingleHanja(substring) ? (
+              <HanjaCharacterSpan character={substring} />
+            ) : (
+              <span>{substring}</span>
+            )}
           </span>
         ))}
     </span>
@@ -52,6 +51,36 @@ const StringWithHanja = ({ string }) => {
 
 StringWithHanja.propTypes = {
   string: PropTypes.string.isRequired,
+};
+
+const HanjaCharacterSpan = ({ character }) => {
+  const [hoverBoxEnabled, setHoverBoxEnabled] = useState(false);
+  const [mouseIn, setMouseIn] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (mouseIn) {
+        setHoverBoxEnabled(true);
+      }
+    }, 300);
+  }, [mouseIn]);
+
+  return (
+    <span>
+      {hoverBoxEnabled && <HanjaHoverBox character={character} />}
+      <span
+        className="hanja-char"
+        onMouseEnter={() => {
+          setMouseIn(true);
+        }}
+        onMouseLeave={() => {
+          setMouseIn(false);
+        }}
+      >
+        {character}
+      </span>
+    </span>
+  );
 };
 
 export default StringWithHanja;
