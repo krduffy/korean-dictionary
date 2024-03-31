@@ -9,12 +9,13 @@ const KoreanResult = ({ result }) => {
   const viewContext = useContext(ViewContext);
 
   const viewKoreanDetail = (targetCode) => {
-    viewContext["setCurrentView"]({
-      view: "detail_korean",
+    viewContext["updateViewAndPushToHistory"]({
+      view: "detail_hanja",
       value: targetCode,
-      /* search_word specifically for filling search box when history is restored;
-           is read in Panel.jsx when "view" === "detail_korean" */
-      detail_korean_word: result.kw_word,
+      searchBarInitialState: {
+        boxContent: result["kw_word"],
+        dictionary: "korean",
+      },
     });
   };
 

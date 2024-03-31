@@ -5,31 +5,22 @@ import ViewHistoryNavigator from "./ViewHistoryNavigator.jsx";
 import "./styles/panel-header-styles.css";
 
 const FixedHeader = ({
-  historyPointer,
-  setHistoryPointer,
-  historySize,
-  searchBarInitialState,
+  canNavigateBack,
+  navigateBack,
+  canNavigateForward,
+  navigateForward,
 }) => {
   return (
     <div className="fixed-header">
-      <SearchBar searchBarInitialState={searchBarInitialState} />
+      <SearchBar />
       <ViewHistoryNavigator
-        historyPointer={historyPointer}
-        setHistoryPointer={setHistoryPointer}
-        historySize={historySize}
+        canNavigateBack={canNavigateBack}
+        navigateBack={navigateBack}
+        canNavigateForward={canNavigateForward}
+        navigateForward={navigateForward}
       />
     </div>
   );
-};
-
-FixedHeader.propTypes = {
-  historyPointer: PropTypes.number.isRequired, // History pointer prop type
-  setHistoryPointer: PropTypes.func.isRequired, // History pointer setter prop type
-  historySize: PropTypes.number.isRequired, // History size prop type
-  searchBarInitialState: PropTypes.shape({
-    boxContent: PropTypes.string.isRequired,
-    dictionary: PropTypes.string.isRequired,
-  }).isRequired, // Search bar initial state prop type
 };
 
 export default FixedHeader;

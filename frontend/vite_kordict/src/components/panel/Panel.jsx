@@ -1,52 +1,57 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, createContext } from "react";
 import FixedHeader from "./fixed_header/PanelHeader.jsx";
 import HomePage from "./home/HomePage.jsx";
 
 import PaginatedResults from "./paginated_results/PaginatedResults.jsx";
 import KoreanWordView from "./detail_view/KoreanWordView.jsx";
 import HanjaCharView from "./detail_view/HanjaCharView.jsx";
-import { useViewManager } from "./useViewManager.js";
+import { useHistoryManager } from "./useHistoryManager.js";
 
 export const ViewContext = createContext(null);
 
 const Panel = () => {
-  const {
-    currentView,
-    setCurrentView,
-    historyPointer,
-    setHistoryPointer,
-    historySize,
-    searchBarInitialState,
-  } = useViewManager({
-    initialView: { view: "homepage", value: 0 },
-    initialSearchBarInitialState: {
+  const [currentView, setCurrentView] = useState({
+    view: "homepage",
+    value: 0,
+    searchBarInitialState: {
       boxContent: "",
       dictionary: "korean",
     },
   });
+
+  const updateViewAndPushToHistory = (newView) => {
+    pushViewToHistory(newView);
+    setCurrentView(newView);
+  };
+
+  const updateViewWithoutPushingToHistory = (newView) => {
+    setCurrentView(newView);
+  };
+
+  const {
+    pushViewToHistory,
+    canNavigateBack,
+    navigateBack,
+    canNavigateForward,
+    navigateForward,
+  } = useHistoryManager();
+
   return (
     <ViewContext.Provider
       value={{
         currentView: currentView,
-        setCurrentView: setCurrentView,
+        updateViewAndPushToHistory: updateViewAndPushToHistory,
+        updateViewWithoutPushingToHistory: updateViewWithoutPushingToHistory,
       }}
     >
       <FixedHeader
-        historyPointer={historyPointer}
-        setHistoryPointer={setHistoryPointer}
-        historySize={historySize}
-        searchBarInitialState={searchBarInitialState}
+        canNavigateBack={canNavigateBack}
+        navigateBack={navigateBack}
+        canNavigateForward={canNavigateForward}
+        navigateForward={navigateForward}
       />
       {/* Fixed header needs more than just setHistoryNeedsUpdating
              because it contains the ViewHistoryNavigator */}
-      {console.log({
-        currentView,
-        setCurrentView,
-        historyPointer,
-        setHistoryPointer,
-        historySize,
-        searchBarInitialState,
-      })}
 
       {(currentView["view"] === "search_korean" ||
         currentView["view"] === "search_hanja") && (

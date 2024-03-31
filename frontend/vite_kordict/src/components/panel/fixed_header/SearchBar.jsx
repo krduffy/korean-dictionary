@@ -3,11 +3,14 @@ import PropTypes from "prop-types";
 import { ViewContext } from "../Panel.jsx";
 import "./styles/search-bar-styles.css";
 
-const SearchBar = ({ searchBarInitialState }) => {
+const SearchBar = () => {
   const [boxContent, setBoxContent] = useState("");
   const [dictionary, setDictionary] = useState("korean");
 
-  const setView = useContext(ViewContext)["setCurrentView"];
+  const searchBarInitialState =
+    useContext(ViewContext)["currentView"]["searchBarInitialState"];
+  const updateViewAndPushToHistory =
+    useContext(ViewContext)["updateViewAndPushToHistory"];
 
   useEffect(() => {
     setBoxContent(searchBarInitialState["boxContent"]);
@@ -39,19 +42,31 @@ const SearchBar = ({ searchBarInitialState }) => {
     e.preventDefault();
 
     if (boxContent.match(/^[\u4E00-\u9FFF]$/g))
-      setView({
+      updateViewAndPushToHistory({
         view: "detail_hanja",
         value: boxContent,
+        searchBarInitialState: {
+          boxContent: boxContent,
+          dictionary: "hanja",
+        },
       });
     else if (dictionary === "korean")
-      setView({
+      updateViewAndPushToHistory({
         view: "search_korean",
         value: boxContent,
+        searchBarInitialState: {
+          boxContent: boxContent,
+          dictionary: "korean",
+        },
       });
     else if (dictionary === "hanja")
-      setView({
+      updateViewAndPushToHistory({
         view: "search_hanja",
         value: boxContent,
+        searchBarInitialState: {
+          boxContent: boxContent,
+          dictionary: "hanja",
+        },
       });
   };
 
@@ -94,13 +109,6 @@ const SearchBar = ({ searchBarInitialState }) => {
       </form>
     </div>
   );
-};
-
-SearchBar.propTypes = {
-  searchBarInitialState: PropTypes.shape({
-    boxContent: PropTypes.string.isRequired,
-    dictionary: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 export default SearchBar;
