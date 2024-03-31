@@ -57,10 +57,6 @@ const Panel = () => {
         canNavigateForward={canNavigateForward}
         getFollowingView={getFollowingView}
       />
-      {/* Fixed header needs more than just setHistoryNeedsUpdating
-             because it contains the ViewHistoryNavigator */}
-
-      {console.log(history)}
 
       {(currentView["view"] === "search_korean" ||
         currentView["view"] === "search_hanja") && (

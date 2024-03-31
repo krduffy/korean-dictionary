@@ -28,14 +28,11 @@ export function useHistoryManager(initialView) {
   const [historyPointer, setHistoryPointer] = useState(0);
 
   const pushViewToHistory = (newView) => {
-    console.log(newView);
-    console.log([history.slice(0, historyPointer + 1), newView]);
     const newHistory = history.slice(0, historyPointer + 1);
     newHistory.push(newView);
     setHistory(newHistory);
     setHistoryPointer(historyPointer + 1);
     setHistorySize(historyPointer + 1);
-    console.log({ history, historySize, historyPointer });
   };
 
   const getPrecedingView = () => {
