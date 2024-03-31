@@ -16,4 +16,15 @@
 
 .hanja-hover-box {
   position: fixed;
+  background-color: white;
+}
+
+.meaning-reading-section {
+  background-color: blue;
+  color: red;
+}
+
+.korean-word-section {
+  background-color: orange;
+  color: purple;
 }

@@ -19,11 +19,38 @@ const HanjaHoverBox = ({ character }) => {
       });
   }, [character]);
 
-  return <div className="hanja-hover-box">{"qq"};</div>;
+  return (
+    <div className="hanja-hover-box">
+      <div className="meaning-reading-section">
+        <span>
+          {character}
+          {}
+          {hoverBoxData["meaning_reading"]}
+        </span>
+      </div>
+      <KoreanWordSection hoverBoxData={hoverBoxData} />
+    </div>
+  );
 };
 
 HanjaHoverBox.propTypes = {
   character: PropTypes.string.isRequired,
+};
+
+/* highlighting hanja char that is same would be maybe nice touch; can also do in hanja results
+when paginatedresults are shown */
+const KoreanWordSection = (hoverBoxData) => {
+  return (
+    <div className="korean-word-section">
+      {hoverBoxData["retrieved_words"] > 0 ? (
+        hoverBoxData["words"].map((wordData, id) => (
+          <div key={id}>{wordData["kw_origin"]}</div>
+        ))
+      ) : (
+        <div>연관단어가 없습니다.</div>
+      )}
+    </div>
+  );
 };
 
 export default HanjaHoverBox;
