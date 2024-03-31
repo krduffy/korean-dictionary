@@ -3,27 +3,28 @@ import { EntireHistoryContext } from "../Panel.jsx";
 import "./styles/view-history-navigator-styles.css";
 
 const ViewHistoryNavigator = () => {
-  const pointer = useContext(EntireHistoryContext)["pointer"];
-  const setPointer = useContext(EntireHistoryContext)["setPointer"];
-  const historyTop = useContext(EntireHistoryContext)["historyTop"];
+  const historyPointer = useContext(EntireHistoryContext)["historyPointer"];
+  const setHistoryhistoryPointer =
+    useContext(EntireHistoryContext)["setHistoryhistoryPointer"];
+  const historySize = useContext(EntireHistoryContext)["historySize"];
 
   const canMoveBack = () => {
-    return pointer - 1 >= 0;
+    return historyPointer - 1 >= 0;
   };
 
   const canMoveForward = () => {
-    return pointer + 1 <= historyTop;
+    return historyPointer + 1 <= historySize;
   };
 
   const back = () => {
     if (canMoveBack()) {
-      setPointer(pointer - 1);
+      setHistoryhistoryPointer(historyPointer - 1);
     }
   };
 
   const forward = () => {
     if (canMoveForward()) {
-      setPointer(pointer + 1);
+      setHistoryhistoryPointer(historyPointer + 1);
     }
   };
 

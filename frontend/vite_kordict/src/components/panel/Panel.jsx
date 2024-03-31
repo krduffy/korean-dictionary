@@ -45,12 +45,12 @@ const Panel = () => {
     [{"view: "homepage}, {"view": "search_korean", "value": "가다"}, ...] for example
    */
   const [history, setHistory] = useState([{ view: "homepage" }]);
-  /* historyTop is the logical size of history */
-  const [historyTop, setHistoryTop] = useState(0);
+  /* historySize is the logical size of history */
+  const [historySize, setHistorySize] = useState(0);
   /*
-   * Pointer is the index of the current view in history.
-   * If history is composed of views v0, v1, v2, with pointer set at v2, click back will move
-   * pointer to v1.
+   * historyPointer is the index of the current view in history.
+   * If history is composed of views v0, v1, v2, with historyPointer set at v2, click back will move
+   * historyPointer to v1.
    *
    *   v0   v1   v2
    *        ^
@@ -62,7 +62,7 @@ const Panel = () => {
    *             ^
    *            ptr
    */
-  const [pointer, setPointer] = useState(0);
+  const [historyPointer, setHistoryhistoryPointer] = useState(0);
 
   /* What to populate the search bar with when a state from history is restored; purely aesthetic */
   const [searchInitialState, setSearchInitialState] = useState({
@@ -91,7 +91,7 @@ const Panel = () => {
     1. fixed_header/SearchBar
     2. paginated_results/PaginatedResults (-> KoreanResult and HanjaResult)
 
-    setPointer is only called in this Panel component and in fixed_header/ViewHistoryNavigator
+    setHistoryhistoryPointer is only called in this Panel component and in fixed_header/ViewHistoryNavigator
 
     *There is a difference between changing these two things that correspond to two
     entrypoints into the useEffects!*
@@ -101,7 +101,7 @@ const Panel = () => {
     that it is checked whether there is an actual change in the history. If there is, the 
     callbacks start.
 
-    Changing pointer is an uncertain change in view and is a "shortcut" to the end of the
+    Changing historyPointer is an uncertain change in view and is a "shortcut" to the end of the
     callbacks. Because it is only called by ViewHistoryNavigator and ViewHistoryNavigator
     cannot change history, there is no need to check and update it. However,  
     
@@ -114,7 +114,7 @@ const Panel = () => {
   useEffect(() => {
     /* Check that the user hasn't just paged back and forth from the same view
        before updating anything */
-    if (!viewsIdentical(currentView, history[pointer])) {
+    if (!viewsIdentical(currentView, history[historyPointer])) {
       setHistoryNeedsUpdating(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,20 +123,26 @@ const Panel = () => {
   /* History needs updating whenever a brand new view is loaded (as opposed to reloading a previous one) */
   useEffect(() => {
     if (historyNeedsUpdating) {
-      if (pointer == 0 && viewsIdentical(currentView, { view: "homepage" })) {
+      if (
+        historyPointer == 0 &&
+        viewsIdentical(currentView, { view: "homepage" })
+      ) {
         //do nothing; just mounted and this is a false alarm
-      } else if (pointer + 1 == historyTop) {
+      } else if (historyPointer + 1 == historySize) {
         /*Need to force newHistory to be a new size even if the history is technically
           the same size; this would happen if you make several searches and then go back
-          once and then make a new search. (ie pointer + 1 == historyTop) Only one view 
+          once and then make a new search. (ie historyPointer + 1 == historySize) Only one view 
           would normally be overwritten, but this does not lead to a different address for 
           history, meaning the next use effect would not be triggered and the history would 
           still include what should have been overwritten. */
-        const newHistory = structuredClone(history).slice(0, pointer + 1);
+        const newHistory = structuredClone(history).slice(
+          0,
+          historyPointer + 1,
+        );
         newHistory.push(currentView);
         setHistory(newHistory);
       } else {
-        setHistoryTop(pointer + 1);
+        setHistorySize(historyPointer + 1);
       }
       setHistoryNeedsUpdating(false);
     }
@@ -147,20 +153,20 @@ const Panel = () => {
 
   useEffect(() => {
     /* Prevent trigger on mount by checking > 0 */
-    if (historyTop > 0) {
-      const newHistory = history.slice(0, pointer + 1);
+    if (historySize > 0) {
+      const newHistory = history.slice(0, historyPointer + 1);
       newHistory.push(currentView);
 
       setHistory(newHistory);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [historyTop]);
+  }, [historySize]);
 
   /* THEN */
 
-  /* Finally set pointer so next update functions correctly */
+  /* Finally set historyPointer so next update functions correctly */
   useEffect(() => {
-    setPointer(historyTop);
+    setHistoryhistoryPointer(historySize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history]);
 
@@ -168,22 +174,22 @@ const Panel = () => {
 
   useEffect(() => {
     /* unnecessary if from the callbacks above but here for when ViewHistoryNavigator
-         calls setPointer */
-    setCurrentView(history[pointer]);
+         calls setHistoryhistoryPointer */
+    setCurrentView(history[historyPointer]);
 
-    if (history[pointer]["view"] === "detail_korean") {
+    if (history[historyPointer]["view"] === "detail_korean") {
       setSearchInitialState({
-        boxContent: history[pointer]["detail_korean_word"],
-        dictionary: dictionaryFromView(history[pointer]["view"]),
+        boxContent: history[historyPointer]["detail_korean_word"],
+        dictionary: dictionaryFromView(history[historyPointer]["view"]),
       });
-    } else if (history[pointer]["view"] != "homepage") {
+    } else if (history[historyPointer]["view"] != "homepage") {
       setSearchInitialState({
-        boxContent: history[pointer]["value"],
-        dictionary: dictionaryFromView(history[pointer]["view"]),
+        boxContent: history[historyPointer]["value"],
+        dictionary: dictionaryFromView(history[historyPointer]["view"]),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pointer]);
+  }, [historyPointer]);
 
   return (
     <ViewContext.Provider
@@ -194,10 +200,10 @@ const Panel = () => {
     >
       <EntireHistoryContext.Provider
         value={{
-          pointer: pointer,
-          setPointer: setPointer,
+          historyPointer: historyPointer,
+          setHistoryhistoryPointer: setHistoryhistoryPointer,
           history: history,
-          historyTop: historyTop,
+          historySize: historySize,
           searchInitialState: searchInitialState,
         }}
       >
