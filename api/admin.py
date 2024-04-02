@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
-from . models import KoreanWord, Sense, HanjaCharacter
+from .dictionary_models import KoreanWord, HanjaCharacter
+from .user_models import User
 
 admin.site.register(KoreanWord)
-admin.site.register(Sense)
 admin.site.register(HanjaCharacter)
+admin.site.register(User)

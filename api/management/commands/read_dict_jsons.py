@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError, CommandParser, no_translations
-from ...models import KoreanWord, Sense
+from ...dictionary_models import KoreanWord, Sense
 import os
 import django
 import json
@@ -14,7 +14,7 @@ class Command(BaseCommand):
   @no_translations
   def handle(self, *args, **kwargs):
     dict_dir = "api\\management\\dict_files\\우리말샘"
-    json_files: [str] = []
+    json_files = []
 
     file = kwargs['fname']
     if not file:

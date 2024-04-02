@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError, CommandParser, no_translations
-from ...models import HanjaCharacter, KoreanWord
+from ...dictionary_models import HanjaCharacter, KoreanWord
 import django
 
 django.setup()

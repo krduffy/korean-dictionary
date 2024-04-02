@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from . models import KoreanWord, Sense, HanjaCharacter
+from .dictionary_models import KoreanWord, Sense, HanjaCharacter
 
 class KoreanWordSerializer(serializers.ModelSerializer):
   kw_target_code = serializers.IntegerField(source='target_code', default = None)
