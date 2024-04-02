@@ -7,10 +7,6 @@ export function useHistoryManager(initialView) {
    */
   const [history, setHistory] = useState([initialView]);
   /*
-   * historySize is the logical size of history
-   */
-  const [historySize, setHistorySize] = useState(0);
-  /*
    * historyPointer is the index of the current view in history.
    * If history is composed of views v0, v1, v2, with historyPointer set at v2, click back will move
    * historyPointer to v1.
@@ -32,7 +28,6 @@ export function useHistoryManager(initialView) {
     newHistory.push(newView);
     setHistory(newHistory);
     setHistoryPointer(historyPointer + 1);
-    setHistorySize(historyPointer + 1);
   };
 
   const getPrecedingView = () => {
@@ -52,7 +47,7 @@ export function useHistoryManager(initialView) {
   };
 
   const canNavigateForward = () => {
-    return historyPointer + 1 <= historySize;
+    return historyPointer + 1 <= history.length - 1;
   };
 
   return {

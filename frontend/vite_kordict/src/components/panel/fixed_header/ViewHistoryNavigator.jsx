@@ -17,7 +17,9 @@ const ViewHistoryNavigator = ({
       <button
         className={canNavigateBack() ? "enabled-button" : "disabled-button"}
         onClick={() => {
-          updateViewWithoutPushingToHistory(getPrecedingView());
+          if (canNavigateBack()) {
+            updateViewWithoutPushingToHistory(getPrecedingView());
+          }
         }}
       >
         ←
@@ -25,7 +27,9 @@ const ViewHistoryNavigator = ({
       <button
         className={canNavigateForward() ? "enabled-button" : "disabled-button"}
         onClick={() => {
-          updateViewWithoutPushingToHistory(getFollowingView());
+          if (canNavigateForward()) {
+            updateViewWithoutPushingToHistory(getFollowingView());
+          }
         }}
       >
         ⇨

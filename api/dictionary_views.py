@@ -133,6 +133,20 @@ class HanjaDetail(generics.RetrieveAPIView):
   queryset = HanjaCharacter.objects.all()
   serializer_class = HanjaCharacterSerializer
 
+class HanjaExamples(generics.ListAPIView):
+  queryset = KoreanWord.objects.all()
+  serializer_class = KoreanSerializerForHanja
+  pagination_class = PaginationClass
+
+  def get_queryset(self):
+    character = self.request.query_params.get('character')
+
+    queryset = KoreanWord.objects.all()
+    queryset = queryset.filter(origin__contains = character)
+    queryset = queryset.order_by(Length("word").asc())
+    # TODO have user as query param
+    return queryset
+
 # Returns the data shown when hovering over a Hanja character.  
 class HanjaPopup(APIView):
 

@@ -40,16 +40,7 @@ const SearchBar = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (boxContent.match(/^[\u4E00-\u9FFF]$/g))
-      updateViewAndPushToHistory({
-        view: "detail_hanja",
-        value: boxContent,
-        searchBarInitialState: {
-          boxContent: boxContent,
-          dictionary: "hanja",
-        },
-      });
-    else if (dictionary === "korean")
+    if (dictionary === "korean")
       updateViewAndPushToHistory({
         view: "search_korean",
         value: boxContent,
@@ -58,7 +49,18 @@ const SearchBar = () => {
           dictionary: "korean",
         },
       });
-    else if (dictionary === "hanja")
+    else if (dictionary === "hanja") {
+      // if a single character then just render the detail view for that instead
+      // of a single search result that the user would then need to click on
+      if (boxContent.match(/^[\u4E00-\u9FFF]$/g))
+        updateViewAndPushToHistory({
+          view: "detail_hanja",
+          value: boxContent,
+          searchBarInitialState: {
+            boxContent: boxContent,
+            dictionary: "hanja",
+          },
+        });
       updateViewAndPushToHistory({
         view: "search_hanja",
         value: boxContent,
@@ -67,6 +69,7 @@ const SearchBar = () => {
           dictionary: "hanja",
         },
       });
+    }
   };
 
   return (
