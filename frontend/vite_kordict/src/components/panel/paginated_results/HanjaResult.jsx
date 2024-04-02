@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { ViewContext } from "../Panel";
-import "../universal-styles.css";
+import "./styles/hanja-result-styles.css";
 
 const HanjaResult = ({ result }) => {
   const viewContext = useContext(ViewContext);
@@ -18,9 +18,9 @@ const HanjaResult = ({ result }) => {
   };
 
   return (
-    <div>
+    <div className="hanja-result-container">
       <span
-        className="clickable-result"
+        className="hanja-clickable-result"
         onClick={() => {
           viewHanjaDetail(result["character"]);
         }}

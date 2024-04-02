@@ -58,28 +58,47 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm, searchType]);
 
+  const typeAndResultsMatch = () => {
+    const firstResult = searchResults["results"][0];
+
+    /* test for existence of a field only present for specific search type */
+    if (searchType === "search_korean") {
+      return firstResult.kw_senses != null;
+    } else if (searchType === "search_hanja") {
+      return firstResult.meaning_reading != null;
+    } else if (searchType === "search_hanja_examples") {
+      return firstResult.kw_first_definition != null;
+    }
+  };
+
   return (
     <>
-      {loading || !searchResults || !searchResults.results ? (
+      {loading ||
+      !searchResults ||
+      !searchResults.results ||
+      !typeAndResultsMatch() ? (
         <LoadingMessage />
       ) : (
         <div className="paginated-results">
           <span>결과 {searchResults["count"]}건</span>
-          <span>{searchResults.results == null}</span>
-          {searchType === "search_korean" &&
-            searchResults["results"].map((result) => (
-              <KoreanResult key={result.kw_target_code} result={result} />
-            ))}
 
-          {searchType === "search_hanja" &&
-            searchResults.map((result) => (
-              <HanjaResult key={result.character} result={result} />
-            ))}
-
-          {searchType === "search_hanja_examples" &&
-            searchResults.map((result) => (
-              <HanjaExampleResult key={result.kw_target_code} result={result} />
-            ))}
+          {searchResults["results"] &&
+            searchResults["results"].map((result) => {
+              if (searchType === "search_korean") {
+                return (
+                  <KoreanResult key={result.kw_target_code} result={result} />
+                );
+              } else if (searchType === "search_hanja") {
+                return <HanjaResult key={result.character} result={result} />;
+              } else if (searchType === "search_hanja_examples") {
+                return (
+                  <HanjaExampleResult
+                    key={result.kw_target_code}
+                    result={result}
+                  />
+                );
+              }
+            })}
 
           {/* 10 is page size */}
           {searchResults["count"] > 10 && (
