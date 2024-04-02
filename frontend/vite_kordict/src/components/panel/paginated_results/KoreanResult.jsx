@@ -31,7 +31,7 @@ const KoreanResult = ({ result }) => {
 
         {"   "}
 
-        <StringWithHanja string={result.kw_origin} />
+        {result.kw_origin && <StringWithHanja string={result.kw_origin} />}
       </div>
 
       <ul className="listed_senses">

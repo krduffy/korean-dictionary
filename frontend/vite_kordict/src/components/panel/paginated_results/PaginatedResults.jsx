@@ -4,6 +4,8 @@ import KoreanResult from "./KoreanResult.jsx";
 import HanjaResult from "./HanjaResult.jsx";
 import HanjaExampleResult from "./HanjaExampleResult.jsx";
 import PageChanger from "./PageChanger.jsx";
+import { useAPIFetcher } from "../useAPIFetcher.js";
+import { LoadingMessage } from "../../LoadingMessage.jsx";
 
 const PaginatedResults = ({ searchType, searchTerm }) => {
   /* Below are the result types and required keys in formParms and functions (both dictionaries)
@@ -15,32 +17,10 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
   */
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalResults, setTotalResults] = useState(0);
-  const [totalPages, setTotalPages] = useState(1);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState({});
+  const { apiFetch, loading, error } = useAPIFetcher();
 
-  const resultsAreValid = () => {
-    if (searchType === "search_korean")
-      return (
-        searchResults &&
-        searchResults.length > 0 &&
-        searchResults[0].kw_target_code
-      );
-    else if (searchType === "search_hanja")
-      return (
-        searchResults && searchResults.length > 0 && searchResults[0].character
-      );
-    else if (searchType == "search_hanja_examples")
-      return (
-        searchResults &&
-        searchResults.length > 0 &&
-        searchResults[0].kw_first_definition
-      );
-    /* Checking that >= 1 result and first result has a field no other result type has */
-    return false;
-  };
-
-  const fetchFromApi = () => {
+  useEffect(() => {
     let apiUrl;
 
     if (searchType === "search_korean") {
@@ -60,38 +40,20 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
         `character=${searchTerm}`;
     }
 
-    fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        setSearchResults(data.results);
-        setTotalResults(data.count);
-        setTotalPages(Math.ceil(data.count / 10));
-      })
-      .catch((error) => {
-        console.error("Error while fetching results: ", error);
-      });
-  };
-
-  useEffect(() => {
-    if (currentPage != 1) {
-      setCurrentPage(1);
-    } else fetchFromApi();
+    apiFetch(apiUrl, setSearchResults);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchType, searchTerm]);
-
-  useEffect(() => {
-    fetchFromApi();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage]);
+  }, [searchType, searchTerm, currentPage]);
 
   return (
     <>
-      {resultsAreValid() && (
+      {loading || !searchResults || !searchResults.results ? (
+        <LoadingMessage />
+      ) : (
         <div className="paginated-results">
-          <span>결과 {totalResults}건</span>
-
+          <span>결과 {searchResults["count"]}건</span>
+          <span>{searchResults.results == null}</span>
           {searchType === "search_korean" &&
-            searchResults.map((result) => (
+            searchResults["results"].map((result) => (
               <KoreanResult key={result.kw_target_code} result={result} />
             ))}
 
@@ -108,7 +70,7 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
           {searchType !== "search_korean" && searchResults.length > 0 && (
             <PageChanger
               page={currentPage}
-              numberOfPages={totalPages}
+              numberOfPages={Math.ceil(searchResults["results"] / 10)}
               setPageFunction={setCurrentPage}
             />
           )}
