@@ -18,9 +18,9 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchResults, setSearchResults] = useState({});
-  const { apiFetch, loading, error } = useAPIFetcher();
+  const { apiFetch, loading } = useAPIFetcher();
 
-  useEffect(() => {
+  const updateSearchResults = () => {
     let apiUrl;
 
     if (searchType === "search_korean") {
@@ -41,8 +41,22 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
     }
 
     apiFetch(apiUrl, setSearchResults);
+  };
+
+  useEffect(() => {
+    updateSearchResults();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchType, searchTerm, currentPage]);
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (currentPage != 1) {
+      /* implicitly updates results */
+      setCurrentPage(1);
+    } else {
+      updateSearchResults();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm, searchType]);
 
   return (
     <>
@@ -67,10 +81,11 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
               <HanjaExampleResult key={result.kw_target_code} result={result} />
             ))}
 
-          {searchType !== "search_korean" && searchResults.length > 0 && (
+          {/* 10 is page size */}
+          {searchResults["count"] > 10 && (
             <PageChanger
               page={currentPage}
-              numberOfPages={Math.ceil(searchResults["results"] / 10)}
+              hasNextPage={searchResults["next"] != null}
               setPageFunction={setCurrentPage}
             />
           )}
