@@ -16,6 +16,8 @@ class KoreanWord(models.Model):
 
   is_known = models.BooleanField(default=False)
 
+  created_by_user = models.BooleanField(default = False)
+
   # Implicit foreign keys;
   # can also refer to KoreanWord.senses and KoreanWord.hanja_chars
 
