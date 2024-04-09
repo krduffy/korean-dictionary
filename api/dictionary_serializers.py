@@ -24,7 +24,7 @@ class KoreanWordDetailedSerializer(serializers.ModelSerializer):
   class Meta:
     model = KoreanWord
     fields = ('__all__')
-    read_only_fields = ['__all__']
+    read_only_fields = ['target_code', 'word', 'origin', 'word_type', 'senses']
 
   def get_senses(self, obj):
     senses = obj.senses.all().order_by('order')

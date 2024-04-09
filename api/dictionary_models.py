@@ -14,6 +14,8 @@ class KoreanWord(models.Model):
   # the Unicode values of self.origin. 어휘, 속담, ...
   word_type = models.CharField(max_length = 3)
 
+  is_known = models.BooleanField(default=False)
+
   # Implicit foreign keys;
   # can also refer to KoreanWord.senses and KoreanWord.hanja_chars
 
@@ -60,3 +62,6 @@ class HanjaCharacter(models.Model):
 
   # 이 한자의 훈음. The meaning(s) and reading(s) associated with this character. 
   meaning_reading = models.CharField(max_length = 30) # Longest is for character '閄'
+
+  is_known = models.BooleanField(default=False)
+

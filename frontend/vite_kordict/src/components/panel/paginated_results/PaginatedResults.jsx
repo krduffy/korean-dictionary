@@ -79,37 +79,39 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
       ) : searchResults.count === 0 ? (
         <span>결과가 없습니다.</span>
       ) : (
-        <div className="paginated-results">
-          <span>결과 {searchResults.count}건</span>
+        typeAndResultsMatch() && (
+          <div className="paginated-results">
+            <span>결과 {searchResults.count}건</span>
 
-          {searchResults.results &&
-            searchResults.results.map((result) => {
-              if (searchType === "search_korean") {
-                return (
-                  <KoreanResult key={result.kw_target_code} result={result} />
-                );
-              } else if (searchType === "search_hanja") {
-                return <HanjaResult key={result.character} result={result} />;
-              } else if (searchType === "search_hanja_examples") {
-                return (
-                  <HanjaExampleResult
-                    key={result.kw_target_code}
-                    result={result}
-                  />
-                );
-              }
-              return null; // Added to satisfy JSX requirement
-            })}
+            {searchResults.results &&
+              searchResults.results.map((result) => {
+                if (searchType === "search_korean") {
+                  return (
+                    <KoreanResult key={result.kw_target_code} result={result} />
+                  );
+                } else if (searchType === "search_hanja") {
+                  return <HanjaResult key={result.character} result={result} />;
+                } else if (searchType === "search_hanja_examples") {
+                  return (
+                    <HanjaExampleResult
+                      key={result.kw_target_code}
+                      result={result}
+                    />
+                  );
+                }
+                return null; // Added to satisfy JSX requirement
+              })}
 
-          {/* 10 is page size */}
-          {searchResults.count > 10 && (
-            <PageChanger
-              page={currentPage}
-              hasNextPage={searchResults.next != null}
-              setPageFunction={setCurrentPage}
-            />
-          )}
-        </div>
+            {/* 10 is page size */}
+            {searchResults.count > 10 && (
+              <PageChanger
+                page={currentPage}
+                hasNextPage={searchResults.next != null}
+                setPageFunction={setCurrentPage}
+              />
+            )}
+          </div>
+        )
       )}
     </>
   );
