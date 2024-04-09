@@ -62,6 +62,7 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
     const firstResult = searchResults["results"][0];
 
     /* test for existence of a field only present for specific search type */
+
     if (searchType === "search_korean") {
       return firstResult.kw_senses != null;
     } else if (searchType === "search_hanja") {
@@ -73,17 +74,16 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
 
   return (
     <>
-      {loading ||
-      !searchResults ||
-      !searchResults.results ||
-      !typeAndResultsMatch() ? (
+      {loading || !searchResults || !searchResults.results ? (
         <LoadingMessage />
+      ) : searchResults.count === 0 ? (
+        <span>결과가 없습니다.</span>
       ) : (
         <div className="paginated-results">
-          <span>결과 {searchResults["count"]}건</span>
+          <span>결과 {searchResults.count}건</span>
 
-          {searchResults["results"] &&
-            searchResults["results"].map((result) => {
+          {searchResults.results &&
+            searchResults.results.map((result) => {
               if (searchType === "search_korean") {
                 return (
                   <KoreanResult key={result.kw_target_code} result={result} />
@@ -98,13 +98,14 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
                   />
                 );
               }
+              return null; // Added to satisfy JSX requirement
             })}
 
           {/* 10 is page size */}
-          {searchResults["count"] > 10 && (
+          {searchResults.count > 10 && (
             <PageChanger
               page={currentPage}
-              hasNextPage={searchResults["next"] != null}
+              hasNextPage={searchResults.next != null}
               setPageFunction={setCurrentPage}
             />
           )}
