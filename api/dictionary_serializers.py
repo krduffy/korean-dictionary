@@ -7,10 +7,13 @@ class KoreanWordSerializer(serializers.ModelSerializer):
   kw_origin = serializers.CharField(source='origin', default = None)
   kw_word_type = serializers.CharField(source='word_type', default = None)
   kw_senses = serializers.SerializerMethodField()
-  
+  kw_is_known = serializers.BooleanField(source='is_known')
+  kw_created_by_user = serializers.BooleanField(source='created_by_user')
+
   class Meta:
     model = KoreanWord
-    fields = ['kw_target_code', 'kw_word', 'kw_origin', 'kw_word_type', 'kw_senses']
+    fields = ['kw_target_code', 'kw_word', 'kw_origin', 'kw_word_type', 
+              'kw_senses', 'kw_is_known', 'kw_created_by_user']
     read_only_fields = ['__all__']
 
   def get_kw_senses(self, obj):
@@ -39,11 +42,12 @@ class SimplifiedSenseSerializer(serializers.ModelSerializer):
   s_order = serializers.IntegerField(source='order', default = None)
   s_category = serializers.CharField(source='category', default = None)
   s_pos = serializers.CharField(source='pos', default = None)
+  s_created_by_user = serializers.BooleanField(source='created_by_user')
 
   class Meta:
     model = Sense
     fields = ['s_target_code', 's_definition', 's_type', 's_order', 
-              's_category', 's_pos']
+              's_category', 's_pos', 's_created_by_user']
     read_only_fields = ['__all__']
 
 class SenseSerializer(serializers.ModelSerializer):

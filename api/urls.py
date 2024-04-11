@@ -11,9 +11,9 @@ urlpatterns = [
   path('hanja_popup_view/', HanjaPopup.as_view()),
 
   path('create_word/', CreateWordView.as_view()),
-  path('update_word/', UpdateWordView.as_view()),
+  path('update_word/<pk>', UpdateWordView.as_view()),
   path('create_sense/', CreateSenseView.as_view()),
-  path('update_sense/', UpdateSenseView.as_view()),
+  path('update_sense/<pk>', UpdateSenseView.as_view()),
   path('create_note/', CreateNoteView.as_view()),
-  path('update_note/', UpdateNoteView.as_view()),
+  path('update_note/<pk>', UpdateNoteView.as_view()),
 ]

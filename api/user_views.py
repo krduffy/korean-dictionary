@@ -37,14 +37,11 @@ class CreateSenseView(APIView):
 class UpdateWordView(UpdateAPIView):
   queryset = KoreanWord.objects.all()
   serializer_class = KoreanWordSerializer
-  lookup_field = 'target_code'
 
 class UpdateSenseView(UpdateAPIView):
   queryset = Sense.objects.all()
   serializer_class = SenseSerializer
-  lookup_field = 'target_code'
 
 class UpdateNoteView(UpdateAPIView):
   queryset = UserNote.objects.all()
   serializer_class = UserNoteSerializer
-  lookup_field = 'pk'
