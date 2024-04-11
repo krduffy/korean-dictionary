@@ -12,6 +12,7 @@ urlpatterns = [
 
   path('create_word/', CreateWordView.as_view()),
   path('update_word/<pk>', UpdateWordView.as_view()),
+  path('toggle_word_known/<pk>', ToggleWordKnownView.as_view()),
   path('create_sense/', CreateSenseView.as_view()),
   path('update_sense/<pk>', UpdateSenseView.as_view()),
   path('create_note/', CreateNoteView.as_view()),

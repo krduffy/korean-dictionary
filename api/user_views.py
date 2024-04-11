@@ -38,6 +38,17 @@ class UpdateWordView(UpdateAPIView):
   queryset = KoreanWord.objects.all()
   serializer_class = KoreanWordSerializer
 
+class ToggleWordKnownView(APIView):
+  def put(self, request, pk, format=None):
+    try:
+      korean_word = KoreanWord.objects.get(pk = pk)
+      korean_word.is_known = not korean_word.is_known
+      korean_word.save()
+      serializer = KoreanWordSerializer(korean_word)
+      return Response(serializer.data)
+    except KoreanWord.DoesNotExist:
+      return Response(status=status.HTTP_404_NOT_FOUND)
+
 class UpdateSenseView(UpdateAPIView):
   queryset = Sense.objects.all()
   serializer_class = SenseSerializer
