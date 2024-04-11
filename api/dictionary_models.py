@@ -7,12 +7,12 @@ class KoreanWord(models.Model):
   # This word and its origin.
   # For example, word can be 단어 while origin is 單語
   word = models.CharField(max_length = 100)
-  origin = models.CharField(max_length = 100)
+  origin = models.CharField(max_length = 100, default="")
   
   # Called word_unit in dictionary JSON files.
   # 'word_type' as defined in those files is both rarely useful and easily calculable using
   # the Unicode values of self.origin. 어휘, 속담, ...
-  word_type = models.CharField(max_length = 3)
+  word_type = models.CharField(max_length = 3, default="")
 
   is_known = models.BooleanField(default=False)
 
@@ -23,6 +23,14 @@ class KoreanWord(models.Model):
 
   def __str__(self):
     return f"Word {self.word}, tc {self.target_code}"
+  
+  def save(self, *args, **kwargs):
+    # Important for when user defines their own words
+    if not self.pk:
+      self.target_code = KoreanWord.objects.aggregate(
+        lowest_value=models.Min('target_code'))['lowest_value'] - 1
+      self.created_by_user = True
+    super().save(*args, **kwargs)
 
 # A sense is a "meaning" associated with a word.
 # Multiple senses can refer to the same word.
@@ -38,16 +46,16 @@ class Sense(models.Model):
   
   # The kind of meaning that this sense's definition falls under.
   # Examples include dialectal, 
-  type = models.CharField(max_length = 3)
+  type = models.CharField(max_length = 3, default="")
   
   # The placement of this sense among all of the senses that refer to this sense's referent.
   order = models.SmallIntegerField(blank = False)
 
   # The category (sports, science, ...) that this sense is related to.
-  category = models.CharField(max_length = 6) # longest is six, tie including '고유명 일반'
+  category = models.CharField(max_length = 6, default="") # longest is six, tie including '고유명 일반'
   
   # Part of speech is optional; not stored as JSON to speed up queries
-  pos = models.CharField(max_length = 6)
+  pos = models.CharField(max_length = 6, default="")
   
   # JSONB fields for optional additional data.
   # Eight possible contained fields below
@@ -57,6 +65,16 @@ class Sense(models.Model):
   # patterns, relations, examples, norms, grammar, history, proverb, region
   # Can view full tree in korean-dictionary/api/management/dict_files/json_structure.txt
 
+  created_by_user = models.BooleanField(default = False)
+
+  def save(self, *args, **kwargs):
+    # Important for when user defines their own senses
+    print("saving a sense?")
+    if not self.pk:
+      self.target_code = Sense.objects.aggregate(
+        lowest_value=models.Min('target_code'))['lowest_value'] - 1
+      self.created_by_user = True
+    super().save(*args, **kwargs)
 
 class HanjaCharacter(models.Model):
   # This character. 金, 韓, 朴, 安 are examples of what might be in this field.

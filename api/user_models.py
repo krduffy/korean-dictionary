@@ -3,7 +3,7 @@ from .dictionary_models import KoreanWord
 
 class UserNote(models.Model):
   id = models.BigAutoField(primary_key=True)
-  word_ref = models.ForeignKey(KoreanWord, on_delete=models.CASCADE)
+  word_ref = models.ForeignKey(KoreanWord, on_delete=models.CASCADE, related_name="user_notes")
   order = models.SmallIntegerField(blank = False)
   note_text = models.CharField(max_length = 1000)
 

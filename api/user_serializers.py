@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .user_models import UserNote
-from .dictionary_models import KoreanWord
+from .dictionary_models import KoreanWord, Sense
 from .dictionary_serializers import KoreanWordDetailedSerializer
 
 class KoreanWordField(serializers.PrimaryKeyRelatedField):
@@ -14,17 +14,38 @@ class KoreanWordField(serializers.PrimaryKeyRelatedField):
         return None
 
 class UserWordSerializer(serializers.Serializer):
-  target_code = serializers.IntegerField()
   word = serializers.CharField(max_length = 100)
   origin = serializers.CharField(max_length = 100)
   word_type = serializers.CharField(max_length = 3)
 
   class Meta:
     model = KoreanWord
-    fields = ['target_code', 'word', 'origin', 'word_type']
+    fields = ['word', 'origin', 'word_type']
 
   def create(self, validated_data):
     return KoreanWord.objects.create(**validated_data)
+
+class UserSenseSerializer(serializers.Serializer):
+  referent = KoreanWordField(queryset = KoreanWord.objects.all())
+  definition = serializers.CharField()
+  type = serializers.CharField()
+  order = serializers.IntegerField()
+  category = serializers.CharField()
+  pos = serializers.CharField()
+  additional_info = serializers.JSONField()
+
+  class Meta:
+    model = Sense
+    fields = ['referent', 'definition', 'type', 'order', 'category', 'pos', 'additional_info']
+
+  def create(self, validated_data):
+    return Sense.objects.create(**validated_data)
+  
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    for field_name in ['type', 'category', 'pos', 'additional_info']:
+      self.fields[field_name].required = False
+
 
 class UserNoteSerializer(serializers.Serializer):
   word_ref = KoreanWordField(queryset = KoreanWord.objects.all())
