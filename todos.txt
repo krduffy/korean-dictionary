@@ -9,8 +9,11 @@ database
 maybe get better hanja 훈음
 get rid of html tags in definitions
 get rid of ^ in word defs, closing parenthentical in hanja
-login, users ~uncomment and refine; will be use context for App 
-  then => add know/study buttons for results
+
+fix update views for user defined words/ senses etc.
+change the display of the results to have buttons for know/add to list
+and also make it so there are forms in the acutal dictionary to use the add views
++ change the way that source is displayed so that it does not just say 출처 우리말샘 no matter what
 
 
 
