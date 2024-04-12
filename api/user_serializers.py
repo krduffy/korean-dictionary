@@ -24,6 +24,13 @@ class UserWordSerializer(serializers.Serializer):
 
   def create(self, validated_data):
     return KoreanWord.objects.create(**validated_data)
+  
+  def update(self, instance, validated_data):
+    instance.word = validated_data.get('word', instance.word)
+    instance.origin = validated_data.get('origin', instance.origin)
+    instance.word_type = validated_data.get('word_type', instance.word_type)
+    instance.save()
+    return instance
 
 class UserSenseSerializer(serializers.Serializer):
   referent = KoreanWordField(queryset = KoreanWord.objects.all())

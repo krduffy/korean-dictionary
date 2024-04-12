@@ -47,7 +47,8 @@ class KoreanWordList(generics.ListAPIView):
     regized_search_term += '$'
 
     queryset = queryset.filter(word__iregex = regized_search_term)
-    return queryset.order_by(Length("word").asc())
+    queryset = queryset.order_by(Length("word").asc())
+    return queryset.order_by("-is_known")
   
 # Returns all data associated with a KoreanWord given a primary key.
 class KoreanWordDetail(generics.RetrieveAPIView):

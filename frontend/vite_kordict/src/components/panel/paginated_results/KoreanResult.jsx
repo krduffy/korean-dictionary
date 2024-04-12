@@ -58,7 +58,7 @@ const KoreanResult = ({ result }) => {
         ))}
       </ul>
 
-      <p>출처: 우리말샘</p>
+      <p>{result.kw_created_by_user ? "내가 추가한 단어" : "출처: 우리말샘"}</p>
     </div>
   );
 };
@@ -77,6 +77,7 @@ KoreanResult.propTypes = {
       }),
     ).isRequired,
     kw_is_known: PropTypes.bool.isRequired,
+    kw_created_by_user: PropTypes.bool.isRequired,
   }).isRequired,
 };
 
