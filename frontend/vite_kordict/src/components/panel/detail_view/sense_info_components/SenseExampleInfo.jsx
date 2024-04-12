@@ -2,6 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./styles/korean-sense-styles.css";
 
+const SenseExampleInfo = ({ exampleInfo }) => {
+  return (
+    <ul className="sense-example-list">
+      {exampleInfo.map((ex, id) => (
+        <li key={id} className="sense-example-list-item">
+          <SenseExample exampleData={ex} />
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+SenseExampleInfo.propTypes = {
+  exampleInfo: PropTypes.arrayOf(
+    PropTypes.shape({
+      example: PropTypes.string.isRequired,
+      source: PropTypes.string,
+    }),
+  ).isRequired,
+};
+
 const SenseExample = ({ exampleData }) => {
   return (
     <div className="example-container">

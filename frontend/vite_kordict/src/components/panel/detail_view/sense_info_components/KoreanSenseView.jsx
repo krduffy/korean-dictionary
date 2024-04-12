@@ -1,5 +1,6 @@
 import React from "react";
-import SenseExample from "./SenseExample.jsx";
+import SenseExampleInfo from "./SenseExampleInfo.jsx";
+import SenseProverbInfo from "./SenseProverbInfo.jsx";
 import StringWithHanja from "../../StringWithHanja.jsx";
 import "./styles/korean-sense-styles.css";
 
@@ -19,17 +20,21 @@ const KoreanSenseView = ({ senseData }) => {
       </div>
 
       {/* is a drop down menu because there can be a lot of data*/}
-      <div className="sense-additional-data">
-        {senseData["additional_info"]["example_info"] && (
-          <ul className="sense-example-list">
-            {senseData["additional_info"]["example_info"].map((ex, id) => (
-              <li key={id} className="sense-example-list-item">
-                <SenseExample exampleData={ex} />
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      {senseData["additional_info"] && (
+        <div className="sense-additional-data">
+          {senseData["additional_info"]["example_info"] && (
+            <SenseExampleInfo
+              exampleInfo={senseData["additional_info"]["example_info"]}
+            />
+          )}
+
+          {senseData["additional_info"]["proverb_info"] && (
+            <SenseProverbInfo
+              proverbInfo={senseData["additional_info"]["proverb_info"]}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };
@@ -46,11 +51,8 @@ KoreanSenseView.propTypes = {
       region_info: PropTypes.shape({
         region: PropTypes.string,
       }),
-      example_info: PropTypes.arrayOf(
-        PropTypes.shape({
-          // Define the structure of example_info object if needed
-        }),
-      ),
+      example_info: PropTypes.arrayOf(PropTypes.shape({})),
+      proverb_info: PropTypes.arrayOf(PropTypes.shape({})),
     }),
   }).isRequired,
 };

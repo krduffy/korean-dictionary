@@ -61,7 +61,7 @@ const NewWordForm = () => {
         <button type="submit">추가</button>
       </form>
       <div>
-        {successful && <span>가가</span>}
+        {successful && <span>추가되었습니다.</span>}
         {error && <span>오류: {error}</span>}
       </div>
     </>
