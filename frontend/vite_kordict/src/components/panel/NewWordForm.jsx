@@ -23,34 +23,40 @@ const NewWordForm = () => {
 
   return (
     <>
-      {" "}
+      <div>새 단어 추가</div>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="word">word</label>
-        <input
-          type="text"
-          name="word"
-          onChange={(e) => {
-            updateFormDataField("word", e.target.value);
-          }}
-        ></input>
+        <div>
+          <label htmlFor="word">word</label>
+          <input
+            type="text"
+            name="word"
+            onChange={(e) => {
+              updateFormDataField("word", e.target.value);
+            }}
+          ></input>
+        </div>
 
-        <label htmlFor="origin">origin</label>
-        <input
-          type="text"
-          name="origin"
-          onChange={(e) => {
-            updateFormDataField("origin", e.target.value);
-          }}
-        ></input>
+        <div>
+          <label htmlFor="origin">origin</label>
+          <input
+            type="text"
+            name="origin"
+            onChange={(e) => {
+              updateFormDataField("origin", e.target.value);
+            }}
+          ></input>
+        </div>
 
-        <label htmlFor="word_type">word_type</label>
-        <input
-          type="text"
-          name="word_type"
-          onChange={(e) => {
-            updateFormDataField("word_type", e.target.value);
-          }}
-        ></input>
+        <div>
+          <label htmlFor="word_type">word_type</label>
+          <input
+            type="text"
+            name="word_type"
+            onChange={(e) => {
+              updateFormDataField("word_type", e.target.value);
+            }}
+          ></input>
+        </div>
 
         <button type="submit">추가</button>
       </form>

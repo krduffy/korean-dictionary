@@ -6,6 +6,7 @@ import PaginatedResults from "./paginated_results/PaginatedResults.jsx";
 import KoreanWordView from "./detail_view/KoreanWordView.jsx";
 import HanjaCharView from "./detail_view/HanjaCharView.jsx";
 import { useHistoryManager } from "./useHistoryManager.js";
+import NewWordForm from "./NewWordForm.jsx";
 
 export const ViewContext = createContext(null);
 
@@ -81,6 +82,12 @@ const Panel = () => {
       {currentView["view"] === "homepage" && (
         <div>
           <HomePage />
+        </div>
+      )}
+
+      {currentView["view"] === "add_word" && (
+        <div>
+          <NewWordForm />
         </div>
       )}
     </ViewContext.Provider>

@@ -6,7 +6,6 @@ import HanjaExampleResult from "./HanjaExampleResult.jsx";
 import PageChanger from "./PageChanger.jsx";
 import { useAPIFetcher } from "../useAPIFetcher.js";
 import { LoadingMessage } from "../../LoadingMessage.jsx";
-import NewWordForm from "../NewWordForm.jsx";
 
 const PaginatedResults = ({ searchType, searchTerm }) => {
   /* Below are the result types and required keys in formParms and functions (both dictionaries)
@@ -75,7 +74,6 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
 
   return (
     <>
-      <NewWordForm />
       {loading || !searchResults || !searchResults.results ? (
         <LoadingMessage />
       ) : searchResults.count === 0 ? (
