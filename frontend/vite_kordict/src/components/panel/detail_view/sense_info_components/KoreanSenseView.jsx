@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SenseExampleInfo from "./SenseExampleInfo.jsx";
 import SenseProverbInfo from "./SenseProverbInfo.jsx";
 import StringWithHanja from "../../StringWithHanja.jsx";
@@ -7,6 +7,8 @@ import "./styles/korean-sense-styles.css";
 import PropTypes from "prop-types";
 
 const KoreanSenseView = ({ senseData }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   return (
     <div>
       <div className="sense-main-data">
@@ -20,9 +22,20 @@ const KoreanSenseView = ({ senseData }) => {
       </div>
 
       {/* is a drop down menu because there can be a lot of data*/}
-      {senseData["additional_info"] && (
+      {Object.keys(senseData["additional_info"]).length > 0 && (
         <div className="sense-additional-data">
-          <div className="retract-line"></div>
+          <div className="expansion-controller">
+            <div
+              className="retract-line"
+              onClick={() => setIsExpanded(false)}
+            ></div>
+            <div
+              className="expand-button"
+              onClick={() => setIsExpanded(!isExpanded)}
+            >
+              ▽
+            </div>
+          </div>
 
           <div className="additional-data-content">
             {senseData["additional_info"]["example_info"] && (
