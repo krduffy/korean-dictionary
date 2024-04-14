@@ -7,7 +7,7 @@ const SenseExampleInfo = ({ exampleInfo }) => {
     <ul className="sense-example-list">
       {exampleInfo.map((ex, id) => (
         <li key={id} className="sense-example-list-item">
-          <SenseExample exampleData={ex} />
+          <SenseExample example={ex} />
         </li>
       ))}
     </ul>
@@ -23,20 +23,21 @@ SenseExampleInfo.propTypes = {
   ).isRequired,
 };
 
-const SenseExample = ({ exampleData }) => {
+const SenseExample = ({ example }) => {
   return (
     <div className="example-container">
-      <ExampleTextWithHighlighting string={exampleData["example"]} />
+      {console.log(example)}
+      <ExampleTextWithHighlighting string={example["example"]} />
 
-      {exampleData["source"] && (
-        <div className="example-source">출처: {exampleData["source"]}</div>
+      {example["source"] && (
+        <div className="example-source">출처: {example["source"]}</div>
       )}
     </div>
   );
 };
 
 SenseExample.propTypes = {
-  exampleData: PropTypes.shape({
+  example: PropTypes.shape({
     example: PropTypes.string.isRequired,
     source: PropTypes.string, // Source is optional
   }).isRequired,
@@ -65,4 +66,4 @@ ExampleTextWithHighlighting.propTypes = {
   string: PropTypes.string.isRequired,
 };
 
-export default SenseExample;
+export default SenseExampleInfo;

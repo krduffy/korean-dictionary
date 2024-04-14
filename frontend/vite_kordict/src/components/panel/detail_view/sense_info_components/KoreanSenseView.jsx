@@ -22,17 +22,20 @@ const KoreanSenseView = ({ senseData }) => {
       {/* is a drop down menu because there can be a lot of data*/}
       {senseData["additional_info"] && (
         <div className="sense-additional-data">
-          {senseData["additional_info"]["example_info"] && (
-            <SenseExampleInfo
-              exampleInfo={senseData["additional_info"]["example_info"]}
-            />
-          )}
+          <div className="retract-line"></div>
 
-          {senseData["additional_info"]["proverb_info"] && (
-            <SenseProverbInfo
-              proverbInfo={senseData["additional_info"]["proverb_info"]}
-            />
-          )}
+          <div className="additional-data-content">
+            {senseData["additional_info"]["example_info"] && (
+              <SenseExampleInfo
+                exampleInfo={senseData["additional_info"]["example_info"]}
+              />
+            )}
+            {senseData["additional_info"]["proverb_info"] && (
+              <SenseProverbInfo
+                proverbInfo={senseData["additional_info"]["proverb_info"]}
+              />
+            )}
+          </div>
         </div>
       )}
     </div>

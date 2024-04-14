@@ -2,14 +2,17 @@
   text-shadow: 0px 0px 8px #ffffff;
 }
 
+.retract-line {
+  width: 2px;
+  background-color: white;
+}
+
 .sense-additional-data {
   padding-top: 3px;
   margin-top: 3px;
+  display: flex;
 }
 
-.sense-example-list {
-  padding-left: 3%;
-  padding-bottom: 5px;
-  margin-top: 1px;
-  padding-top: 0px;
+.additional-data-content {
+  flex: none;
 }
