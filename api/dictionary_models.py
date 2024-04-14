@@ -69,12 +69,14 @@ class Sense(models.Model):
 
   def save(self, *args, **kwargs):
     # Important for when user defines their own senses
-    print("saving a sense?")
     if not self.pk:
       self.target_code = Sense.objects.aggregate(
         lowest_value=models.Min('target_code'))['lowest_value'] - 1
       self.created_by_user = True
     super().save(*args, **kwargs)
+
+  def __str__(self):
+    return f"Sense {self.definition}, ai {self.additional_info}"
 
 class HanjaCharacter(models.Model):
   # This character. 金, 韓, 朴, 安 are examples of what might be in this field.

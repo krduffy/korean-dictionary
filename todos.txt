@@ -5,12 +5,6 @@ finish results for korean word ( add other result things and make dropdown poten
 remove bugginess in back and forward (breaks if you go back and forth a few times; probably saving the wrong state or not overwriting when necessary)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-do cleaning of the database. change code for reading in json to:
-get rid of html tags in definitions
-get rid of ^ in word defs, closing parenthentical in hanja
-change &lt; and &gt;
-change sense target codes to word target codes (needs to be a separate command).
-delete unused things from additional_info
 ==================================
 change the display of the results to have buttons for add to list
 and also make it so there are forms in the acutal dictionary to use the add views [ done for adding word ]

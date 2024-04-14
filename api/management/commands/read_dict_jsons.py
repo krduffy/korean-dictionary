@@ -3,6 +3,8 @@ from ...dictionary_models import KoreanWord, Sense
 import os
 import django
 import json
+import re
+import html
 
 django.setup()
 
@@ -32,10 +34,56 @@ class Command(BaseCommand):
           add_sense(sense_structure)
         self.stdout.write('Finished adding all senses in file "%s"' % dict_file)
     
+    # Now that they have all been read in.
+    if file == 'all':
+        # For relation_info:
+      # 1. delete 001, 002 etc numbers at end of word string and remove ^ and -
+      # 2. change target_code of word from its sense target code to the word's target code
+      # 3. remove link (unused).
+      for sense in Sense.objects.all():
+        if "relation_info" in sense.additional_info and sense.additional_info["relation_info"]:
+          
+          for relinfo in sense.additional_info["relation_info"]:
+            relinfo["word"] = relinfo.get("word", "").replace("-", "").replace("^", "")[:-3]
+            try:
+              relinfo["link_target_code"] = Sense.objects.get(target_code=relinfo["link_target_code"]).referent.pk
+            except Sense.DoesNotExist:
+              relinfo.pop("link_target_code", None)
+            relinfo.pop("link", None)
+
+          sense.save()
+
+        # For proverb info:
+        # 1. Change target code as above.
+        # 2. Remove link as above.
+        if "proverb_info" in sense.additional_info and sense.additional_info["proverb_info"]:
+          for provinfo in sense.additional_info["proverb_info"]:
+            try:
+              provinfo["link_target_code"] = Sense.objects.get(target_code=provinfo["link_target_code"]).referent.pk
+            except Sense.DoesNotExist:
+              provinfo.pop("link_target_code", None)
+            provinfo.pop("link", None)
+          
+          sense.save()
     self.stdout.write(self.style.SUCCESS('Successfully finished executing command'))
+
+# Recursively changes everything in the obj passed in (a channelitem dictionary).
+# Currently unescapes strings to allow for < instead of &lt;
+# and removes any <img> tags.
+def recursively_clean_channelitem(obj):
+    if isinstance(obj, dict):
+        return {key: recursively_clean_channelitem(value) for key, value in obj.items()}
+    elif isinstance(obj, list):
+        return [recursively_clean_channelitem(item) for item in obj]
+    elif isinstance(obj, str):
+        return html.unescape(re.sub(r'<img\b[^>]*>', '', obj))
+    else:
+        return obj
 
 # channel_item follows the general structure of ./json_structure.txt
 def add_sense(channel_item):
+
+  channel_item = recursively_clean_channelitem(channel_item)
 
   # make new word if this sense's referent does not yet exist
   word_ref_target_code: int = channel_item["group_code"]
@@ -65,6 +113,9 @@ def add_sense(channel_item):
   sense_additional_info = {info_key: info_value for 
                            info_key, info_value in additional_info_or_none.items() 
                            if info_value is not None}
+  
+  # Need to make edits to additional info to delete needless info/change target codes
+  # from using the json files' sense target codes to my word target codes.
 
   new_sense = Sense(target_code = sense_target_code, 
                     referent = sense_referent, 
@@ -95,7 +146,7 @@ def add_word(wordinfo: dict, word_target_code: int) -> int:
       return -1
     
   # If here, word needs to be added and return 0
-  word: str = wordinfo["word"].replace("-", "")
+  word: str = wordinfo["word"].replace("-", "").replace("^", "")
   word_type: str = wordinfo["word_unit"]
   origin: str = ""
   if originlang_info:

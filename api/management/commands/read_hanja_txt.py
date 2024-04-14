@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
       for hanja_line in hanja_file:
         hanja_character: str = hanja_line[0]
-        hanja_meaning_reading: str = hanja_line[2:-1]
+        hanja_meaning_reading: str = hanja_line[2:-2]
         new_hanja = HanjaCharacter(character = hanja_character, meaning_reading = hanja_meaning_reading)
         new_hanja.save()
         
