@@ -26,7 +26,6 @@ SenseExampleInfo.propTypes = {
 const SenseExample = ({ example }) => {
   return (
     <div className="example-container">
-      {console.log(example)}
       <ExampleTextWithHighlighting string={example["example"]} />
 
       {example["source"] && (

@@ -20,10 +20,36 @@ ul {
   height: 20px;
 }
 
-.retract-line {
-  height: calc(100% - 20px);
+.retract-line-unshortened,
+.retract-line-shortened-expanded,
+.retract-line-shortened-unexpanded {
+  transition: all 0.3s ease;
   width: 25%;
   background-color: gray;
+}
+
+.retract-line-shortened-expanded:hover {
+  background-color: #ccd5e0;
+}
+
+.retract-line-unshortened {
+  height: 100%;
+}
+
+.retract-line-shortened-expanded,
+.retract-line-shortened-unexpanded {
+  height: calc(100% - 20px);
+}
+
+.expand-button {
+  border: 1px;
+  color: gray;
+  border-color: gray;
+  transition: all 0.3s ease;
+}
+
+.expand-button:hover {
+  color: #ccd5e0;
 }
 
 .sense-additional-data {
@@ -32,8 +58,14 @@ ul {
   display: flex;
 }
 
-.additional-data-content {
+.additional-data-content-entire,
+.additional-data-content-truncated {
   margin-left: 2%;
   width: 95.5%;
   flex: none;
+}
+
+.additional-data-content-truncated {
+  max-height: 100px;
+  overflow-y: hidden;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SenseExampleInfo from "./SenseExampleInfo.jsx";
 import SenseProverbInfo from "./SenseProverbInfo.jsx";
 import StringWithHanja from "../../StringWithHanja.jsx";
@@ -8,6 +8,16 @@ import PropTypes from "prop-types";
 
 const KoreanSenseView = ({ senseData }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showButton, setShowButton] = useState(false);
+  const additionalDataContentRef = useRef(null);
+
+  useEffect(() => {
+    if (additionalDataContentRef.current) {
+      const contentHeight =
+        additionalDataContentRef.current.getBoundingClientRect().height;
+      setShowButton(contentHeight == 100);
+    }
+  }, [senseData]);
 
   return (
     <div>
@@ -26,18 +36,33 @@ const KoreanSenseView = ({ senseData }) => {
         <div className="sense-additional-data">
           <div className="expansion-controller">
             <div
-              className="retract-line"
+              className={
+                showButton
+                  ? isExpanded
+                    ? "retract-line-shortened-expanded"
+                    : "retract-line-shortened-unexpanded"
+                  : "retract-line-unshortened"
+              }
               onClick={() => setIsExpanded(false)}
             ></div>
-            <div
-              className="expand-button"
-              onClick={() => setIsExpanded(!isExpanded)}
-            >
-              ▽
-            </div>
+            {showButton && (
+              <div
+                className="expand-button"
+                onClick={() => setIsExpanded(!isExpanded)}
+              >
+                {isExpanded ? "▲" : "▼"}
+              </div>
+            )}
           </div>
 
-          <div className="additional-data-content">
+          <div
+            className={
+              isExpanded
+                ? "additional-data-content-entire"
+                : "additional-data-content-truncated"
+            }
+            ref={additionalDataContentRef}
+          >
             {senseData["additional_info"]["example_info"] && (
               <SenseExampleInfo
                 exampleInfo={senseData["additional_info"]["example_info"]}
