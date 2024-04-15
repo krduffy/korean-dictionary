@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import SenseExampleInfo from "./SenseExampleInfo.jsx";
 import SenseProverbInfo from "./SenseProverbInfo.jsx";
 import StringWithHanja from "../../StringWithHanja.jsx";
+import SenseRelationInfo from "./SenseRelationInfo.jsx";
 import "./styles/korean-sense-styles.css";
 
 import PropTypes from "prop-types";
@@ -71,6 +72,11 @@ const KoreanSenseView = ({ senseData }) => {
             {senseData["additional_info"]["proverb_info"] && (
               <SenseProverbInfo
                 proverbInfo={senseData["additional_info"]["proverb_info"]}
+              />
+            )}
+            {senseData["additional_info"]["relation_info"] && (
+              <SenseRelationInfo
+                relationInfo={senseData["additional_info"]["relation_info"]}
               />
             )}
           </div>

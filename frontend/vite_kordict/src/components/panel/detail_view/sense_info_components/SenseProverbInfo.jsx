@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { ViewContext } from "../../Panel";
 import PropTypes from "prop-types";
+import "./styles/korean-sense-styles.css";
 
 const SenseProverbInfo = ({ proverbInfo }) => {
   return (
     <div className="sense-proverb-list">
+      <p>관용구·속담</p>
       <ul>
         {proverbInfo.map((proverb, id) => (
           <li key={id}>
@@ -47,7 +49,7 @@ const SenseProverb = ({ proverb }) => {
           }
         }}
       >
-        <span>{proverb.word}</span>
+        <span className="redirecting-word">{proverb.word}</span>
         <span>{proverb.definition}</span>
       </div>
     </div>

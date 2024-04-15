@@ -4,6 +4,11 @@ ul {
   padding: 0;
 }
 
+.redirecting-word:hover {
+  text-decoration: underline;
+  color: purple;
+}
+
 .bracketed-word {
   text-shadow: 0px 0px 8px #ffffff;
 }
@@ -68,4 +73,23 @@ ul {
 .additional-data-content-truncated {
   max-height: 100px;
   overflow-y: hidden;
+}
+
+.relation-table {
+  display: table;
+}
+
+dt,
+dd {
+  display: table-cell;
+}
+
+dt {
+  white-space: nowrap;
+  width: 100px;
+}
+
+dd {
+  padding-left: 5px;
+  margin-left: 5px;
 }
