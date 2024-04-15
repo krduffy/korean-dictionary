@@ -5,3 +5,8 @@
 #hover-glow:hover {
   text-shadow: 0 0 5px #00ffff;
 }
+
+.result-count-indicator {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

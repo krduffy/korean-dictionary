@@ -25,7 +25,7 @@ const HanjaCharView = ({ hanjaChar }) => {
               {charData["meaning_reading"]}
             </span>
           </div>
-          <div className="word-list-header">연관단어 검색</div>
+          <div className="additional-info-section-header">연관단어</div>
           <div className="example-container">
             <PaginatedResults
               searchType="search_hanja_examples"

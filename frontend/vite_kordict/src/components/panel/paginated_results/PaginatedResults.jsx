@@ -6,6 +6,7 @@ import HanjaExampleResult from "./HanjaExampleResult.jsx";
 import PageChanger from "./PageChanger.jsx";
 import { useAPIFetcher } from "../useAPIFetcher.js";
 import { LoadingMessage } from "../../LoadingMessage.jsx";
+import "./styles/results.css";
 
 const PaginatedResults = ({ searchType, searchTerm }) => {
   /* Below are the result types and required keys in formParms and functions (both dictionaries)
@@ -81,7 +82,7 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
       ) : (
         typeAndResultsMatch() && (
           <div className="paginated-results">
-            <span>
+            <span className="result-count-indicator">
               결과 {searchResults.count}건 ({10 * (currentPage - 1) + 1} -{" "}
               {Math.min(searchResults.count, currentPage * 10)})
             </span>

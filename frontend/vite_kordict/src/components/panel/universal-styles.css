@@ -1,3 +1,10 @@
+.additional-info-section-header {
+  font-size: 20px;
+  background-color: #312f36;
+  margin-bottom: 0;
+  padding-left: 5px;
+}
+
 .clickable-result {
   transition: all 0.3s ease;
 }
