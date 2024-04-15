@@ -10,11 +10,6 @@ ul {
   margin-bottom: 0;
 }
 
-.redirecting-word:hover {
-  text-decoration: underline;
-  color: purple;
-}
-
 .bracketed-word-from-example {
   text-decoration: underline;
 }
@@ -37,6 +32,11 @@ ul {
   transition: all 0.3s ease;
   width: 25%;
   background-color: gray;
+}
+
+.expand-button:hover,
+.retract-line-shortened-expanded:hover {
+  cursor: pointer;
 }
 
 .retract-line-shortened-expanded:hover {

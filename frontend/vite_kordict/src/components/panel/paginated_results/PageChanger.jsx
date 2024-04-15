@@ -19,11 +19,11 @@ const PageChanger = ({ page, hasNextPage, setPageFunction }) => {
           id="page-left-button-exists"
           onClick={handleClick(page - 1)}
         >
-          {page - 1}
+          ◀
         </button>
       ) : (
         <button className="page-left-button" id="page-left-button-grayed-out">
-          -
+          ◁
         </button>
       )}
 
@@ -36,11 +36,11 @@ const PageChanger = ({ page, hasNextPage, setPageFunction }) => {
           id="page-right-button-exists"
           onClick={handleClick(page + 1)}
         >
-          {page + 1}
+          ▶
         </button>
       ) : (
         <button className="page-right-button" id="page-right-button-grayed-out">
-          -
+          ▷
         </button>
       )}
     </div>

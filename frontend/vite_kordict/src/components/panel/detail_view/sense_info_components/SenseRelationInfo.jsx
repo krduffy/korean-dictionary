@@ -33,7 +33,7 @@ const SenseRelationInfo = ({ relationInfo }) => {
                     .map((filteredRelation, innerIndex, filteredArray) => (
                       <React.Fragment key={innerIndex}>
                         <span
-                          className="redirecting-word"
+                          className="clickable-result"
                           key={innerIndex}
                           onClick={() =>
                             updateViewAndPushToHistory({

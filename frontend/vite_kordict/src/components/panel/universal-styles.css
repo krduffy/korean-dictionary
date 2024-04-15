@@ -3,7 +3,9 @@
 }
 
 .clickable-result:hover {
-  text-shadow: 0 0 5px #d16806;
+  text-decoration: underline;
+  text-shadow: 0 0 5px blue;
+  cursor: pointer;
 }
 
 .hanja-char {

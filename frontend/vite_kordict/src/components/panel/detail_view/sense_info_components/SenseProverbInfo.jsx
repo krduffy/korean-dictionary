@@ -36,7 +36,7 @@ const SenseProverb = ({ proverb }) => {
     <div className="sense-proverb">
       <span style={{ color: "#8e44ad" }}>{proverb.type}</span>{" "}
       <span
-        className="redirecting-word"
+        className="clickable-result"
         onClick={() => {
           if (proverb.link_target_code) {
             updateViewAndPushToHistory({
