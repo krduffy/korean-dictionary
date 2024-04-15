@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useAPIFetcher } from "./useAPIFetcher";
 import PropTypes from "prop-types";
+import "./universal-styles.css";
 
-const HanjaHoverBox = ({ character }) => {
+const HanjaHoverBox = ({ character, x, y }) => {
   const [hoverBoxData, setHoverBoxData] = useState({});
   const { apiFetch, loading, error } = useAPIFetcher();
 
@@ -18,27 +19,32 @@ const HanjaHoverBox = ({ character }) => {
       {loading ? (
         <></>
       ) : (
-        <div className="hanja-hover-box">
-          {hoverBoxData && (
-            <div>
-              <div className="meaning-reading-section">
-                <span>
-                  {character}
-                  {}
-                  {hoverBoxData["meaning_reading"]}
-                  {}
-                </span>
-              </div>
-
-              {hoverBoxData["retrieved_words"] > 0 ? (
-                <div>
-                  <KoreanWordSection wordArray={hoverBoxData["words"]} />
+        <div
+          style={{
+            position: "absolute",
+            left: x,
+            top: y,
+          }}
+        >
+          <div className="hanja-hover-box">
+            {hoverBoxData && (
+              <div>
+                <div className="meaning-reading-section">
+                  <span>
+                    {character} {hoverBoxData["meaning_reading"]}
+                  </span>
                 </div>
-              ) : (
-                <div>연관단어가 없습니다.{hoverBoxData["retrieved_words"]}</div>
-              )}
-            </div>
-          )}
+
+                {hoverBoxData["retrieved_words"] > 0 ? (
+                  <KoreanWordSection wordArray={hoverBoxData["words"]} />
+                ) : (
+                  <div>
+                    연관단어가 없습니다.{hoverBoxData["retrieved_words"]}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </>
@@ -53,13 +59,13 @@ HanjaHoverBox.propTypes = {
 when paginatedresults are shown */
 const KoreanWordSection = ({ wordArray }) => {
   return (
-    <>
+    <div className="korean-word-section">
       {wordArray.map((wordData, id) => (
-        <div key={id}>
+        <div key={id} className="single-hanja-example">
           {wordData["kw_word"]} {wordData["kw_origin"]}
         </div>
       ))}
-    </>
+    </div>
   );
 };
 

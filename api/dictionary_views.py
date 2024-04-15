@@ -161,7 +161,7 @@ class HanjaPopup(APIView):
       meaning_reading = None
 
     #TODO include user as a query param
-    num_results = 5
+    num_results = 10
     queryset = KoreanWord.objects.all()
     queryset = queryset.filter(origin__contains = character)
     queryset = queryset.order_by(Length("word").asc())[:num_results]

@@ -54,30 +54,39 @@ StringWithHanja.propTypes = {
 };
 
 const HanjaCharacterSpan = ({ character }) => {
-  const [hoverBoxEnabled, setHoverBoxEnabled] = useState(false);
-  const [mouseIn, setMouseIn] = useState(false);
+  const [showHoverBox, setShowHoverBox] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (mouseIn) {
-        setHoverBoxEnabled(true);
-      } else {
-        setHoverBoxEnabled(false);
-      }
-    }, 1000);
-  }, [mouseIn]);
+  const handleMouseEnter = (event) => {
+    setShowHoverBox(true);
+    setMousePosition({ x: event.clientX, y: event.clientY });
+  };
+
+  const handleMouseLeave = () => {
+    setShowHoverBox(false);
+  };
+
+  const fixBoxXToScreen = (x) => {
+    return x > window.innerWidth / 2 ? x - 100 : x + 100;
+  };
+
+  const fixBoxYToScreen = (y) => {
+    return y > window.innerWidth / 2 ? y - 100 : y + 100;
+  };
 
   return (
     <span>
-      {hoverBoxEnabled && <HanjaHoverBox character={character} />}
+      {showHoverBox && (
+        <HanjaHoverBox
+          character={character}
+          x={fixBoxXToScreen(mousePosition.x)}
+          y={fixBoxYToScreen(mousePosition.y)}
+        />
+      )}
       <span
         className="hanja-char"
-        onMouseEnter={() => {
-          setMouseIn(true);
-        }}
-        onMouseLeave={() => {
-          setMouseIn(false);
-        }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         {character}
       </span>
