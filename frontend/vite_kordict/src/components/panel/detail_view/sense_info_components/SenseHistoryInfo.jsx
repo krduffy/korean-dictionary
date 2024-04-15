@@ -9,7 +9,7 @@ const SenseHistoryInfo = ({ historyInfo }) => {
       <table className="history-header-info-table">
         <colgroup>
           <col width={"15%"} />
-          <col />
+          <col width={"85%"} />
         </colgroup>
 
         <tbody>
@@ -41,7 +41,7 @@ const SenseHistoryInfo = ({ historyInfo }) => {
           <colgroup>
             <col width={"15%"} />
             <col width={"15%"} />
-            <col />
+            <col width={"70%"} />
           </colgroup>
 
           <thead>

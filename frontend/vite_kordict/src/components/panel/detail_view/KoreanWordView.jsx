@@ -4,6 +4,7 @@ import StringWithHanja from "../StringWithHanja";
 import PropTypes from "prop-types";
 import { useAPIFetcher } from "../useAPIFetcher.js";
 import { LoadingMessage } from "../../LoadingMessage.jsx";
+import SenseHistoryInfo from "./sense_info_components/SenseHistoryInfo.jsx";
 import "./styles/korean-word-view-styles.css";
 
 const KoreanWordView = ({ targetCode }) => {
@@ -38,6 +39,19 @@ const KoreanWordView = ({ targetCode }) => {
               wordData["senses"].map((data) => (
                 <KoreanSenseView key={data["target_code"]} senseData={data} />
               ))}
+          </div>
+
+          <div>
+            {wordData["senses"] &&
+              wordData["senses"].length > 0 &&
+              wordData["senses"][0]["additional_info"] &&
+              wordData["senses"][0]["additional_info"]["history_info"] && (
+                <SenseHistoryInfo
+                  historyInfo={
+                    wordData["senses"][0]["additional_info"]["history_info"]
+                  }
+                />
+              )}
           </div>
         </div>
       )}

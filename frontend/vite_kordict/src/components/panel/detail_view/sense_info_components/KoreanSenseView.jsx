@@ -83,11 +83,12 @@ const KoreanSenseView = ({ senseData }) => {
                 proverbInfo={senseData["additional_info"]["proverb_info"]}
               />
             )}
+            {/*
             {senseData["additional_info"]["history_info"] && (
               <SenseHistoryInfo
                 historyInfo={senseData["additional_info"]["history_info"]}
               />
-            )}
+            )} */}
           </div>
         </div>
       )}
