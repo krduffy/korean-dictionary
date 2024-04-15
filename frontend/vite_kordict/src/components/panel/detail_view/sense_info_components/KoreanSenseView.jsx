@@ -23,7 +23,8 @@ const KoreanSenseView = ({ senseData }) => {
   return (
     <div>
       <div className="sense-main-data">
-        {senseData["order"]}. <span>{senseData["type"]}</span>
+        {senseData["order"]}.{" "}
+        <span style={{ color: "#47519e" }}>{senseData["type"]}</span>{" "}
         {senseData["additional_info"]["region_info"] && (
           <span>{senseData["additional_info"]["region_info"]["region"]} </span>
         )}
@@ -69,14 +70,14 @@ const KoreanSenseView = ({ senseData }) => {
                 exampleInfo={senseData["additional_info"]["example_info"]}
               />
             )}
-            {senseData["additional_info"]["proverb_info"] && (
-              <SenseProverbInfo
-                proverbInfo={senseData["additional_info"]["proverb_info"]}
-              />
-            )}
             {senseData["additional_info"]["relation_info"] && (
               <SenseRelationInfo
                 relationInfo={senseData["additional_info"]["relation_info"]}
+              />
+            )}
+            {senseData["additional_info"]["proverb_info"] && (
+              <SenseProverbInfo
+                proverbInfo={senseData["additional_info"]["proverb_info"]}
               />
             )}
           </div>
@@ -100,6 +101,7 @@ KoreanSenseView.propTypes = {
       }),
       example_info: PropTypes.arrayOf(PropTypes.shape({})),
       proverb_info: PropTypes.arrayOf(PropTypes.shape({})),
+      relation_info: PropTypes.arrayOf(PropTypes.arrayOf({})),
     }),
   }).isRequired,
 };

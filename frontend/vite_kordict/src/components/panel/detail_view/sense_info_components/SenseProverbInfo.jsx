@@ -6,7 +6,7 @@ import "./styles/korean-sense-styles.css";
 const SenseProverbInfo = ({ proverbInfo }) => {
   return (
     <div className="sense-proverb-list">
-      <p>관용구·속담</p>
+      <p className="additional-info-section-header">관용구·속담</p>
       <ul>
         {proverbInfo.map((proverb, id) => (
           <li key={id}>
@@ -34,8 +34,9 @@ const SenseProverb = ({ proverb }) => {
     useContext(ViewContext)["updateViewAndPushToHistory"];
   return (
     <div className="sense-proverb">
-      <span>{proverb.type}</span>
-      <div
+      <span>{proverb.type}</span>{" "}
+      <span
+        className="redirecting-word"
         onClick={() => {
           if (proverb.link_target_code) {
             updateViewAndPushToHistory({
@@ -49,9 +50,9 @@ const SenseProverb = ({ proverb }) => {
           }
         }}
       >
-        <span className="redirecting-word">{proverb.word}</span>
-        <span>{proverb.definition}</span>
-      </div>
+        {proverb.word}
+      </span>
+      <div>{proverb.definition}</div>
     </div>
   );
 };

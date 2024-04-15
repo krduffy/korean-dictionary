@@ -19,7 +19,7 @@ const SenseRelationInfo = ({ relationInfo }) => {
 
   return (
     <div className="sense-relation-info">
-      <p>관련 어휘</p>
+      <p className="additional-info-section-header">관련 어휘</p>
       <div className="relation-table">
         {possibleRelationTypes.map(
           (relationType, index) =>

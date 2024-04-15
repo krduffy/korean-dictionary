@@ -51,10 +51,12 @@ const ExampleTextWithHighlighting = ({ string }) => {
     <span className="example-text">
       {isolateBrackets(string).map((substring, id) => (
         <span
-          className={substring.match(/{.*?}/) ? "bracketed-word" : ""}
+          className={
+            substring.match(/{.*?}/) ? "bracketed-word-from-example" : ""
+          }
           key={id}
         >
-          {substring.replace(/{(.*?)}/g, "$1")}{" "}
+          {substring.replace(/{(.*?)}/g, "$1")}
         </span>
       ))}
     </span>

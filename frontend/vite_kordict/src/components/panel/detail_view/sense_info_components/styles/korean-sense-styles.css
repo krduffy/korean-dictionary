@@ -4,13 +4,19 @@ ul {
   padding: 0;
 }
 
+.additional-info-section-header {
+  font-size: 20px;
+  background-color: #312f36;
+  margin-bottom: 1px;
+}
+
 .redirecting-word:hover {
   text-decoration: underline;
   color: purple;
 }
 
-.bracketed-word {
-  text-shadow: 0px 0px 8px #ffffff;
+.bracketed-word-from-example {
+  text-decoration: underline;
 }
 
 .expansion-controller {
@@ -92,4 +98,22 @@ dt {
 dd {
   padding-left: 5px;
   margin-left: 5px;
+}
+
+.sense-proverb-list {
+  margin-top: 5px;
+}
+
+.example-container {
+  margin-bottom: 10px;
+}
+
+.example-text {
+  margin-bottom: 10px;
+}
+
+.example-source {
+  margin-left: 5px;
+  color: gray;
+  font-size: small;
 }
