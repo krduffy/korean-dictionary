@@ -3,6 +3,7 @@ import SenseExampleInfo from "./SenseExampleInfo.jsx";
 import SenseProverbInfo from "./SenseProverbInfo.jsx";
 import StringWithHanja from "../../StringWithHanja.jsx";
 import SenseRelationInfo from "./SenseRelationInfo.jsx";
+import SenseHistoryInfo from "./SenseHistoryInfo.jsx";
 import "./styles/korean-sense-styles.css";
 
 import PropTypes from "prop-types";
@@ -25,12 +26,13 @@ const KoreanSenseView = ({ senseData }) => {
       <div className="sense-main-data">
         {senseData["order"]}.{" "}
         <span style={{ color: "#47519e" }}>{senseData["type"]}</span>{" "}
-        {senseData["additional_info"]["region_info"] && (
-          <span>{senseData["additional_info"]["region_info"]["region"]} </span>
-        )}
         <span style={{ color: "#8e44ad" }}>{senseData["pos"]}</span>{" "}
         <span style={{ color: "#3498db" }}>{senseData["category"]}</span>{" "}
         <StringWithHanja string={senseData["definition"]} />
+        {senseData["additional_info"]["region_info"] &&
+          senseData["additional_info"]["region_info"].map((region, id) => (
+            <span key={id}> ({region["region"]})</span>
+          ))}
       </div>
 
       {/* is a drop down menu because there can be a lot of data*/}
@@ -70,14 +72,20 @@ const KoreanSenseView = ({ senseData }) => {
                 exampleInfo={senseData["additional_info"]["example_info"]}
               />
             )}
-            {senseData["additional_info"]["relation_info"] && (
-              <SenseRelationInfo
-                relationInfo={senseData["additional_info"]["relation_info"]}
-              />
-            )}
+            {senseData["additional_info"]["relation_info"] &&
+              senseData["additional_info"]["relation_info"].keys.length > 0 && (
+                <SenseRelationInfo
+                  relationInfo={senseData["additional_info"]["relation_info"]}
+                />
+              )}
             {senseData["additional_info"]["proverb_info"] && (
               <SenseProverbInfo
                 proverbInfo={senseData["additional_info"]["proverb_info"]}
+              />
+            )}
+            {senseData["additional_info"]["history_info"] && (
+              <SenseHistoryInfo
+                historyInfo={senseData["additional_info"]["history_info"]}
               />
             )}
           </div>

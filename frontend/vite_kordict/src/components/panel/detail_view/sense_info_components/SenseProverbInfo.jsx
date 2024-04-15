@@ -34,7 +34,7 @@ const SenseProverb = ({ proverb }) => {
     useContext(ViewContext)["updateViewAndPushToHistory"];
   return (
     <div className="sense-proverb">
-      <span>{proverb.type}</span>{" "}
+      <span style={{ color: "#8e44ad" }}>{proverb.type}</span>{" "}
       <span
         className="redirecting-word"
         onClick={() => {
@@ -52,7 +52,7 @@ const SenseProverb = ({ proverb }) => {
       >
         {proverb.word}
       </span>
-      <div>{proverb.definition}</div>
+      <div className="proverb-definition">{proverb.definition}</div>
     </div>
   );
 };
