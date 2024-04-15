@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ViewContext } from "../Panel.jsx";
-import "./styles/search-bar-styles.css";
+import "./styles/fixed-header-styles.css";
 
 const SearchBar = () => {
   const [boxContent, setBoxContent] = useState("");

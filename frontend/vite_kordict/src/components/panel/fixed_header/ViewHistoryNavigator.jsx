@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import "./styles/view-history-navigator-styles.css";
+import "./styles/fixed-header-styles.css";
 import { ViewContext } from "../Panel";
 
 const ViewHistoryNavigator = ({
@@ -15,24 +15,32 @@ const ViewHistoryNavigator = ({
   return (
     <div className="view-history-navigator">
       <button
-        className={canNavigateBack() ? "enabled-button" : "disabled-button"}
+        className={
+          canNavigateBack()
+            ? "enabled-navigation-button"
+            : "disabled-navigation-button"
+        }
         onClick={() => {
           if (canNavigateBack()) {
             updateViewWithoutPushingToHistory(getPrecedingView());
           }
         }}
       >
-        ←
+        {canNavigateBack() ? "◀" : "◁"}
       </button>
       <button
-        className={canNavigateForward() ? "enabled-button" : "disabled-button"}
+        className={
+          canNavigateForward()
+            ? "enabled-navigation-button"
+            : "disabled-navigation-button"
+        }
         onClick={() => {
           if (canNavigateForward()) {
             updateViewWithoutPushingToHistory(getFollowingView());
           }
         }}
       >
-        ⇨
+        {canNavigateForward() ? "▶" : "▷"}
       </button>
     </div>
   );

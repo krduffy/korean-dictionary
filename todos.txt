@@ -1,14 +1,14 @@
 
 Next tasks
 =================
-finish results for korean word ( add other result things and make dropdown potentially0)
-remove bugginess in back and forward (breaks if you go back and forth a few times; probably saving the wrong state or not overwriting when necessary)
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 ==================================
 change the display of the results to have buttons for add to list
 and also make it so there are forms in the acutal dictionary to use the add views [ done for adding word ]
 
+[ next refactoring of database ]
 <sub> tags exist.
 potentially move history to end of sense list (same for all senses?) => moved, but still in wrong(?) folder
 
