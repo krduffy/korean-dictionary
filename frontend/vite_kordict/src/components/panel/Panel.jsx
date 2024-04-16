@@ -7,6 +7,7 @@ import KoreanWordView from "./detail_view/KoreanWordView.jsx";
 import HanjaCharView from "./detail_view/HanjaCharView.jsx";
 import { useHistoryManager } from "./useHistoryManager.js";
 import NewWordForm from "./NewWordForm.jsx";
+import EditWordForm from "./EditWordForm.jsx";
 
 export const ViewContext = createContext(null);
 
@@ -88,6 +89,12 @@ const Panel = () => {
       {currentView["view"] === "add_word" && (
         <div>
           <NewWordForm />
+        </div>
+      )}
+
+      {currentView["view"] === "edit_word" && (
+        <div>
+          <EditWordForm targetCode={currentView["value"]} />
         </div>
       )}
     </ViewContext.Provider>

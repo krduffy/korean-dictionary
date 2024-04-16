@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ViewContext } from "../Panel.jsx";
 import KoreanSenseView from "./sense_info_components/KoreanSenseView";
 import StringWithHanja from "../StringWithHanja";
 import PropTypes from "prop-types";
@@ -11,6 +12,9 @@ const KoreanWordView = ({ targetCode, initialWordKnown }) => {
   const [wordData, setWordData] = useState({});
   const { apiFetch, loading, error } = useAPIFetcher();
   const [wordIsKnown, setWordIsKnown] = useState(false);
+
+  const updateViewAndPushToHistory =
+    useContext(ViewContext)["updateViewAndPushToHistory"];
 
   const setData = (dataFromFetch) => {
     setWordData(dataFromFetch);
@@ -53,6 +57,21 @@ const KoreanWordView = ({ targetCode, initialWordKnown }) => {
             {wordData["created_by_user"] && (
               <span className="word-extra-info">내가 추가한 단어</span>
             )}
+
+            <span
+              onClick={() => {
+                updateViewAndPushToHistory({
+                  view: "edit_word",
+                  value: wordData["target_code"],
+                  searchBarInitialState: {
+                    boxContent: "",
+                    dictionary: "korean",
+                  },
+                });
+              }}
+            >
+              수정
+            </span>
           </div>
 
           <div className="senses-container">

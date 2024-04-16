@@ -8,6 +8,13 @@ ul {
   text-decoration: underline;
 }
 
+.user-example-container-header {
+  color: white;
+  text-shadow: 0 0 10px gold;
+  background-color: #312f36;
+  margin-top: 10px;
+}
+
 .expansion-controller {
   display: flex;
   flex-direction: column;

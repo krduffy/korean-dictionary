@@ -17,7 +17,9 @@ class KoreanWordSerializer(serializers.ModelSerializer):
     read_only_fields = ['__all__']
 
   def get_kw_senses(self, obj):
-    first_five = obj.senses.all().order_by('order')[:5]
+    # filter out whenever order is greater than 0 to eliminate
+    # dummy senses used just for keeping examples. (which are saved as order=0)
+    first_five = obj.senses.all().filter(order__gt = 0).order_by('order')[:5]
     sense_serializer = SimplifiedSenseSerializer(first_five, many=True)
     return sense_serializer.data
 

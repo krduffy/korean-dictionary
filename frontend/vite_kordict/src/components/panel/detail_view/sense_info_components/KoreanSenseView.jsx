@@ -24,39 +24,45 @@ const KoreanSenseView = ({ senseData }) => {
 
   return (
     <div>
-      <div className="sense-main-data">
-        {senseData["order"]}.{" "}
-        <span style={{ color: "#47519e" }}>「{senseData["type"]}」</span>
-        {senseData["pos"] && (
-          <span style={{ color: "#8e44ad" }}>「{senseData["pos"]}」</span>
-        )}
-        {senseData["category"] && (
-          <span style={{ color: "#3498db" }}>「{senseData["category"]}」</span>
-        )}
-        {senseData["additional_info"]["pattern_info"] &&
-          senseData["additional_info"]["pattern_info"].map(
-            (pattern, id, patternArray) => (
-              <span key={id} style={{ color: "#42d1f5" }}>
-                ≪{pattern.pattern}≫{" "}
-              </span>
-            ),
+      {senseData["order"] == 0 ? (
+        <div className="user-example-container-header">내가 추가한 예문</div>
+      ) : (
+        <div className="sense-main-data">
+          {senseData["order"]}.{" "}
+          <span style={{ color: "#47519e" }}>「{senseData["type"]}」</span>
+          {senseData["pos"] && (
+            <span style={{ color: "#8e44ad" }}>「{senseData["pos"]}」</span>
           )}
-        <StringWithHanja string={senseData["definition"]} />
-        {senseData["additional_info"]["region_info"] && (
-          <span>
-            <span> (</span>
-            {senseData["additional_info"]["region_info"].map(
-              (region, id, regionArray) => (
-                <span key={id}>
-                  {region["region"]}
-                  {id + 1 < regionArray.length && ", "}
+          {senseData["category"] && (
+            <span style={{ color: "#3498db" }}>
+              「{senseData["category"]}」
+            </span>
+          )}
+          {senseData["additional_info"]["pattern_info"] &&
+            senseData["additional_info"]["pattern_info"].map(
+              (pattern, id, patternArray) => (
+                <span key={id} style={{ color: "#42d1f5" }}>
+                  ≪{pattern.pattern}≫{" "}
                 </span>
               ),
             )}
-            <span>)</span>
-          </span>
-        )}
-      </div>
+          <StringWithHanja string={senseData["definition"]} />
+          {senseData["additional_info"]["region_info"] && (
+            <span>
+              <span> (</span>
+              {senseData["additional_info"]["region_info"].map(
+                (region, id, regionArray) => (
+                  <span key={id}>
+                    {region["region"]}
+                    {id + 1 < regionArray.length && ", "}
+                  </span>
+                ),
+              )}
+              <span>)</span>
+            </span>
+          )}
+        </div>
+      )}
 
       {/* is a drop down menu because there can be a lot of data*/}
       {Object.keys(senseData["additional_info"]).length > 0 && (
