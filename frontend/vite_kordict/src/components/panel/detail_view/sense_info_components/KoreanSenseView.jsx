@@ -3,7 +3,8 @@ import SenseExampleInfo from "./SenseExampleInfo.jsx";
 import SenseProverbInfo from "./SenseProverbInfo.jsx";
 import StringWithHanja from "../../StringWithHanja.jsx";
 import SenseRelationInfo from "./SenseRelationInfo.jsx";
-import SenseHistoryInfo from "./SenseHistoryInfo.jsx";
+import SenseNormInfo from "./SenseNormInfo.jsx";
+import SenseGrammarInfo from "./SenseGrammarInfo.jsx";
 import "./styles/korean-sense-styles.css";
 
 import PropTypes from "prop-types";
@@ -25,14 +26,36 @@ const KoreanSenseView = ({ senseData }) => {
     <div>
       <div className="sense-main-data">
         {senseData["order"]}.{" "}
-        <span style={{ color: "#47519e" }}>{senseData["type"]}</span>{" "}
-        <span style={{ color: "#8e44ad" }}>{senseData["pos"]}</span>{" "}
-        <span style={{ color: "#3498db" }}>{senseData["category"]}</span>{" "}
+        <span style={{ color: "#47519e" }}>「{senseData["type"]}」</span>
+        {senseData["pos"] && (
+          <span style={{ color: "#8e44ad" }}>「{senseData["pos"]}」</span>
+        )}
+        {senseData["category"] && (
+          <span style={{ color: "#3498db" }}>「{senseData["category"]}」</span>
+        )}
+        {senseData["additional_info"]["pattern_info"] &&
+          senseData["additional_info"]["pattern_info"].map(
+            (pattern, id, patternArray) => (
+              <span key={id} style={{ color: "#42d1f5" }}>
+                ≪{pattern.pattern}≫{" "}
+              </span>
+            ),
+          )}
         <StringWithHanja string={senseData["definition"]} />
-        {senseData["additional_info"]["region_info"] &&
-          senseData["additional_info"]["region_info"].map((region, id) => (
-            <span key={id}> ({region["region"]})</span>
-          ))}
+        {senseData["additional_info"]["region_info"] && (
+          <span>
+            <span> (</span>
+            {senseData["additional_info"]["region_info"].map(
+              (region, id, regionArray) => (
+                <span key={id}>
+                  {region["region"]}
+                  {id + 1 < regionArray.length && ", "}
+                </span>
+              ),
+            )}
+            <span>)</span>
+          </span>
+        )}
       </div>
 
       {/* is a drop down menu because there can be a lot of data*/}
@@ -72,12 +95,21 @@ const KoreanSenseView = ({ senseData }) => {
                 exampleInfo={senseData["additional_info"]["example_info"]}
               />
             )}
-            {senseData["additional_info"]["relation_info"] &&
-              senseData["additional_info"]["relation_info"].keys.length > 0 && (
-                <SenseRelationInfo
-                  relationInfo={senseData["additional_info"]["relation_info"]}
-                />
-              )}
+            {senseData["additional_info"]["grammar_info"] && (
+              <SenseGrammarInfo
+                grammarInfo={senseData["additional_info"]["grammar_info"]}
+              />
+            )}
+            {senseData["additional_info"]["norm_info"] && (
+              <SenseNormInfo
+                normInfo={senseData["additional_info"]["norm_info"]}
+              />
+            )}
+            {senseData["additional_info"]["relation_info"] && (
+              <SenseRelationInfo
+                relationInfo={senseData["additional_info"]["relation_info"]}
+              />
+            )}
             {senseData["additional_info"]["proverb_info"] && (
               <SenseProverbInfo
                 proverbInfo={senseData["additional_info"]["proverb_info"]}
@@ -110,7 +142,6 @@ KoreanSenseView.propTypes = {
       }),
       example_info: PropTypes.arrayOf(PropTypes.shape({})),
       proverb_info: PropTypes.arrayOf(PropTypes.shape({})),
-      relation_info: PropTypes.arrayOf(PropTypes.arrayOf({})),
     }),
   }).isRequired,
 };

@@ -7,15 +7,18 @@ import { LoadingMessage } from "../../LoadingMessage.jsx";
 import SenseHistoryInfo from "./sense_info_components/SenseHistoryInfo.jsx";
 import "./styles/korean-word-view-styles.css";
 
-const KoreanWordView = ({ targetCode }) => {
+const KoreanWordView = ({ targetCode, initialWordKnown }) => {
   const [wordData, setWordData] = useState({});
   const { apiFetch, loading, error } = useAPIFetcher();
+  const [wordIsKnown, setWordIsKnown] = useState(false);
+
+  const setData = (dataFromFetch) => {
+    setWordData(dataFromFetch);
+    setWordIsKnown(dataFromFetch["is_known"]);
+  };
 
   useEffect(() => {
-    apiFetch(
-      `http://127.0.0.1:8000/api/korean_word/${targetCode}`,
-      setWordData,
-    );
+    apiFetch(`http://127.0.0.1:8000/api/korean_word/${targetCode}`, setData);
   }, [targetCode]);
 
   return (
@@ -32,7 +35,25 @@ const KoreanWordView = ({ targetCode }) => {
             )}
           </span>
 
-          <div>{wordData["word_type"]}</div>
+          <div className="word-extra-info-container">
+            <span className="word-extra-info">{wordData["word_type"]}</span>
+            <span
+              className="word-extra-info"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setWordIsKnown(!wordIsKnown);
+                fetch(
+                  `http://127.0.0.1:8000/api/toggle_word_known/${wordData["target_code"]}`,
+                  { method: "PUT" },
+                );
+              }}
+            >
+              {wordIsKnown ? "아는  단어" : "모르는 단어"}
+            </span>
+            {wordData["created_by_user"] && (
+              <span className="word-extra-info">내가 추가한 단어</span>
+            )}
+          </div>
 
           <div className="senses-container">
             {wordData["senses"] &&

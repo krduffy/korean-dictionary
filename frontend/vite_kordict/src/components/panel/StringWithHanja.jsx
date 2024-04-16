@@ -67,11 +67,11 @@ const HanjaCharacterSpan = ({ character }) => {
   };
 
   const fixBoxXToScreen = (x) => {
-    return x > window.innerWidth / 2 ? x - 100 : x + 100;
+    return x > window.innerWidth / 2 ? x - 220 : x + 20;
   };
 
   const fixBoxYToScreen = (y) => {
-    return y > window.innerWidth / 2 ? y - 100 : y + 100;
+    return y > window.innerHeight / 2 ? y - 220 : y + 20;
   };
 
   return (

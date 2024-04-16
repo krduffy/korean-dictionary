@@ -7,7 +7,6 @@ import "../universal-styles.css";
 
 const KoreanResult = ({ result }) => {
   const viewContext = useContext(ViewContext);
-  const [wordIsKnown, setWordIsKnown] = useState(result.kw_is_known);
 
   const viewKoreanDetail = (targetCode) => {
     viewContext["updateViewAndPushToHistory"]({
@@ -33,18 +32,6 @@ const KoreanResult = ({ result }) => {
         {"   "}
 
         {result.kw_origin && <StringWithHanja string={result.kw_origin} />}
-
-        <button
-          onClick={() => {
-            setWordIsKnown(!wordIsKnown);
-            fetch(
-              `http://127.0.0.1:8000/api/toggle_word_known/${result.kw_target_code}`,
-              { method: "PUT" },
-            );
-          }}
-        >
-          {wordIsKnown ? "앎" : "모름"}
-        </button>
       </div>
 
       <ul className="listed_senses">

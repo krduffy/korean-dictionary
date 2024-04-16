@@ -1,3 +1,14 @@
 .word-header {
   font-size: 40px;
 }
+
+.word-extra-info {
+  border: 10px solid black;
+  border-radius: 10px;
+  background-color: black;
+}
+
+.word-extra-info-container {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
