@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import "./universal-styles.css";
 import HanjaHoverBox from "./HanjaHoverBox";
+import { ViewContext } from "./Panel";
 
 /*
  * A React component that takes in a string containing both Hanja characters and other text,
@@ -56,6 +57,9 @@ StringWithHanja.propTypes = {
 const HanjaCharacterSpan = ({ character }) => {
   const [showHoverBox, setShowHoverBox] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const updateViewAndPushToHistory =
+    useContext(ViewContext)["updateViewAndPushToHistory"];
+  const currentView = useContext(ViewContext)["currentView"];
 
   const handleMouseEnter = (event) => {
     setShowHoverBox(true);
@@ -74,6 +78,24 @@ const HanjaCharacterSpan = ({ character }) => {
     return y > window.innerHeight / 2 ? y - 220 : y + 20;
   };
 
+  const notAlreadyViewing = () => {
+    return (
+      character != currentView["value"] &&
+      currentView["view"] !== "hanja_detail"
+    );
+  };
+
+  const viewHanjaDetail = () => {
+    updateViewAndPushToHistory({
+      view: "detail_hanja",
+      value: character,
+      searchBarInitialState: {
+        boxContent: character,
+        dictionary: "hanja",
+      },
+    });
+  };
+
   return (
     <span>
       {showHoverBox && (
@@ -87,6 +109,10 @@ const HanjaCharacterSpan = ({ character }) => {
         className="hanja-char"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        style={{ cursor: notAlreadyViewing() ? "pointer" : "" }}
+        onClick={() => {
+          if (notAlreadyViewing()) viewHanjaDetail(character);
+        }}
       >
         {character}
       </span>
