@@ -1,0 +1,78 @@
+.add-example-form {
+  width: 100%;
+}
+
+.add-example-text-area {
+  width: 90%;
+  height: 100%;
+  resize: none;
+}
+
+.text-area-container {
+  display: table;
+  width: 100%;
+}
+
+.text-area-container-dt,
+.text-area-container-dd {
+  display: table-cell;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.text-area-container-dt {
+  vertical-align: top;
+  white-space: nowrap;
+  width: 20%;
+}
+
+.text-area-container-dd {
+  width: 80%;
+  text-align: right;
+  height: 50px;
+  margin: 0;
+  padding: 0;
+}
+
+.add-example-header,
+.add-example-tip,
+.add-example-submit-button,
+.add-example-submit-message {
+  display: inline-block;
+  height: 100%;
+}
+
+.add-example-form-upper-bar {
+  height: 40px;
+  padding-bottom: 10px;
+}
+
+.add-example-header {
+  width: 25%;
+  font-size: 24px;
+  background-color: black;
+  text-align: center;
+}
+
+.add-example-tip {
+  width: calc(75% - 10px);
+  text-align: left;
+  padding-left: 10px;
+}
+
+.add-example-form-lower-bar {
+  height: 20px;
+  padding-top: 10px;
+}
+
+.add-example-submit-button {
+  width: 25%;
+  box-sizing: border-box;
+  text-align: center;
+  background-color: black;
+  border: 3px solid black;
+  border-radius: 7px;
+  cursor: pointer;
+  padding: 0px;
+  line-height: 0px;
+}

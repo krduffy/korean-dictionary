@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAPIPoster } from "./useAPIPoster";
+import { useAPIPoster } from "../useAPIPoster";
 
 const NewWordForm = () => {
   const { apiPost, successful, error } = useAPIPoster();

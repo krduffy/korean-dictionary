@@ -26,8 +26,8 @@ const SenseRelationInfo = ({ relationInfo }) => {
             relationInfo.filter((relation) => relation["type"] === relationType)
               .length > 0 && (
               <dl key={index}>
-                <dt>{relationType}</dt>
-                <dd>
+                <dt className="relation-table-dt">{relationType}</dt>
+                <dd className="relation-table-dd">
                   {relationInfo
                     .filter((relation) => relation["type"] === relationType)
                     .map((filteredRelation, innerIndex, filteredArray) => (

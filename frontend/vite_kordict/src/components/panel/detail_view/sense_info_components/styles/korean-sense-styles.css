@@ -86,17 +86,17 @@ ul {
   display: table;
 }
 
-dt,
-dd {
+.relation-table-dt,
+.relation-table-dd {
   display: table-cell;
 }
 
-dt {
+.relation-table-dt {
   white-space: nowrap;
   width: 100px;
 }
 
-dd {
+.relation-table-dd {
   padding-left: 5px;
   margin-left: 5px;
 }

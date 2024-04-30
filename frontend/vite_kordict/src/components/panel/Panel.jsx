@@ -6,8 +6,8 @@ import PaginatedResults from "./paginated_results/PaginatedResults.jsx";
 import KoreanWordView from "./detail_view/KoreanWordView.jsx";
 import HanjaCharView from "./detail_view/HanjaCharView.jsx";
 import { useHistoryManager } from "./useHistoryManager.js";
-import NewWordForm from "./NewWordForm.jsx";
-import EditWordForm from "./EditWordForm.jsx";
+import NewWordForm from "./forms/NewWordForm.jsx";
+import EditWordForm from "./forms/EditWordForm.jsx";
 
 export const ViewContext = createContext(null);
 
