@@ -1,24 +1,21 @@
 from django.shortcuts import render
-from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from .models import DictionaryUser
-from .serializers import CreateUserSerializer, UpdateUserSerializer, LoginSerializer
+from .serializers import UserSerializer, CreateUserSerializer, UpdateUserSerializer, LoginSerializer
 from knox import views as knox_views
 from django.contrib.auth import login
 
-# Create your views here.
 class CreateUserAPI(CreateAPIView):
     queryset = DictionaryUser.objects.all()
     serializer_class = CreateUserSerializer
     permission_classes = (AllowAny,)
 
-
 class UpdateUserAPI(UpdateAPIView):
     queryset = DictionaryUser.objects.all()
     serializer_class = UpdateUserSerializer
-
 
 class LoginAPIView(knox_views.LoginView):
     permission_classes = (AllowAny, )
@@ -34,3 +31,7 @@ class LoginAPIView(knox_views.LoginView):
             return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(response.data, status=status.HTTP_200_OK)
+    
+class UserInfoView(RetrieveAPIView):
+  queryset = DictionaryUser.objects.all()
+  serializer_class = UserSerializer

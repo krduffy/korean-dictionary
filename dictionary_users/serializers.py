@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = DictionaryUser
-        fields = '__all__'
+        fields = ('username', 'password')
         extra_kwargs = {
             'password': {'required': True}
         }
