@@ -6,9 +6,9 @@ const NavBar = () => {
     <div id="navbar">
       <span>한국어사전</span>
 
-      <button>한</button>
-      <button>漢</button>
-      <button>연습</button>
+      <span>님</span>
+      <span>로그인</span>
+      <span>새로운 계정 만들기</span>
     </div>
   );
 };
