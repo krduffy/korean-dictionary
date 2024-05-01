@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import environ
 
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'dictionary_users.apps.DictionaryUsersConfig',
     'api.apps.ApiConfig',
     'rest_framework',
+    'knox',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +141,12 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'dictionary_users.DictionaryUser'
+
+REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication', ),
+}
+
+REST_KNOX = {
+  'USER_SERIALIZER': 'dictionary_users.serializers.UserSerializer',
+  'TOKEN_TTL': timedelta(hours=24),
+}
