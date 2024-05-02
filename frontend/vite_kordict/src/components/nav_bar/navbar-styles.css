@@ -4,8 +4,8 @@
 
 .login-box {
   background-color: white;
-  height: 40%;
-  width: 20%;
+  height: 200px;
+  width: 250px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -24,10 +24,10 @@
   justify-content: space-between;
 }
 
-label {
-  text-align: left;
+.login-label {
+  justify-content: flex-start;
 }
 
-input {
-  text-align: right;
+.login-input {
+  justify-content: flex-end;
 }

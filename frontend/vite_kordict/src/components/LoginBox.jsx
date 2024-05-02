@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { useAPIPoster } from "../panel/useAPIPoster";
-import "./navbar-styles.css";
+import { useAPIPoster } from "./panel/useAPIPoster";
+import "./nav_bar/navbar-styles.css";
 
 const LoginBox = ({ setNavState }) => {
   const {
@@ -39,8 +39,11 @@ const LoginBox = ({ setNavState }) => {
       <div>로그인</div>
       <form onSubmit={handleSubmit}>
         <div className="input-container">
-          <label htmlFor="username">아이디</label>
+          <label htmlFor="username" className="login-label">
+            아이디
+          </label>
           <input
+            className="login-input"
             type="text"
             name="username"
             onChange={(e) => {
@@ -50,8 +53,11 @@ const LoginBox = ({ setNavState }) => {
         </div>
 
         <div className="input-container">
-          <label htmlFor="password">비밀번호</label>
+          <label htmlFor="password" className="login-label">
+            비밀번호
+          </label>
           <input
+            className="login-input"
             type="password"
             name="password"
             onChange={(e) => {

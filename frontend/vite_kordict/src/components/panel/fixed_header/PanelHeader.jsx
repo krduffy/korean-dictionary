@@ -44,7 +44,6 @@ const PanelHeader = ({
           getFollowingView={getFollowingView}
         />
       </div>
-      <div className="dummy-below-header"></div>
     </>
   );
 };

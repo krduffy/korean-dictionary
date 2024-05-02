@@ -60,43 +60,45 @@ const Panel = () => {
         getFollowingView={getFollowingView}
       />
 
-      {(currentView["view"] === "search_korean" ||
-        currentView["view"] === "search_hanja") && (
-        <PaginatedResults
-          searchType={currentView["view"]}
-          searchTerm={currentView["value"]}
-        />
-      )}
+      <div style={{ padding: "1%" }}>
+        {(currentView["view"] === "search_korean" ||
+          currentView["view"] === "search_hanja") && (
+          <PaginatedResults
+            searchType={currentView["view"]}
+            searchTerm={currentView["value"]}
+          />
+        )}
 
-      {(currentView["view"] === "detail_korean" ||
-        currentView["view"] === "detail_hanja") && (
-        <div>
-          {currentView["view"] == "detail_korean" && (
-            <KoreanWordView targetCode={currentView["value"]} />
-          )}
-          {currentView["view"] == "detail_hanja" && (
-            <HanjaCharView hanjaChar={currentView["value"]} />
-          )}
-        </div>
-      )}
+        {(currentView["view"] === "detail_korean" ||
+          currentView["view"] === "detail_hanja") && (
+          <div>
+            {currentView["view"] == "detail_korean" && (
+              <KoreanWordView targetCode={currentView["value"]} />
+            )}
+            {currentView["view"] == "detail_hanja" && (
+              <HanjaCharView hanjaChar={currentView["value"]} />
+            )}
+          </div>
+        )}
 
-      {currentView["view"] === "homepage" && (
-        <div>
-          <HomePage />
-        </div>
-      )}
+        {currentView["view"] === "homepage" && (
+          <div>
+            <HomePage />
+          </div>
+        )}
 
-      {currentView["view"] === "add_word" && (
-        <div>
-          <NewWordForm />
-        </div>
-      )}
+        {currentView["view"] === "add_word" && (
+          <div>
+            <NewWordForm />
+          </div>
+        )}
 
-      {currentView["view"] === "edit_word" && (
-        <div>
-          <EditWordForm targetCode={currentView["value"]} />
-        </div>
-      )}
+        {currentView["view"] === "edit_word" && (
+          <div>
+            <EditWordForm targetCode={currentView["value"]} />
+          </div>
+        )}
+      </div>
     </ViewContext.Provider>
   );
 };
