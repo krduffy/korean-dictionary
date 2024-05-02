@@ -52,12 +52,9 @@ class LoginSerializer(serializers.Serializer):
         elif not password:
             raise serializers.ValidationError('Password not input.')
 
-        if not DictionaryUser.objects.filter(username=username).exists():
-            raise serializers.ValidationError('Account with username does not exist.')
-
         user = authenticate(request=self.context.get('request'), username=username,
                             password=password)
-        if not user:
+        if not DictionaryUser.objects.filter(username=username).exists() or not user:
             raise serializers.ValidationError('Incorrect username/password combination.')
 
         attrs['user'] = user

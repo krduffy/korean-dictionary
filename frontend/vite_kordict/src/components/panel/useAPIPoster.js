@@ -1,8 +1,16 @@
 import { useState } from "react";
 
-export function useAPIPoster() {
+export const useAPIPoster = ({ initialFormData }) => {
   const [successful, setSuccessful] = useState(false);
+  const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
+
+  const [formData, setFormData] = useState(initialFormData);
+  const updateFormDataField = (field, value) => {
+    let newFormData = { ...formData };
+    newFormData[field] = value;
+    setFormData(newFormData);
+  };
 
   const apiPost = (url, body) => {
     setSuccessful(false);
@@ -18,7 +26,7 @@ export function useAPIPoster() {
           throw new Error("Network response error");
         } else {
           setSuccessful(true);
-          return response.json();
+          setResponse(response.json());
         }
       })
       .catch((error) => {
@@ -26,5 +34,12 @@ export function useAPIPoster() {
       });
   };
 
-  return { apiPost, successful, error };
-}
+  return {
+    formData,
+    updateFormDataField,
+    apiPost,
+    successful,
+    response,
+    error,
+  };
+};

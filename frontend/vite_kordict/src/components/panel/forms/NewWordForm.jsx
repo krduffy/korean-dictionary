@@ -1,20 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAPIPoster } from "../useAPIPoster";
 
 const NewWordForm = () => {
-  const { apiPost, successful, error } = useAPIPoster();
-
-  const [formData, setFormData] = useState({
-    word: "",
-    origin: "",
-    word_type: "",
-  });
-
-  const updateFormDataField = (field, value) => {
-    const newFormData = formData;
-    newFormData[field] = value;
-    setFormData(newFormData);
-  };
+  const { formData, updateFormDataField, apiPost, successful, error } =
+    useAPIPoster({
+      word: "",
+      origin: "",
+      word_type: "",
+    });
 
   const handleSubmit = (e) => {
     e.preventDefault();
