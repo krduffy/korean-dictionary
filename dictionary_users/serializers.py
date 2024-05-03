@@ -40,22 +40,22 @@ class UpdateUserSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField(style={'input_type': 'password'}, trim_whitespace=False)
+    username = serializers.CharField(required=False)
+    password = serializers.CharField(required=False, style={'input_type': 'password'}, trim_whitespace=False)
 
     def validate(self, attrs):
         username = attrs.get('username')
         password = attrs.get('password')
 
         if not username:
-            raise serializers.ValidationError('Username not input.')
+            raise serializers.ValidationError('아이디는 필수입니다.')
         elif not password:
-            raise serializers.ValidationError('Password not input.')
+            raise serializers.ValidationError('비밀번호는 필수입니다.')
 
         user = authenticate(request=self.context.get('request'), username=username,
                             password=password)
         if not DictionaryUser.objects.filter(username=username).exists() or not user:
-            raise serializers.ValidationError('Incorrect username/password combination.')
+            raise serializers.ValidationError('아이디나 비밀번호가 올바르지 않습니다.')
 
         attrs['user'] = user
         return attrs
