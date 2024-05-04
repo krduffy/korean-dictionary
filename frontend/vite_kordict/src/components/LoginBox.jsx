@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useAPIPoster } from "./panel/useAPIPoster";
 import "./account-styles.css";
+import { setTokenFromResponse } from "../../util/tokenManagement";
 
 const LoginBox = ({ setNavState }) => {
   const {
@@ -24,6 +25,8 @@ const LoginBox = ({ setNavState }) => {
       const timer = setTimeout(() => {
         setNavState("none");
       }, 1000);
+
+      setTokenFromResponse(response);
 
       // Clear the timeout to avoid memory leaks
       return () => clearTimeout(timer);

@@ -21,15 +21,21 @@ export const useAPIPoster = ({ initialFormData }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     }).then((response) => {
-      if (!response.ok) {
-        setError(true);
-      } else {
-        setSuccessful(true);
-      }
-      response.text().then((res) => {
-        const asJSON = JSON.parse(res);
-        setResponse(asJSON);
-      });
+      response
+        .text()
+        .then((res) => {
+          const asJSON = JSON.parse(res);
+          setResponse(asJSON);
+        })
+        /* error / success needs to be set after response to ensure that when
+           the auth token is added to local storage response is not null */
+        .then(() => {
+          if (!response.ok) {
+            setError(true);
+          } else {
+            setSuccessful(true);
+          }
+        });
     });
   };
 
