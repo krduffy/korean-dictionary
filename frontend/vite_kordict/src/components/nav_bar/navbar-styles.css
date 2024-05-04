@@ -1,33 +1,19 @@
 #navbar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
   background-color: black;
 }
 
-.login-box {
-  background-color: white;
-  height: 200px;
-  width: 250px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+#navbar-dictionary-title {
+  color: gold;
+}
+
+#login-button,
+#logout-button {
+  text-align: right;
+}
+
+#username-display {
   text-align: center;
-  padding: 3px;
-}
-
-.login-box > * {
-  color: black;
-}
-
-.input-container {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.login-label {
-  justify-content: flex-start;
-}
-
-.login-input {
-  justify-content: flex-end;
 }

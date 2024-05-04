@@ -7,6 +7,9 @@ import { loginIsExpired } from "../util/tokenManagement.js";
 
 const App = () => {
   const [navState, setNavState] = useState(null);
+  const [loggedInUsername, setLoggedInUsername] = useState(
+    localStorage.getItem("username"),
+  );
 
   useEffect(() => {
     /* check local storage to auto log in if there is already something there */
@@ -15,12 +18,18 @@ const App = () => {
     }
   }, []);
 
+  const onLogout = () => {
+    localStorage.clear();
+    setLoggedInUsername(null);
+  };
+
   return (
     <div id="main-page">
       <div id="nav-bar-container">
         <NavBar
-          loggedInUsername={localStorage.getItem("username")}
+          loggedInUsername={loggedInUsername}
           setNavState={setNavState}
+          onLogout={onLogout}
         />
       </div>
 
@@ -34,7 +43,12 @@ const App = () => {
       </div>
 
       <div>
-        {navState === "login" && <LoginBox setNavState={setNavState} />}
+        {navState === "login" && (
+          <LoginBox
+            setLoggedInUsername={setLoggedInUsername}
+            setNavState={setNavState}
+          />
+        )}
       </div>
     </div>
   );

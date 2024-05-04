@@ -3,7 +3,7 @@ import { useAPIPoster } from "./panel/useAPIPoster";
 import "./account-styles.css";
 import { setTokenFromResponse } from "../../util/tokenManagement";
 
-const LoginBox = ({ setNavState }) => {
+const LoginBox = ({ setLoggedInUsername, setNavState }) => {
   const {
     formData,
     updateFormDataField,
@@ -27,6 +27,7 @@ const LoginBox = ({ setNavState }) => {
       }, 1000);
 
       setTokenFromResponse(response);
+      setLoggedInUsername(response.user["username"]);
 
       // Clear the timeout to avoid memory leaks
       return () => clearTimeout(timer);
