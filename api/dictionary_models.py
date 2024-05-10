@@ -1,5 +1,7 @@
 from django.db import models
 
+from dictionary_users.models import DictionaryUser
+
 class KoreanWord(models.Model):
   # A "word" is a group of senses that allude to the same fundamental meaning.
   target_code = models.IntegerField(primary_key = True)
@@ -14,12 +16,11 @@ class KoreanWord(models.Model):
   # the Unicode values of self.origin. 어휘, 속담, ...
   word_type = models.CharField(max_length = 3, default="")
 
-  is_known = models.BooleanField(default=False)
+  creator = models.ForeignKey(DictionaryUser, on_delete=models.CASCADE, 
+                              related_name='created_words', default=None, null=True)
 
-  created_by_user = models.BooleanField(default = False)
-
-  # Implicit foreign keys;
-  # can also refer to KoreanWord.senses and KoreanWord.hanja_chars
+  # Implicit foreign keys:
+    # senses
 
   def __str__(self):
     return f"Word {self.word}, tc {self.target_code}"
@@ -65,7 +66,8 @@ class Sense(models.Model):
   # patterns, relations, examples, norms, grammar, history, proverb, region
   # Can view full tree in korean-dictionary/api/management/dict_files/json_structure.txt
 
-  created_by_user = models.BooleanField(default = False)
+  creator = models.ForeignKey(DictionaryUser, on_delete=models.CASCADE, 
+                              related_name='created_senses', default=None, null=True)
 
   def save(self, *args, **kwargs):
     # Important for when user defines their own senses
