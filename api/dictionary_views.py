@@ -8,6 +8,7 @@ from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from .dictionary_models import KoreanWord, Sense, HanjaCharacter
 from .dictionary_serializers import *
+from knox.auth import TokenAuthentication
 
 # Page size = 10
 class PaginationClass(PageNumberPagination):
@@ -48,7 +49,8 @@ class KoreanWordList(generics.ListAPIView):
 
     queryset = queryset.filter(word__iregex = regized_search_term)
     queryset = queryset.order_by(Length("word").asc())
-    return queryset.order_by("-is_known")
+    #return queryset.order_by("-is_known")
+    return queryset
   
 # Returns all data associated with a KoreanWord given a primary key.
 class KoreanWordDetail(generics.RetrieveAPIView):

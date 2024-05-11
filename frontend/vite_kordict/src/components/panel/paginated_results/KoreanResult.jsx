@@ -63,8 +63,8 @@ KoreanResult.propTypes = {
         s_definition: PropTypes.string.isRequired,
       }),
     ).isRequired,
-    kw_is_known: PropTypes.bool.isRequired,
-    kw_created_by_user: PropTypes.bool.isRequired,
+    kw_is_known: PropTypes.bool,
+    kw_created_by_user: PropTypes.bool,
   }).isRequired,
 };
 

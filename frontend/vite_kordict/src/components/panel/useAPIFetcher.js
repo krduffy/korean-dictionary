@@ -8,7 +8,16 @@ export function useAPIFetcher() {
     setLoading(true);
     setError(null);
 
-    fetch(url)
+    const token = localStorage.getItem("token");
+
+    const headers = token
+      ? {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
+        }
+      : { "Content-Type": "application/json" };
+
+    fetch(url, { headers })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response error");
