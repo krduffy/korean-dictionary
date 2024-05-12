@@ -45,7 +45,11 @@ const KoreanResult = ({ result }) => {
         ))}
       </ul>
 
-      <p>{result.kw_created_by_user ? "내가 추가한 단어" : "출처: 우리말샘"}</p>
+      <p>
+        {result.kw_user_data["kw_created_by_user"]
+          ? "내가 추가한 단어"
+          : "출처: 우리말샘"}
+      </p>
     </div>
   );
 };
@@ -63,8 +67,11 @@ KoreanResult.propTypes = {
         s_definition: PropTypes.string.isRequired,
       }),
     ).isRequired,
-    kw_is_known: PropTypes.bool,
-    kw_created_by_user: PropTypes.bool,
+    kw_user_data: PropTypes.shape({
+      kw_is_known: PropTypes.bool,
+      kw_is_studied: PropTypes.bool,
+      kw_created_by_user: PropTypes.bool,
+    }),
   }).isRequired,
 };
 
