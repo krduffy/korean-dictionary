@@ -36,11 +36,24 @@ class KoreanWordSerializer(serializers.ModelSerializer):
 
 class KoreanWordDetailedSerializer(serializers.ModelSerializer):
   senses = serializers.SerializerMethodField()
+  user_data = serializers.SerializerMethodField()
 
   class Meta:
     model = KoreanWord
-    fields = ('__all__')
-    read_only_fields = ['target_code', 'word', 'origin', 'word_type', 'senses']
+    fields = '__all__'
+    read_only_fields = ['__all__']
+
+  def get_user_data(self, obj):
+    sr_user = self.context['request'].user
+
+    if sr_user.is_authenticated:
+      user_data = dict()
+      user_data['is_known'] = sr_user.known_words.filter(pk = obj.target_code).exists()
+      user_data['is_studied'] = sr_user.study_words.filter(pk = obj.target_code).exists()
+      user_data['added_by_user'] = KoreanWord.objects.get(pk = obj.target_code).creator == sr_user
+      return user_data
+
+    return None
 
   def get_senses(self, obj):
     senses = obj.senses.all().order_by('order')

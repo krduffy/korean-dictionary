@@ -8,7 +8,6 @@ from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from .dictionary_models import KoreanWord, Sense, HanjaCharacter
 from .dictionary_serializers import *
-from knox.auth import TokenAuthentication
 
 # Page size = 10
 class PaginationClass(PageNumberPagination):

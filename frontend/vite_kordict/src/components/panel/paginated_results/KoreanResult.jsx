@@ -46,7 +46,7 @@ const KoreanResult = ({ result }) => {
       </ul>
 
       <p>
-        {result.kw_user_data["kw_created_by_user"]
+        {result.kw_user_data && result.kw_user_data["kw_added_by_user"]
           ? "내가 추가한 단어"
           : "출처: 우리말샘"}
       </p>

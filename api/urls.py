@@ -17,4 +17,6 @@ urlpatterns = [
   path('update_sense/<pk>', UpdateSenseView.as_view()),
   path('create_note/', CreateNoteView.as_view()),
   path('update_note/<pk>', UpdateNoteView.as_view()),
+
+  path('user_known_words/', UserKnownWords.as_view()),
 ]

@@ -16,9 +16,18 @@ export const useAPIPoster = ({ initialFormData }) => {
     setSuccessful(false);
     setError(false);
 
+    const token = localStorage.getItem("token");
+
+    const headers = token
+      ? {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
+        }
+      : { "Content-Type": "application/json" };
+
     fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: headers,
       body: JSON.stringify(body),
     }).then((response) => {
       response

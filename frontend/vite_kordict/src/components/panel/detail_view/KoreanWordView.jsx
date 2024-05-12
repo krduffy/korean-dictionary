@@ -7,6 +7,7 @@ import { useAPIFetcher } from "../useAPIFetcher.js";
 import { LoadingMessage } from "../../LoadingMessage.jsx";
 import SenseHistoryInfo from "./sense_info_components/SenseHistoryInfo.jsx";
 import "./styles/korean-word-view-styles.css";
+import { useAPIPoster } from "../useAPIPoster.js";
 
 const KoreanWordView = ({ targetCode, initialWordKnown }) => {
   const [wordData, setWordData] = useState({});
@@ -18,7 +19,8 @@ const KoreanWordView = ({ targetCode, initialWordKnown }) => {
 
   const setData = (dataFromFetch) => {
     setWordData(dataFromFetch);
-    setWordIsKnown(dataFromFetch["is_known"]);
+    if (dataFromFetch.user_data)
+      setWordIsKnown(dataFromFetch.user_data["is_known"]);
   };
 
   useEffect(() => {
@@ -41,19 +43,11 @@ const KoreanWordView = ({ targetCode, initialWordKnown }) => {
 
           <div className="word-extra-info-container">
             <span className="word-extra-info">{wordData["word_type"]}</span>
-            <span
-              className="word-extra-info"
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                setWordIsKnown(!wordIsKnown);
-                fetch(
-                  `http://127.0.0.1:8000/api/toggle_word_known/${wordData["target_code"]}`,
-                  { method: "PUT" },
-                );
-              }}
-            >
-              {wordIsKnown ? "아는  단어" : "모르는 단어"}
-            </span>
+            <KnownOrUnknownView
+              targetCode={wordData["target_code"]}
+              wordIsKnown={wordIsKnown}
+              setWordIsKnown={setWordIsKnown}
+            />
             {wordData["created_by_user"] && (
               <span className="word-extra-info">내가 추가한 단어</span>
             )}
@@ -104,3 +98,23 @@ KoreanWordView.propTypes = {
 };
 
 export default KoreanWordView;
+
+const KnownOrUnknownView = ({ targetCode, wordIsKnown, setWordIsKnown }) => {
+  const { apiPost, successful, response, error } = useAPIPoster({});
+
+  return (
+    <span
+      className="word-extra-info"
+      style={{ cursor: "pointer" }}
+      onClick={() => {
+        setWordIsKnown(!wordIsKnown);
+        apiPost(
+          `http://127.0.0.1:8000/api/toggle_word_known/${targetCode}`,
+          "",
+        );
+      }}
+    >
+      {wordIsKnown ? "아는  단어" : "모르는 단어"}
+    </span>
+  );
+};
