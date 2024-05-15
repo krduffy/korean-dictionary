@@ -152,7 +152,7 @@ class HomepageInfoView(APIView):
     num_same_hanja_examples = 5
     i = 0
     retrieved = 0
-    same_hanja_examples = []
+    same_hanja_examples = {}
     selected_hanja_chars = []
 
     while retrieved < num_same_hanja_examples:
@@ -165,7 +165,7 @@ class HomepageInfoView(APIView):
             else:
               retrieved = retrieved + 1
               selected_hanja_chars.append(character)
-              same_hanja_examples.append(KoreanWordSerializer(first_two, many = True, context = {'request': request}).data)
+              same_hanja_examples[character] = KoreanWordSerializer(first_two, many = True, context = {'request': request}).data
         i = i + 1
       except IndexError:
         break
