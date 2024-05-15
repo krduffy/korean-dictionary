@@ -156,7 +156,6 @@ class HomepageInfoView(APIView):
     selected_hanja_chars = []
 
     for word in known_words:
-      print('making way through')
       if retrieved >= num_same_hanja_examples:
         break
 
@@ -172,8 +171,10 @@ class HomepageInfoView(APIView):
           if retrieved >= num_same_hanja_examples:
             break
 
+    num_random_study_words = 1
+
     random_study_words = KoreanWordSerializer(
-      self.request.user.study_words.all().order_by('?')[:5],
+      self.request.user.study_words.all().order_by('?')[:num_random_study_words],
       many = True,
       context = {'request': request}) \
       .data
@@ -205,14 +206,10 @@ def get_unused_char_in_word(word_origin, already_used, must_contain):
 
     return unused
 
-class HanjaGameView(APIView):
-  permission_classes = (IsAuthenticated, )
-
-  def get(self, request):
-    # Finds a path that the user will need to take to solve the game.
-    # Also functions as an example solution in the case that the user gives up.
+def generate_hanja_path(request, max_steps):
+  # Finds a path that the user can take to solve the game.
     
-    known_words = self.request.user.known_words.all().order_by('?')
+    known_words = request.user.known_words.all().order_by('?')
     hanja_path = []
     # Hanja path in the form of [[character, word to connect this], 
     # [next character, next word]] etc. So an example would be
@@ -222,7 +219,6 @@ class HanjaGameView(APIView):
     step_characters = []
     step_word_origins = []
 
-    num_steps = 5
     steps_taken = 0
     
     allowed_passes = 2
@@ -230,7 +226,7 @@ class HanjaGameView(APIView):
 
     i = 0
 
-    while steps_taken < num_steps:
+    while steps_taken < max_steps:
       while True:
         try:
           word = known_words[i]
@@ -241,9 +237,7 @@ class HanjaGameView(APIView):
             passes = passes + 1
             continue
           else:
-            return Response({
-              'path': hanja_path
-            })
+            return hanja_path
         
         if word.origin in step_word_origins:
           continue
@@ -266,8 +260,66 @@ class HanjaGameView(APIView):
           break
 
         i = i + 1
-        
+    
+    return hanja_path
+
+class HanjaGameView(APIView):
+  permission_classes = (IsAuthenticated, )
+
+  def get(self, request):
+    
+    # if user doesnt know any words / fewer than a certain number send back a specific error response
+    # if they know some but not many it can send a warning that the game will probably be
+    # not as good as if they knew more words with hanja in
+
+    # difficulty can only be 'desired'. it is not guaranteed because there is no way to know
+    # which words the user specifically knows; it is possible for every attempt to create a good
+    # path to be only 1 word long, in which case 
+    desired_length = int(self.request.query_params.get('length', 6))
+    desired_minimum = desired_length - 2
+    
+    generation_attempts = 1
+    generated_paths = []
+    hanja_path = []
+    broke_out = False
+
+    # do the generation
+    for i in range(0, generation_attempts):
+      hanja_path = generate_hanja_path(request, max_steps=desired_length)
+      if len(hanja_path) >= desired_minimum:
+        broke_out = True
+        break
+
+      generated_paths.append(hanja_path)
+
+    # even after generation_attempts at generation, it did not find a suitable length. so
+    # it just picks the longest one.
+    if not broke_out:
+      hanja_path = max(generated_paths, key=len)
+      path_length = len(hanja_path)
+
+    start_from = hanja_path[0]["step_character"]["character"]
+    go_to = hanja_path[path_length - 1]["step_character"]["character"]
+
+    # number of required words and characters.
+    num_requirements = path_length // 3
+    
+    required_words = []
+    required_characters = []
+    selected = random.sample(hanja_path[1:-1], k=num_requirements)
+
+    for i in range(0, num_requirements):
+      ri = random.randint(0, 2)
+
+      if ri == 0:
+        required_words.append(selected[i]["example_word"])
+      else:
+        required_characters.append(selected[i]["step_character"])
 
     return Response({
-      'path': hanja_path
+      'start_from': start_from,
+      'go_to': go_to,
+      'required_characters': required_characters,
+      'required_words': required_words,
+      'hanja_path': hanja_path
     })

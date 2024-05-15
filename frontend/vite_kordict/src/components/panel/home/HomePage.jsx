@@ -4,6 +4,7 @@ import { ViewContext } from "../Panel.jsx";
 import { LoadingMessage } from "../../LoadingMessage";
 import HanjaExampleResult from "../paginated_results/HanjaExampleResult.jsx";
 import KoreanResult from "../paginated_results/KoreanResult.jsx";
+import "./homepage-styles.css";
 
 const HomePage = () => {
   const [homepageData, setHomepageData] = useState();
@@ -27,7 +28,7 @@ const HomePage = () => {
             <div id="homepage-main-content">
               <div className="study-words">
                 공부하는 단어
-                <ul>
+                <ul className="study-word-list-item">
                   {homepageData &&
                     homepageData.random_study_words &&
                     Object.entries(homepageData.random_study_words).map(
@@ -42,7 +43,7 @@ const HomePage = () => {
               </div>
               <div className="same-hanja-section">
                 알고 계셨나요? 이 단어들은 같은 한자가 포함된다.
-                <ul>
+                <ul className="same-hanja-list-item">
                   {homepageData &&
                     homepageData.same_hanja &&
                     Object.entries(homepageData.same_hanja).map(
