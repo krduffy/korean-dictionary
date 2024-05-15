@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAPIFetcher } from "../useAPIFetcher";
 import { ViewContext } from "../Panel.jsx";
 import { LoadingMessage } from "../../LoadingMessage";
-import StringWithHanja from "../StringWithHanja.jsx";
+import HanjaExampleResult from "../paginated_results/HanjaExampleResult.jsx";
 
 const HomePage = () => {
   const [homepageData, setHomepageData] = useState();
@@ -35,14 +35,9 @@ const HomePage = () => {
                           <span>{sameHanjaItem[0]}</span>
 
                           {/* first item in example. */}
-                          <SameHanjaExampleWord
-                            hanjaExampleData={sameHanjaItem[1][0]}
-                          />
-
+                          <HanjaExampleResult result={sameHanjaItem[1][0]}/>
                           {/* second item in example. */}
-                          <SameHanjaExampleWord
-                            hanjaExampleData={sameHanjaItem[1][1]}
-                          />
+                          <HanjaExampleResult result={sameHanjaItem[1][1]}/>
                         </li>
                       ),
                     )}
@@ -57,11 +52,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-const SameHanjaExampleWord = ({ hanjaExampleData }) => {
-  return (
-    <div>
-      <StringWithHanja string={hanjaExampleData["kw_origin"]} />
-    </div>
-  );
-};
