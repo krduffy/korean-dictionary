@@ -10,8 +10,8 @@ class DictionaryUser(AbstractUser):
   # Implicit keys
     # created_words
     # created_senses
-  known_words = models.ManyToManyField('api.KoreanWord', related_name='known_by')
-  study_words = models.ManyToManyField('api.KoreanWord', related_name='studied_by')
+    # known_words
+    # study_words
 
   class Meta:
     db_table = 'auth_user'

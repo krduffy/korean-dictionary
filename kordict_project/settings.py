@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import environ
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -150,3 +151,6 @@ REST_KNOX = {
   'USER_SERIALIZER': 'dictionary_users.serializers.UserSerializer',
   'TOKEN_TTL': timedelta(hours=24),
 }
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'user_note_images')
+MEDIA_URL = '/user_note_images/'

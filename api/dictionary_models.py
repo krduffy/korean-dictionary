@@ -18,6 +18,8 @@ class KoreanWord(models.Model):
 
   creator = models.ForeignKey(DictionaryUser, on_delete=models.CASCADE, 
                               related_name='created_words', default=None, null=True)
+  known_by = models.ManyToManyField(DictionaryUser, related_name='known_words')
+  studied_by = models.ManyToManyField(DictionaryUser, related_name='study_words')
 
   # Implicit foreign keys:
     # senses
