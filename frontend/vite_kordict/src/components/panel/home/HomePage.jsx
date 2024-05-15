@@ -3,6 +3,7 @@ import { useAPIFetcher } from "../useAPIFetcher";
 import { ViewContext } from "../Panel.jsx";
 import { LoadingMessage } from "../../LoadingMessage";
 import HanjaExampleResult from "../paginated_results/HanjaExampleResult.jsx";
+import KoreanResult from "../paginated_results/KoreanResult.jsx";
 
 const HomePage = () => {
   const [homepageData, setHomepageData] = useState();
@@ -24,6 +25,21 @@ const HomePage = () => {
             <LoadingMessage />
           ) : (
             <div id="homepage-main-content">
+              <div className="study-words">
+                공부하는 단어
+                <ul>
+                  {homepageData &&
+                    homepageData.random_study_words &&
+                    Object.entries(homepageData.random_study_words).map(
+                      (studyWordItem, id) => (
+                        <li className="study-word-data" key={id}>
+                          {console.log(studyWordItem)}
+                          <KoreanResult result={studyWordItem[1]} />
+                        </li>
+                      ),
+                    )}
+                </ul>
+              </div>
               <div className="same-hanja-section">
                 알고 계셨나요? 이 단어들은 같은 한자가 포함된다.
                 <ul>
@@ -35,9 +51,9 @@ const HomePage = () => {
                           <span>{sameHanjaItem[0]}</span>
 
                           {/* first item in example. */}
-                          <HanjaExampleResult result={sameHanjaItem[1][0]}/>
+                          <HanjaExampleResult result={sameHanjaItem[1][0]} />
                           {/* second item in example. */}
-                          <HanjaExampleResult result={sameHanjaItem[1][1]}/>
+                          <HanjaExampleResult result={sameHanjaItem[1][1]} />
                         </li>
                       ),
                     )}
