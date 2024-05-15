@@ -13,6 +13,37 @@ from .dictionary_serializers import *
 class PaginationClass(PageNumberPagination):
   page_size = 10
 
+# have not tested yet
+def ignore_other_user_words(queryset, user):
+
+  return queryset.annotate(
+      user_or_default = Case(
+          When(creator=None, then=Value(True)),
+          When(creator=user, then=Value(True)),
+          default=Value(False),
+          output_field=BooleanField(),
+      )
+  ).filter("user_or_default")
+
+def prioritize_known_or_studying(queryset, user):
+  known_words = user.known_words.all()
+  study_words = user.study_words.all()
+
+  new_queryset = None
+
+  if known_words.exists() or study_words.exists():
+      new_queryset = queryset.annotate(
+          prioritized=Case(
+              When(target_code__in=known_words, then=Value(True)),
+              When(target_code__in=study_words, then=Value(True)),
+              default=Value(False),
+              output_field=BooleanField(),
+          )
+      ).order_by("-prioritized")
+
+  return new_queryset if new_queryset else queryset
+
+
 # Returns list of KoreanWords for given search_term query parameter.
 class KoreanWordList(generics.ListAPIView):
   serializer_class = KoreanWordSerializer
@@ -48,7 +79,9 @@ class KoreanWordList(generics.ListAPIView):
 
     queryset = queryset.filter(word__iregex = regized_search_term)
     queryset = queryset.order_by(Length("word").asc())
-    #return queryset.order_by("-is_known")
+
+    if self.request.user.is_authenticated:
+      return prioritize_known_or_studying(queryset=queryset, user=self.request.user)
     return queryset
   
 # Returns all data associated with a KoreanWord given a primary key.
@@ -56,6 +89,7 @@ class KoreanWordDetail(generics.RetrieveAPIView):
   queryset = KoreanWord.objects.all()
   serializer_class = KoreanWordDetailedSerializer
 
+# TODO delete nonuser senses
 # TODO incorporate this 2 sense views below with related words in korean detail. 
 class SenseList(generics.ListAPIView):
   serializer_class = SenseSerializer
@@ -146,7 +180,9 @@ class HanjaExamples(generics.ListAPIView):
     queryset = KoreanWord.objects.all()
     queryset = queryset.filter(origin__contains = character)
     queryset = queryset.order_by(Length("word").asc())
-    # TODO have user as query param
+    if self.request.user.is_authenticated:
+      queryset = prioritize_known_or_studying(queryset=queryset, user=self.request.user)
+    
     return queryset
 
 # Returns the data shown when hovering over a Hanja character.  
@@ -161,10 +197,12 @@ class HanjaPopup(APIView):
     except HanjaCharacter.DoesNotExist:
       meaning_reading = None
 
-    #TODO include user as a query param
     num_results = 10
     queryset = KoreanWord.objects.all()
     queryset = queryset.filter(origin__contains = character)
+    if self.request.user.is_authenticated:
+      queryset = prioritize_known_or_studying(queryset=queryset, user=self.request.user)
+    
     queryset = queryset.order_by(Length("word").asc())[:num_results]
 
     serialized_words = KoreanSerializerForHanja(queryset, many = True).data
