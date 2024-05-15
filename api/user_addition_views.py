@@ -58,13 +58,59 @@ class UpdateWordView(UpdateAPIView):
 class ToggleWordKnownView(APIView):
   permission_classes = (IsAuthenticated,)
 
-  def post(self, request, pk, format=None):
+  def put(self, request, pk, format=None):
     try:
-      korean_word = KoreanWord.objects.get(pk = pk)
+      korean_word = KoreanWord.objects.get(pk=pk)
       user = request.user
 
-      user.known_words.add(korean_word)
-      user.save()
+      if korean_word not in user.known_words.all():
+        user.known_words.add(korean_word)
+        user.save()
+
+        serializer = KoreanWordSerializer(korean_word, context={'request': request})
+        return Response(serializer.data)
+    except KoreanWord.DoesNotExist:
+      return Response(status=status.HTTP_404_NOT_FOUND)
+
+  def delete(self, request, pk, format=None):
+    try:
+      korean_word = KoreanWord.objects.get(pk=pk)
+      user = request.user
+
+      if korean_word in user.known_words.all():
+          user.known_words.remove(korean_word)
+          user.save()
+
+      serializer = KoreanWordSerializer(korean_word, context={'request': request})
+      return Response(serializer.data)
+    except KoreanWord.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+class ToggleWordStudiedView(APIView):
+  permission_classes = (IsAuthenticated,)
+
+  def put(self, request, pk, format=None):
+    try:
+      korean_word = KoreanWord.objects.get(pk=pk)
+      user = request.user
+
+      if korean_word not in user.study_words.all():
+          user.study_words.add(korean_word)
+          user.save()
+
+      serializer = KoreanWordSerializer(korean_word, context={'request': request})
+      return Response(serializer.data)
+    except KoreanWord.DoesNotExist:
+      return Response(status=status.HTTP_404_NOT_FOUND)
+
+  def delete(self, request, pk, format=None):
+    try:
+      korean_word = KoreanWord.objects.get(pk=pk)
+      user = request.user
+
+      if korean_word in user.study_words.all():
+        user.study_words.remove(korean_word)
+        user.save()
 
       serializer = KoreanWordSerializer(korean_word, context={'request': request})
       return Response(serializer.data)

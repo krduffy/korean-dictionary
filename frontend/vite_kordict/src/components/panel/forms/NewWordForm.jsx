@@ -1,9 +1,9 @@
 import React from "react";
-import { useAPIPoster } from "../useAPIPoster";
+import { useAPIModifier } from "../useAPIModifier";
 
 const NewWordForm = () => {
-  const { formData, updateFormDataField, apiPost, successful, error } =
-    useAPIPoster({
+  const { formData, updateFormDataField, apiModify, successful, error } =
+    useAPIModifier({
       word: "",
       origin: "",
       word_type: "",
@@ -11,7 +11,7 @@ const NewWordForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    apiPost("http://127.0.0.1:8000/api/create_word/", formData);
+    apiModify("http://127.0.0.1:8000/api/create_word/", formData, "POST");
   };
 
   return (

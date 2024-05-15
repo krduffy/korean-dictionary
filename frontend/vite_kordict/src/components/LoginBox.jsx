@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useAPIPoster } from "./panel/useAPIPoster";
+import { useAPIModifier } from "./panel/useAPIModifier.js";
 import "./account-styles.css";
 import { setTokenFromResponse } from "../../util/tokenManagement";
 
@@ -7,11 +7,11 @@ const LoginBox = ({ setLoggedInUsername, setNavState }) => {
   const {
     formData,
     updateFormDataField,
-    apiPost,
+    apiModify,
     successful,
     response,
     error,
-  } = useAPIPoster({
+  } = useAPIModifier({
     username: "",
     password: "",
   });
@@ -36,7 +36,7 @@ const LoginBox = ({ setLoggedInUsername, setNavState }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    apiPost("http://127.0.0.1:8000/user/login/", formData);
+    apiModify("http://127.0.0.1:8000/user/login/", formData, "POST");
   };
 
   return (

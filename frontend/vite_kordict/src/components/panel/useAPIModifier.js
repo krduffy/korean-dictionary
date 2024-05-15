@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useAPIPoster = ({ initialFormData }) => {
+export const useAPIModifier = ({ initialFormData }) => {
   const [successful, setSuccessful] = useState(false);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(false);
@@ -12,7 +12,7 @@ export const useAPIPoster = ({ initialFormData }) => {
     setFormData(newFormData);
   };
 
-  const apiPost = (url, body) => {
+  const apiModify = (url, body, method) => {
     setSuccessful(false);
     setError(false);
 
@@ -26,7 +26,7 @@ export const useAPIPoster = ({ initialFormData }) => {
       : { "Content-Type": "application/json" };
 
     fetch(url, {
-      method: "POST",
+      method: method,
       headers: headers,
       body: JSON.stringify(body),
     }).then((response) => {
@@ -51,7 +51,7 @@ export const useAPIPoster = ({ initialFormData }) => {
   return {
     formData,
     updateFormDataField,
-    apiPost,
+    apiModify,
     successful,
     response,
     error,

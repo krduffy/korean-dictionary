@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useAPIFetcher } from "../useAPIFetcher.js";
 import { LoadingMessage } from "../../LoadingMessage.jsx";
-import { useAPIPoster } from "../useAPIPoster";
+import { useAPIModifier } from "../useAPIModifier.js";
 import "./form-styles.css";
 
 const EditWordForm = ({ targetCode }) => {
@@ -48,7 +48,7 @@ const AddExampleForm = ({ wordTargetCode, alreadyAtLeastOneExample }) => {
   const [showForm, setShowForm] = useState(false);
   const [exampleText, setExampleText] = useState("");
   const [sourceText, setSourceText] = useState("");
-  const { apiPost, successful, error } = useAPIPoster();
+  const { apiModify, successful, error } = useAPIModifier();
 
   const handleSubmit = () => {};
 
