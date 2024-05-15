@@ -221,18 +221,28 @@ class HanjaGameView(APIView):
     step_characters = []
     step_word_origins = []
 
-    num_steps = 2
+    num_steps = 5
     steps_taken = 0
+    
+    allowed_passes = 2
+    passes = 0
+
     i = 0
+
     while steps_taken < num_steps:
       while True:
         try:
           word = known_words[i]
         except IndexError:
           # in this case, there just is not a path long enough.
-          return Response({
-            'path': hanja_path
-          })
+          if passes < allowed_passes:
+            i = 0
+            passes = passes + 1
+            continue
+          else:
+            return Response({
+              'path': hanja_path
+            })
         
         if word.origin in step_word_origins:
           continue

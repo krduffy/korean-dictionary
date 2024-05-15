@@ -43,7 +43,6 @@ def prioritize_known_or_studying(queryset, user):
 
   return new_queryset if new_queryset else queryset
 
-
 # Returns list of KoreanWords for given search_term query parameter.
 class KoreanWordList(generics.ListAPIView):
   serializer_class = KoreanWordSerializer
@@ -179,7 +178,6 @@ class HanjaExamples(generics.ListAPIView):
 
     queryset = KoreanWord.objects.all()
     queryset = queryset.filter(origin__contains = character)
-    queryset = queryset.order_by(Length("word").asc())
     if self.request.user.is_authenticated:
       queryset = prioritize_known_or_studying(queryset=queryset, user=self.request.user)
     
@@ -200,9 +198,6 @@ class HanjaPopup(APIView):
     num_results = 10
     queryset = KoreanWord.objects.all()
     queryset = queryset.filter(origin__contains = character)
-    if self.request.user.is_authenticated:
-      queryset = prioritize_known_or_studying(queryset=queryset, user=self.request.user)
-    
     queryset = queryset.order_by(Length("word").asc())[:num_results]
 
     serialized_words = KoreanSerializerForHanja(queryset, many = True).data
