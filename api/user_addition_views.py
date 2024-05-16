@@ -69,6 +69,8 @@ class ToggleWordKnownView(APIView):
 
         serializer = KoreanWordSerializer(korean_word, context={'request': request})
         return Response(serializer.data)
+      
+      return Response(status= status.HTTP_400_BAD_REQUEST, data={"detail": "Word is already known."})
     except KoreanWord.DoesNotExist:
       return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -78,11 +80,14 @@ class ToggleWordKnownView(APIView):
       user = request.user
 
       if korean_word in user.known_words.all():
-          user.known_words.remove(korean_word)
-          user.save()
+        user.known_words.remove(korean_word)
+        user.save()
 
-      serializer = KoreanWordSerializer(korean_word, context={'request': request})
-      return Response(serializer.data)
+        serializer = KoreanWordSerializer(korean_word, context={'request': request})
+        return Response(serializer.data)
+      
+      return Response(status= status.HTTP_400_BAD_REQUEST, data={"detail": "Word is already unknown."})
+  
     except KoreanWord.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
@@ -295,7 +300,8 @@ class HanjaGameView(APIView):
     # it just picks the longest one.
     if not broke_out:
       hanja_path = max(generated_paths, key=len)
-      path_length = len(hanja_path)
+    
+    path_length = len(hanja_path)
 
     start_from = hanja_path[0]["step_character"]["character"]
     go_to = hanja_path[path_length - 1]["step_character"]["character"]

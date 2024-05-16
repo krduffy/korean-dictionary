@@ -1,7 +1,4 @@
-.study-word-list-item {
-  background-color: #2e2e2e;
-}
-
+.study-word-list-item,
 .same-hanja-list-item {
-  background-color: green;
+  background-color: #2e2e2e;
 }

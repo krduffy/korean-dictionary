@@ -37,6 +37,7 @@ const KoreanResult = ({ result }) => {
         </div>
 
         <div>
+          {console.log(result["kw_user_data"])}
           {result["kw_user_data"] && (
             <span className="korean-result-know-study-container">
               <KnowStudyToggles
