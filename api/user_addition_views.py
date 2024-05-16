@@ -134,10 +134,9 @@ class UserKnownWords(generics.ListAPIView):
   serializer_class = KoreanWordSerializer
   pagination_class = PaginationClass
 
-  def get(self, request):
+  def get_queryset(self):
     known_words = self.request.user.known_words.all()
-    serializer = KoreanWordSerializer(known_words, many=True, context = {'request': request})
-    return Response(serializer.data)
+    return known_words
   
 class HomepageInfoView(APIView):
   permission_classes = (IsAuthenticated, )
