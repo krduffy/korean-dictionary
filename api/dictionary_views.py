@@ -1,5 +1,5 @@
 
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.db.models import Case, When, Value, BooleanField, Q
 from django.db.models.functions import StrIndex, Length
 from rest_framework.views import APIView
@@ -8,6 +8,9 @@ from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from .dictionary_models import KoreanWord, Sense, HanjaCharacter
 from .dictionary_serializers import *
+
+# nlp
+from konlpy.tag import Komoran
 
 # Page size = 10
 class PaginationClass(PageNumberPagination):
@@ -87,6 +90,37 @@ class KoreanWordList(generics.ListAPIView):
 class KoreanWordDetail(generics.RetrieveAPIView):
   queryset = KoreanWord.objects.all()
   serializer_class = KoreanWordDetailedSerializer
+
+def get_nouns_verbs(sentence):
+
+  def noun_or_verb_or_det(str):
+    return str.startswith("N") or str.startswith("V") or str.startswith("M") 
+  
+  def is_verb(str):
+    return str.startswith("V")
+
+  komoran = Komoran()
+  analysis = komoran.pos(sentence)
+
+  delete_non = [item for item in analysis if noun_or_verb_or_det(item[1])]
+  return [item[0] + "다" if is_verb(item[1]) else item[0] for item in delete_non]
+
+class KoreanWordAnalyze(APIView):
+  def post(self, request):
+    sentence = request.POST.get('sentence', '')
+    analysis = get_nouns_verbs(sentence)
+    
+    mouse_over = request.POST.get('mouse_over', '')
+    
+    if len(analysis) == len(sentence.split()):
+      index_of_mouse_over = sentence.split().index(mouse_over)
+      return JsonResponse({'found_by_index': analysis[index_of_mouse_over], 'num_words': len(analysis), 'analysis': analysis})
+    
+    for word in analysis:
+      if mouse_over.startswith(word):
+        return JsonResponse({'found': word, 'num_words': len(analysis), 'analysis': analysis})
+
+    return JsonResponse({'error': 'could not find word', 'num_words': len(analysis), 'analysis': analysis})
 
 # TODO delete nonuser senses
 # TODO incorporate this 2 sense views below with related words in korean detail. 
