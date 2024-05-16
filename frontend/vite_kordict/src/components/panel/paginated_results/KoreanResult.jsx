@@ -4,6 +4,7 @@ import { ViewContext } from "../Panel.jsx";
 import StringWithHanja from "../StringWithHanja.jsx";
 import "./styles/korean-result-styles.css";
 import "../universal-styles.css";
+import KnowStudyToggles from "../detail_view/KnowStudyToggles.jsx";
 
 const KoreanResult = ({ result }) => {
   const viewContext = useContext(ViewContext);
@@ -22,16 +23,30 @@ const KoreanResult = ({ result }) => {
   return (
     <div className="result_box">
       <div className="header">
-        <span
-          onClick={() => viewKoreanDetail(result.kw_target_code)}
-          className="word_header clickable-result"
-        >
-          {result.kw_word}
-        </span>
+        <div>
+          <span
+            onClick={() => viewKoreanDetail(result.kw_target_code)}
+            className="word_header clickable-result"
+          >
+            {result.kw_word}
+          </span>
 
-        {"   "}
+          {"   "}
 
-        {result.kw_origin && <StringWithHanja string={result.kw_origin} />}
+          {result.kw_origin && <StringWithHanja string={result.kw_origin} />}
+        </div>
+
+        <div>
+          {result["kw_user_data"] && (
+            <span className="korean-result-know-study-container">
+              <KnowStudyToggles
+                targetCode={result["kw_target_code"]}
+                initiallyKnown={result["kw_user_data"]["kw_is_known"]}
+                initiallyStudied={result["kw_user_data"]["kw_is_studied"]}
+              />
+            </span>
+          )}
+        </div>
       </div>
 
       <ul className="listed_senses">

@@ -6,6 +6,11 @@
 .header {
   font-family: sans-serif;
   margin-bottom: 5px;
+  width: 100%;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .word_header {
@@ -22,4 +27,8 @@
   line-height: 1.5;
   list-style: none;
   padding: 0;
+}
+
+.korean-result-know-study-container {
+  text-align: right;
 }

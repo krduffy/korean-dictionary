@@ -17,8 +17,6 @@ const SearchBar = () => {
   }, [searchBarInitialState]);
 
   const sanitize = (content) => {
-    content = content.trim();
-
     const allowedUnicodeRanges = [
       // Korean Hangul characters
       "\uAC00-\uD7AF", // Hangul Syllables
@@ -27,6 +25,7 @@ const SearchBar = () => {
       "\uA960-\uA97F", // Hangul Jamo Extended-A
       "\uD7B0-\uD7FF", // Hangul Jamo Extended-B
 
+      "\u0020", // space
       "\u005f", // underscore (_)
       "\u002a", // asterisk (*)
       "\u4e00-\u9fff", // Hanja characters (CJK Unified Ideographs)
@@ -40,12 +39,14 @@ const SearchBar = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setBoxContent(boxContent.trim());
+
     if (dictionary === "korean")
       updateViewAndPushToHistory({
         view: "search_korean",
-        value: boxContent,
+        value: boxContent.trim(),
         searchBarInitialState: {
-          boxContent: boxContent,
+          boxContent: boxContent.trim(),
           dictionary: "korean",
         },
       });
@@ -55,18 +56,18 @@ const SearchBar = () => {
       if (boxContent.match(/^[\u4E00-\u9FFF]$/g)) {
         updateViewAndPushToHistory({
           view: "detail_hanja",
-          value: boxContent,
+          value: boxContent.trim(),
           searchBarInitialState: {
-            boxContent: boxContent,
+            boxContent: boxContent.trim(),
             dictionary: "hanja",
           },
         });
       } else {
         updateViewAndPushToHistory({
           view: "search_hanja",
-          value: boxContent,
+          value: boxContent.trim(),
           searchBarInitialState: {
-            boxContent: boxContent,
+            boxContent: boxContent.trim(),
             dictionary: "hanja",
           },
         });

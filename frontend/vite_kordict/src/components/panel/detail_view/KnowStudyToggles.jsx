@@ -29,7 +29,7 @@ const KnownOrUnknownView = ({ targetCode, wordIsKnown, setWordIsKnown }) => {
 
   return (
     <span
-      className="word-extra-info"
+      className={wordIsKnown ? "known-word-button" : "unknown-word-button"}
       style={{ cursor: "pointer" }}
       onClick={() => {
         const method = wordIsKnown ? "DELETE" : "PUT";
@@ -41,7 +41,7 @@ const KnownOrUnknownView = ({ targetCode, wordIsKnown, setWordIsKnown }) => {
         );
       }}
     >
-      {wordIsKnown ? "아는  단어" : "모르는 단어"}
+      {wordIsKnown ? "★" : "☆"}
     </span>
   );
 };
@@ -55,7 +55,9 @@ const StudiedOrNotStudiedView = ({
 
   return (
     <span
-      className="word-extra-info"
+      className={
+        wordIsStudied ? "studied-word-button" : "not-studied-word-button"
+      }
       style={{ cursor: "pointer" }}
       onClick={() => {
         const method = wordIsStudied ? "DELETE" : "PUT";
@@ -67,7 +69,7 @@ const StudiedOrNotStudiedView = ({
         );
       }}
     >
-      {wordIsStudied ? "공부" : "비공부"}
+      {wordIsStudied ? "암기" : "비암기"}
     </span>
   );
 };

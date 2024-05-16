@@ -2,13 +2,32 @@
   font-size: 40px;
 }
 
-.word-extra-info {
-  border: 10px solid black;
+.word-extra-info,
+.known-word-button,
+.unknown-word-button,
+.studied-word-button,
+.not-studied-word-button {
+  border: 10px solid transparent;
   border-radius: 10px;
-  background-color: black;
 }
 
 .word-extra-info-container {
   padding-bottom: 10px;
   padding-top: 10px;
+}
+
+.known-word-button {
+  background-color: #946821;
+}
+
+.unknown-word-button {
+  background-color: gray;
+}
+
+.known-word-button {
+  background-color: #946821;
+}
+
+.unknown-word-button {
+  background-color: gray;
 }
