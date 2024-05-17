@@ -1,3 +1,4 @@
+from collections import defaultdict
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
@@ -10,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 import random
+import re
 
 # Page size = 10
 class PaginationClass(PageNumberPagination):
@@ -189,29 +191,13 @@ class HomepageInfoView(APIView):
       'random_study_words': random_study_words,
     })
 
-def get_unused_char_in_word(word_origin, already_used, must_contain):
-    # Returns none if the word is not viable for the hanja game
-    # Else returns a character that can be used for step (since it
-    # has not yet been used for a step in the game)
-    if must_contain is not None and must_contain not in word_origin:
-      return None
-    
-    if len(word_origin) < 2:
-      return None
-      
-    unused = None
-
-    while unused is None or unused in already_used:
-      unused = random.choice(word_origin)
-
-    return unused
-
-def generate_hanja_path(request, max_steps):
+def get_path_of_length(request, length):
   # Finds a path that the user can take to solve the game.
     
-    # get list of hanja words that the user knows
-    regex = r'[\u4e00-\u9fff]'
-    known_words = request.user.known_words.all().filter(origin__iregex = regex).order_by('?')
+    # get list of (only) hanja words that the user knows;
+    # regex gets words with at least 2 characters
+    regex = r'[\u4e00-\u9fff][\u4e00-\u9fff]'
+    all_known_words = request.user.known_words.all().filter(origin__iregex = regex).order_by('?')
 
     hanja_path = []
     # Hanja path in the form of [[character, word to connect this], 
@@ -220,51 +206,74 @@ def generate_hanja_path(request, max_steps):
     # was to get from 力 힘 력 to 備 갖출 비 and the number of steps was only 2
 
     step_characters = []
+    tried_lists = defaultdict(list)
     step_word_origins = []
 
-    steps_taken = 0
+    step_counter = 0
     
-    allowed_passes = 2
-    passes = 0
+    # in while true:
+    # 1. filter all chars in step_characters and tried_lists out of the queryset
+    # 2. get a word.
+    #    if there is no word,
+    #    backtrack:
+    #       get rid of the last thing in step characters and instead add it to tried_lists at
+    #       the index before
+    # 3. get a character in the word that is not any of the ones in step_characters
+    # 4. add that character to step_characters
+    # 5. next cycle
+    while True:
+      
+      if step_counter == 0:
+        included_pattern = '.*'
+      else:
+        required = step_characters[step_counter - 1]
+        banned = "".join(char for char in step_word_origins if char != required)
 
-    i = 0
+        included_pattern = \
+          f'^[^{banned}]*' + \
+          f'[{required}]' + \
+          f'[^{banned}]*$'
 
-    while steps_taken < max_steps:
-      while True:
-        try:
-          word = known_words[i]
-        except IndexError:
-          # in this case, there just is not a path long enough.
-          if passes < allowed_passes:
-            i = 0
-            passes = passes + 1
-            continue
-          else:
-            return hanja_path
-        
-        if word.origin in step_word_origins:
-          continue
+      working_set = all_known_words.filter(origin__iregex = included_pattern)
 
-        unused_char = get_unused_char_in_word(word.origin,
-                                              already_used=step_characters,
-                                              must_contain=
-                                              step_characters[steps_taken - 1] if steps_taken > 0 else None)
-        if unused_char is not None:
+      found_link = False
 
-          hanja_path.append({
-            'step_character': HanjaCharacterSerializer(
-                        HanjaCharacter.objects.get(pk = unused_char)).data,
-            'example_word': KoreanSerializerForHanja(
-                        word, context = {'request': request}).data,
-          })
-          step_characters.append(unused_char)
-          step_word_origins.append(word.origin)
-          steps_taken = steps_taken + 1
-          break
+      for valid_word in working_set:
+        # check this word for any valid link
+        for character in valid_word.origin:
+          if character not in tried_lists[step_counter] and character not in step_characters:
+            found_link = True
+            hanja_path.append({
+              'step_character': HanjaCharacterSerializer(
+                          HanjaCharacter.objects.get(pk = character)).data,
+              'example_word': KoreanSerializerForHanja(
+                          valid_word, context = {'request': request}).data,
+              })
+            step_characters.append(character)
+            step_word_origins.append(valid_word.origin)
+            step_counter += 1
+            
+            break # out of for character in valid_word
 
-        i = i + 1
-    
-    return hanja_path
+        if found_link:
+          break # out of for valid_word in working_set
+        else:
+          tried_lists[step_counter].append(character for character in valid_word)
+
+      # step_counter and list of characters already updated; dont need to do again
+      if step_counter >= length:
+        return hanja_path
+      elif not found_link and step_counter != 0:
+        #tried_lists[step_counter - 1].append(hanja_path[step_counter])
+        tried_lists[step_counter].append(character for character in step_word_origins[step_counter - 1])
+        step_counter -= 1
+        step_characters.pop()
+        step_word_origins.pop()
+        hanja_path.pop()
+      elif not found_link and step_counter == 0:
+        break
+
+    return None
 
 class HanjaGameView(APIView):
   permission_classes = (IsAuthenticated, )
@@ -278,31 +287,20 @@ class HanjaGameView(APIView):
     # difficulty can only be 'desired'. it is not guaranteed because there is no way to know
     # which words the user specifically knows; it is possible for every attempt to create a good
     # path to be only 1 word long, in which case 
-    desired_length = int(self.request.query_params.get('length', 6))
-    desired_minimum = desired_length - 2
-    
-    generation_attempts = 1
-    generated_paths = []
+    length = int(self.request.query_params.get('length', 3))
+
     hanja_path = []
-    broke_out = False
 
     # do the generation
-    for i in range(0, generation_attempts):
-      hanja_path = generate_hanja_path(request, max_steps=desired_length)
-      if len(hanja_path) >= desired_minimum:
-        broke_out = True
-        break
-
-      generated_paths.append(hanja_path)
-
-    # even after generation_attempts at generation, it did not find a suitable length. so
-    # it just picks the longest one.
-    if not broke_out:
-      hanja_path = max(generated_paths, key=len)
+    hanja_path = get_path_of_length(request, length=length)
     
+    #TODO handle hanja_path is None
+
     path_length = len(hanja_path)
 
-    start_from = hanja_path[0]["step_character"]["character"]
+    first = hanja_path[0]["step_character"]["character"]
+    start_from = random.choice([char for char in hanja_path[0]["example_word"]["kw_origin"] 
+                               if char != first and ord(char) >= 0x4e00 and ord(char) <= 0x9fff])
     go_to = hanja_path[path_length - 1]["step_character"]["character"]
 
     # number of required words and characters.
@@ -323,6 +321,7 @@ class HanjaGameView(APIView):
     return Response({
       'start_from': start_from,
       'go_to': go_to,
+      'length': path_length,
       'required_characters': required_characters,
       'required_words': required_words,
       'hanja_path': hanja_path
