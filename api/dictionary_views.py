@@ -10,7 +10,7 @@ from .dictionary_models import KoreanWord, Sense, HanjaCharacter
 from .dictionary_serializers import *
 
 # nlp
-from konlpy.tag import Komoran
+from konlpy.tag import Kkma
 
 # Page size = 10
 class PaginationClass(PageNumberPagination):
@@ -99,28 +99,40 @@ def get_nouns_verbs(sentence):
   def is_verb(str):
     return str.startswith("V")
 
-  komoran = Komoran()
-  analysis = komoran.pos(sentence)
+  kkma = Kkma()
+  analysis = kkma.pos(sentence)
 
   delete_non = [item for item in analysis if noun_or_verb_or_det(item[1])]
-  return [item[0] + "다" if is_verb(item[1]) else item[0] for item in delete_non]
+  return ([item[0] + "다" if is_verb(item[1]) else item[0] for item in delete_non],
+          analysis)
 
 class KoreanWordAnalyze(APIView):
   def post(self, request):
     sentence = request.POST.get('sentence', '')
-    analysis = get_nouns_verbs(sentence)
+    (analysis, original) = get_nouns_verbs(sentence)
     
     mouse_over = request.POST.get('mouse_over', '')
     
+    # this is a heuristic but it is correct almost every time from testing
+    # with sentence strings that contain hanja, very long sentences, several 조사 all
+    # glued together, etc. If I find that it is unsatisfyingly inaccurate then I will make
+    # changes but this feature of clicking on words will need to be toggled anyway ( there will
+    # be a disclaimer about potential inaccuracies) so this is what I will be using for the time
+    # being.
     if len(analysis) == len(sentence.split()):
       index_of_mouse_over = sentence.split().index(mouse_over)
-      return JsonResponse({'found_by_index': analysis[index_of_mouse_over], 'num_words': len(analysis), 'analysis': analysis})
+      return JsonResponse({'found': analysis[index_of_mouse_over], 'num_words': len(analysis), 'analysis': original})
     
+    # Usually only gets as a last resort. Verbs rarely found here because they never contain
+    # '다' in the verb itself. However, there is another problem with changes such as 보다 ->
+    # 봤어요 where even if it only checks that 봤어요 starts with 보, it will not be found because
+    # things ending in ㅜ, ㅗ, ㅡ, ㅣ, etc often change to ㅝ, ㅘ, ㅓ, ㅕ. Additionally the ㅆ as 받침
+    # makes finding verbs difficult here.
     for word in analysis:
       if mouse_over.startswith(word):
-        return JsonResponse({'found': word, 'num_words': len(analysis), 'analysis': analysis})
+        return JsonResponse({'found': word, 'num_words': len(analysis), 'analysis': original})
 
-    return JsonResponse({'error': 'could not find word', 'num_words': len(analysis), 'analysis': analysis})
+    return JsonResponse({'error': 'could not find word', 'num_words': len(analysis), 'analysis': original})
 
 # TODO delete nonuser senses
 # TODO incorporate this 2 sense views below with related words in korean detail. 
