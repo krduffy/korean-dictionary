@@ -57,3 +57,35 @@
   text-overflow: clip;
   white-space: nowrap;
 }
+
+/* HTML: <div class="loader"></div> */
+.nlp-loading-indicator {
+  width: 60px;
+  aspect-ratio: 4;
+  background: radial-gradient(circle closest-side, #000 90%, #0000) 0 /
+    calc(100% / 3) 100% space;
+  clip-path: inset(0 100% 0 0);
+  animation: l1 1s steps(4) infinite;
+  position: absolute;
+  background-color: #3d3f47;
+  border: 1px solid #ccc;
+  z-index: 100;
+  padding: 0;
+  margin: 0;
+}
+@keyframes l1 {
+  to {
+    clip-path: inset(0 -34% 0 0);
+  }
+}
+
+.nlp-error-message {
+  display: flex;
+  flex-grow: 1;
+  position: absolute;
+  background-color: #3d3f47;
+  border: 1px solid #ccc;
+  z-index: 100;
+  padding: 15px;
+  margin: 0;
+}

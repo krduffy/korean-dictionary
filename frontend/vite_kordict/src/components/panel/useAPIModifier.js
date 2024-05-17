@@ -4,6 +4,7 @@ export const useAPIModifier = (initialFormData) => {
   const [successful, setSuccessful] = useState(false);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState(initialFormData);
   const updateFormDataField = (field, value) => {
@@ -15,6 +16,8 @@ export const useAPIModifier = (initialFormData) => {
   const apiModify = (url, body, method) => {
     setSuccessful(false);
     setError(false);
+
+    setLoading(true);
 
     const token = localStorage.getItem("token");
 
@@ -44,6 +47,9 @@ export const useAPIModifier = (initialFormData) => {
           } else {
             setSuccessful(true);
           }
+        })
+        .finally(() => {
+          setLoading(false);
         });
     });
   };
@@ -55,5 +61,6 @@ export const useAPIModifier = (initialFormData) => {
     successful,
     response,
     error,
+    loading,
   };
 };

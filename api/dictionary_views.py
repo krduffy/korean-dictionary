@@ -146,7 +146,8 @@ class KoreanWordAnalyze(APIView):
         if mouse_over.startswith(word):
           return JsonResponse({'found': word, 'num_words': len(analysis), 'analysis': original})
 
-      return JsonResponse({'error': 'could not find word', 'num_words': len(analysis), 'analysis': original})
+      return JsonResponse({'errors': '해당 단어를 찾을 수 없습니다.', 'num_words': len(analysis), 'analysis': original},
+                          status=status.HTTP_404_NOT_FOUND)
     
     else:
       return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
@@ -261,8 +262,13 @@ class HanjaPopup(APIView):
     num_results = 10
     queryset = KoreanWord.objects.all()
     queryset = queryset.filter(origin__contains = character)
-    queryset = queryset.order_by(Length("word").asc())[:num_results]
-
+    
+    if self.request.user.is_authenticated:
+      queryset = prioritize_known_or_studying(queryset=queryset, user=self.request.user)
+    else:
+      queryset = queryset.order_by(Length("word").asc())
+    queryset = queryset[:num_results]
+    
     serialized_words = KoreanSerializerForHanja(queryset, many = True).data
 
     return Response({

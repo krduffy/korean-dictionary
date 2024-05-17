@@ -198,11 +198,6 @@ def get_unused_char_in_word(word_origin, already_used, must_contain):
     
     if len(word_origin) < 2:
       return None
-    
-    # currently filters out anything that is not a pure sinokorean word
-    for character in word_origin:
-      if ord(character) < 0x4e00 or ord(character) > 0x9fff:
-        return None
       
     unused = None
 
@@ -214,7 +209,10 @@ def get_unused_char_in_word(word_origin, already_used, must_contain):
 def generate_hanja_path(request, max_steps):
   # Finds a path that the user can take to solve the game.
     
-    known_words = request.user.known_words.all().order_by('?')
+    # get list of hanja words that the user knows
+    regex = r'[\u4e00-\u9fff]'
+    known_words = request.user.known_words.all().filter(origin__iregex = regex).order_by('?')
+
     hanja_path = []
     # Hanja path in the form of [[character, word to connect this], 
     # [next character, next word]] etc. So an example would be

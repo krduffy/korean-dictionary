@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { ViewContext } from "./Panel";
 import { useAPIModifier } from "./useAPIModifier";
 import StringWithHanja from "./StringWithHanja";
+import "./universal-styles.css";
 
 const StringWithNLP = ({ string, linkHanja }) => {
   const getSentences = (stringWithSentences) => {
@@ -33,22 +34,35 @@ export default StringWithNLP;
 
 const WordWithNLP = ({ word, fullSentence }) => {
   const [mouseInside, setMouseInside] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const [showErrorBox, setShowErrorBox] = useState(false);
 
   {
     /* does not actually modify but needs to make post request because full sentence
       can become too long to store in a url for a get request. none of the form data
       are ever changed*/
   }
-  const { formData, apiModify, successful, response, error } = useAPIModifier({
-    sentence: fullSentence,
-    mouse_over: word,
-  });
+  const { formData, apiModify, successful, response, error, loading } =
+    useAPIModifier({
+      sentence: fullSentence,
+      mouse_over: word,
+    });
 
   const updateViewAndPushToHistory =
     useContext(ViewContext)["updateViewAndPushToHistory"];
 
+  const fixBoxXToScreen = (x) => {
+    return x > window.innerWidth / 2 ? x - 220 : x + 20;
+  };
+
+  const fixBoxYToScreen = (y) => {
+    return y > window.innerHeight / 2 ? y - 220 : y + 20;
+  };
+
   const handleClick = (e) => {
     e.preventDefault();
+    setMousePosition({ x: e.clientX, y: e.clientY });
 
     apiModify("http://127.0.0.1:8000/api/korean_word_lemma/", formData, "POST");
   };
@@ -68,18 +82,55 @@ const WordWithNLP = ({ word, fullSentence }) => {
     }
   }, [response]);
 
+  useEffect(() => {
+    console.log(error);
+    if (error) {
+      setShowErrorBox(true);
+
+      setTimeout(() => {
+        setShowErrorBox(false);
+      }, 2500);
+    }
+  }, [error]);
+
   return (
-    <span
-      className={mouseInside ? "clickable-result" : ""}
-      onMouseOver={() => {
-        setMouseInside(true);
-      }}
-      onMouseOut={() => {
-        setMouseInside(false);
-      }}
-      onClick={handleClick}
-    >
-      <StringWithHanja string={word} />
-    </span>
+    <React.Fragment>
+      <span
+        className={mouseInside ? "clickable-result" : ""}
+        onMouseOver={() => {
+          setMouseInside(true);
+        }}
+        onMouseOut={() => {
+          setMouseInside(false);
+        }}
+        onClick={handleClick}
+      >
+        <StringWithHanja string={word} />
+      </span>
+      <span>
+        {loading && (
+          <div
+            className="nlp-loading-indicator"
+            style={{
+              position: "absolute",
+              left: fixBoxXToScreen(mousePosition.x),
+              top: fixBoxYToScreen(mousePosition.y),
+            }}
+          />
+        )}
+        {showErrorBox && (
+          <div
+            className="nlp-error-message"
+            style={{
+              position: "absolute",
+              left: fixBoxXToScreen(mousePosition.x),
+              top: fixBoxYToScreen(mousePosition.y),
+            }}
+          >
+            {response.errors}
+          </div>
+        )}
+      </span>{" "}
+    </React.Fragment>
   );
 };
