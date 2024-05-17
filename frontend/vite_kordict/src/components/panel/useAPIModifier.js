@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useAPIModifier = ({ initialFormData }) => {
+export const useAPIModifier = (initialFormData) => {
   const [successful, setSuccessful] = useState(false);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(false);

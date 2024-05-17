@@ -1,4 +1,5 @@
 
+from rest_framework import status
 from django.http import JsonResponse
 from django.db.models import Case, When, Value, BooleanField, Q
 from django.db.models.functions import StrIndex, Length
@@ -94,7 +95,7 @@ class KoreanWordDetail(generics.RetrieveAPIView):
 def get_nouns_verbs(sentence):
 
   def noun_or_verb_or_det(str):
-    return str.startswith("N") or str.startswith("V") or str.startswith("M") 
+    return str.startswith("N") or str.startswith("V") or str.startswith("M") or str.startswith("XR")
   
   def is_verb(str):
     return str.startswith("V")
@@ -107,34 +108,47 @@ def get_nouns_verbs(sentence):
           analysis)
 
 class KoreanWordAnalyze(APIView):
+  serializer_class = NLPRequestValidator
+
   def post(self, request):
-    sentence = request.POST.get('sentence', '')
-    (analysis, original) = get_nouns_verbs(sentence)
-    
-    mouse_over = request.POST.get('mouse_over', '')
-    
-    # this is a heuristic but it is correct almost every time from testing
-    # with sentence strings that contain hanja, very long sentences, several 조사 all
-    # glued together, etc. If I find that it is unsatisfyingly inaccurate then I will make
-    # changes but this feature of clicking on words will need to be toggled anyway ( there will
-    # be a disclaimer about potential inaccuracies) so this is what I will be using for the time
-    # being.
-    if len(analysis) == len(sentence.split()):
-      index_of_mouse_over = sentence.split().index(mouse_over)
-      return JsonResponse({'found': analysis[index_of_mouse_over], 'num_words': len(analysis), 'analysis': original})
-    
-    # Usually only gets as a last resort. Verbs rarely found here because they never contain
-    # '다' in the verb itself. However, there is another problem with changes such as 보다 ->
-    # 봤어요 where even if it only checks that 봤어요 starts with 보, it will not be found because
-    # things ending in ㅜ, ㅗ, ㅡ, ㅣ, etc often change to ㅝ, ㅘ, ㅓ, ㅕ. Additionally the ㅆ as 받침
-    # makes finding verbs difficult here.
-    for word in analysis:
-      if mouse_over.startswith(word):
-        return JsonResponse({'found': word, 'num_words': len(analysis), 'analysis': original})
 
-    return JsonResponse({'error': 'could not find word', 'num_words': len(analysis), 'analysis': original})
+    serializer = self.serializer_class(data=request.data)
 
-# TODO delete nonuser senses
+    if serializer.is_valid(raise_exception=True):
+
+      sentence = serializer.validated_data['sentence']
+    
+      (analysis, original) = get_nouns_verbs(sentence)
+
+      mouse_over = serializer.validated_data['mouse_over']
+    
+      # this is a heuristic but it is correct almost every time from testing
+      # with sentence strings that contain hanja, very long sentences, several 조사 all
+      # glued together, etc. If I find that it is unsatisfyingly inaccurate then I will make
+      # changes but this feature of clicking on words will need to be toggled anyway ( there will
+      # be a disclaimer about potential inaccuracies) so this is what I will be using for the time
+      # being.
+      if len(analysis) == len(sentence.split()):
+        index_of_mouse_over = sentence.split().index(mouse_over)
+        return JsonResponse({'found': analysis[index_of_mouse_over], 'num_words': len(analysis), 'analysis': original})
+    
+      # Usually only gets as a last resort. Verbs rarely found here because they never contain
+      # '다' in the verb itself. However, there is another problem with changes such as 보다 ->
+      # 봤어요 where even if it only checks that 봤어요 starts with 보, it will not be found because
+      # things ending in ㅜ, ㅗ, ㅡ, ㅣ, etc often change to ㅝ, ㅘ, ㅓ, ㅕ. Additionally the ㅆ as 받침
+      # makes finding verbs difficult here.
+
+      # can also look for the longest string that matches so 원자량 matches 원자량 instead of 원자 etc
+      for word in analysis:
+        if mouse_over.startswith(word):
+          return JsonResponse({'found': word, 'num_words': len(analysis), 'analysis': original})
+
+      return JsonResponse({'error': 'could not find word', 'num_words': len(analysis), 'analysis': original})
+    
+    else:
+      return Response({'errors': serializer.errors}, status=STARTF_USESTDHANDLES.HTTP_400_BAD_REQUEST)
+
+# TODO hide nonuser senses
 # TODO incorporate this 2 sense views below with related words in korean detail. 
 class SenseList(generics.ListAPIView):
   serializer_class = SenseSerializer

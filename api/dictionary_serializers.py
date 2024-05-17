@@ -60,6 +60,10 @@ class KoreanWordDetailedSerializer(serializers.ModelSerializer):
     sense_serializer = SenseSerializer(senses, many = True)
     return sense_serializer.data
 
+class NLPRequestValidator(serializers.Serializer):
+  sentence = serializers.CharField(required = True)
+  mouse_over = serializers.CharField(required = True)
+
 class SimplifiedSenseSerializer(serializers.ModelSerializer):
 
   s_target_code = serializers.IntegerField(source='target_code', default = None)

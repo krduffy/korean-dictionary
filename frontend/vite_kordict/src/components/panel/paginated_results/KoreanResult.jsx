@@ -5,6 +5,7 @@ import StringWithHanja from "../StringWithHanja.jsx";
 import "./styles/korean-result-styles.css";
 import "../universal-styles.css";
 import KnowStudyToggles from "../detail_view/KnowStudyToggles.jsx";
+import StringWithNLP from "../StringWithNLP.jsx";
 
 const KoreanResult = ({ result }) => {
   const viewContext = useContext(ViewContext);
@@ -37,7 +38,6 @@ const KoreanResult = ({ result }) => {
         </div>
 
         <div>
-          {console.log(result["kw_user_data"])}
           {result["kw_user_data"] && (
             <span className="korean-result-know-study-container">
               <KnowStudyToggles
@@ -56,7 +56,7 @@ const KoreanResult = ({ result }) => {
             {sense.s_order}.{" "}
             <span style={{ color: "#8e44ad" }}>{sense.s_pos}</span>{" "}
             <span style={{ color: "#3498db" }}>{sense.s_category}</span>{" "}
-            <StringWithHanja string={sense.s_definition} />
+            <StringWithNLP string={sense.s_definition} linkHanja={false} />
           </li>
         ))}
       </ul>
