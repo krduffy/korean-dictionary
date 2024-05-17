@@ -175,7 +175,8 @@ class HomepageInfoView(APIView):
           if retrieved >= num_same_hanja_examples:
             break
 
-    num_random_study_words = 1
+    #TODO change this
+    num_random_study_words = 0
 
     random_study_words = KoreanWordSerializer(
       self.request.user.study_words.all().order_by('?')[:num_random_study_words],

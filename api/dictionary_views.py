@@ -9,6 +9,8 @@ from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from .dictionary_models import KoreanWord, Sense, HanjaCharacter
 from .dictionary_serializers import *
+from rest_framework.permissions import IsAuthenticated
+import re
 
 # nlp
 from konlpy.tag import Kkma
@@ -43,7 +45,7 @@ def prioritize_known_or_studying(queryset, user):
               default=Value(False),
               output_field=BooleanField(),
           )
-      ).order_by("-prioritized")
+      ).order_by("-prioritized", "target_code")
 
   return new_queryset if new_queryset else queryset
 
@@ -106,9 +108,12 @@ def get_nouns_verbs(sentence):
   delete_non = [item for item in analysis if noun_or_verb_or_det(item[1])]
   return ([item[0] + "다" if is_verb(item[1]) else item[0] for item in delete_non],
           analysis)
-
+  
 class KoreanWordAnalyze(APIView):
   serializer_class = NLPRequestValidator
+  # in this file because the user's data does not impact this. however, it will need to be
+  # required to be turned on in settings
+  permission_classes = (IsAuthenticated, )
 
   def post(self, request):
 
@@ -117,9 +122,7 @@ class KoreanWordAnalyze(APIView):
     if serializer.is_valid(raise_exception=True):
 
       sentence = serializer.validated_data['sentence']
-    
       (analysis, original) = get_nouns_verbs(sentence)
-
       mouse_over = serializer.validated_data['mouse_over']
     
       # this is a heuristic but it is correct almost every time from testing
@@ -146,7 +149,7 @@ class KoreanWordAnalyze(APIView):
       return JsonResponse({'error': 'could not find word', 'num_words': len(analysis), 'analysis': original})
     
     else:
-      return Response({'errors': serializer.errors}, status=STARTF_USESTDHANDLES.HTTP_400_BAD_REQUEST)
+      return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 # TODO hide nonuser senses
 # TODO incorporate this 2 sense views below with related words in korean detail. 

@@ -62,11 +62,13 @@ const HanjaCharacterSpan = ({ character }) => {
   const currentView = useContext(ViewContext)["currentView"];
 
   const handleMouseEnter = (event) => {
+    event.stopPropagation();
     setShowHoverBox(true);
     setMousePosition({ x: event.clientX, y: event.clientY });
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (event) => {
+    event.stopPropagation();
     setShowHoverBox(false);
   };
 
@@ -96,6 +98,11 @@ const HanjaCharacterSpan = ({ character }) => {
     });
   };
 
+  const handleClick = (event) => {
+    event.stopPropagation();
+    if (notAlreadyViewing()) viewHanjaDetail(character);
+  };
+
   return (
     <span>
       {showHoverBox && (
@@ -107,12 +114,10 @@ const HanjaCharacterSpan = ({ character }) => {
       )}
       <span
         className="hanja-char"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onMouseOver={handleMouseEnter}
+        onMouseOut={handleMouseLeave}
         style={{ cursor: notAlreadyViewing() ? "pointer" : "" }}
-        onClick={() => {
-          if (notAlreadyViewing()) viewHanjaDetail(character);
-        }}
+        onClick={handleClick}
       >
         {character}
       </span>

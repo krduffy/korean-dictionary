@@ -34,7 +34,6 @@ const HomePage = () => {
                     Object.entries(homepageData.random_study_words).map(
                       (studyWordItem, id) => (
                         <li className="study-word-data" key={id}>
-                          {console.log(studyWordItem)}
                           <KoreanResult result={studyWordItem[1]} />
                         </li>
                       ),

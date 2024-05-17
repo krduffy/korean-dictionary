@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { ViewContext } from "./Panel";
 import { useAPIModifier } from "./useAPIModifier";
+import StringWithHanja from "./StringWithHanja";
 
 const StringWithNLP = ({ string, linkHanja }) => {
   const getSentences = (stringWithSentences) => {
@@ -54,22 +55,31 @@ const WordWithNLP = ({ word, fullSentence }) => {
 
   useEffect(() => {
     if (response) {
-      console.log(response);
+      if (response.found) {
+        updateViewAndPushToHistory({
+          view: "search_korean",
+          value: response.found,
+          searchBarInitialState: {
+            boxContent: response.found,
+            dictionary: "korean",
+          },
+        });
+      }
     }
   }, [response]);
 
   return (
     <span
       className={mouseInside ? "clickable-result" : ""}
-      onMouseEnter={() => {
+      onMouseOver={() => {
         setMouseInside(true);
       }}
-      onMouseLeave={() => {
+      onMouseOut={() => {
         setMouseInside(false);
       }}
       onClick={handleClick}
     >
-      {word}
+      <StringWithHanja string={word} />
     </span>
   );
 };
