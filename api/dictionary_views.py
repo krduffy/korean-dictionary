@@ -97,7 +97,7 @@ class KoreanWordDetail(generics.RetrieveAPIView):
 def get_nouns_verbs(sentence):
 
   def noun_or_verb_or_det(str):
-    return str.startswith("N") or str.startswith("V") or str.startswith("M") or str.startswith("XR")
+    return str.startswith("N") or str.startswith("V") or str.startswith("M") or str.startswith("XR") or str == 'OL'
   
   def is_verb(str):
     return str.startswith("V")
@@ -122,9 +122,48 @@ class KoreanWordAnalyze(APIView):
     if serializer.is_valid(raise_exception=True):
 
       sentence = serializer.validated_data['sentence']
-      (analysis, original) = get_nouns_verbs(sentence)
+
+      original_inner_strings = sentence.split()
+      new_sentence_strings = original_inner_strings
+
+      delimiting_pairs = [('‘', '’')]
+      regex = '|'.join(f'(?:{re.escape(start)}' + r'[^\s]' + f'+?{re.escape(end)})'
+                       for start, end in delimiting_pairs)
+      pattern = re.compile(regex)
+
+      (analysis, original) = ([], [])
+
+      needs_dummy = pattern.match(sentence)
+
+      if needs_dummy:
+
+        original_inner_strings = sentence.split()
+        new_sentence_strings = original_inner_strings
+        # this dummy string will get tagged as OL (other language).
+        # thus, I check if a thing to be returned starts with this string
+        # if it does, we will instead return the original string.
+        # This is necessary because the model cannot handle things like
+        # '\'살다\'의 피동사' well due to the apostrophes. However, these kinds of
+        # definitions are so common that it is beneficial to have this additional
+        # line of defense against returning no string
+        dummy_string = 'Kieran'
+        number_words = ['zero', 'one', 'two', 'three', 'four', 'five']
+        num_dummies = 0
+        
+        for i in range(0, len(original_inner_strings)):
+          found = pattern.match(original_inner_strings[i])
+          if found:
+            new_sentence_strings[i].replace(found.group(), dummy_string + number_words[num_dummies])
+            num_dummies += 1
+
+        new_sentence = "".join(string for string in new_sentence_strings)
+
+        (analysis, original) = get_nouns_verbs(new_sentence)
+      else:
+        (analysis, original) = get_nouns_verbs(sentence)
+
       mouse_over = serializer.validated_data['mouse_over']
-    
+
       # this is a heuristic but it is correct almost every time from testing
       # with sentence strings that contain hanja, very long sentences, several 조사 all
       # glued together, etc. If I find that it is unsatisfyingly inaccurate then I will make
@@ -133,6 +172,12 @@ class KoreanWordAnalyze(APIView):
       # being.
       if len(analysis) == len(sentence.split()):
         index_of_mouse_over = sentence.split().index(mouse_over)
+        to_return = analysis[index_of_mouse_over]
+        if needs_dummy and to_return.startswith(dummy_string):
+          to_return = original_inner_strings[
+            number_words.index(to_return.replace(dummy_string, ''))
+          ]
+        
         return JsonResponse({'found': analysis[index_of_mouse_over], 'num_words': len(analysis), 'analysis': original})
     
       # Usually only gets as a last resort. Verbs rarely found here because they never contain
