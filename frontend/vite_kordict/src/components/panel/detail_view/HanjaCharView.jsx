@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import PaginatedResults from "../paginated_results/PaginatedResults.jsx";
-import { useAPIFetcher } from "../useAPIFetcher.js";
+import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 import { LoadingMessage } from "../../LoadingMessage.jsx";
 import "./styles/hanja-char-view-styles.css";
 

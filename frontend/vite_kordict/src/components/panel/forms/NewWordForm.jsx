@@ -1,5 +1,5 @@
 import React from "react";
-import { useAPIModifier } from "../useAPIModifier";
+import { useAPIModifier } from "../../../hooks/useAPIModifier";
 
 const NewWordForm = () => {
   const { formData, updateFormDataField, apiModify, successful, error } =

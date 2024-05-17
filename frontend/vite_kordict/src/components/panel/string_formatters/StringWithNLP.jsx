@@ -1,10 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
-import { ViewContext } from "./Panel";
-import { useAPIModifier } from "./useAPIModifier";
+import { useAPIModifier } from "../../../hooks/useAPIModifier";
+
+import { ViewContext } from "../Panel";
+
 import StringWithHanja from "./StringWithHanja";
+
 import "./universal-styles.css";
 
-const StringWithNLP = ({ string, linkHanja }) => {
+/* Also links string with hanja functionality into the string */
+const StringWithNLP = ({ string }) => {
   const getSentences = (stringWithSentences) => {
     return stringWithSentences.split(/\.\s/g);
   };

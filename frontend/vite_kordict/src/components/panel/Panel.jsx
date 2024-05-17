@@ -1,11 +1,12 @@
 import React, { useState, createContext } from "react";
+
+import { useHistoryManager } from "../../hooks/useHistoryManager.js";
+
 import PanelHeader from "./fixed_header/PanelHeader.jsx";
 import HomePage from "./home/HomePage.jsx";
-
 import PaginatedResults from "./paginated_results/PaginatedResults.jsx";
 import KoreanWordView from "./detail_view/KoreanWordView.jsx";
 import HanjaCharView from "./detail_view/HanjaCharView.jsx";
-import { useHistoryManager } from "./useHistoryManager.js";
 import NewWordForm from "./forms/NewWordForm.jsx";
 import EditWordForm from "./forms/EditWordForm.jsx";
 

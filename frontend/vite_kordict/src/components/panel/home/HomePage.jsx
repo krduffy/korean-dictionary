@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAPIFetcher } from "../useAPIFetcher";
+import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 import { ViewContext } from "../Panel.jsx";
 import { LoadingMessage } from "../../LoadingMessage";
 import HanjaExampleResult from "../paginated_results/HanjaExampleResult.jsx";

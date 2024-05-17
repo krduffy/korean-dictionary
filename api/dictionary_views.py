@@ -44,8 +44,9 @@ def prioritize_known_or_studying(queryset, user):
               When(target_code__in=study_words, then=Value(True)),
               default=Value(False),
               output_field=BooleanField(),
-          )
-      ).order_by("-prioritized", "target_code")
+          ),
+          length=Length("word")
+      ).order_by("-prioritized", "length", "target_code")
 
   return new_queryset if new_queryset else queryset
 

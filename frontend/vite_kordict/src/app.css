@@ -33,3 +33,14 @@
 #right-panel-container {
   border-left: 2px solid gray;
 }
+
+/* Used around in the project */
+.clickable-result {
+  transition: all 0.3s ease;
+}
+
+.clickable-result:hover {
+  text-decoration: underline;
+  text-shadow: 0 0 5px blue;
+  cursor: pointer;
+}

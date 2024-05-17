@@ -4,7 +4,7 @@ import KoreanResult from "./KoreanResult.jsx";
 import HanjaResult from "./HanjaResult.jsx";
 import HanjaExampleResult from "./HanjaExampleResult.jsx";
 import PageChanger from "./PageChanger.jsx";
-import { useAPIFetcher } from "../useAPIFetcher.js";
+import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 import { LoadingMessage } from "../../LoadingMessage.jsx";
 import "./styles/results.css";
 

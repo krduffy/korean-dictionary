@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
-import { useAPIModifier } from "./panel/useAPIModifier.js";
-import "./account-styles.css";
+
 import { setTokenFromResponse } from "../../util/tokenManagement";
+
+import { useAPIModifier } from "../hooks/useAPIModifier";
+
+import "./account-styles.css";
 
 const LoginBox = ({ setLoggedInUsername, setNavState }) => {
   const {

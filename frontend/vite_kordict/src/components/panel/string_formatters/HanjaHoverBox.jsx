@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useAPIFetcher } from "./useAPIFetcher";
 import PropTypes from "prop-types";
+
+import { useAPIFetcher } from "../../../hooks/useAPIFetcher";
+
 import "./universal-styles.css";
 
 const HanjaHoverBox = ({ character, x, y }) => {

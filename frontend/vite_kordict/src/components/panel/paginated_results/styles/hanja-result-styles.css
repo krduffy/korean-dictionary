@@ -10,3 +10,11 @@
 .hanja-result-container {
   margin-bottom: 10px;
 }
+
+.meaning-reading-section {
+  width: 100%;
+  text-align: center;
+  background-color: #272938;
+  color: white;
+  font-size: large;
+}

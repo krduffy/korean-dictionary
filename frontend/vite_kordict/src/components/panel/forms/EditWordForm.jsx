@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useAPIFetcher } from "../useAPIFetcher.js";
+import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 import { LoadingMessage } from "../../LoadingMessage.jsx";
-import { useAPIModifier } from "../useAPIModifier.js";
+import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 import "./form-styles.css";
 
 const EditWordForm = ({ targetCode }) => {

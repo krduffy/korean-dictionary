@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import "./universal-styles.css";
 import HanjaHoverBox from "./HanjaHoverBox";
-import { ViewContext } from "./Panel";
+import { ViewContext } from "../Panel";
 
 /*
  * A React component that takes in a string containing both Hanja characters and other text,

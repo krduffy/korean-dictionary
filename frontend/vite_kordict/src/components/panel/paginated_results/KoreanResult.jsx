@@ -1,11 +1,13 @@
 import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
+
 import { ViewContext } from "../Panel.jsx";
-import StringWithHanja from "../StringWithHanja.jsx";
-import "./styles/korean-result-styles.css";
-import "../universal-styles.css";
+
+import StringWithHanja from "../string_formatters/StringWithHanja.jsx";
 import KnowStudyToggles from "../detail_view/KnowStudyToggles.jsx";
-import StringWithNLP from "../StringWithNLP.jsx";
+import StringWithNLP from "../string_formatters/StringWithNLP.jsx";
+
+import "./styles/korean-result-styles.css";
 
 const KoreanResult = ({ result }) => {
   const viewContext = useContext(ViewContext);

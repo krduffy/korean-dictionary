@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAPIModifier } from "../useAPIModifier.js";
+import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 import "./styles/korean-word-view-styles.css";
 
 const KnowStudyToggles = ({ targetCode, initiallyKnown, initiallyStudied }) => {

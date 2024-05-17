@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ViewContext } from "../Panel.jsx";
-import KoreanSenseView from "./sense_info_components/KoreanSenseView";
-import StringWithHanja from "../StringWithHanja";
 import PropTypes from "prop-types";
-import { useAPIFetcher } from "../useAPIFetcher.js";
+
+import KoreanSenseView from "./sense_info_components/KoreanSenseView";
+import StringWithHanja from "../string_formatters/StringWithHanja.jsx";
 import { LoadingMessage } from "../../LoadingMessage.jsx";
-import SenseHistoryInfo from "./sense_info_components/SenseHistoryInfo.jsx";
-import "./styles/korean-word-view-styles.css";
 import KnowStudyToggles from "./KnowStudyToggles.jsx";
+import SenseHistoryInfo from "./sense_info_components/SenseHistoryInfo.jsx";
+
+import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
+import { ViewContext } from "../Panel.jsx";
+
+import "./styles/korean-word-view-styles.css";
 
 const KoreanWordView = ({ targetCode, initialWordKnown }) => {
   const [wordData, setWordData] = useState({});

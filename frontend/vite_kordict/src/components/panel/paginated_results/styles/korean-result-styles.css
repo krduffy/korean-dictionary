@@ -1,3 +1,13 @@
+.clickable-result {
+  transition: all 0.3s ease;
+}
+
+.clickable-result:hover {
+  text-decoration: underline;
+  text-shadow: 0 0 5px blue;
+  cursor: pointer;
+}
+
 .result_box {
   border-bottom: 10px bold transparent;
   padding: 5px;

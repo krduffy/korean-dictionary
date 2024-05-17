@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
+
 import { ViewContext } from "../Panel";
-import StringWithHanja from "../StringWithHanja";
+import StringWithHanja from "../string_formatters/StringWithHanja";
+
 import "./styles/hanja-example-result-styles.css";
-import "../universal-styles.css";
 
 const HanjaExampleResult = ({ result }) => {
   const viewContext = useContext(ViewContext);

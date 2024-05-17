@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import SenseExampleInfo from "./SenseExampleInfo.jsx";
 import SenseProverbInfo from "./SenseProverbInfo.jsx";
-import StringWithHanja from "../../StringWithHanja.jsx";
+import StringWithHanja from "../../string_formatters/StringWithHanja.jsx";
 import SenseRelationInfo from "./SenseRelationInfo.jsx";
 import SenseNormInfo from "./SenseNormInfo.jsx";
 import SenseGrammarInfo from "./SenseGrammarInfo.jsx";

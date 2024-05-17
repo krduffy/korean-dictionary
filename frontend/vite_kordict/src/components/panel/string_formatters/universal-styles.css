@@ -1,20 +1,3 @@
-.additional-info-section-header {
-  font-size: 20px;
-  background-color: #312f36;
-  margin-bottom: 0;
-  padding-left: 5px;
-}
-
-.clickable-result {
-  transition: all 0.3s ease;
-}
-
-.clickable-result:hover {
-  text-decoration: underline;
-  text-shadow: 0 0 5px blue;
-  cursor: pointer;
-}
-
 .hanja-char {
   transition: all 0.3s ease;
 }

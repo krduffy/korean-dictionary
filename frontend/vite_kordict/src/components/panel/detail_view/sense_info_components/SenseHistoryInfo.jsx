@@ -1,5 +1,5 @@
 import React from "react";
-import StringWithHanja from "../../StringWithHanja";
+import StringWithHanja from "../../string_formatters/StringWithHanja";
 
 const SenseHistoryInfo = ({ historyInfo }) => {
   return (
