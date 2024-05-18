@@ -72,3 +72,32 @@
   padding: 15px;
   margin: 0;
 }
+
+.clipboard-copier-container {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: 8px;
+  margin-right: 4px;
+  overflow: hidden;
+  width: 20px;
+}
+
+.clipboard-symbol {
+  color: gray;
+  transition: color 0.3s ease;
+}
+
+.clipboard-symbol:hover {
+  color: white;
+}
+
+.checkmark {
+  color: darkgreen;
+  transition: opacity 0.3s ease;
+}
+
+.x-symbol {
+  color: darkred;
+  transition: opacity 0.3s ease;
+}

@@ -4,6 +4,7 @@ import "./universal-styles.css";
 
 const ClipboardCopier = ({ string }) => {
   const [showCheckmark, setShowCheckmark] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     if (showCheckmark) {
@@ -13,24 +14,38 @@ const ClipboardCopier = ({ string }) => {
     }
   }, [showCheckmark]);
 
+  useEffect(() => {
+    if (showError) {
+      setTimeout(() => {
+        setShowCheckmark(false);
+      }, 1000);
+    }
+  }, [showError]);
+
   const handleClick = (e) => {
     e.preventDefault();
 
     navigator.clipboard
       .writeText(string)
       .then(() => {
-        console.log("Text copied to clipboard successfully!");
+        setShowCheckmark(true);
       })
       .catch((err) => {
-        console.error("Could not copy text: ", err);
+        setShowError(true);
       });
   };
 
   return (
     <span className="clipboard-copier-container">
-      <span className="clipboard-symbol" onClick={handleClick}>
-        🗐
-      </span>
+      {showCheckmark ? (
+        <span className="checkmark">✓</span>
+      ) : showError ? (
+        <span className="x-symbol">✗</span>
+      ) : (
+        <span className="clipboard-symbol" onClick={handleClick}>
+          🗐
+        </span>
+      )}
     </span>
   );
 };
