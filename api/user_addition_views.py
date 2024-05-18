@@ -241,8 +241,9 @@ def get_path_of_length(request, length):
       for valid_word in working_set:
         # check this word for any valid link
         for character in valid_word.origin:
-          if character not in tried_lists[step_counter] and character not in step_characters:
+          if character not in tried_lists[step_counter] and character not in step_characters and HanjaCharacter.objects.filter(pk = character).exists():
             found_link = True
+            #print('character is ', character)
             hanja_path.append({
               'step_character': HanjaCharacterSerializer(
                           HanjaCharacter.objects.get(pk = character)).data,
@@ -258,14 +259,19 @@ def get_path_of_length(request, length):
         if found_link:
           break # out of for valid_word in working_set
         else:
-          tried_lists[step_counter].append(character for character in valid_word)
+          for character in valid_word:
+            tried_lists[step_counter].append(character)
 
       # step_counter and list of characters already updated; dont need to do again
       if step_counter >= length:
         return hanja_path
       elif not found_link and step_counter != 0:
         #tried_lists[step_counter - 1].append(hanja_path[step_counter])
-        tried_lists[step_counter].append(character for character in step_word_origins[step_counter - 1])
+        #print('in heere; printing tried before and after update')
+        #print(tried_lists[step_counter])
+        for character in step_word_origins[step_counter - 1]:
+          tried_lists[step_counter].append(character)
+        #print(tried_lists[step_counter])
         step_counter -= 1
         step_characters.pop()
         step_word_origins.pop()
