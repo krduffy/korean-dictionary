@@ -58,7 +58,7 @@ const KoreanResult = ({ result }) => {
             {sense.s_order}.{" "}
             <span style={{ color: "#8e44ad" }}>{sense.s_pos}</span>{" "}
             <span style={{ color: "#3498db" }}>{sense.s_category}</span>{" "}
-            <StringWithNLP string={sense.s_definition} linkHanja={false} />
+            <StringWithNLP string={sense.s_definition} />
           </li>
         ))}
       </ul>

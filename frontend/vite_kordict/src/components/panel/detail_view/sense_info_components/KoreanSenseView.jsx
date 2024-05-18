@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
+
 import SenseExampleInfo from "./SenseExampleInfo.jsx";
 import SenseProverbInfo from "./SenseProverbInfo.jsx";
 import StringWithHanja from "../../string_formatters/StringWithHanja.jsx";
 import SenseRelationInfo from "./SenseRelationInfo.jsx";
 import SenseNormInfo from "./SenseNormInfo.jsx";
 import SenseGrammarInfo from "./SenseGrammarInfo.jsx";
-import "./styles/korean-sense-styles.css";
 
-import PropTypes from "prop-types";
+import "./styles/korean-sense-styles.css";
+import StringWithNLP from "../../string_formatters/StringWithNLP.jsx";
 
 const KoreanSenseView = ({ senseData }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -46,7 +48,7 @@ const KoreanSenseView = ({ senseData }) => {
                 </span>
               ),
             )}
-          <StringWithHanja string={senseData["definition"]} />
+          <StringWithNLP string={senseData["definition"]} />
           {senseData["additional_info"]["region_info"] && (
             <span>
               <span> (</span>

@@ -1,5 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+
+import StringWithNLP from "../../string_formatters/StringWithNLP";
+
 import "./styles/korean-sense-styles.css";
 
 const SenseExampleInfo = ({ exampleInfo }) => {
@@ -56,7 +59,7 @@ const ExampleTextWithHighlighting = ({ string }) => {
           }
           key={id}
         >
-          {substring.replace(/{(.*?)}/g, "$1")}
+          <StringWithNLP string={substring.replace(/{(.*?)}/g, "$1")} />
         </span>
       ))}
     </span>

@@ -97,18 +97,32 @@ class KoreanWordDetail(generics.RetrieveAPIView):
 
 def get_nouns_verbs(sentence):
 
-  def noun_or_verb_or_det(str):
-    return str.startswith("N") or str.startswith("V") or str.startswith("M") or str.startswith("XR") or str == 'OL'
+  def accept_pos(str):
+    return str.startswith("N") or str.startswith("V") or str.startswith("M") or str == "XR" or str == "XSA" or str == "OL"
   
   def is_verb(str):
     return str.startswith("V")
+  
+  def is_어근_followed_by_deriv_suffix(str1, str2):
+    return str1 == "XR" and str2 == "XSA"
 
   kkma = Kkma()
   analysis = kkma.pos(sentence)
 
-  delete_non = [item for item in analysis if noun_or_verb_or_det(item[1])]
-  return ([item[0] + "다" if is_verb(item[1]) else item[0] for item in delete_non],
-          analysis)
+  accepted_lemmas = [item for item in analysis if accept_pos(item[1])]
+  num_accepted_lemmas = len(accepted_lemmas)
+  return_list = []
+  for i in range(0, num_accepted_lemmas):
+    
+    if i != (num_accepted_lemmas - 1) and \
+              is_어근_followed_by_deriv_suffix(accepted_lemmas[i][1], accepted_lemmas[i+1][1]):
+
+      return_list.append((accepted_lemmas[i][0] + accepted_lemmas[i+1][0], 'V'))
+    
+    else:
+      return_list.append(accepted_lemmas[i])
+
+  return (return_list, analysis)
   
 class KoreanWordAnalyze(APIView):
   serializer_class = NLPRequestValidator
@@ -179,7 +193,11 @@ class KoreanWordAnalyze(APIView):
             number_words.index(to_return.replace(dummy_string, ''))
           ]
         
-        return JsonResponse({'found': analysis[index_of_mouse_over], 'num_words': len(analysis), 'analysis': original})
+        return_word = analysis[index_of_mouse_over]
+        return JsonResponse({'found': return_word[0] + "다" if return_word[1].startswith('V') 
+                             else return_word[0]}) 
+            # for debugging/changing
+            #, 'num_words': len(analysis), 'analysis': original})
     
       # Usually only gets as a last resort. Verbs rarely found here because they never contain
       # '다' in the verb itself. However, there is another problem with changes such as 보다 ->
@@ -190,10 +208,11 @@ class KoreanWordAnalyze(APIView):
       # can also look for the longest string that matches so 원자량 matches 원자량 instead of 원자 etc
       for word in analysis:
         if mouse_over.startswith(word):
-          return JsonResponse({'found': word, 'num_words': len(analysis), 'analysis': original})
+          return JsonResponse({'found': word[0] + "다" if word[1].startswith('V') else word[0]})
+                               #'num_words': len(analysis), 'analysis': original})
 
-      return JsonResponse({'errors': '해당 단어를 찾을 수 없습니다.', 'num_words': len(analysis), 'analysis': original},
-                          status=status.HTTP_404_NOT_FOUND)
+      return JsonResponse({'errors': '해당 단어를 찾을 수 없습니다.'}, status=status.HTTP_404_NOT_FOUND)
+          #, 'num_words': len(analysis), 'analysis': original}, )
     
     else:
       return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
