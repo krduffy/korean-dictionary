@@ -29,7 +29,7 @@ SenseExampleInfo.propTypes = {
 const SenseExample = ({ example }) => {
   return (
     <div className="example-container">
-      <ExampleTextWithHighlighting string={example["example"]} />
+      <StringWithNLP string={example["example"]} hasExamples={true} />
 
       {example["source"] && (
         <div className="example-source">출처: {example["source"]}</div>
@@ -43,31 +43,6 @@ SenseExample.propTypes = {
     example: PropTypes.string.isRequired,
     source: PropTypes.string, // Source is optional
   }).isRequired,
-};
-
-const ExampleTextWithHighlighting = ({ string }) => {
-  const isolateBrackets = (text) => {
-    return text.split(/({.*?})/g).filter((str) => str.length > 0);
-  };
-
-  return (
-    <span className="example-text">
-      {isolateBrackets(string).map((substring, id) => (
-        <span
-          className={
-            substring.match(/{.*?}/) ? "bracketed-word-from-example" : ""
-          }
-          key={id}
-        >
-          <StringWithNLP string={substring.replace(/{(.*?)}/g, "$1")} />
-        </span>
-      ))}
-    </span>
-  );
-};
-
-ExampleTextWithHighlighting.propTypes = {
-  string: PropTypes.string.isRequired,
 };
 
 export default SenseExampleInfo;

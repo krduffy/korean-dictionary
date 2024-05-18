@@ -8,7 +8,7 @@ import StringWithHanja from "./StringWithHanja";
 import "./universal-styles.css";
 
 /* Also links string with hanja functionality into the string */
-const StringWithNLP = ({ string }) => {
+const StringWithNLP = ({ string, hasExamples }) => {
   const getSentences = (stringWithSentences) => {
     let sentences = stringWithSentences.split(/\.\s/g);
     sentences[sentences.length - 1] = sentences[sentences.length - 1].replace(
@@ -35,7 +35,16 @@ const StringWithNLP = ({ string }) => {
                   <span>ㆍ</span>
                 ) : (
                   <React.Fragment>
-                    <WordWithNLP word={word} fullSentence={sentence} />
+                    {hasExamples && word.match(/{.*?}/) ? (
+                      <span className="bracketed-word-from-example">
+                        {word.substring(1, word.length - 1)}
+                      </span>
+                    ) : (
+                      <WordWithNLP
+                        word={word}
+                        fullSentence={sentence.replaceAll(/{(.*?)}/g, "$1")}
+                      />
+                    )}
                     {wordArray[wordId + 1] !== "ㆍ" &&
                       wordId < wordArray.length - 1 && <span> </span>}
                   </React.Fragment>
@@ -81,6 +90,8 @@ const WordWithNLP = ({ word, fullSentence }) => {
     return sentenceString.replace("ㆍ", " ㆍ ");
   };
 
+  const currentView = useContext(ViewContext)["currentView"];
+
   const updateViewAndPushToHistory =
     useContext(ViewContext)["updateViewAndPushToHistory"];
 
@@ -99,17 +110,34 @@ const WordWithNLP = ({ word, fullSentence }) => {
     apiModify("http://127.0.0.1:8000/api/korean_word_lemma/", formData, "POST");
   };
 
+  const alreadyViewing = (koreanWord) => {
+    if (
+      currentView["view"] === "search_korean" &&
+      currentView["value"] === koreanWord
+    ) {
+      return true;
+    } else if (
+      currentView["view"] === "detail_korean" &&
+      currentView["searchBarInitialState"]["boxContent"] === koreanWord
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   useEffect(() => {
     if (response) {
       if (response.found) {
-        updateViewAndPushToHistory({
-          view: "search_korean",
-          value: response.found,
-          searchBarInitialState: {
-            boxContent: response.found,
-            dictionary: "korean",
-          },
-        });
+        if (!alreadyViewing(response.found)) {
+          updateViewAndPushToHistory({
+            view: "search_korean",
+            value: response.found,
+            searchBarInitialState: {
+              boxContent: response.found,
+              dictionary: "korean",
+            },
+          });
+        }
       }
     }
   }, [response]);
