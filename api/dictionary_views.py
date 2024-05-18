@@ -126,6 +126,20 @@ def get_nouns_verbs(sentence):
 
   return (return_list, analysis)
   
+def get_hanja_if_in_original(found_word, original_string):
+
+  regex = r'\([\u4e00-\u9fff]+\)'
+  pattern = re.compile(regex)
+
+  match = pattern.search(original_string)
+  if match:
+      hanja_word = match.group()[1:-1]
+      if KoreanWord.objects.filter(word__exact = found_word).filter(origin__exact = hanja_word).exists():
+        return hanja_word
+      return None
+  
+  return None
+
 class KoreanWordAnalyze(APIView):
   serializer_class = NLPRequestValidator
   # in this file because the user's data does not impact this. however, it will need to be
@@ -203,9 +217,13 @@ class KoreanWordAnalyze(APIView):
             number_words.index(return_word.replace(dummy_string, ''))
           ]
         
-        return JsonResponse({'found': return_word + "다" if not needs_dummy and word_type.startswith('V')
-                             else return_word
-            , 'num_words': len(analysis), 'analysis': original})
+        hanja = get_hanja_if_in_original(return_word, mouse_over)
+
+        if hanja:
+          return JsonResponse({'found': hanja, 'num_words': len(analysis), 'analysis': original})
+        else:
+          return JsonResponse({'found': return_word + "다" if not needs_dummy and word_type.startswith('V')
+                              else return_word, 'num_words': len(analysis), 'analysis': original})
     
       # Usually only gets as a last resort. Verbs rarely found here because they never contain
       # '다' in the verb itself. However, there is another problem with changes such as 보다 ->
@@ -216,7 +234,12 @@ class KoreanWordAnalyze(APIView):
       # can also look for the longest string that matches so 원자량 matches 원자량 instead of 원자 etc
       for word in analysis:
         if mouse_over.startswith(word):
-          return JsonResponse({'found': word[0] + "다" if word[1].startswith('V') else word[0],
+          hanja = get_hanja_if_in_original(word[0], mouse_over)
+
+          if hanja:
+            return JsonResponse({'found': hanja, 'num_words': len(analysis), 'analysis': original})
+          else:
+            return JsonResponse({'found': word[0] + "다" if word[1].startswith('V') else word[0],
                                'num_words': len(analysis), 'analysis': original})
 
       return JsonResponse({'errors': '해당 단어를 찾을 수 없습니다.', 'nss': new_sentence_strings
