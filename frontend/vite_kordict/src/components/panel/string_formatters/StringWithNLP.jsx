@@ -10,7 +10,12 @@ import "./universal-styles.css";
 /* Also links string with hanja functionality into the string */
 const StringWithNLP = ({ string }) => {
   const getSentences = (stringWithSentences) => {
-    return stringWithSentences.split(/\.\s/g);
+    let sentences = stringWithSentences.split(/\.\s/g);
+    sentences[sentences.length - 1] = sentences[sentences.length - 1].replace(
+      ".",
+      "",
+    );
+    return sentences;
   };
 
   const getWords = (stringWithWords) => {
@@ -21,13 +26,24 @@ const StringWithNLP = ({ string }) => {
     <span className="string-with-nlp">
       {/* split into individual sentences */}
 
-      {getSentences(string).map((sentence, sentenceId) => (
+      {getSentences(string).map((sentence, sentenceId, sentenceArray) => (
         <span className="sentence-with-nlp" key={sentenceId}>
-          {getWords(sentence).map((word, wordId) => (
-            <React.Fragment key={wordId}>
-              <WordWithNLP word={word} fullSentence={sentence} />{" "}
-            </React.Fragment>
-          ))}
+          {getWords(sentence.replaceAll("ㆍ", " ㆍ ")).map(
+            (word, wordId, wordArray) => (
+              <React.Fragment key={wordId}>
+                {word === "ㆍ" ? (
+                  <span>ㆍ</span>
+                ) : (
+                  <React.Fragment>
+                    <WordWithNLP word={word} fullSentence={sentence} />
+                    {wordArray[wordId + 1] !== "ㆍ" &&
+                      wordId < wordArray.length - 1 && <span> </span>}
+                  </React.Fragment>
+                )}
+              </React.Fragment>
+            ),
+          )}
+          <span>.{sentenceId < sentenceArray.length - 1 ? " " : ""}</span>
         </span>
       ))}
     </span>
@@ -52,6 +68,18 @@ const WordWithNLP = ({ word, fullSentence }) => {
       sentence: fullSentence,
       mouse_over: word,
     });
+
+  const splitBulleted = (sentenceString) => {
+    /* 전기를 일으키는 시설을 갖춘 곳 
+       수력ㆍ화력ㆍ원자력ㆍ풍력ㆍ조력ㆍ태양광ㆍ지열 
+       따위로 발전기를 돌려 전기를 일으킨다.
+
+       ^ a string like this where there are a bunch of nouns separated by no space but instead a 
+      ㆍ are annoying to click on because it is all considered one word. so here, they are split
+      with spaces. 
+     */
+    return sentenceString.replace("ㆍ", " ㆍ ");
+  };
 
   const updateViewAndPushToHistory =
     useContext(ViewContext)["updateViewAndPushToHistory"];
@@ -87,7 +115,6 @@ const WordWithNLP = ({ word, fullSentence }) => {
   }, [response]);
 
   useEffect(() => {
-    console.log(error);
     if (error) {
       setShowErrorBox(true);
 
@@ -134,7 +161,7 @@ const WordWithNLP = ({ word, fullSentence }) => {
             {response.errors}
           </div>
         )}
-      </span>{" "}
+      </span>
     </React.Fragment>
   );
 };

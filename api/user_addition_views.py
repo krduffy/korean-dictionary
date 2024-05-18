@@ -319,8 +319,8 @@ class HanjaGameView(APIView):
         required_characters.append(selected[i]["step_character"])
 
     return Response({
-      'start_from': start_from,
-      'go_to': go_to,
+      'start_from': HanjaCharacterSerializer(HanjaCharacter.objects.get(pk = start_from)).data,
+      'go_to': HanjaCharacterSerializer(HanjaCharacter.objects.get(pk = go_to)).data,
       'length': path_length,
       'required_characters': required_characters,
       'required_words': required_words,

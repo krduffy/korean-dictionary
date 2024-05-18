@@ -11,6 +11,7 @@ from .dictionary_models import KoreanWord, Sense, HanjaCharacter
 from .dictionary_serializers import *
 from rest_framework.permissions import IsAuthenticated
 import re
+import copy
 
 # nlp
 from konlpy.tag import Kkma
@@ -104,7 +105,7 @@ def get_nouns_verbs(sentence):
     return str.startswith("V")
   
   def is_어근_followed_by_deriv_suffix(str1, str2):
-    return str1 == "XR" and str2 == "XSA"
+    return (str1 == "XR" or str1 == 'NNG') and str2 == "XSA"
 
   kkma = Kkma()
   analysis = kkma.pos(sentence)
@@ -112,6 +113,7 @@ def get_nouns_verbs(sentence):
   accepted_lemmas = [item for item in analysis if accept_pos(item[1])]
   num_accepted_lemmas = len(accepted_lemmas)
   return_list = []
+
   for i in range(0, num_accepted_lemmas):
     
     if i != (num_accepted_lemmas - 1) and \
@@ -119,7 +121,7 @@ def get_nouns_verbs(sentence):
 
       return_list.append((accepted_lemmas[i][0] + accepted_lemmas[i+1][0], 'V'))
     
-    else:
+    elif not accepted_lemmas[i][1] == 'XSA':
       return_list.append(accepted_lemmas[i])
 
   return (return_list, analysis)
@@ -152,8 +154,9 @@ class KoreanWordAnalyze(APIView):
 
       if needs_dummy:
 
+        print('dummy')
         original_inner_strings = sentence.split()
-        new_sentence_strings = original_inner_strings
+        new_sentence_strings = copy.deepcopy(original_inner_strings)
         # this dummy string will get tagged as OL (other language).
         # thus, I check if a thing to be returned starts with this string
         # if it does, we will instead return the original string.
@@ -167,10 +170,14 @@ class KoreanWordAnalyze(APIView):
         
         for i in range(0, len(original_inner_strings)):
           found = pattern.match(original_inner_strings[i])
+          print(found)
           if found:
-            new_sentence_strings[i].replace(found.group(), dummy_string + number_words[num_dummies])
+            original_inner_strings[i] = found.group()[1:-1]
+            new_sentence_strings[i] = new_sentence_strings[i].replace(found.group(), dummy_string + number_words[num_dummies])
             num_dummies += 1
 
+        print(original_inner_strings)
+        print(new_sentence_strings)
         new_sentence = "".join(string for string in new_sentence_strings)
 
         (analysis, original) = get_nouns_verbs(new_sentence)
@@ -187,17 +194,18 @@ class KoreanWordAnalyze(APIView):
       # being.
       if len(analysis) == len(sentence.split()):
         index_of_mouse_over = sentence.split().index(mouse_over)
-        to_return = analysis[index_of_mouse_over]
-        if needs_dummy and to_return.startswith(dummy_string):
-          to_return = original_inner_strings[
-            number_words.index(to_return.replace(dummy_string, ''))
+        
+        return_word = analysis[index_of_mouse_over][0]
+        word_type = analysis[index_of_mouse_over][1]
+  
+        if needs_dummy and return_word.startswith(dummy_string):
+          return_word = original_inner_strings[
+            number_words.index(return_word.replace(dummy_string, ''))
           ]
         
-        return_word = analysis[index_of_mouse_over]
-        return JsonResponse({'found': return_word[0] + "다" if return_word[1].startswith('V') 
-                             else return_word[0]}) 
-            # for debugging/changing
-            #, 'num_words': len(analysis), 'analysis': original})
+        return JsonResponse({'found': return_word + "다" if not needs_dummy and word_type.startswith('V')
+                             else return_word
+            , 'num_words': len(analysis), 'analysis': original})
     
       # Usually only gets as a last resort. Verbs rarely found here because they never contain
       # '다' in the verb itself. However, there is another problem with changes such as 보다 ->
@@ -208,11 +216,11 @@ class KoreanWordAnalyze(APIView):
       # can also look for the longest string that matches so 원자량 matches 원자량 instead of 원자 etc
       for word in analysis:
         if mouse_over.startswith(word):
-          return JsonResponse({'found': word[0] + "다" if word[1].startswith('V') else word[0]})
-                               #'num_words': len(analysis), 'analysis': original})
+          return JsonResponse({'found': word[0] + "다" if word[1].startswith('V') else word[0],
+                               'num_words': len(analysis), 'analysis': original})
 
-      return JsonResponse({'errors': '해당 단어를 찾을 수 없습니다.'}, status=status.HTTP_404_NOT_FOUND)
-          #, 'num_words': len(analysis), 'analysis': original}, )
+      return JsonResponse({'errors': '해당 단어를 찾을 수 없습니다.', 'nss': new_sentence_strings
+          , 'num_words': len(analysis), 'analysis': original}, status=status.HTTP_404_NOT_FOUND)
     
     else:
       return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
