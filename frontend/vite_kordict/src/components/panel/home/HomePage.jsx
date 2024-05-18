@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 import { ViewContext } from "../Panel.jsx";
 import { LoadingMessage } from "../../LoadingMessage";
@@ -9,6 +9,8 @@ import "./homepage-styles.css";
 const HomePage = () => {
   const [homepageData, setHomepageData] = useState();
   const { apiFetch, loading, error } = useAPIFetcher();
+
+  const viewContext = useContext(ViewContext);
 
   useEffect(() => {
     apiFetch("http://127.0.0.1:8000/api/homepage_info/", setHomepageData);
@@ -26,6 +28,22 @@ const HomePage = () => {
             <LoadingMessage />
           ) : (
             <div id="homepage-main-content">
+              <div className="buttons">
+                <button
+                  onClick={() => {
+                    viewContext["updateViewAndPushToHistory"]({
+                      view: "hanja_game",
+                      value: "?",
+                      searchBarInitialState: {
+                        boxContent: "漢字",
+                        dictionary: "hanja",
+                      },
+                    });
+                  }}
+                >
+                  게임
+                </button>
+              </div>
               <div className="study-words">
                 공부하는 단어
                 <ul className="study-word-list-item">
