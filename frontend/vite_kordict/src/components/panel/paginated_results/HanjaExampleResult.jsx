@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import { ViewContext } from "../Panel";
 import StringWithHanja from "../string_formatters/StringWithHanja";
+import StringWithNLP from "../string_formatters/StringWithNLP";
 
 import "./styles/hanja-example-result-styles.css";
 
@@ -36,7 +37,10 @@ const HanjaExampleResult = ({ result }) => {
       </div>
 
       <div className="hanja_example_definition">
-        <StringWithHanja string={result["kw_first_definition"]} />
+        <StringWithNLP
+          string={result["kw_first_definition"]}
+          hasExamples={false}
+        />
       </div>
     </div>
   );

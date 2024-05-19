@@ -11,12 +11,12 @@ const HanjaGame = () => {
 
   const { apiFetch, loading } = useAPIFetcher();
 
-  useEffect(() => {
+  const generateGame = () => {
     apiFetch(
       "http://127.0.0.1:8000/api/hanja_game_info/?length=6",
       setCurrentGameData,
     );
-  }, []);
+  };
 
   return (
     <div className="hanja-game-container">
@@ -24,6 +24,7 @@ const HanjaGame = () => {
         <LoadingMessage />
       ) : (
         <React.Fragment>
+          <div onClick={generateGame}>생성</div>
           <div className="game-rules">
             {currentGameData["start_from"] && (
               <span>

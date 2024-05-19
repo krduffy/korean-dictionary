@@ -19,7 +19,32 @@ const StringWithNLP = ({ string, hasExamples }) => {
   };
 
   const getWords = (stringWithWords) => {
-    return stringWithWords.split(/\s/g);
+    if (!hasExamples) {
+      return stringWithWords.split(/\s/g);
+    }
+
+    /* if there are examples, then an example is considered a single word
+       even if it is a phrase that really consists of several words. */
+    const tokens = stringWithWords.split(/\s/g);
+    let words = [];
+    let capturingExample = false;
+
+    for (let i = 0; i < tokens.length; i++) {
+      if (capturingExample) {
+        if (tokens[i].endsWith("}")) {
+          capturingExample = false;
+        }
+        words[words.length - 1] =
+          words[words.length - 1] + tokens[i] + (capturingExample ? " " : "");
+      } else if (tokens[i].startsWith("{") && !tokens[i].endsWith("}")) {
+        capturingExample = true;
+        words.push(tokens[i] + " ");
+      } else {
+        words.push(tokens[i]);
+      }
+    }
+
+    return words;
   };
 
   return (

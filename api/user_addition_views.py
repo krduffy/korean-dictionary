@@ -259,7 +259,7 @@ def get_path_of_length(request, length):
         if found_link:
           break # out of for valid_word in working_set
         else:
-          for character in valid_word:
+          for character in valid_word.origin:
             tried_lists[step_counter].append(character)
 
       # step_counter and list of characters already updated; dont need to do again
