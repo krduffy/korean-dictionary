@@ -65,4 +65,3 @@ class UserNoteSerializer(serializers.Serializer):
 
   def create(self, validated_data):
     return UserNote.objects.create(**validated_data)
-  

@@ -106,3 +106,13 @@ class KoreanSerializerForHanja(serializers.ModelSerializer):
   def get_kw_first_definition(self, obj):
     first = obj.senses.all().order_by('order')[0]
     return first.definition
+  
+class HanjaGameWordSerializer(serializers.Serializer):
+  kw_target_code = serializers.IntegerField(source='target_code', default = None)
+  kw_word = serializers.CharField(source='word', default = None)
+  kw_origin = serializers.CharField(source='origin', default = None)
+
+  class Meta:
+    model = KoreanWord
+    fields = ['kw_target_code', 'kw_word', 'kw_origin']
+    read_only_fields = ['__all__']

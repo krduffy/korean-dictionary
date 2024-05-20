@@ -6,7 +6,7 @@ from rest_framework import status
 from .user_addition_models import UserNote
 from .user_addition_serializers import UserNoteSerializer, UserSenseSerializer, UserWordSerializer
 from .dictionary_models import HanjaCharacter, KoreanWord, Sense
-from .dictionary_serializers import HanjaCharacterSerializer, KoreanWordSerializer, SenseSerializer, KoreanSerializerForHanja
+from .dictionary_serializers import HanjaCharacterSerializer, KoreanWordSerializer, SenseSerializer, KoreanSerializerForHanja, HanjaGameWordSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
@@ -247,7 +247,7 @@ def get_path_of_length(request, length):
             hanja_path.append({
               'step_character': HanjaCharacterSerializer(
                           HanjaCharacter.objects.get(pk = character)).data,
-              'example_word': KoreanSerializerForHanja(
+              'example_word': HanjaGameWordSerializer(
                           valid_word, context = {'request': request}).data,
               })
             step_characters.append(character)
@@ -310,25 +310,42 @@ class HanjaGameView(APIView):
     go_to = hanja_path[path_length - 1]["step_character"]["character"]
 
     # number of required words and characters.
-    num_requirements = path_length // 3
+    num_requirements = path_length // 4
     
-    required_words = []
     required_characters = []
     selected = random.sample(hanja_path[1:-1], k=num_requirements)
 
-    for i in range(0, num_requirements):
-      ri = random.randint(0, 2)
+    supplied_characters = []
+    for word_on_path in hanja_path:
+      for character in word_on_path["example_word"]["kw_origin"]:
+        if character not in supplied_characters:
+          supplied_characters.append(character)
 
-      if ri == 0:
-        required_words.append(selected[i]["example_word"])
-      else:
-        required_characters.append(selected[i]["step_character"])
+    num_supplied_characters = len(supplied_characters)
+    num_supplied_needed = 16
+    if num_supplied_characters < num_supplied_needed:
+      regex = r'[\u4e00-\u9fff][\u4e00-\u9fff]'
+      all_known_words = request.user.known_words.all().filter(origin__iregex = regex).order_by('?')
+      index = 0
+
+      while num_supplied_characters < num_supplied_needed:
+        print("index is ", index)
+        for character in all_known_words[index].origin:
+          if ord(character) > 0x4e00 and ord(character) < 0x9fff and \
+            character not in supplied_characters and num_supplied_characters < num_supplied_needed:
+            
+              print('appending ', character)
+              num_supplied_characters += 1
+              supplied_characters.append(character)
+        index += 1
+
+    for i in range(0, num_requirements):
+      required_characters.append(random.sample(selected[i]["example_word"]["kw_origin"], k=1))
 
     return Response({
       'start_from': HanjaCharacterSerializer(HanjaCharacter.objects.get(pk = start_from)).data,
       'go_to': HanjaCharacterSerializer(HanjaCharacter.objects.get(pk = go_to)).data,
-      'length': path_length,
+      'supplied_characters': supplied_characters,
       'required_characters': required_characters,
-      'required_words': required_words,
       'hanja_path': hanja_path
     })
