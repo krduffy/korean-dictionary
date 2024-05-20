@@ -5,7 +5,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { useAPIFetcher } from "../../../../hooks/useAPIFetcher.js";
 import { LoadingMessage } from "../../../LoadingMessage.jsx";
-import CharacterSquare from "./CharacterSquare.jsx";
+import UsableCharactersBoard from "./UsableCharactersBoard.jsx";
 
 const HanjaGame = () => {
   const [currentGameData, setCurrentGameData] = useState({});
@@ -33,10 +33,11 @@ const HanjaGame = () => {
         <LoadingMessage />
       ) : (
         currentGameData &&
-        currentGameData["supplied_characters"] &&
-        currentGameData["supplied_characters"].map((character, id) => (
-          <CharacterSquare character={character} key={id} />
-        ))
+        currentGameData["supplied_characters"] && (
+          <UsableCharactersBoard
+            charactersList={currentGameData["supplied_characters"]}
+          />
+        )
       )}
     </div>
   );

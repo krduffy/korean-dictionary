@@ -1,20 +1,29 @@
 import React from "react";
 import ClipboardCopier from "../../string_formatters/ClipboardCopier";
 
-import StringWithHanja from "../../string_formatters/StringWithHanja";
 import HanjaCharacterSpan from "../../string_formatters/HanjaCharacterSpan";
+
+import "./hanja-game-styles.css";
 
 const CharacterSquare = ({ character }) => {
   return (
-    <span className="character-square">
-      <span className="square-hanja">{character}</span>
-      <HanjaCharacterSpan
-        character={character}
-        overrideDisplay={"?"}
-        disableClick={true}
-      />
-      <ClipboardCopier string={character} />
-    </span>
+    <div className="character-square">
+      <div className="character-square-left-side">
+        <span className="square-hanja">{character}</span>
+      </div>
+      <div className="character-square-right-side">
+        <div className="question-mark-container">
+          <HanjaCharacterSpan
+            character={character}
+            overrideDisplay={"?"}
+            disableClick={true}
+          />
+        </div>
+        <div className="copier-container">
+          <ClipboardCopier string={character} />
+        </div>
+      </div>
+    </div>
   );
 };
 

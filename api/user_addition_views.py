@@ -339,6 +339,8 @@ class HanjaGameView(APIView):
               supplied_characters.append(character)
         index += 1
 
+    random.shuffle(supplied_characters)
+
     for i in range(0, num_requirements):
       required_characters.append(random.sample(selected[i]["example_word"]["kw_origin"], k=1))
 

@@ -1,0 +1,59 @@
+.character-square {
+  display: flex;
+  margin: 0;
+  flex-direction: row;
+  width: 100%; /* 12.5% (1/8) minus 1.5 * 2 for each side of the margin */
+  box-sizing: border-box;
+  background-color: #18181a;
+  border-radius: 10px;
+}
+
+.square-hanja {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  color: white;
+}
+
+.character-square-left-side {
+  width: 75%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.character-square-right-side {
+  width: 25%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.question-mark-container {
+  width: auto;
+  height: auto;
+  margin-bottom: 5px;
+}
+
+.copier-container {
+  width: auto;
+  height: auto;
+}
+
+.usable-characters-board {
+  display: grid;
+  /* each item in the grid needs to be 1/8 of the width, so padding of 1% + gap of 1% +
+     column width of 10.5% */
+  grid-template-columns: repeat(auto-fill, minmax(10.5%, 1fr));
+  gap: 1%;
+  box-sizing: border-box;
+  border: 2px solid white;
+  width: 100%;
+  padding: 1%;
+}
