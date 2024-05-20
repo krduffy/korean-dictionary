@@ -329,12 +329,9 @@ class HanjaGameView(APIView):
       index = 0
 
       while num_supplied_characters < num_supplied_needed:
-        print("index is ", index)
         for character in all_known_words[index].origin:
           if ord(character) > 0x4e00 and ord(character) < 0x9fff and \
             character not in supplied_characters and num_supplied_characters < num_supplied_needed:
-            
-              print('appending ', character)
               num_supplied_characters += 1
               supplied_characters.append(character)
         index += 1
