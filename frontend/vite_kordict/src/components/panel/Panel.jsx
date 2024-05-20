@@ -9,7 +9,7 @@ import KoreanWordView from "./detail_view/KoreanWordView.jsx";
 import HanjaCharView from "./detail_view/HanjaCharView.jsx";
 import NewWordForm from "./forms/NewWordForm.jsx";
 import EditWordForm from "./forms/EditWordForm.jsx";
-import HanjaGame from "./review/HanjaGame.jsx";
+import HanjaGame from "./review/hanja_game/HanjaGame.jsx";
 
 export const ViewContext = createContext(null);
 

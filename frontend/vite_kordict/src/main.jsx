@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  /* temp disabling of strict mode */
-  <App />,
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
 );

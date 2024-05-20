@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
-import { LoadingMessage } from "../../LoadingMessage.jsx";
+
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
+import { useAPIFetcher } from "../../../../hooks/useAPIFetcher.js";
+import { LoadingMessage } from "../../../LoadingMessage.jsx";
 
 const HanjaGame = () => {
   const [currentGameData, setCurrentGameData] = useState({});
@@ -23,7 +27,7 @@ const HanjaGame = () => {
       {loading ? (
         <LoadingMessage />
       ) : (
-        <React.Fragment>
+        <DndProvider backend={HTML5Backend}>
           <div onClick={generateGame}>생성</div>
           <div className="game-rules">
             {currentGameData["start_from"] && (
@@ -40,7 +44,7 @@ const HanjaGame = () => {
               </span>
             )}
           </div>
-        </React.Fragment>
+        </DndProvider>
       )}
     </div>
   );

@@ -67,7 +67,9 @@ const StringWithNLP = ({ string, hasExamples }) => {
                     ) : (
                       <WordWithNLP
                         word={word}
-                        fullSentence={sentence.replaceAll(/{(.*?)}/g, "$1")}
+                        fullSentence={sentence
+                          .replaceAll("ㆍ", " ㆍ ")
+                          .replaceAll(/{(.*?)}/g, "$1")}
                       />
                     )}
                     {wordArray[wordId + 1] !== "ㆍ" &&

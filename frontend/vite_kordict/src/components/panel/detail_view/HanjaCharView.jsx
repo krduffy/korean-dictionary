@@ -24,11 +24,13 @@ const HanjaCharView = ({ hanjaChar }) => {
         <div>
           <div className="jahuneum">
             <span className="hanja-header">
-              {charData["character"]}
+              {hanjaChar}
               <ClipboardCopier string={charData["character"]} />
             </span>{" "}
             <span className="meaning-reading-header">
-              {charData["meaning_reading"]}
+              {charData["meaning_reading"]
+                ? charData["meaning_reading"]
+                : "훈음 정보가 없습니다."}
             </span>
           </div>
           <div className="additional-info-section-header">연관단어</div>
