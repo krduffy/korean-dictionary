@@ -5,6 +5,7 @@ import PaginatedResults from "../paginated_results/PaginatedResults.jsx";
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 import { LoadingMessage } from "../../LoadingMessage.jsx";
 import ClipboardCopier from "../string_formatters/ClipboardCopier.jsx";
+import HanjaWriter from "../hanja-writing/HanjaWriter.jsx";
 
 import "./styles/hanja-char-view-styles.css";
 
@@ -22,6 +23,7 @@ const HanjaCharView = ({ hanjaChar }) => {
         <LoadingMessage />
       ) : (
         <div>
+          <HanjaWriter character={hanjaChar} />
           <div className="jahuneum">
             <span className="hanja-header">
               {hanjaChar}
