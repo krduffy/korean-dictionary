@@ -1,20 +1,20 @@
 .hanja-clickable-result {
-  transition: all 0.3s ease;
-  font-size: large;
+    transition: all 0.3s ease;
+    font-size: large;
 }
 
 .hanja-clickable-result:hover {
-  text-shadow: 0 0 5px #d16806;
+    text-shadow: 0 0 5px #d16806;
 }
 
 .hanja-result-container {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .meaning-reading-section {
-  width: 100%;
-  text-align: center;
-  background-color: #272938;
-  color: white;
-  font-size: large;
+    width: 100%;
+    text-align: center;
+    background-color: #272938;
+    color: white;
+    font-size: large;
 }

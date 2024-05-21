@@ -1,31 +1,31 @@
 /* Center the loading message in the middle of the screen */
 .loading-message {
-  /* Basic styles */
-  font-size: 16px; /* Increase font size */
-  color: #ffffff; /* White text */
-  padding: 1em 2em; /* Padding around the text */
-  border-radius: 8px; /* Rounded corners */
-  text-align: center;
+    /* Basic styles */
+    font-size: 16px; /* Increase font size */
+    color: #ffffff; /* White text */
+    padding: 1em 2em; /* Padding around the text */
+    border-radius: 8px; /* Rounded corners */
+    text-align: center;
 }
 
 /* Dots animation */
 .dots::after {
-  content: "..."; /* Content to animate */
-  animation: dots 2s steps(4, end) infinite; /* Animation settings */
+    content: "..."; /* Content to animate */
+    animation: dots 2s steps(4, end) infinite; /* Animation settings */
 }
 
 @keyframes dots {
-  0%,
-  100% {
-    content: "";
-  }
-  25% {
-    content: ".";
-  }
-  50% {
-    content: "..";
-  }
-  75% {
-    content: "...";
-  }
+    0%,
+    100% {
+        content: "";
+    }
+    25% {
+        content: ".";
+    }
+    50% {
+        content: "..";
+    }
+    75% {
+        content: "...";
+    }
 }

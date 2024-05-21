@@ -1,175 +1,175 @@
 ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .bracketed-word-from-example {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .user-example-container-header {
-  color: white;
-  text-shadow: 0 0 10px gold;
-  background-color: #312f36;
-  margin-top: 10px;
+    color: white;
+    text-shadow: 0 0 10px gold;
+    background-color: #312f36;
+    margin-top: 10px;
 }
 
 .expansion-controller {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 4%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 4%;
 }
 
 .expand-button {
-  width: 100%;
-  height: 20px;
+    width: 100%;
+    height: 20px;
 }
 
 .retract-line-unshortened,
 .retract-line-shortened-expanded,
 .retract-line-shortened-unexpanded {
-  transition: all 0.3s ease;
-  width: 25%;
-  background-color: gray;
+    transition: all 0.3s ease;
+    width: 25%;
+    background-color: gray;
 }
 
 .expand-button:hover,
 .retract-line-shortened-expanded:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .retract-line-shortened-expanded:hover {
-  background-color: #ccd5e0;
+    background-color: #ccd5e0;
 }
 
 .retract-line-unshortened {
-  height: 100%;
+    height: 100%;
 }
 
 .retract-line-shortened-expanded,
 .retract-line-shortened-unexpanded {
-  height: calc(100% - 20px);
+    height: calc(100% - 20px);
 }
 
 .expand-button {
-  border: 1px;
-  color: gray;
-  border-color: gray;
-  transition: all 0.3s ease;
+    border: 1px;
+    color: gray;
+    border-color: gray;
+    transition: all 0.3s ease;
 }
 
 .expand-button:hover {
-  color: #ccd5e0;
+    color: #ccd5e0;
 }
 
 .sense-additional-data {
-  padding-top: 10px;
-  padding-bottom: 20px;
-  display: flex;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    display: flex;
 }
 
 .additional-data-content-entire,
 .additional-data-content-truncated {
-  margin-left: 2%;
-  width: 95.5%;
-  flex: none;
+    margin-left: 2%;
+    width: 95.5%;
+    flex: none;
 }
 
 .additional-data-content-truncated {
-  max-height: 100px;
-  overflow-y: hidden;
+    max-height: 100px;
+    overflow-y: hidden;
 }
 
 .relation-table {
-  display: table;
+    display: table;
 }
 
 .relation-table-dt,
 .relation-table-dd {
-  display: table-cell;
+    display: table-cell;
 }
 
 .relation-table-dt {
-  white-space: nowrap;
-  width: 100px;
+    white-space: nowrap;
+    width: 100px;
 }
 
 .relation-table-dd {
-  padding-left: 5px;
-  margin-left: 5px;
+    padding-left: 5px;
+    margin-left: 5px;
 }
 
 .sense-proverb-list {
-  margin-top: 5px;
+    margin-top: 5px;
 }
 
 .example-container {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .example-text {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .history-example {
-  font-size: small;
+    font-size: small;
 }
 
 .example-source,
 .history-example-source {
-  color: gray;
-  font-size: small;
+    color: gray;
+    font-size: small;
 }
 
 .history-examples-by-century-table {
-  padding-top: 10px;
-  border-collapse: collapse;
+    padding-top: 10px;
+    border-collapse: collapse;
 }
 
 .sense-proverb {
-  margin-top: 5px;
-  margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 .proverb-definition {
-  margin-top: 5px;
-  font-size: small;
+    margin-top: 5px;
+    font-size: small;
 }
 
 .history-header-table-header {
-  vertical-align: top;
-  text-align: left;
+    vertical-align: top;
+    text-align: left;
 }
 
 .history-header-table-header,
 .history-header-table-data {
-  padding-bottom: 10px;
-  padding-top: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 .history-examples-by-century-table-column-name {
-  padding-bottom: 20px;
+    padding-bottom: 20px;
 }
 
 .history-examples-by-century-table-column-name,
 .history-examples-by-century-table-row-header,
 .history-examples-by-century-table-data {
-  border: 1px solid white;
-  padding: 8px;
+    border: 1px solid white;
+    padding: 8px;
 }
 
 .history-examples-by-century-table-caption {
-  font-size: larger;
-  padding-bottom: 10px;
-  padding-top: 10px;
-  text-decoration: underline;
+    font-size: larger;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-decoration: underline;
 }
 
 .additional-info-section-header {
-  font-size: 20px;
-  background-color: #312f36;
-  margin-bottom: 0;
-  padding-left: 5px;
+    font-size: 20px;
+    background-color: #312f36;
+    margin-bottom: 0;
+    padding-left: 5px;
 }

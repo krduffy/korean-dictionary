@@ -1,7 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-
 import HanjaCharacterSpan from "./HanjaCharacterSpan";
+
+import React from "react";
+
+import PropTypes from "prop-types";
 
 import "./universal-styles.css";
 
@@ -22,37 +23,37 @@ import "./universal-styles.css";
  */
 
 const StringWithHanja = ({ string }) => {
-  const isolateHanja = (originalString) => {
-    /* 4e00 through 9fff is block of CJK unified ideographs in unicode */
-    return originalString
-      .split(/([\u4e00-\u9fff])/g)
-      .filter((str) => str.length > 0);
-  };
+    const isolateHanja = (originalString) => {
+        /* 4e00 through 9fff is block of CJK unified ideographs in unicode */
+        return originalString
+            .split(/([\u4e00-\u9fff])/g)
+            .filter((str) => str.length > 0);
+    };
 
-  const isSingleHanja = (substr) => {
-    if (substr.length !== 1) return false;
-    const charCode = substr.charCodeAt(0);
-    return charCode >= 0x4e00 && charCode <= 0x9fff;
-  };
+    const isSingleHanja = (substr) => {
+        if (substr.length !== 1) return false;
+        const charCode = substr.charCodeAt(0);
+        return charCode >= 0x4e00 && charCode <= 0x9fff;
+    };
 
-  return (
-    <span>
-      {string &&
-        isolateHanja(string).map((substring, index) => (
-          <span key={index}>
-            {isSingleHanja(substring) ? (
-              <HanjaCharacterSpan character={substring} />
-            ) : (
-              <span>{substring}</span>
-            )}
-          </span>
-        ))}
-    </span>
-  );
+    return (
+        <span>
+            {string &&
+                isolateHanja(string).map((substring, index) => (
+                    <span key={index}>
+                        {isSingleHanja(substring) ? (
+                            <HanjaCharacterSpan character={substring} />
+                        ) : (
+                            <span>{substring}</span>
+                        )}
+                    </span>
+                ))}
+        </span>
+    );
 };
 
 StringWithHanja.propTypes = {
-  string: PropTypes.string.isRequired,
+    string: PropTypes.string.isRequired,
 };
 
 export default StringWithHanja;

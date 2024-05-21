@@ -1,24 +1,24 @@
 .jahuneum {
-  font-size: 40px;
-  margin-bottom: 10px;
+    font-size: 40px;
+    margin-bottom: 10px;
 }
 
 .example-container {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
 .word-list-header {
-  font-size: 20px;
-  display: flex;
-  justify-content: center; /* Horizontally center the child */
-  align-items: center; /* Vertically center the child */
+    font-size: 20px;
+    display: flex;
+    justify-content: center; /* Horizontally center the child */
+    align-items: center; /* Vertically center the child */
 }
 
 .hanja-header {
-  color: #72a1ed;
-  font-size: 40px;
+    color: #72a1ed;
+    font-size: 40px;
 }
 
 .meaning-reading-header {
-  font-size: 20px;
+    font-size: 20px;
 }

@@ -1,19 +1,19 @@
 #navbar {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  background-color: black;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: black;
 }
 
 #navbar-dictionary-title {
-  color: gold;
+    color: gold;
 }
 
 #login-button,
 #logout-button {
-  text-align: right;
+    text-align: right;
 }
 
 #username-display {
-  text-align: center;
+    text-align: center;
 }

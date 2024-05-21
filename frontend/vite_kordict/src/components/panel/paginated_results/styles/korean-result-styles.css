@@ -1,44 +1,44 @@
 .clickable-result {
-  transition: all 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .clickable-result:hover {
-  text-decoration: underline;
-  text-shadow: 0 0 5px blue;
-  cursor: pointer;
+    text-decoration: underline;
+    text-shadow: 0 0 5px blue;
+    cursor: pointer;
 }
 
 .result_box {
-  border-bottom: 10px bold transparent;
-  padding: 5px;
+    border-bottom: 10px bold transparent;
+    padding: 5px;
 }
 
 .header {
-  font-family: sans-serif;
-  margin-bottom: 5px;
-  width: 100%;
-  display: flex;
-  flex-grow: 1;
-  flex-direction: row;
-  justify-content: space-between;
+    font-family: sans-serif;
+    margin-bottom: 5px;
+    width: 100%;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .word_header {
-  color: #72a1ed;
-  font-size: 20px;
-  font-weight: bold;
+    color: #72a1ed;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .origin_header {
-  font-size: 16px;
+    font-size: 16px;
 }
 
 .listed_senses {
-  line-height: 1.5;
-  list-style: none;
-  padding: 0;
+    line-height: 1.5;
+    list-style: none;
+    padding: 0;
 }
 
 .korean-result-know-study-container {
-  text-align: right;
+    text-align: right;
 }

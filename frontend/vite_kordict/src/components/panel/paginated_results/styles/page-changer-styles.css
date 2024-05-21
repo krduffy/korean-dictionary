@@ -1,26 +1,26 @@
 button {
-  text-align: center;
-  cursor: pointer;
+    text-align: center;
+    cursor: pointer;
 }
 
 #page-changer-container-div {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 20px;
-  padding: 10px;
-  padding-top: 30px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 20px;
+    padding: 10px;
+    padding-top: 30px;
 }
 
 .page-left-button {
-  flex: auto;
+    flex: auto;
 }
 
 #page-number-display {
-  text-align: center;
-  flex: auto;
+    text-align: center;
+    flex: auto;
 }
 
 .page-right-button {
-  flex: auto;
+    flex: auto;
 }

@@ -1,103 +1,103 @@
 .hanja-char {
-  transition: all 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .hanja-char:hover {
-  text-shadow: 0 0 5px #00ffff;
+    text-shadow: 0 0 5px #00ffff;
 }
 
 .hanja-hover-box {
-  width: 200px;
-  position: absolute;
-  background-color: #3d3f47;
-  border: 1px solid #ccc;
-  z-index: 100;
-  padding: 0;
-  margin: 0;
+    width: 200px;
+    position: absolute;
+    background-color: #3d3f47;
+    border: 1px solid #ccc;
+    z-index: 100;
+    padding: 0;
+    margin: 0;
 }
 
 .meaning-reading-section {
-  width: 100%;
-  text-align: center;
-  background-color: #272938;
-  color: white;
-  font-size: large;
+    width: 100%;
+    text-align: center;
+    background-color: #272938;
+    color: white;
+    font-size: large;
 }
 
 .korean-word-section {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
-  padding: 10px;
-  overflow: hidden;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    padding: 10px;
+    overflow: hidden;
 }
 
 .single-hanja-example {
-  color: white;
-  font-size: small;
-  overflow: hidden;
-  text-overflow: clip;
-  white-space: nowrap;
+    color: white;
+    font-size: small;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
 }
 
 /* HTML: <div class="loader"></div> */
 .nlp-loading-indicator {
-  width: 60px;
-  aspect-ratio: 4;
-  background: radial-gradient(circle closest-side, #000 90%, #0000) 0 /
-    calc(100% / 3) 100% space;
-  clip-path: inset(0 100% 0 0);
-  animation: l1 2s steps(4) infinite;
-  position: absolute;
-  background-color: #3d3f47;
-  border: 1px solid #ccc;
-  z-index: 100;
-  padding: 0;
-  margin: 0;
+    width: 60px;
+    aspect-ratio: 4;
+    background: radial-gradient(circle closest-side, #000 90%, #0000) 0 /
+        calc(100% / 3) 100% space;
+    clip-path: inset(0 100% 0 0);
+    animation: l1 2s steps(4) infinite;
+    position: absolute;
+    background-color: #3d3f47;
+    border: 1px solid #ccc;
+    z-index: 100;
+    padding: 0;
+    margin: 0;
 }
 @keyframes l1 {
-  to {
-    clip-path: inset(0 -34% 0 0);
-  }
+    to {
+        clip-path: inset(0 -34% 0 0);
+    }
 }
 
 .nlp-error-message {
-  display: flex;
-  flex-grow: 1;
-  position: absolute;
-  background-color: #3d3f47;
-  border: 1px solid #ccc;
-  z-index: 100;
-  padding: 15px;
-  margin: 0;
+    display: flex;
+    flex-grow: 1;
+    position: absolute;
+    background-color: #3d3f47;
+    border: 1px solid #ccc;
+    z-index: 100;
+    padding: 15px;
+    margin: 0;
 }
 
 .clipboard-copier-container {
-  display: inline-block;
-  cursor: pointer;
-  font-size: 18px;
-  margin-left: 8px;
-  margin-right: 4px;
-  overflow: hidden;
-  width: 20px;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 8px;
+    margin-right: 4px;
+    overflow: hidden;
+    width: 20px;
 }
 
 .clipboard-symbol {
-  color: gray;
-  transition: color 0.3s ease;
+    color: gray;
+    transition: color 0.3s ease;
 }
 
 .clipboard-symbol:hover {
-  color: white;
+    color: white;
 }
 
 .checkmark {
-  color: darkgreen;
-  transition: opacity 0.3s ease;
+    color: darkgreen;
+    transition: opacity 0.3s ease;
 }
 
 .x-symbol {
-  color: darkred;
-  transition: opacity 0.3s ease;
+    color: darkred;
+    transition: opacity 0.3s ease;
 }

@@ -1,43 +1,43 @@
 .fixed-header {
-  height: 40px;
-  padding-bottom: 10px;
-  background-color: black;
-  width: 100%;
+    height: 40px;
+    padding-bottom: 10px;
+    background-color: black;
+    width: 100%;
 }
 
 .fixed-header > * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 button {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .activated-button {
-  background-color: #25254d;
-  text-shadow: 0 0 15px white;
+    background-color: #25254d;
+    text-shadow: 0 0 15px white;
 }
 
 .search-bar {
-  display: inline-block;
+    display: inline-block;
 }
 
 .dictionary-button-container {
-  display: inline-block;
+    display: inline-block;
 }
 
 .form-content {
-  display: inline-block;
+    display: inline-block;
 }
 
 .enabled-navigation-button {
-  background-color: #344e61;
+    background-color: #344e61;
 }
 
 .disabled-navigation-button {
-  background-color: black;
+    background-color: black;
 }
 
 .view-history-navigator {
-  display: inline-block;
+    display: inline-block;
 }

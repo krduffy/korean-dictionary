@@ -1,5 +1,5 @@
 .word-header {
-  font-size: 40px;
+    font-size: 40px;
 }
 
 .word-extra-info,
@@ -7,27 +7,27 @@
 .unknown-word-button,
 .studied-word-button,
 .not-studied-word-button {
-  border: 10px solid transparent;
-  border-radius: 10px;
+    border: 10px solid transparent;
+    border-radius: 10px;
 }
 
 .word-extra-info-container {
-  padding-bottom: 10px;
-  padding-top: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 .known-word-button {
-  background-color: #946821;
+    background-color: #946821;
 }
 
 .unknown-word-button {
-  background-color: gray;
+    background-color: gray;
 }
 
 .known-word-button {
-  background-color: #946821;
+    background-color: #946821;
 }
 
 .unknown-word-button {
-  background-color: gray;
+    background-color: gray;
 }
