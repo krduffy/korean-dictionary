@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 
-import { LoadingMessage } from "../../LoadingMessage.jsx";
+import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 
 import "./form-styles.css";
 

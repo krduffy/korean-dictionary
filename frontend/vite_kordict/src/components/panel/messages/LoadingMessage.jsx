@@ -1,4 +1,4 @@
-import "./loading-message-styles.css";
+import "./message-styles.css";
 
 export const LoadingMessage = () => {
     return (

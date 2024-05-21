@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
-import { LoadingMessage } from "../../LoadingMessage.jsx";
 import { ViewContext } from "../Panel.jsx";
+import ErrorMessage from "../messages/ErrorMessage.jsx";
+import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import StringWithHanja from "../string_formatters/StringWithHanja.jsx";
 import KnowStudyToggles from "./KnowStudyToggles.jsx";
 import KoreanSenseView from "./sense_info_components/KoreanSenseView.jsx";
@@ -13,7 +14,7 @@ import SenseHistoryInfo from "./sense_info_components/SenseHistoryInfo.jsx";
 
 import "./styles/korean-word-view-styles.css";
 
-const KoreanWordView = ({ targetCode, initialWordKnown }) => {
+const KoreanWordView = ({ targetCode }) => {
     const [wordData, setWordData] = useState({});
     const { apiFetch, loading, error } = useAPIFetcher();
 
@@ -29,12 +30,15 @@ const KoreanWordView = ({ targetCode, initialWordKnown }) => {
             `http://127.0.0.1:8000/api/korean_word/${targetCode}`,
             setData
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [targetCode]);
 
     return (
         <>
             {loading ? (
                 <LoadingMessage />
+            ) : error ? (
+                <ErrorMessage errorStrings={error} />
             ) : (
                 <div className="korean-word-view">
                     <span className="word-header">

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
-import { LoadingMessage } from "../../LoadingMessage.jsx";
+import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import HanjaExampleResult from "./HanjaExampleResult.jsx";
 import HanjaResult from "./HanjaResult.jsx";
 import KoreanResult from "./KoreanResult.jsx";

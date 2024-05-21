@@ -5,7 +5,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { useAPIFetcher } from "../../../../hooks/useAPIFetcher.js";
 
-import { LoadingMessage } from "../../../LoadingMessage.jsx";
+import { LoadingMessage } from "../../messages/LoadingMessage.jsx";
 import ConnectionBoard from "./ConnectionBoard.jsx";
 import UsableCharactersBoard from "./UsableCharactersBoard.jsx";
 
@@ -46,6 +46,7 @@ const HanjaGame = () => {
 
     useEffect(() => {
         generateGame();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

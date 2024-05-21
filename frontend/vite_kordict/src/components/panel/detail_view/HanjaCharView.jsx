@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
-import { LoadingMessage } from "../../LoadingMessage.jsx";
 import HanjaWriter from "../hanja-writing/HanjaWriter.jsx";
+import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import PaginatedResults from "../paginated_results/PaginatedResults.jsx";
 import ClipboardCopier from "../string_formatters/ClipboardCopier.jsx";
 

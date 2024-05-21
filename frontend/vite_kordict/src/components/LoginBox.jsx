@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import { setTokenFromResponse } from "../../util/tokenManagement.js";
 import { useAPIModifier } from "../hooks/useAPIModifier.js";
 
+import ErrorMessage from "../components/panel/messages/ErrorMessage.jsx";
+
 import "./account-styles.css";
 
 const LoginBox = ({ setLoggedInUsername, setNavState }) => {
@@ -34,6 +36,7 @@ const LoginBox = ({ setLoggedInUsername, setNavState }) => {
             // Clear the timeout to avoid memory leaks
             return () => clearTimeout(timer);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [successful]);
 
     const handleSubmit = (e) => {
@@ -89,7 +92,9 @@ const LoginBox = ({ setLoggedInUsername, setNavState }) => {
                         )}
                         {error && response && response.non_field_errors && (
                             <span id="login-fail-message">
-                                {response.non_field_errors[0]}
+                                <ErrorMessage
+                                    errorStrings={response.non_field_errors}
+                                />
                             </span>
                         )}
                     </div>

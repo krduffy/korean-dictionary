@@ -38,7 +38,6 @@ HanjaResult.propTypes = {
     result: PropTypes.shape({
         character: PropTypes.string.isRequired,
         meaning_reading: PropTypes.string.isRequired,
-        // Add more specific PropTypes for other properties if needed
     }).isRequired,
 };
 

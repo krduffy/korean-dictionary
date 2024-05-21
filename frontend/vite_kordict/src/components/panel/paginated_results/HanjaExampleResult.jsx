@@ -49,6 +49,7 @@ const HanjaExampleResult = ({ result }) => {
 
 HanjaExampleResult.propTypes = {
     result: PropTypes.shape({
+        kw_target_code: PropTypes.number.isRequired,
         kw_word: PropTypes.string.isRequired,
         kw_origin: PropTypes.string.isRequired,
         kw_first_definition: PropTypes.string.isRequired,
