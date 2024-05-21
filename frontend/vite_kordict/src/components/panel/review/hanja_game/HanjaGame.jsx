@@ -13,7 +13,10 @@ const HanjaGame = () => {
   {
     /* 7 is a good length */
   }
-  const [currentGameLength, setCurrentGameLength] = useState(7);
+  const [currentGameLength, setCurrentGameLength] = useState(3);
+  const [randomSeed, setRandomSeed] = useState(
+    Math.floor(Math.random() * 1000000),
+  );
 
   const [connectionRows, setConnectionRows] = useState([
     ["男", "男", "男", "男"],
@@ -35,7 +38,7 @@ const HanjaGame = () => {
 
   const generateGame = () => {
     apiFetch(
-      "http://127.0.0.1:8000/api/hanja_game_info/?length=1",
+      `http://127.0.0.1:8000/api/hanja_game_info/?length=${currentGameLength}&seed=${randomSeed}`,
       setCurrentGameData,
     );
   };

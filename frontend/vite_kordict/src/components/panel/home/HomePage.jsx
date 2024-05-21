@@ -9,11 +9,17 @@ import "./homepage-styles.css";
 const HomePage = () => {
   const [homepageData, setHomepageData] = useState();
   const { apiFetch, loading, error } = useAPIFetcher();
+  const [randomSeed, setRandomSeed] = useState(
+    Math.floor(Math.random() * 1000000),
+  );
 
   const viewContext = useContext(ViewContext);
 
   useEffect(() => {
-    apiFetch("http://127.0.0.1:8000/api/homepage_info/", setHomepageData);
+    apiFetch(
+      `http://127.0.0.1:8000/api/homepage_info/?seed=${randomSeed}`,
+      setHomepageData,
+    );
   }, []);
 
   return (

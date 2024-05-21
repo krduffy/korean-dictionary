@@ -9,9 +9,30 @@ from .dictionary_models import HanjaCharacter, KoreanWord, Sense
 from .dictionary_serializers import HanjaCharacterSerializer, KoreanWordSerializer, SenseSerializer, KoreanSerializerForHanja, HanjaGameWordSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
+from django.db.models import IntegerField, F, ExpressionWrapper
 from rest_framework.pagination import PageNumberPagination
 import random
 import re
+
+def reorder_queryset_with_seed(queryset, seed):
+
+  def get_rel_index(target_code, breakpoint):
+    base = (target_code - breakpoint) % 1000
+    return base * base
+
+  # not exactly, but around 1 million
+  highest_targetcode = 1000000
+
+  breakpoint = seed % highest_targetcode
+  if breakpoint < 0:
+    breakpoint = -1 * breakpoint
+
+  queryset = queryset.annotate(
+    rel_index = ExpressionWrapper(get_rel_index(F('target_code'), breakpoint), 
+                                  output_field=IntegerField())
+  )
+
+  return queryset.order_by("-rel_index", "target_code")
 
 # Page size = 10
 class PaginationClass(PageNumberPagination):
@@ -153,7 +174,9 @@ class HomepageInfoView(APIView):
     # 1. Words with same hanja (as a "did you know?")
     # 2. Random words in the user's study list
 
-    known_words = self.request.user.known_words.all().order_by('?')
+    seed = int(self.request.query_params.get('seed', 1000))
+
+    known_words = reorder_queryset_with_seed(self.request.user.known_words.all(), seed)
     
     # can make variable number but having too many is information overload
     num_same_hanja_examples = 1
@@ -191,13 +214,15 @@ class HomepageInfoView(APIView):
       'random_study_words': random_study_words,
     })
 
-def get_path_of_length(request, length):
+def get_path_of_length(request, length, seed):
   # Finds a path that the user can take to solve the game.
     
     # get list of (only) hanja words that the user knows;
     # regex gets words with at least 2 characters
-    regex = r'[\u4e00-\u9fff][\u4e00-\u9fff]'
-    all_known_words = request.user.known_words.all().filter(origin__iregex = regex).order_by('?')
+    regex = r'[\u4e00-\u9fff]{2,}'
+    all_known_words = request.user.known_words.all().filter(origin__iregex = regex)
+
+    all_known_words = reorder_queryset_with_seed(all_known_words, seed)
 
     hanja_path = []
     # Hanja path in the form of [[character, word to connect this], 
@@ -267,11 +292,11 @@ def get_path_of_length(request, length):
         return hanja_path
       elif not found_link and step_counter != 0:
         #tried_lists[step_counter - 1].append(hanja_path[step_counter])
-        #print('in heere; printing tried before and after update')
-        #print(tried_lists[step_counter])
+        print('in heere; printing tried before and after update')
+        print(tried_lists[step_counter])
         for character in step_word_origins[step_counter - 1]:
           tried_lists[step_counter].append(character)
-        #print(tried_lists[step_counter])
+        print(tried_lists[step_counter])
         step_counter -= 1
         step_characters.pop()
         step_word_origins.pop()
@@ -294,11 +319,12 @@ class HanjaGameView(APIView):
     # which words the user specifically knows; it is possible for every attempt to create a good
     # path to be only 1 word long, in which case 
     length = int(self.request.query_params.get('length', 3))
+    seed = int(self.request.query_params.get('seed', 1000))
 
     hanja_path = []
 
     # do the generation
-    hanja_path = get_path_of_length(request, length=length)
+    hanja_path = get_path_of_length(request, length=length, seed=seed)
     
     #TODO handle hanja_path is None
 
