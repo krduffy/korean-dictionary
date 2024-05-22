@@ -201,10 +201,10 @@ class HomepageInfoView(APIView):
             break
 
     #TODO change this
-    num_random_study_words = 0
+    num_random_study_words = 1
 
     random_study_words = KoreanWordSerializer(
-      self.request.user.study_words.all().order_by('?')[:num_random_study_words],
+      reorder_queryset_with_seed(self.request.user.study_words.all(), seed=seed)[:num_random_study_words],
       many = True,
       context = {'request': request}) \
       .data

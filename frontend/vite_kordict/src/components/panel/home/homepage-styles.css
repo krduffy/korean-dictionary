@@ -2,3 +2,29 @@
 .same-hanja-list-item {
     background-color: #2e2e2e;
 }
+
+.same-hanja-section {
+    width: 100%;
+}
+
+.same-hanja-section-writer {
+    justify-content: center;
+    align-items: center;
+    display: inline-block;
+}
+
+.same-hanja-section-examples {
+    display: inline-block;
+    width: 80%;
+}
+
+.same-hanja-list-item {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.single-same-hanja-container {
+    width: 100%;
+}

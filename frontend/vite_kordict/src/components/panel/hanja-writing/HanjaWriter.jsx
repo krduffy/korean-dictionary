@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import HanziWriter from "hanzi-writer";
 import PropTypes from "prop-types";
 
-const HanjaWriter = ({ character }) => {
+const HanjaWriter = ({ character, writerArgs }) => {
     const divRef = useRef(null);
     const hanjaWriterRef = useRef(null);
 
@@ -12,11 +12,11 @@ const HanjaWriter = ({ character }) => {
             hanjaWriterRef.current = HanziWriter.create(
                 divRef.current,
                 character,
-                {
-                    width: 150,
-                    height: 150,
-                }
+                writerArgs
             );
+            setTimeout(() => {
+                hanjaWriterRef.current.animateCharacter();
+            }, 1000);
         }
     }, [character]);
 
