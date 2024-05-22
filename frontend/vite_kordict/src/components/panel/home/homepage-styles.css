@@ -1,6 +1,9 @@
 .study-word-list-item,
 .same-hanja-list-item {
-    background-color: #2e2e2e;
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #1a1a1a;
 }
 
 .same-hanja-section {
@@ -20,11 +23,18 @@
 
 .same-hanja-list-item {
     list-style: none;
-    padding: 0;
     margin: 0;
     width: 100%;
 }
 
 .single-same-hanja-container {
     width: 100%;
+}
+
+.homepage-section-header {
+    font-size: 20px;
+    background-color: #312f36;
+    margin-bottom: 0;
+    padding-left: 5px;
+    margin-top: 10px;
 }

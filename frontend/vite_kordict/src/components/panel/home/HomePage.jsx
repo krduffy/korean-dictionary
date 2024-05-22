@@ -95,7 +95,7 @@ const ButtonSection = ({ updateViewAndPushToHistory }) => {
 const StudyWordSection = ({ studyWordData }) => {
     return (
         <div className="study-words">
-            공부하는 단어
+            <div className="homepage-section-header">지금 공부하는 단어</div>
             <ul className="study-word-list-item">
                 {studyWordData &&
                     Object.entries(studyWordData).map((studyWordItem, id) => (
@@ -109,14 +109,33 @@ const StudyWordSection = ({ studyWordData }) => {
 };
 
 const SameHanjaSection = ({ sameHanjaData }) => {
+    const viewContext = useContext(ViewContext);
+    const updateViewAndPushToHistory =
+        viewContext["updateViewAndPushToHistory"];
+
     return (
         <div className="same-hanja-section">
+            <div className="homepage-section-header">
+                같은 한자가 포함되는 것을 알고 계셨나요?
+            </div>
             <ul className="same-hanja-list-item">
                 {sameHanjaData &&
                     Object.entries(sameHanjaData).map((sameHanjaItem, id) => (
                         <li className="same-hanja-example" key={id}>
                             <div className="single-same-hanja-container">
-                                <div className="same-hanja-section-writer">
+                                <div
+                                    className="same-hanja-section-writer"
+                                    onClick={() => {
+                                        updateViewAndPushToHistory({
+                                            view: "detail_hanja",
+                                            value: sameHanjaItem[0],
+                                            searchBarInitialState: {
+                                                boxContent: sameHanjaItem[0],
+                                                dictionary: "hanja",
+                                            },
+                                        });
+                                    }}
+                                >
                                     <HanjaWriter
                                         character={sameHanjaItem[0]}
                                         writerArgs={{

@@ -179,6 +179,8 @@ class HomepageInfoView(APIView):
     known_words = reorder_queryset_with_seed(self.request.user.known_words.all(), seed)
     
     # can make variable number but having too many is information overload
+    # TODO fix: currently increasing this number gives a second pairing that also includes the first
+    # word from the first pair
     num_same_hanja_examples = 1
     retrieved = 0
     same_hanja_examples = {}
