@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import DictionaryUser
 from django.contrib.auth import authenticate
 
+
 class UserSerializer(serializers.ModelSerializer):
   class Meta:
     model = DictionaryUser

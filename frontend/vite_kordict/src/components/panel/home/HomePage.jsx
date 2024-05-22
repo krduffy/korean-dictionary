@@ -73,6 +73,7 @@ export default HomePage;
 
 const ButtonSection = () => {
     const viewContext = useContext(ViewContext);
+    const currentView = viewContext["currentView"];
     const updateViewAndPushToHistory =
         viewContext["updateViewAndPushToHistory"];
     return (
@@ -93,7 +94,7 @@ const ButtonSection = () => {
             </button>
             <button
                 onClick={() => {
-                    if (currentView.view !== "add_word") {
+                    if (currentView["view"] !== "add_word") {
                         updateViewAndPushToHistory({
                             view: "add_word",
                             value: 0,

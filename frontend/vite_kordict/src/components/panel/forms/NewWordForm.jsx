@@ -2,13 +2,21 @@ import React from "react";
 
 import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 
+import ErrorMessage from "../messages/ErrorMessage.jsx";
+
 const NewWordForm = () => {
-    const { formData, updateFormDataField, apiModify, successful, error } =
-        useAPIModifier({
-            word: "",
-            origin: "",
-            word_type: "",
-        });
+    const {
+        formData,
+        updateFormDataField,
+        apiModify,
+        successful,
+        error,
+        response,
+    } = useAPIModifier({
+        word: "",
+        origin: "",
+        word_type: "",
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,7 +28,7 @@ const NewWordForm = () => {
             <div>새 단어 추가</div>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="word">word</label>
+                    <label htmlFor="word">단어</label>
                     <input
                         type="text"
                         name="word"
@@ -31,7 +39,7 @@ const NewWordForm = () => {
                 </div>
 
                 <div>
-                    <label htmlFor="origin">origin</label>
+                    <label htmlFor="origin">어원</label>
                     <input
                         type="text"
                         name="origin"
@@ -42,21 +50,25 @@ const NewWordForm = () => {
                 </div>
 
                 <div>
-                    <label htmlFor="word_type">word_type</label>
-                    <input
+                    <label htmlFor="word_type">어류</label>
+                    <select
                         type="text"
                         name="word_type"
                         onChange={(e) => {
                             updateFormDataField("word_type", e.target.value);
                         }}
-                    ></input>
+                    >
+                        {/* check for all of the options that are possible */}
+                        <option value="어휘">어휘</option>
+                        <option value="속담">속담</option>
+                    </select>
                 </div>
 
                 <button type="submit">추가</button>
             </form>
             <div>
                 {successful && <span>추가되었습니다.</span>}
-                {error && <span>오류: {error}</span>}
+                {error && <ErrorMessage errorResponse={response} />}
             </div>
         </>
     );

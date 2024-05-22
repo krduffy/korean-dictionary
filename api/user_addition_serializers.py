@@ -14,15 +14,39 @@ class KoreanWordField(serializers.PrimaryKeyRelatedField):
         return None
 
 class UserWordSerializer(serializers.Serializer):
-  word = serializers.CharField(max_length = 100)
-  origin = serializers.CharField(max_length = 100)
-  word_type = serializers.CharField(max_length = 3)
+  word = serializers.CharField(
+        max_length=100, 
+        required=True, 
+        error_messages={
+            'required': '단어는 필수입니다.',
+            'blank': '단어는 필수입니다.',
+            'max_length': '단어는 최대 100자까지 가능합니다.'
+        }
+    )
+  origin = serializers.CharField(
+        max_length=100, 
+        required=False, 
+        allow_blank=True,
+        error_messages={
+            'max_length': '출처는 최대 100자까지 가능합니다.'
+        }
+    )
+  word_type = serializers.CharField(
+        max_length=3, 
+        required=True, 
+        error_messages={
+            'required': '어류는 필수입니다.',
+            'blank': '어류는 필수입니다.',
+            'max_length': '어류는 최대 3자까지 가능합니다.'
+        }
+    )
 
   class Meta:
     model = KoreanWord
     fields = ['word', 'origin', 'word_type']
 
   def create(self, validated_data):
+    print('create was called')
     return KoreanWord.objects.create(**validated_data)
   
   def update(self, instance, validated_data):

@@ -45,13 +45,19 @@ const KnownOrUnknownView = ({ targetCode, initiallyKnown }) => {
             "",
             method
         );
+    };
 
+    useEffect(() => {
         if (successful) {
             setWordIsKnown(!wordIsKnown);
-        } else if (error) {
-            // TODO add a message in the center of the panel. (needs new component)
         }
-    };
+    }, [successful]);
+
+    useEffect(() => {
+        if (error) {
+            /* handle */
+        }
+    }, [error]);
 
     return (
         <span
@@ -88,13 +94,19 @@ const StudiedOrNotStudiedView = ({ targetCode, initiallyStudied }) => {
             "",
             method
         );
+    };
 
+    useEffect(() => {
         if (successful) {
             setWordIsStudied(!wordIsStudied);
-        } else if (error) {
-            // same as above.
         }
-    };
+    }, [successful]);
+
+    useEffect(() => {
+        if (error) {
+            /* handle */
+        }
+    }, [error]);
 
     return (
         <span
