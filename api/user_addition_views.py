@@ -54,7 +54,9 @@ class CreateWordView(APIView):
   permission_classes = (IsAuthenticated, )
 
   def post(self, request):
-    serializer = UserWordSerializer(data = request.data)
+    data = request.data
+    data['creator'] = request.user.pk
+    serializer = UserWordSerializer(data = data)
     if serializer.is_valid():
       serializer.save()
       return Response(serializer.data, status=status.HTTP_201_CREATED)

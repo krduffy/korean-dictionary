@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 
+import { ViewContext } from "../Panel.jsx";
 import ErrorMessage from "../messages/ErrorMessage.jsx";
 
+import "./form-styles.css";
+
 const NewWordForm = () => {
+    const viewContext = useContext(ViewContext);
+    const updateViewAndPushToHistory =
+        viewContext["updateViewAndPushToHistory"];
+
     const {
         formData,
         updateFormDataField,
@@ -15,7 +22,8 @@ const NewWordForm = () => {
     } = useAPIModifier({
         word: "",
         origin: "",
-        word_type: "",
+        // default is 어휘 for the <select> tag
+        word_type: "어휘",
     });
 
     const handleSubmit = (e) => {
@@ -24,12 +32,13 @@ const NewWordForm = () => {
     };
 
     return (
-        <>
-            <div>새 단어 추가</div>
-            <form onSubmit={handleSubmit}>
+        <div className="add-word-form-container">
+            <div className="form-title">새 단어 추가</div>
+            <form onSubmit={handleSubmit} className="add-word-form">
                 <div>
-                    <label htmlFor="word">단어</label>
+                    <label htmlFor="word">단어 (필수)</label>
                     <input
+                        className="add-word-input-box"
                         type="text"
                         name="word"
                         onChange={(e) => {
@@ -39,8 +48,9 @@ const NewWordForm = () => {
                 </div>
 
                 <div>
-                    <label htmlFor="origin">어원</label>
+                    <label htmlFor="origin">어원 (선택)</label>
                     <input
+                        className="add-word-input-box"
                         type="text"
                         name="origin"
                         onChange={(e) => {
@@ -50,7 +60,7 @@ const NewWordForm = () => {
                 </div>
 
                 <div>
-                    <label htmlFor="word_type">어류</label>
+                    <label htmlFor="word_type">어류 (필수)</label>
                     <select
                         type="text"
                         name="word_type"
@@ -67,10 +77,28 @@ const NewWordForm = () => {
                 <button type="submit">추가</button>
             </form>
             <div>
-                {successful && <span>추가되었습니다.</span>}
+                {successful && (
+                    <div>
+                        <span>추가되었습니다.</span>
+                        <button
+                            onClick={() => {
+                                updateViewAndPushToHistory({
+                                    view: "detail_korean",
+                                    value: response["target_code"],
+                                    searchBarInitialState: {
+                                        boxContent: response["word"],
+                                        dictionary: "korean",
+                                    },
+                                });
+                            }}
+                        >
+                            추가한 단어로 바로가기
+                        </button>
+                    </div>
+                )}
                 {error && <ErrorMessage errorResponse={response} />}
             </div>
-        </>
+        </div>
     );
 };
 

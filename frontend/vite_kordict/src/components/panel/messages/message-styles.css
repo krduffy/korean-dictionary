@@ -29,3 +29,11 @@
         content: "...";
     }
 }
+
+.error-message {
+    text-align: center;
+}
+
+.error-message-header {
+    color: red;
+}

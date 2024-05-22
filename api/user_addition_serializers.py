@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .user_addition_models import UserNote
 from .dictionary_models import KoreanWord, Sense
 from .dictionary_serializers import KoreanWordDetailedSerializer
+from dictionary_users.models import DictionaryUser
+from dictionary_users.serializers import UserSerializer
 
 class KoreanWordField(serializers.PrimaryKeyRelatedField):
   def to_representation(self, value):
@@ -11,6 +13,16 @@ class KoreanWordField(serializers.PrimaryKeyRelatedField):
         serializer = KoreanWordDetailedSerializer(item)
         return serializer.data
     except KoreanWord.DoesNotExist:
+        return None
+    
+class UserField(serializers.PrimaryKeyRelatedField):
+  def to_representation(self, value):
+    pk = super(UserField, self).to_representation(value)
+    try:
+        item = DictionaryUser.objects.get(pk=pk)
+        serializer = UserSerializer(item)
+        return serializer.data
+    except DictionaryUser.DoesNotExist:
         return None
 
 class UserWordSerializer(serializers.Serializer):
@@ -40,13 +52,19 @@ class UserWordSerializer(serializers.Serializer):
             'max_length': '어류는 최대 3자까지 가능합니다.'
         }
     )
+  creator = UserField(queryset = DictionaryUser.objects.all())
 
   class Meta:
     model = KoreanWord
-    fields = ['word', 'origin', 'word_type']
+    fields = ['word', 'origin', 'word_type', 'creator']
+
+  def to_representation(self, instance):
+    representation = super().to_representation(instance)
+    # need to return target code for the 바로가기 after a word is created
+    representation['target_code'] = instance.target_code
+    return representation
 
   def create(self, validated_data):
-    print('create was called')
     return KoreanWord.objects.create(**validated_data)
   
   def update(self, instance, validated_data):
