@@ -24,9 +24,9 @@ const PanelHeader = ({
             <div className="fixed-header">
                 <button
                     onClick={() => {
-                        if (currentView.view !== "add_word") {
+                        if (currentView.view !== "homepage") {
                             updateViewAndPushToHistory({
-                                view: "add_word",
+                                view: "homepage",
                                 value: 0,
                                 searchBarInitialState: {
                                     boxContent: "",
@@ -36,7 +36,7 @@ const PanelHeader = ({
                         }
                     }}
                 >
-                    단어 추가
+                    🏠
                 </button>
 
                 <SearchBar />

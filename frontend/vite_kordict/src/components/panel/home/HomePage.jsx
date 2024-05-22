@@ -71,7 +71,10 @@ const HomePage = () => {
 
 export default HomePage;
 
-const ButtonSection = ({ updateViewAndPushToHistory }) => {
+const ButtonSection = () => {
+    const viewContext = useContext(ViewContext);
+    const updateViewAndPushToHistory =
+        viewContext["updateViewAndPushToHistory"];
     return (
         <div className="buttons">
             <button
@@ -88,6 +91,20 @@ const ButtonSection = ({ updateViewAndPushToHistory }) => {
             >
                 게임
             </button>
+            <button
+                onClick={() => {
+                    if (currentView.view !== "add_word") {
+                        updateViewAndPushToHistory({
+                            view: "add_word",
+                            value: 0,
+                            searchBarInitialState: {
+                                boxContent: "",
+                                dictionary: "korean",
+                            },
+                        });
+                    }
+                }}
+            ></button>
         </div>
     );
 };
@@ -109,6 +126,8 @@ const StudyWordSection = ({ studyWordData }) => {
 };
 
 const SameHanjaSection = ({ sameHanjaData }) => {
+    const [hanjaDataLoadError, setHanjaDataLoadError] = useState(false);
+
     const viewContext = useContext(ViewContext);
     const updateViewAndPushToHistory =
         viewContext["updateViewAndPushToHistory"];
@@ -145,8 +164,16 @@ const SameHanjaSection = ({ sameHanjaData }) => {
                                             showOutline: false,
                                             strokeAnimationSpeed: 3,
                                             delayBetweenStrokes: 5,
+                                            onLoadCharDataError: () => {
+                                                setHanjaDataLoadError(true);
+                                            },
                                         }}
                                     />
+                                    {/* failsafe for if the data doesnt load properly.
+                                    it will instead print the static unicode symbol */}
+                                    {hanjaDataLoadError && (
+                                        <span>{sameHanjaItem[0]}</span>
+                                    )}
                                 </div>
                                 <div className="same-hanja-section-examples">
                                     {/* first item in example. */}
