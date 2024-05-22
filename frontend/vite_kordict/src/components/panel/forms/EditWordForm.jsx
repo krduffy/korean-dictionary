@@ -52,7 +52,7 @@ const AddExampleForm = ({ wordTargetCode, alreadyAtLeastOneExample }) => {
     const [showForm, setShowForm] = useState(false);
     const [exampleText, setExampleText] = useState("");
     const [sourceText, setSourceText] = useState("");
-    const { apiModify, successful, error } = useAPIModifier();
+    const { apiModify, successful, error, response } = useAPIModifier();
 
     const handleSubmit = () => {};
 

@@ -113,7 +113,7 @@ const ButtonSection = () => {
 const StudyWordSection = ({ studyWordData }) => {
     return (
         <div className="study-words">
-            <div className="homepage-section-header">지금 공부하는 단어</div>
+            <div className="homepage-section-header">암기장에 추가한 단어</div>
             <ul className="study-word-list-item">
                 {studyWordData &&
                     Object.entries(studyWordData).map((studyWordItem, id) => (
