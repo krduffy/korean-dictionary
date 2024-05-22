@@ -87,4 +87,24 @@ class HanjaCharacter(models.Model):
   character = models.CharField(primary_key = True, max_length = 1)
 
   # 이 한자의 훈음. The meaning(s) and reading(s) associated with this character. 
-  meaning_reading = models.CharField(max_length = 30) # Longest is for character '閄'
+  meaning_reading = models.CharField(blank = False)
+
+  # 이 한자의 모양자 분해. '⿱逢？'는 예일 수 있다.
+  decomposition = models.CharField(default="")
+
+  # 이 한자의 부수. 예를 들어서 災 재앙 재의 부수는 火입니다
+  # 부수는 분해 중에 반드시 있을 겁니다.
+  radical = models.CharField(default="")
+
+  # 이 한자의 획수.
+  strokes = models.SmallIntegerField(default=None)
+
+  # 고등학교, 미배정이 예일 수 있습니다
+  grade_level = models.CharField(default="")
+
+  # 한국의 한자 검정시험 기준으로, 이 한자의 급. 8급 등이 있습니다.
+  exam_level = models.CharField(default="")
+
+  # 이 한자의 설명. 이해에 있어서 도움될 수는 있지만 나무위키 출처이니 공통화되지 않아 있습니다.
+  # 한자한자 마디 설명이 많이 다를 수 있습니다.
+  explanation = models.CharField(default="")
