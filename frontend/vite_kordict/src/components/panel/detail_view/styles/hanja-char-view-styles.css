@@ -5,8 +5,12 @@
 .word-list-header {
     font-size: 20px;
     display: flex;
-    justify-content: center; /* Horizontally center the child */
-    align-items: center; /* Vertically center the child */
+    justify-content: center;
+    align-items: center;
+}
+
+.jahuneum {
+    padding-bottom: 20px;
 }
 
 .hanja-header {
@@ -21,9 +25,8 @@
 
 .main-info-section {
     margin: 0;
-    padding-left: 10px;
-    padding-right: 10px;
     box-sizing: border-box;
+    padding-bottom: 20px;
 }
 
 .main-info-upper-left {
@@ -70,4 +73,12 @@
 .main-info-lower {
     margin-top: 30px;
     margin-bottom: 30px;
+}
+
+.hanja-play-button {
+    margin: 0;
+    padding: 5px;
+    text-align: center; /* Center text */
+    color: #72a1ed;
+    background-color: transparent;
 }

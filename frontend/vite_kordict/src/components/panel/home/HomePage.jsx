@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
@@ -129,6 +129,8 @@ const StudyWordSection = ({ studyWordData }) => {
 const SameHanjaSection = ({ sameHanjaData }) => {
     const [hanjaDataLoadError, setHanjaDataLoadError] = useState(false);
 
+    const ref = useRef(null);
+
     const viewContext = useContext(ViewContext);
     const updateViewAndPushToHistory =
         viewContext["updateViewAndPushToHistory"];
@@ -169,6 +171,7 @@ const SameHanjaSection = ({ sameHanjaData }) => {
                                                 setHanjaDataLoadError(true);
                                             },
                                         }}
+                                        ref={ref}
                                     />
                                     {/* failsafe for if the data doesnt load properly.
                                     it will instead print the static unicode symbol */}

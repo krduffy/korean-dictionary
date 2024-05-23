@@ -1,27 +1,43 @@
-import React, { useEffect, useRef } from "react";
+import React, {
+    forwardRef,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+} from "react";
 
 import HanziWriter from "hanzi-writer";
 import PropTypes from "prop-types";
 
-const HanjaWriter = ({ character, writerArgs }) => {
+const HanjaWriter = forwardRef(({ character, writerArgs }, ref) => {
     const divRef = useRef(null);
-    const hanjaWriterRef = useRef(null);
+    const hanjaRef = useRef(null);
 
     useEffect(() => {
-        if (divRef.current && !hanjaWriterRef.current) {
-            hanjaWriterRef.current = HanziWriter.create(
+        if (divRef.current && !hanjaRef.current) {
+            hanjaRef.current = HanziWriter.create(
                 divRef.current,
                 character,
                 writerArgs
             );
-            setTimeout(() => {
-                hanjaWriterRef.current.animateCharacter();
-            }, 1000);
         }
     }, [character]);
 
+    useImperativeHandle(
+        ref,
+        () => {
+            return {
+                loopCharacterAnimation() {
+                    hanjaRef.current.loopCharacterAnimation();
+                },
+            };
+        },
+        [ref]
+    );
+
     return <div ref={divRef} className="hanzi-writer"></div>;
-};
+});
+
+HanjaWriter.displayName = "HanjaWriter";
 
 HanjaWriter.propTypes = {
     character: PropTypes.string.isRequired,

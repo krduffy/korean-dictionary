@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import PropTypes from "prop-types";
 
@@ -10,6 +10,7 @@ import PaginatedResults from "../paginated_results/PaginatedResults.jsx";
 import ClipboardCopier from "../string_formatters/ClipboardCopier.jsx";
 import StringWithHanja from "../string_formatters/StringWithHanja.jsx";
 import StringWithNLP from "../string_formatters/StringWithNLP.jsx";
+import TruncatorDropdown from "../string_formatters/TruncatorDropdown.jsx";
 
 import "./styles/hanja-char-view-styles.css";
 
@@ -153,17 +154,29 @@ const HanjaCharView = ({ hanjaChar }) => {
                                 </div>
                             </div>
                             <div className="main-info-upper-right">
-                                <HanjaWriter character={hanjaChar} />
+                                <OnDemandHanjaDrawer hanjaChar={hanjaChar} />
                             </div>
                         </div>
 
+                        {/* undecided on if this should be included
+                        
                         {charData["explanation"] && (
                             <div className="main-info-lower">
-                                <StringWithNLP
-                                    string={charData["explanation"]}
-                                />
+                                <TruncatorDropdown>
+                                    {charData["explanation"]
+                                        .replaceAll(/\n{2,}/g, "\n")
+                                        .split(/\n+/)
+                                        .map((paragraph, id) => (
+                                            <div key={id}>
+                                                <StringWithNLP
+                                                    string={paragraph}
+                                                />
+                                            </div>
+                                        ))}
+                                </TruncatorDropdown>
                             </div>
-                        )}
+                            
+                        )} */}
                     </div>
 
                     <div className="additional-info-section-header">
@@ -187,3 +200,26 @@ HanjaCharView.propTypes = {
 };
 
 export default HanjaCharView;
+
+const OnDemandHanjaDrawer = ({ hanjaChar }) => {
+    const ref = useRef(null);
+
+    const handleClick = () => {
+        if (ref.current) {
+            ref.current.loopCharacterAnimation();
+        }
+    };
+
+    return (
+        <>
+            <HanjaWriter
+                character={hanjaChar}
+                writerArgs={{ width: 150, height: 150 }}
+                ref={ref}
+            />
+            <button className="hanja-play-button" onClick={handleClick}>
+                획순 보기
+            </button>
+        </>
+    );
+};

@@ -63,7 +63,10 @@ class Command(BaseCommand):
           exam_level = hanja_char_data["exam_level"]
           if '[' in exam_level:
             exam_level = exam_level[:-3]
+          
           explanation = hanja_char_data["explanation"]
+          if explanation.endswith("\n"):
+            explanation = explanation[:-1]
 
           new_hanja = HanjaCharacter(character = character, 
                                     meaning_reading = meaning_reading,
