@@ -1,3 +1,11 @@
+/* Universal */
+.source {
+    color: gray;
+    font-size: small;
+}
+
+/* */
+
 #main-page {
     height: 100vh;
     min-height: 500px;

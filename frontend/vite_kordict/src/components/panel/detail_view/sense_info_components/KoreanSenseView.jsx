@@ -63,47 +63,53 @@ const KoreanSenseView = ({ senseData }) => {
 
             {/* is a drop down menu because there can be a lot of data*/}
             {Object.keys(senseData["additional_info"]).length > 0 && (
-                <TruncatorDropdown>
-                    {senseData["additional_info"]["example_info"] && (
-                        <SenseExampleInfo
-                            exampleInfo={
-                                senseData["additional_info"]["example_info"]
-                            }
-                        />
-                    )}
-                    {senseData["additional_info"]["grammar_info"] && (
-                        <SenseGrammarInfo
-                            grammarInfo={
-                                senseData["additional_info"]["grammar_info"]
-                            }
-                        />
-                    )}
-                    {senseData["additional_info"]["norm_info"] && (
-                        <SenseNormInfo
-                            normInfo={senseData["additional_info"]["norm_info"]}
-                        />
-                    )}
-                    {senseData["additional_info"]["relation_info"] && (
-                        <SenseRelationInfo
-                            relationInfo={
-                                senseData["additional_info"]["relation_info"]
-                            }
-                        />
-                    )}
-                    {senseData["additional_info"]["proverb_info"] && (
-                        <SenseProverbInfo
-                            proverbInfo={
-                                senseData["additional_info"]["proverb_info"]
-                            }
-                        />
-                    )}
-                    {/*
+                <div className="additional-info-container">
+                    <TruncatorDropdown>
+                        {senseData["additional_info"]["example_info"] && (
+                            <SenseExampleInfo
+                                exampleInfo={
+                                    senseData["additional_info"]["example_info"]
+                                }
+                            />
+                        )}
+                        {senseData["additional_info"]["grammar_info"] && (
+                            <SenseGrammarInfo
+                                grammarInfo={
+                                    senseData["additional_info"]["grammar_info"]
+                                }
+                            />
+                        )}
+                        {senseData["additional_info"]["norm_info"] && (
+                            <SenseNormInfo
+                                normInfo={
+                                    senseData["additional_info"]["norm_info"]
+                                }
+                            />
+                        )}
+                        {senseData["additional_info"]["relation_info"] && (
+                            <SenseRelationInfo
+                                relationInfo={
+                                    senseData["additional_info"][
+                                        "relation_info"
+                                    ]
+                                }
+                            />
+                        )}
+                        {senseData["additional_info"]["proverb_info"] && (
+                            <SenseProverbInfo
+                                proverbInfo={
+                                    senseData["additional_info"]["proverb_info"]
+                                }
+                            />
+                        )}
+                        {/*
                             {senseData["additional_info"]["history_info"] && (
                               <SenseHistoryInfo
                                 historyInfo={senseData["additional_info"]["history_info"]}
                               />
                             )} */}
-                </TruncatorDropdown>
+                    </TruncatorDropdown>
+                </div>
             )}
         </div>
     );

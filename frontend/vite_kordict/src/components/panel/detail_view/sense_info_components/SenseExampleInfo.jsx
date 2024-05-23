@@ -33,7 +33,7 @@ const SenseExample = ({ example }) => {
             <StringWithNLP string={example["example"]} hasExamples={true} />
 
             {example["source"] && (
-                <div className="example-source">출처: {example["source"]}</div>
+                <div className="source">출처: {example["source"]}</div>
             )}
         </div>
     );

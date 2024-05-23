@@ -50,12 +50,6 @@ ul {
     font-size: small;
 }
 
-.example-source,
-.history-example-source {
-    color: gray;
-    font-size: small;
-}
-
 .history-examples-by-century-table {
     padding-top: 10px;
     border-collapse: collapse;
@@ -105,4 +99,9 @@ ul {
     background-color: #312f36;
     margin-bottom: 0;
     padding-left: 5px;
+}
+
+.additional-info-container {
+    padding-top: 10px;
+    padding-bottom: 20px;
 }

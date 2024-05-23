@@ -22,14 +22,27 @@ const HanjaResult = ({ result }) => {
 
     return (
         <div className="hanja-result-container">
-            <span
-                className="hanja-clickable-result"
-                onClick={() => {
-                    viewHanjaDetail(result["character"]);
-                }}
-            >
-                {result["character"]} {result["meaning_reading"]}
-            </span>
+            <div className="hanja-result-top">
+                <div style={{ width: "60%" }}>
+                    <div
+                        className="hanja-clickable-result"
+                        onClick={() => {
+                            viewHanjaDetail(result["character"]);
+                        }}
+                    >
+                        {result["character"]}
+                    </div>
+
+                    <div className="meaning-reading">
+                        {result["meaning_reading"]}
+                    </div>
+                </div>
+
+                <div style={{ width: "20%" }}>{result["exam_level"]}</div>
+                <div style={{ width: "20%" }}>{result["strokes"]}획</div>
+            </div>
+            <div className="hanja-result-bottom">{result["explanation"]}</div>
+            <div className="source">출처: 나무위키</div>
         </div>
     );
 };

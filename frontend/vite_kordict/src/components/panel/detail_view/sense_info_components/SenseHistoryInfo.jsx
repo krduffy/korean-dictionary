@@ -85,7 +85,7 @@ const SenseHistoryInfo = ({ historyInfo }) => {
                                                                 />
                                                             </div>
 
-                                                            <div className="history-example-source">
+                                                            <div className="source">
                                                                 <StringWithHanja
                                                                     string={
                                                                         example.source
