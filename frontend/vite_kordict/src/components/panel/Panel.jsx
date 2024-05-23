@@ -11,6 +11,8 @@ import HomePage from "./home/HomePage.jsx";
 import PaginatedResults from "./paginated_results/PaginatedResults.jsx";
 import HanjaGame from "./review/hanja_game/HanjaGame.jsx";
 
+import "./panel-styles.css";
+
 export const ViewContext = createContext(null);
 
 const Panel = () => {
@@ -63,7 +65,7 @@ const Panel = () => {
                 getFollowingView={getFollowingView}
             />
 
-            <div style={{ padding: "1%" }}>
+            <div className="panel">
                 {(currentView["view"] === "search_korean" ||
                     currentView["view"] === "search_hanja") && (
                     <PaginatedResults
