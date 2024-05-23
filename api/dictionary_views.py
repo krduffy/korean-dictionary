@@ -270,6 +270,7 @@ class HanjaList(generics.ListAPIView):
   pagination_class = PaginationClass
 
   def get_queryset(self):
+
     queryset = HanjaCharacter.objects.all()
     
     # Search term is korean, hanja, or both but even 1 hanja just
@@ -298,7 +299,7 @@ class HanjaList(generics.ListAPIView):
           output_field=BooleanField(),
         )
       )
-      return queryset.order_by("-is_reading")
+      return queryset.order_by("-is_reading", "-result_ranking", "strokes", "character")
     
     elif search_term is not None and input_language == "han":
 
@@ -321,7 +322,7 @@ class HanjaList(generics.ListAPIView):
       queryset = queryset.annotate(
         order = StrIndex(Value(search_term), "character")
       )
-      return queryset.order_by("order")
+      return queryset.order_by("order", "-result_ranking", "strokes", "character")
   
 # Returns all data associated with a HanjaCharacter given a primary key.
 class HanjaDetail(generics.RetrieveAPIView):

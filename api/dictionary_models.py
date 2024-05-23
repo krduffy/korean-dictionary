@@ -105,6 +105,9 @@ class HanjaCharacter(models.Model):
   # 한국의 한자 검정시험 기준으로, 이 한자의 급. 8급 등이 있습니다.
   exam_level = models.CharField(default="")
 
+  # 검색할 때 이 한자의 비중. exam_level 높을수록 이 변수도 높아집니다
+  result_ranking = models.SmallIntegerField(default=-1)
+
   # 이 한자의 설명. 이해에 있어서 도움될 수는 있지만 나무위키 출처이니 공통화되지 않아 있습니다.
   # 한자한자 마디 설명이 많이 다를 수 있습니다.
   explanation = models.CharField(default="")
