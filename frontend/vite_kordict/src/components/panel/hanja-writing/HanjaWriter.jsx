@@ -26,6 +26,9 @@ const HanjaWriter = forwardRef(({ character, writerArgs }, ref) => {
         ref,
         () => {
             return {
+                animateCharacter() {
+                    hanjaRef.current.animateCharacter();
+                },
                 loopCharacterAnimation() {
                     hanjaRef.current.loopCharacterAnimation();
                 },

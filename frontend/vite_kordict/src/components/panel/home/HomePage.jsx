@@ -167,8 +167,16 @@ const SameHanjaSection = ({ sameHanjaData }) => {
                                             showOutline: false,
                                             strokeAnimationSpeed: 3,
                                             delayBetweenStrokes: 5,
+                                            onLoadCharDataSuccess: () => {
+                                                setTimeout(() => {
+                                                    ref.current.animateCharacter();
+                                                }, 1000);
+                                            },
                                             onLoadCharDataError: () => {
                                                 setHanjaDataLoadError(true);
+                                                console.log(
+                                                    `failed to load data for ${sameHanjaItem[0]}`
+                                                );
                                             },
                                         }}
                                         ref={ref}

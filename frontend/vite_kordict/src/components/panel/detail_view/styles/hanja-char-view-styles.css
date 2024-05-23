@@ -26,7 +26,6 @@
 .main-info-section {
     margin: 0;
     box-sizing: border-box;
-    padding-bottom: 20px;
 }
 
 .main-info-upper-left {
@@ -71,14 +70,26 @@
 }
 
 .main-info-lower {
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .hanja-play-button {
     margin: 0;
     padding: 5px;
     text-align: center; /* Center text */
+
     color: #72a1ed;
     background-color: transparent;
+}
+
+.truncator-dropdown-container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.hanja-writer-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

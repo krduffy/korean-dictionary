@@ -158,25 +158,41 @@ const HanjaCharView = ({ hanjaChar }) => {
                             </div>
                         </div>
 
-                        {/* undecided on if this should be included
-                        
                         {charData["explanation"] && (
                             <div className="main-info-lower">
-                                <TruncatorDropdown>
-                                    {charData["explanation"]
-                                        .replaceAll(/\n{2,}/g, "\n")
-                                        .split(/\n+/)
-                                        .map((paragraph, id) => (
-                                            <div key={id}>
-                                                <StringWithNLP
-                                                    string={paragraph}
-                                                />
-                                            </div>
-                                        ))}
-                                </TruncatorDropdown>
+                                <div className="additional-info-section-header">
+                                    자세한 설명
+                                </div>
+                                <div className="truncator-dropdown-container">
+                                    <TruncatorDropdown>
+                                        {charData["explanation"]
+                                            .replaceAll(/\n{2,}/g, "\n")
+                                            .split(/\n/)
+                                            .map(
+                                                (
+                                                    paragraph,
+                                                    id,
+                                                    paragraphArray
+                                                ) => (
+                                                    <div key={id}>
+                                                        <StringWithNLP
+                                                            string={paragraph}
+                                                        />
+                                                        {id !=
+                                                            paragraphArray.length -
+                                                                1 && (
+                                                            <>
+                                                                <br />
+                                                                <br />
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                )
+                                            )}
+                                    </TruncatorDropdown>
+                                </div>
                             </div>
-                            
-                        )} */}
+                        )}
                     </div>
 
                     <div className="additional-info-section-header">
@@ -203,6 +219,8 @@ export default HanjaCharView;
 
 const OnDemandHanjaDrawer = ({ hanjaChar }) => {
     const ref = useRef(null);
+    const [hanjaLoadError, setHanjaLoadError] = useState(false);
+    const [showControls, setShowControls] = useState(false);
 
     const handleClick = () => {
         if (ref.current) {
@@ -210,16 +228,34 @@ const OnDemandHanjaDrawer = ({ hanjaChar }) => {
         }
     };
 
-    return (
+    return hanjaLoadError ? (
+        <></>
+    ) : (
         <>
             <HanjaWriter
                 character={hanjaChar}
-                writerArgs={{ width: 150, height: 150 }}
+                writerArgs={{
+                    width: 150,
+                    height: 150,
+                    onLoadCharDataSuccess: () => {
+                        // if the control panel is not shown only after character load then there
+                        // is a flash of the control panel before quickly disappearing, which is
+                        // visually unpleasing
+                        setShowControls(true);
+                    },
+                    onLoadCharDataError: () => {
+                        setHanjaLoadError(true);
+                    },
+                }}
                 ref={ref}
             />
-            <button className="hanja-play-button" onClick={handleClick}>
-                획순 보기
-            </button>
+            {showControls && (
+                <div className="hanja-writer-controls">
+                    <button className="hanja-play-button" onClick={handleClick}>
+                        획순 보기
+                    </button>
+                </div>
+            )}
         </>
     );
 };

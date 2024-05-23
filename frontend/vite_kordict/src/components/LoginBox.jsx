@@ -92,9 +92,7 @@ const LoginBox = ({ setLoggedInUsername, setNavState }) => {
                         )}
                         {error && response && response.non_field_errors && (
                             <span id="login-fail-message">
-                                <ErrorMessage
-                                    errorStrings={response.non_field_errors}
-                                />
+                                <ErrorMessage errorResponse={response} />
                             </span>
                         )}
                     </div>
