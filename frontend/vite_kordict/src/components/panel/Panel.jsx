@@ -49,6 +49,8 @@ const Panel = () => {
         setCurrentView(newView);
     };
 
+    const [showPanelContent, setShowPanelContent] = useState(true);
+
     return (
         <ViewContext.Provider
             value={{
@@ -63,9 +65,10 @@ const Panel = () => {
                 getPrecedingView={getPrecedingView}
                 canNavigateForward={canNavigateForward}
                 getFollowingView={getFollowingView}
+                showPanelContent={showPanelContent}
+                setShowPanelContent={setShowPanelContent}
             />
-
-            <div className="panel">
+            <div className={showPanelContent ? "panel" : "panel-hidden"}>
                 {(currentView["view"] === "search_korean" ||
                     currentView["view"] === "search_hanja") && (
                     <PaginatedResults

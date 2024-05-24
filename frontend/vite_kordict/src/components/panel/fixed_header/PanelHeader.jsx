@@ -13,6 +13,8 @@ const PanelHeader = ({
     getPrecedingView,
     canNavigateForward,
     getFollowingView,
+    showPanelContent,
+    setShowPanelContent,
 }) => {
     const currentView = useContext(ViewContext)["currentView"];
     const updateViewAndPushToHistory =
@@ -46,6 +48,14 @@ const PanelHeader = ({
                     canNavigateForward={canNavigateForward}
                     getFollowingView={getFollowingView}
                 />
+
+                <button
+                    onClick={() => {
+                        setShowPanelContent(!showPanelContent);
+                    }}
+                >
+                    {showPanelContent ? "⇩" : "⇧"}
+                </button>
             </div>
         </>
     );
