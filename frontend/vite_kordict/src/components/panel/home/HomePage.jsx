@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
+import { AuthenticationInfoContext } from "../../../App.jsx";
 import { ViewContext } from "../Panel.jsx";
 import HanjaWriter from "../hanja-writing/HanjaWriter.jsx";
 import ErrorMessage from "../messages/ErrorMessage.jsx";
@@ -13,6 +14,7 @@ import "./homepage-styles.css";
 
 const HomePage = ({ initialSeed }) => {
     const [homepageData, setHomepageData] = useState();
+    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const { apiFetch, loading, error } = useAPIFetcher();
     const [seed, setSeed] = useState(initialSeed);
 
@@ -21,16 +23,19 @@ const HomePage = ({ initialSeed }) => {
         viewContext["updateViewAndPushToHistory"];
 
     useEffect(() => {
-        apiFetch(
-            `http://127.0.0.1:8000/api/homepage_info/?seed=${seed}`,
-            setHomepageData
-        );
+        if (authInfo["token"]) {
+            apiFetch(
+                `http://127.0.0.1:8000/api/homepage_info/?seed=${seed}`,
+                authInfo["token"],
+                setHomepageData
+            );
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [seed]);
+    }, [seed, authInfo["token"]]);
 
     return (
         <React.Fragment>
-            {localStorage.getItem("username") == null ? (
+            {authInfo["token"] == null ? (
                 <div className="logged-out-homepage">
                     로그인 후 개인에 맞는 홈페이가 볼 수 있습니다.
                 </div>

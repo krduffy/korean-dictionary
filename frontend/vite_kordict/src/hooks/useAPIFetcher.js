@@ -4,11 +4,9 @@ export function useAPIFetcher() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const apiFetch = (url, setStateHook) => {
+    const apiFetch = (url, token, setStateHook) => {
         setLoading(true);
         setError(null);
-
-        const token = localStorage.getItem("token");
 
         const headers = token
             ? {

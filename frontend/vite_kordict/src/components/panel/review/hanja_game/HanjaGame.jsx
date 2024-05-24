@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { useAPIFetcher } from "../../../../hooks/useAPIFetcher.js";
 
+import { AuthenticationInfoContext } from "../../../../App.jsx";
 import { LoadingMessage } from "../../messages/LoadingMessage.jsx";
 import ConnectionBoard from "./ConnectionBoard.jsx";
 import UsableCharactersBoard from "./UsableCharactersBoard.jsx";
@@ -18,6 +19,8 @@ const HanjaGame = () => {
     const [randomSeed, setRandomSeed] = useState(
         Math.floor(Math.random() * 1000000)
     );
+
+    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
     const [connectionRows, setConnectionRows] = useState([
         ["男", "男", "男", "男"],
@@ -40,6 +43,7 @@ const HanjaGame = () => {
     const generateGame = () => {
         apiFetch(
             `http://127.0.0.1:8000/api/hanja_game_info/?length=${currentGameLength}&seed=${randomSeed}`,
+            authInfo["token"],
             setCurrentGameData
         );
     };

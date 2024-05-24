@@ -1,21 +1,24 @@
-import { isLoggedIn } from "../../../util/tokenManagement";
+import React, { useContext } from "react";
 
-import React, { useEffect, useState } from "react";
+import { AuthenticationInfoContext } from "../../App.jsx";
 
 import "./navbar-styles.css";
 
-const NavBar = ({ loggedInUsername, setNavState, onLogout }) => {
+const NavBar = ({ setNavState }) => {
+    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
+    const setAuthInfo = useContext(AuthenticationInfoContext)["setAuthInfo"];
+
     return (
         <div id="navbar">
             <div id="navbar-dictionary-title">한국어사전</div>
 
-            {loggedInUsername ? (
+            {authInfo["username"] ? (
                 <React.Fragment>
-                    <span id="username-display">{loggedInUsername}님</span>
+                    <span id="username-display">{authInfo["username"]}님</span>
                     <button
                         id="logout-button"
                         onClick={() => {
-                            onLogout();
+                            setAuthInfo({});
                         }}
                     >
                         로그아웃

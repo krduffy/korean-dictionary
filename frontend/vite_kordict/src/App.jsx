@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-import { loginIsExpired } from "../util/tokenManagement.js";
+import React, { createContext, useState } from "react";
 
 import LoginBox from "./components/LoginBox.jsx";
 import NavBar from "./components/nav_bar/NavBar.jsx";
@@ -8,51 +6,42 @@ import Panel from "./components/panel/Panel.jsx";
 
 import "./app.css";
 
+export const AuthenticationInfoContext = createContext(null);
+
 const App = () => {
     const [navState, setNavState] = useState(null);
-    const [loggedInUsername, setLoggedInUsername] = useState(
-        localStorage.getItem("username")
-    );
-
-    useEffect(() => {
-        /* check local storage to auto log in if there is already something there */
-        if (loginIsExpired()) {
-            localStorage.clear();
-        }
-    }, []);
-
-    const onLogout = () => {
-        localStorage.clear();
-        setLoggedInUsername(null);
-    };
+    //const [loggedInUsername, setLoggedInUsername] = useState(
+    //    localStorage.getItem("username")
+    //);
+    const [authInfo, setAuthInfo] = useState({});
 
     return (
         <div id="main-page">
-            <div id="nav-bar-container">
-                <NavBar
-                    loggedInUsername={loggedInUsername}
-                    setNavState={setNavState}
-                    onLogout={onLogout}
-                />
-            </div>
-
-            <div id="both-panels-container">
-                <div className="panel-container" id="left-panel-container">
-                    <Panel />
+            <AuthenticationInfoContext.Provider
+                value={{
+                    authInfo: authInfo,
+                    setAuthInfo: setAuthInfo,
+                }}
+            >
+                <div id="nav-bar-container">
+                    <NavBar setNavState={setNavState} />
                 </div>
-                <div className="panel-container" id="right-panel-container">
-                    <Panel />
-                </div>
-            </div>
 
-            <div>
-                {navState === "login" && (
-                    <LoginBox
-                        setLoggedInUsername={setLoggedInUsername}
-                        setNavState={setNavState}
-                    />
-                )}
-            </div>
+                <div id="both-panels-container">
+                    <div className="panel-container" id="left-panel-container">
+                        <Panel />
+                    </div>
+                    <div className="panel-container" id="right-panel-container">
+                        <Panel />
+                    </div>
+                </div>
+
+                <div>
+                    {navState === "login" && (
+                        <LoginBox setNavState={setNavState} />
+                    )}
+                </div>
+            </AuthenticationInfoContext.Provider>
         </div>
     );
 };

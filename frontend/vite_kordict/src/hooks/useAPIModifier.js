@@ -13,13 +13,11 @@ export const useAPIModifier = (initialFormData) => {
         setFormData(newFormData);
     };
 
-    const apiModify = (url, body, method) => {
+    const apiModify = (url, token, body, method) => {
         setSuccessful(false);
         setError(false);
 
         setLoading(true);
-
-        const token = localStorage.getItem("token");
 
         const headers = token
             ? {

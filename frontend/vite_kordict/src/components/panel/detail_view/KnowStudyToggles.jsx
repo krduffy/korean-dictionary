@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
 
 import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
+
+import { AuthenticationInfoContext } from "../../../App.jsx";
 
 import "./styles/korean-word-view-styles.css";
 
@@ -30,6 +32,7 @@ KnowStudyToggles.propTypes = {
 export default KnowStudyToggles;
 
 const KnownOrUnknownView = ({ targetCode, initiallyKnown }) => {
+    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const { apiModify, successful, error } = useAPIModifier({});
     const [wordIsKnown, setWordIsKnown] = useState(initiallyKnown);
 
@@ -42,6 +45,7 @@ const KnownOrUnknownView = ({ targetCode, initiallyKnown }) => {
 
         apiModify(
             `http://127.0.0.1:8000/api/toggle_word_known/${targetCode}`,
+            authInfo["token"],
             "",
             method
         );
@@ -80,6 +84,7 @@ KnownOrUnknownView.propTypes = {
 };
 
 const StudiedOrNotStudiedView = ({ targetCode, initiallyStudied }) => {
+    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const { apiModify, successful, error } = useAPIModifier({});
     const [wordIsStudied, setWordIsStudied] = useState(initiallyStudied);
 
@@ -91,6 +96,7 @@ const StudiedOrNotStudiedView = ({ targetCode, initiallyStudied }) => {
         const method = wordIsStudied ? "DELETE" : "PUT";
         apiModify(
             `http://127.0.0.1:8000/api/toggle_word_studied/${targetCode}`,
+            authInfo["token"],
             "",
             method
         );

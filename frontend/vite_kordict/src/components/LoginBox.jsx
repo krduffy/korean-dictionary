@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { setTokenFromResponse } from "../../util/tokenManagement.js";
 import { useAPIModifier } from "../hooks/useAPIModifier.js";
 
+import { AuthenticationInfoContext } from "../App.jsx";
 import ErrorMessage from "../components/panel/messages/ErrorMessage.jsx";
 
 import "./account-styles.css";
 
-const LoginBox = ({ setLoggedInUsername, setNavState }) => {
+const LoginBox = ({ setNavState }) => {
+    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
+    const setAuthInfo = useContext(AuthenticationInfoContext)["setAuthInfo"];
+
     const {
         formData,
         updateFormDataField,
@@ -30,8 +34,10 @@ const LoginBox = ({ setLoggedInUsername, setNavState }) => {
                 setNavState("none");
             }, 1000);
 
-            setTokenFromResponse(response);
-            setLoggedInUsername(response.user["username"]);
+            setAuthInfo({
+                username: response.user["username"],
+                token: response.token,
+            });
 
             // Clear the timeout to avoid memory leaks
             return () => clearTimeout(timer);
@@ -41,7 +47,12 @@ const LoginBox = ({ setLoggedInUsername, setNavState }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        apiModify("http://127.0.0.1:8000/user/login/", formData, "POST");
+        apiModify(
+            "http://127.0.0.1:8000/user/login/",
+            authInfo["token"],
+            formData,
+            "POST"
+        );
     };
 
     return (

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
 
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
+import { AuthenticationInfoContext } from "../../../App.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import HanjaExampleResult from "./HanjaExampleResult.jsx";
 import HanjaResult from "./HanjaResult.jsx";
@@ -24,6 +25,7 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchResults, setSearchResults] = useState({});
     const { apiFetch, loading } = useAPIFetcher();
+    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
     const updateSearchResults = () => {
         let apiUrl;
@@ -45,7 +47,7 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
                 `character=${searchTerm}`;
         }
 
-        apiFetch(apiUrl, setSearchResults);
+        apiFetch(apiUrl, authInfo["token"], setSearchResults);
     };
 
     useEffect(() => {

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
+import { AuthenticationInfoContext } from "../../../App.jsx";
 import { ViewContext } from "../Panel.jsx";
 import ErrorMessage from "../messages/ErrorMessage.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
@@ -15,9 +16,9 @@ import SenseHistoryInfo from "./sense_info_components/SenseHistoryInfo.jsx";
 import "./styles/korean-word-view-styles.css";
 
 const KoreanWordView = ({ targetCode }) => {
-    const [wordData, setWordData] = useState({});
+    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const { apiFetch, loading, error } = useAPIFetcher();
-
+    const [wordData, setWordData] = useState({});
     const updateViewAndPushToHistory =
         useContext(ViewContext)["updateViewAndPushToHistory"];
 
@@ -28,6 +29,7 @@ const KoreanWordView = ({ targetCode }) => {
     useEffect(() => {
         apiFetch(
             `http://127.0.0.1:8000/api/korean_word/${targetCode}`,
+            authInfo["token"],
             setData
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps

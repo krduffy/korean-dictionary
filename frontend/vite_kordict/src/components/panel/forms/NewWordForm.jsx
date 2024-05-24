@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 
 import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 
+import { AuthenticationInfoContext } from "../../../App.jsx";
 import { ViewContext } from "../Panel.jsx";
 import ErrorMessage from "../messages/ErrorMessage.jsx";
 
@@ -9,6 +10,7 @@ import "./form-styles.css";
 
 const NewWordForm = () => {
     const viewContext = useContext(ViewContext);
+    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const updateViewAndPushToHistory =
         viewContext["updateViewAndPushToHistory"];
 
@@ -28,7 +30,12 @@ const NewWordForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        apiModify("http://127.0.0.1:8000/api/create_word/", formData, "POST");
+        apiModify(
+            "http://127.0.0.1:8000/api/create_word/",
+            authInfo["token"],
+            formData,
+            "POST"
+        );
     };
 
     return (

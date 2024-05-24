@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import PropTypes from "prop-types";
 
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
+import { AuthenticationInfoContext } from "../../../App.jsx";
 import HanjaWriter from "../hanja-writing/HanjaWriter.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import PaginatedResults from "../paginated_results/PaginatedResults.jsx";
@@ -15,12 +16,14 @@ import TruncatorDropdown from "../string_formatters/TruncatorDropdown.jsx";
 import "./styles/hanja-char-view-styles.css";
 
 const HanjaCharView = ({ hanjaChar }) => {
+    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const [charData, setCharData] = useState({});
     const { apiFetch, loading, error } = useAPIFetcher();
 
     useEffect(() => {
         apiFetch(
             `http://127.0.0.1:8000/api/hanja_char/${hanjaChar}`,
+            authInfo["token"],
             setCharData
         );
     }, [hanjaChar]);

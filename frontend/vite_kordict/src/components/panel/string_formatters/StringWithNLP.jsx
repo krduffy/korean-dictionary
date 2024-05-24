@@ -1,3 +1,4 @@
+import { AuthenticationInfoContext } from "../../../App";
 import { useAPIModifier } from "../../../hooks/useAPIModifier";
 import { ViewContext } from "../Panel";
 import StringWithHanja from "./StringWithHanja";
@@ -129,6 +130,8 @@ const WordWithNLP = ({ word, fullSentence }) => {
 
     const currentView = useContext(ViewContext)["currentView"];
 
+    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
+
     const updateViewAndPushToHistory =
         useContext(ViewContext)["updateViewAndPushToHistory"];
 
@@ -146,6 +149,7 @@ const WordWithNLP = ({ word, fullSentence }) => {
 
         apiModify(
             "http://127.0.0.1:8000/api/korean_word_lemma/",
+            authInfo["token"],
             formData,
             "POST"
         );
