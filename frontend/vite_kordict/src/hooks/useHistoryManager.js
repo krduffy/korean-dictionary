@@ -50,11 +50,18 @@ export function useHistoryManager(initialView) {
         return historyPointer + 1 <= history.length - 1;
     };
 
+    const updateCurrentViewInHistory = (newView) => {
+        let newHistory = history.slice(0, history.length);
+        newHistory[historyPointer] = newView;
+        setHistory(newHistory);
+    };
+
     return {
         pushViewToHistory,
         canNavigateBack,
         getPrecedingView,
         canNavigateForward,
         getFollowingView,
+        updateCurrentViewInHistory,
     };
 }

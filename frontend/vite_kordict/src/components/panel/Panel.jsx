@@ -16,9 +16,11 @@ import "./panel-styles.css";
 export const ViewContext = createContext(null);
 
 const Panel = () => {
+    const initialHomepageSeed = Math.floor(Math.random() * 1000000);
+
     const [currentView, setCurrentView] = useState({
         view: "homepage",
-        value: 0,
+        value: initialHomepageSeed,
         searchBarInitialState: {
             boxContent: "",
             dictionary: "korean",
@@ -31,9 +33,10 @@ const Panel = () => {
         getPrecedingView,
         canNavigateForward,
         getFollowingView,
+        updateCurrentViewInHistory,
     } = useHistoryManager({
         view: "homepage",
-        value: 0,
+        value: initialHomepageSeed,
         searchBarInitialState: {
             boxContent: "",
             dictionary: "korean",
@@ -58,6 +61,7 @@ const Panel = () => {
                 updateViewAndPushToHistory: updateViewAndPushToHistory,
                 updateViewWithoutPushingToHistory:
                     updateViewWithoutPushingToHistory,
+                updateCurrentViewInHistory: updateCurrentViewInHistory,
             }}
         >
             <PanelHeader
@@ -91,7 +95,7 @@ const Panel = () => {
 
                 {currentView["view"] === "homepage" && (
                     <div>
-                        <HomePage />
+                        <HomePage initialSeed={currentView["value"]} />
                     </div>
                 )}
 

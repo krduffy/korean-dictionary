@@ -11,12 +11,10 @@ import KoreanResult from "../paginated_results/KoreanResult.jsx";
 
 import "./homepage-styles.css";
 
-const HomePage = () => {
+const HomePage = ({ initialSeed }) => {
     const [homepageData, setHomepageData] = useState();
     const { apiFetch, loading, error } = useAPIFetcher();
-    const [randomSeed, setRandomSeed] = useState(
-        Math.floor(Math.random() * 1000000)
-    );
+    const [seed, setSeed] = useState(initialSeed);
 
     const viewContext = useContext(ViewContext);
     const updateViewAndPushToHistory =
@@ -24,11 +22,11 @@ const HomePage = () => {
 
     useEffect(() => {
         apiFetch(
-            `http://127.0.0.1:8000/api/homepage_info/?seed=${randomSeed}`,
+            `http://127.0.0.1:8000/api/homepage_info/?seed=${seed}`,
             setHomepageData
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [randomSeed]);
+    }, [seed]);
 
     return (
         <React.Fragment>
@@ -49,6 +47,7 @@ const HomePage = () => {
                                     updateViewAndPushToHistory={
                                         updateViewAndPushToHistory
                                     }
+                                    setSeed={setSeed}
                                 />
 
                                 <SameHanjaSection
@@ -71,13 +70,34 @@ const HomePage = () => {
 
 export default HomePage;
 
-const ButtonSection = () => {
+const ButtonSection = ({ setSeed }) => {
     const viewContext = useContext(ViewContext);
     const currentView = viewContext["currentView"];
     const updateViewAndPushToHistory =
         viewContext["updateViewAndPushToHistory"];
+    const updateCurrentViewInHistory =
+        viewContext["updateCurrentViewInHistory"];
     return (
         <div className="buttons">
+            <button
+                onClick={() => {
+                    const newSeed = Math.floor(Math.random() * 1000000);
+
+                    const newView = {
+                        view: "homepage",
+                        value: newSeed,
+                        searchBarInitialState: {
+                            boxContent: "",
+                            dictionary: "korean",
+                        },
+                    };
+
+                    updateCurrentViewInHistory(newView);
+                    setSeed(newSeed);
+                }}
+            >
+                무작위
+            </button>
             <button
                 onClick={() => {
                     updateViewAndPushToHistory({
