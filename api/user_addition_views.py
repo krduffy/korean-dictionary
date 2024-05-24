@@ -67,7 +67,9 @@ class CreateSenseView(APIView):
   permission_classes = (IsAuthenticated,)
 
   def post(self, request):
-    serializer = UserSenseSerializer(data = request.data)
+    data = request.data
+    data['creator'] = request.user.pk
+    serializer = UserSenseSerializer(data = data, context={'request': request})
     if serializer.is_valid():
       serializer.save()
       return Response(serializer.data, status=status.HTTP_201_CREATED)

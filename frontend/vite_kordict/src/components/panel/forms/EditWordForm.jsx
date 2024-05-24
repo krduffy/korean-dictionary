@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
 
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 
+import { AuthenticationInfoContext } from "../../../App.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 
 import "./form-styles.css";
@@ -31,7 +32,7 @@ const EditWordForm = ({ targetCode }) => {
                         {"  [수정]"}
                     </span>
 
-                    <AddExampleForm wordTargetCode={wordData["target_code"]} />
+                    <AddExampleForm wordTargetCode={targetCode} />
                     {/*
           <div className="senses-container">
             {formData["senses"] &&
@@ -49,12 +50,52 @@ const EditWordForm = ({ targetCode }) => {
 export default EditWordForm;
 
 const AddExampleForm = ({ wordTargetCode, alreadyAtLeastOneExample }) => {
+    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const [showForm, setShowForm] = useState(false);
+
     const [exampleText, setExampleText] = useState("");
     const [sourceText, setSourceText] = useState("");
-    const { apiModify, successful, error, response } = useAPIModifier();
 
-    const handleSubmit = () => {};
+    const {
+        formData,
+        updateFormDataField,
+        apiModify,
+        successful,
+        response,
+        error,
+        loading,
+    } = useAPIModifier({
+        referent: wordTargetCode,
+        definition: "정의", // will not be rendered in sense view component because order is 0
+        additional_info: {
+            example_info: [
+                {
+                    source: "",
+                    example: "",
+                },
+            ],
+        },
+        order: 0,
+    });
+
+    const updateExampleInfo = (field, value) => {
+        const newFormData = { ...formData };
+        const newExampleInfo = [...newFormData.additional_info.example_info];
+        newExampleInfo[0] = { ...newExampleInfo[0], [field]: value };
+        newFormData.additional_info.example_info = newExampleInfo;
+        updateFormDataField("additional_info", newFormData.additional_info);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        apiModify(
+            "http://127.0.0.1:8000/api/create_sense/",
+            authInfo["token"],
+            formData,
+            "POST"
+        );
+    };
 
     return (
         <div className="add-example-form">
@@ -68,9 +109,13 @@ const AddExampleForm = ({ wordTargetCode, alreadyAtLeastOneExample }) => {
                     <dd className="text-area-container-dd">
                         <textarea
                             className="add-example-text-area"
-                            value={exampleText}
+                            value={
+                                formData["additional_info"]["example_info"][0][
+                                    "example"
+                                ]
+                            }
                             onChange={(event) =>
-                                setExampleText(event.target.value)
+                                updateExampleInfo("example", event.target.value)
                             }
                         ></textarea>
                     </dd>
@@ -80,9 +125,13 @@ const AddExampleForm = ({ wordTargetCode, alreadyAtLeastOneExample }) => {
                     <dd className="text-area-container-dd">
                         <textarea
                             className="add-example-text-area"
-                            value={sourceText}
+                            value={
+                                formData["additional_info"]["example_info"][0][
+                                    "source"
+                                ]
+                            }
                             onChange={(event) =>
-                                setSourceText(event.target.value)
+                                updateExampleInfo("source", event.target.value)
                             }
                         ></textarea>
                     </dd>
@@ -93,7 +142,12 @@ const AddExampleForm = ({ wordTargetCode, alreadyAtLeastOneExample }) => {
                 <div className="add-example-tip">
                     예문 입력 시 중활고에 담는 단어 아래에 밑줄을 그려줍니다.
                 </div>
-                <div className="add-example-submit-button">추가</div>
+                <button
+                    onClick={(e) => handleSubmit(e)}
+                    className="add-example-submit-button"
+                >
+                    추가
+                </button>
             </div>
         </div>
     );

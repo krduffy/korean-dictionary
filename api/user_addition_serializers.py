@@ -6,24 +6,25 @@ from dictionary_users.models import DictionaryUser
 from dictionary_users.serializers import UserSerializer
 
 class KoreanWordField(serializers.PrimaryKeyRelatedField):
-  def to_representation(self, value):
-    pk = super(KoreanWordField, self).to_representation(value)
-    try:
-        item = KoreanWord.objects.get(pk=pk)
-        serializer = KoreanWordDetailedSerializer(item)
-        return serializer.data
-    except KoreanWord.DoesNotExist:
-        return None
+    def to_representation(self, value):
+        pk = super(KoreanWordField, self).to_representation(value)
+        try:
+            item = KoreanWord.objects.get(pk=pk)
+            serializer = KoreanWordDetailedSerializer(item, context=self.context)
+            return serializer.data
+        except KoreanWord.DoesNotExist:
+            return None
     
 class UserField(serializers.PrimaryKeyRelatedField):
-  def to_representation(self, value):
-    pk = super(UserField, self).to_representation(value)
-    try:
-        item = DictionaryUser.objects.get(pk=pk)
-        serializer = UserSerializer(item)
-        return serializer.data
-    except DictionaryUser.DoesNotExist:
-        return None
+    def to_representation(self, value):
+        pk = super(UserField, self).to_representation(value)
+        try:
+            item = DictionaryUser.objects.get(pk=pk)
+            serializer = UserSerializer(item, context=self.context)
+            return serializer.data
+        except DictionaryUser.DoesNotExist:
+            return None
+
 
 class UserWordSerializer(serializers.Serializer):
   word = serializers.CharField(
@@ -76,24 +77,28 @@ class UserWordSerializer(serializers.Serializer):
 
 class UserSenseSerializer(serializers.Serializer):
   referent = KoreanWordField(queryset = KoreanWord.objects.all())
-  definition = serializers.CharField()
-  type = serializers.CharField()
-  order = serializers.IntegerField()
-  category = serializers.CharField()
-  pos = serializers.CharField()
-  additional_info = serializers.JSONField()
+  # adding word-level (not sense-level) example sentences technically creates a sense
+  # with order zero that has definition ""
+  definition = serializers.CharField(required=True)
+  type = serializers.CharField(required=False)
+  order = serializers.IntegerField(required=True)
+  category = serializers.CharField(required=False)
+  pos = serializers.CharField(required=False)
+  additional_info = serializers.JSONField(required=False)
+  creator = UserField(queryset = DictionaryUser.objects.all())
 
   class Meta:
     model = Sense
-    fields = ['referent', 'definition', 'type', 'order', 'category', 'pos', 'additional_info']
+    fields = ['referent', 'definition', 'type', 'order', 'category', 'pos', 
+              'additional_info', 'creator']
 
   def create(self, validated_data):
     return Sense.objects.create(**validated_data)
   
   def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    for field_name in ['type', 'category', 'pos', 'additional_info']:
-      self.fields[field_name].required = False
+        super().__init__(*args, **kwargs)
+        for field_name in ['type', 'category', 'pos', 'additional_info']:
+            self.fields[field_name].required = False
 
 
 class UserNoteSerializer(serializers.Serializer):
