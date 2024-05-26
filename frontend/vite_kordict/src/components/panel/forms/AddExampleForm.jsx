@@ -53,13 +53,11 @@ const AddExampleForm = ({ wordTargetCode, initiallyExistingExamples }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const method = initiallyExistingExamples ? "PUT" : "POST";
-
         apiModify(
             "http://127.0.0.1:8000/api/create_sense/",
             authInfo["token"],
             formData,
-            method
+            "POST"
         );
     };
 

@@ -13,6 +13,7 @@ from django.db.models import IntegerField, F, ExpressionWrapper
 from rest_framework.pagination import PageNumberPagination
 import random
 import re
+from django.db import transaction
 
 def reorder_queryset_with_seed(queryset, seed):
 
@@ -71,8 +72,21 @@ class CreateSenseView(APIView):
     data['creator'] = request.user.pk
     serializer = UserSenseSerializer(data = data, context={'request': request})
     if serializer.is_valid():
-      serializer.save()
-      return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # delete the previous if it exists; this method is essentially PUT
+        # need to ensure atomicity so that a sense cannot be deleted without its
+        # replacement being added
+        with transaction.atomic():
+          print(serializer.validated_data)
+          prev_sense = Sense.objects.all().filter(
+              order = 0).filter( 
+              referent = serializer.validated_data['referent']).filter(
+              creator = serializer.validated_data['creator'])
+          
+          if prev_sense.exists():
+            prev_sense.delete()
+
+          serializer.save()
+          return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

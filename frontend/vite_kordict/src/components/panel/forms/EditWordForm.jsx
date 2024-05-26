@@ -32,6 +32,7 @@ const EditWordForm = ({ targetCode }) => {
             wordData &&
             wordData["senses"] &&
             wordData["senses"][0] &&
+            wordData["senses"][0]["order"] == 0 &&
             wordData["senses"][0]["additional_info"] &&
             wordData["senses"][0]["additional_info"]["example_info"] &&
             wordData["senses"][0]["additional_info"]["example_info"]
