@@ -15,6 +15,8 @@ import random
 import re
 from django.db import transaction
 
+from konlpy.tag import Kkma
+
 def reorder_queryset_with_seed(queryset, seed):
 
   def get_rel_index(target_code, breakpoint):
@@ -76,7 +78,6 @@ class CreateSenseView(APIView):
         # need to ensure atomicity so that a sense cannot be deleted without its
         # replacement being added
         with transaction.atomic():
-          print(serializer.validated_data)
           prev_sense = Sense.objects.all().filter(
               order = 0).filter( 
               referent = serializer.validated_data['referent']).filter(
@@ -327,6 +328,7 @@ def get_path_of_length(request, length, seed):
     return None
 
 class HanjaGameView(APIView):
+
   permission_classes = (IsAuthenticated, )
 
   def get(self, request):
@@ -394,3 +396,59 @@ class HanjaGameView(APIView):
       'required_characters': required_characters,
       'hanja_path': hanja_path
     })
+  
+def get_nouns_verbs(sentence):
+
+  def accept_pos(str):
+    return str.startswith("N") or str.startswith("V") or str.startswith("M") or str == "XR" or str == "XSA" or str == "OL"
+  
+  def is_verb(str):
+    return str.startswith("V")
+  
+  def is_어근_followed_by_deriv_suffix(str1, str2):
+    return (str1 == "XR" or str1 == 'NNG') and str2 == "XSA"
+
+  kkma = Kkma()
+  analysis = kkma.pos(sentence)
+
+  accepted_lemmas = [item for item in analysis if accept_pos(item[1])]
+  num_accepted_lemmas = len(accepted_lemmas)
+  return_list = []
+
+  for i in range(0, num_accepted_lemmas):
+    
+    if i != (num_accepted_lemmas - 1) and \
+              is_어근_followed_by_deriv_suffix(accepted_lemmas[i][1], accepted_lemmas[i+1][1]):
+
+      return_list.append((accepted_lemmas[i][0] + accepted_lemmas[i+1][0], 'V'))
+    
+    elif not accepted_lemmas[i][1] == 'XSA':
+      return_list.append(accepted_lemmas[i])
+
+  return (return_list, analysis)
+
+class UnknownWordsView(APIView):
+
+  permission_classes = (IsAuthenticated, )
+
+  def post(self, request):
+
+    text = request.data['text']
+
+    if text == '':
+      return Response('empty text')
+
+    user_known_words = request.user.known_words.all()
+
+    (analysis, original) = get_nouns_verbs(text)
+    all_analyzed = []
+
+    for i in range(0, len(analysis)):
+      all_analyzed.append(analysis[i][0] + "다" if analysis[i][1].startswith("V") else analysis[i][0])
+
+    user_doesnt_know = [word for word in all_analyzed if 
+                        not user_known_words.filter(word = word).exists()]
+    
+    return Response({'unknown': user_doesnt_know})
+    
+  
