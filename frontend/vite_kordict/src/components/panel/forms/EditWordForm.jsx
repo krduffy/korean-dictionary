@@ -52,7 +52,6 @@ const EditWordForm = ({ targetCode }) => {
                 <div className="korean-word-view">
                     <span className="word-header">
                         <span>{wordData["word"]}</span>
-                        {"  [수정]"}
                     </span>
 
                     <AddExampleForm
