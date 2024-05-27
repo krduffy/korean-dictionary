@@ -22,7 +22,6 @@ const PanelHeader = ({
 
     return (
         <>
-            {" "}
             <div className="fixed-header">
                 <button
                     onClick={() => {

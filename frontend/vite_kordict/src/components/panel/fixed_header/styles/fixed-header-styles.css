@@ -1,21 +1,39 @@
 .fixed-header {
     height: 40px;
     padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     background-color: black;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
 }
 
 .fixed-header > * {
     box-sizing: border-box;
 }
 
-button {
+.fixed-header button {
     cursor: pointer;
+    padding: 12px;
+    height: 30px;
+    overflow: hidden;
+    vertical-align: middle;
+    line-height: 0px;
 }
 
-.activated-button {
+.fixed-header button.activated-button {
     background-color: #25254d;
     text-shadow: 0 0 15px white;
+}
+
+.fixed-header button.enabled-navigation-button {
+    background-color: #344e61;
+}
+
+.fixed-header button.disabled-navigation-button {
+    background-color: black;
 }
 
 .search-bar {
@@ -28,14 +46,6 @@ button {
 
 .form-content {
     display: inline-block;
-}
-
-.enabled-navigation-button {
-    background-color: #344e61;
-}
-
-.disabled-navigation-button {
-    background-color: black;
 }
 
 .view-history-navigator {
