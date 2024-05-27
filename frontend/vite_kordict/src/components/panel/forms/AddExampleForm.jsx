@@ -81,7 +81,7 @@ const AddExampleForm = ({ wordTargetCode, initiallyExistingExamples }) => {
 
     return (
         <div className="add-example-form">
-            <div className="add-example-form-upper-bar">
+            <div className="form-upper-bar">
                 <span className="add-example-header">예문 추가하기</span>
             </div>
 

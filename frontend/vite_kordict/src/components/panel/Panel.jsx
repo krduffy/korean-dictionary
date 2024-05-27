@@ -6,6 +6,7 @@ import HanjaCharView from "./detail_view/HanjaCharView.jsx";
 import KoreanWordView from "./detail_view/KoreanWordView.jsx";
 import PanelHeader from "./fixed_header/PanelHeader.jsx";
 import EditWordForm from "./forms/EditWordForm.jsx";
+import GetUnknownWordsForm from "./forms/GetUnknownWordsForm.jsx";
 import NewWordForm from "./forms/NewWordForm.jsx";
 import HomePage from "./home/HomePage.jsx";
 import PaginatedResults from "./paginated_results/PaginatedResults.jsx";
@@ -114,6 +115,12 @@ const Panel = () => {
                 {currentView["view"] === "edit_word" && (
                     <div>
                         <EditWordForm targetCode={currentView["value"]} />
+                    </div>
+                )}
+
+                {currentView["view"] === "get_unknown_words" && (
+                    <div>
+                        <GetUnknownWordsForm />
                     </div>
                 )}
             </div>

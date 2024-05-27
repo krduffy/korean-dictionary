@@ -100,6 +100,22 @@ const SearchBar = () => {
                 >
                     漢
                 </button>
+                <button
+                    onClick={() => {
+                        navigator.clipboard
+                            .readText()
+                            .then((clipboardData) => {
+                                setBoxContent(clipboardData);
+                            })
+                            .catch((err) => {
+                                console.error(
+                                    "Error pasting clipboard content: " + err
+                                );
+                            });
+                    }}
+                >
+                    🗐⤳
+                </button>
             </div>
 
             <form className="form-content" onSubmit={handleSubmit}>

@@ -435,12 +435,15 @@ class UnknownWordsView(APIView):
 
     text = request.data['text']
 
-    if text == '':
-      return Response('empty text')
+    if text is None or text == '':
+      return Response({'error': '분석할 입력어가 없습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
     user_known_words = request.user.known_words.all()
 
-    (analysis, original) = get_nouns_verbs(text)
+    try:
+      analysis, original = get_nouns_verbs(text)
+    except Exception as e:
+      return Response({'error': f'분석하면서 오류가 발생했습니다.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     all_analyzed = []
 
     for i in range(0, len(analysis)):
@@ -449,6 +452,6 @@ class UnknownWordsView(APIView):
     user_doesnt_know = [word for word in all_analyzed if 
                         not user_known_words.filter(word = word).exists()]
     
-    return Response({'unknown': user_doesnt_know})
+    return Response({'unknown': user_doesnt_know}, status=status.HTTP_200_OK)
     
   

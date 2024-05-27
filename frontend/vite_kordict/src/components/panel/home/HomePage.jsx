@@ -130,7 +130,23 @@ const ButtonSection = ({ setSeed }) => {
                         });
                     }
                 }}
-            ></button>
+            >
+                단어 추가
+            </button>
+            <button
+                onClick={() => {
+                    updateViewAndPushToHistory({
+                        view: "get_unknown_words",
+                        value: 0,
+                        searchBarInitialState: {
+                            boxContent: "",
+                            dictionary: "korean",
+                        },
+                    });
+                }}
+            >
+                단어장 도우미
+            </button>
         </div>
     );
 };
@@ -194,7 +210,9 @@ const SameHanjaSection = ({ sameHanjaData }) => {
                                             delayBetweenStrokes: 5,
                                             onLoadCharDataSuccess: () => {
                                                 setTimeout(() => {
-                                                    ref.current.animateCharacter();
+                                                    if (ref.current) {
+                                                        ref.current.animateCharacter();
+                                                    }
                                                 }, 1000);
                                             },
                                             onLoadCharDataError: () => {

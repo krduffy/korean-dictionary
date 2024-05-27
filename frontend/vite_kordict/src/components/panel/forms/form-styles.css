@@ -65,9 +65,12 @@
     height: 100%;
 }
 
-.add-example-form-upper-bar {
-    height: 40px;
+.form-upper-bar {
     padding-bottom: 10px;
+    font-size: 30px;
+    text-align: center;
+    background-color: #221c91;
+    margin-bottom: 10px;
 }
 
 .add-example-header {
@@ -91,9 +94,8 @@
 .form-tip-detail {
     width: 100%;
     padding-left: 5%;
-    list-style: circle;
+    list-style: inside;
     display: list-item;
-    list-style-position: inside;
     font-size: small;
     padding-top: 5px;
 }
