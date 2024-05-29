@@ -10,10 +10,8 @@ import "./universal-styles.css";
 /* Also links string with hanja functionality into the string */
 const StringWithNLP = ({ string, hasExamples }) => {
     const getSentences = (stringWithSentences) => {
-        let sentences = stringWithSentences.split(/\.\s/g);
-        sentences[sentences.length - 1] = sentences[
-            sentences.length - 1
-        ].replace(".", "");
+        let sentences = stringWithSentences.split(/(?<=\.)\s+/);
+
         return sentences;
     };
 
@@ -24,28 +22,20 @@ const StringWithNLP = ({ string, hasExamples }) => {
 
         /* if there are examples, then an example is considered a single word
        even if it is a phrase that really consists of several words. */
-        const tokens = stringWithWords.split(/\s/g);
+        const splitAlongCurly = stringWithWords.split(/({.*?})/g);
         let words = [];
-        let capturingExample = false;
 
-        for (let i = 0; i < tokens.length; i++) {
-            if (capturingExample) {
-                if (tokens[i].endsWith("}")) {
-                    capturingExample = false;
-                }
-                words[words.length - 1] =
-                    words[words.length - 1] +
-                    tokens[i] +
-                    (capturingExample ? " " : "");
-            } else if (tokens[i].startsWith("{") && !tokens[i].endsWith("}")) {
-                capturingExample = true;
-                words.push(tokens[i] + " ");
+        for (let i = 0; i < splitAlongCurly.length; i++) {
+            if (splitAlongCurly[i].match(/{.*}/)) {
+                words.push(splitAlongCurly[i]);
             } else {
-                words.push(tokens[i]);
+                for (const word of splitAlongCurly[i].split(/\s/g)) {
+                    words.push(word);
+                }
             }
         }
 
-        return words;
+        return words.filter((word) => word.length > 0);
     };
 
     return (
@@ -61,6 +51,10 @@ const StringWithNLP = ({ string, hasExamples }) => {
                                     <span>ㆍ</span>
                                 ) : (
                                     <React.Fragment>
+                                        {wordId != 0 &&
+                                            wordArray[wordId - 1] !== "ㆍ" &&
+                                            !word.match(/^[.,!?]*$/) &&
+                                            " "}
                                         {hasExamples && word.match(/{.*?}/) ? (
                                             <span className="bracketed-word-from-example">
                                                 {word.substring(
@@ -68,6 +62,8 @@ const StringWithNLP = ({ string, hasExamples }) => {
                                                     word.length - 1
                                                 )}
                                             </span>
+                                        ) : word.match(/^[.,!?]*$/) ? (
+                                            <span>{word}</span>
                                         ) : (
                                             <WordWithNLP
                                                 word={word}
@@ -79,18 +75,12 @@ const StringWithNLP = ({ string, hasExamples }) => {
                                                     )}
                                             />
                                         )}
-                                        {wordArray[wordId + 1] !== "ㆍ" &&
-                                            wordId < wordArray.length - 1 && (
-                                                <span> </span>
-                                            )}
                                     </React.Fragment>
                                 )}
                             </React.Fragment>
                         )
                     )}
-                    <span>
-                        .{sentenceId < sentenceArray.length - 1 ? " " : ""}
-                    </span>
+                    {sentenceId < sentenceArray.length - 1 && " "}
                 </span>
             ))}
         </span>

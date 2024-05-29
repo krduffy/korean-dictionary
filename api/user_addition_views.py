@@ -450,8 +450,15 @@ class UnknownWordsView(APIView):
       all_analyzed.append(analysis[i][0] + "다" if analysis[i][1].startswith("V") else analysis[i][0])
 
     user_doesnt_know = [word for word in all_analyzed if 
-                        not user_known_words.filter(word = word).exists()]
+                        not user_known_words.filter(word = word).exists()
+                        and KoreanWord.objects.filter(word = word).exists()]
+
+    # delete duplicates
+    user_doesnt_know_unique = []
+    for word in user_doesnt_know:
+      if word not in user_doesnt_know_unique:
+        user_doesnt_know_unique.append(word)
     
-    return Response({'unknown': user_doesnt_know}, status=status.HTTP_200_OK)
+    return Response({'unknown': user_doesnt_know_unique}, status=status.HTTP_200_OK)
     
   
