@@ -14,28 +14,23 @@ from rest_framework.pagination import PageNumberPagination
 import random
 import re
 from django.db import transaction
+import math
 
 from konlpy.tag import Kkma
 
+def get_rel_index(target_code, seed):
+  # Need the randomness to remain a database operation. So using random cannot work.
+  # Using .order_by('?') is also not idempotent; needs to remain same even on rerenders
+  # of the homepage component with the same seed
+  x = (seed - target_code) % 1000
+  return x * x
+
 def reorder_queryset_with_seed(queryset, seed):
-
-  def get_rel_index(target_code, breakpoint):
-    base = (target_code - breakpoint) % 1000
-    return base * base
-
-  # not exactly, but around 1 million
-  highest_targetcode = 1000000
-
-  breakpoint = seed % highest_targetcode
-  if breakpoint < 0:
-    breakpoint = -1 * breakpoint
-
   queryset = queryset.annotate(
-    rel_index = ExpressionWrapper(get_rel_index(F('target_code'), breakpoint), 
-                                  output_field=IntegerField())
+    rel_index = ExpressionWrapper(get_rel_index(F('target_code'), seed), output_field=IntegerField()),
   )
-
-  return queryset.order_by("-rel_index", "target_code")
+  queryset = queryset.order_by("rel_index", "-target_code")
+  return queryset
 
 # Page size = 10
 class PaginationClass(PageNumberPagination):
@@ -252,80 +247,120 @@ def get_path_of_length(request, length, seed):
     # was to get from 力 힘 력 to 備 갖출 비 and the number of steps was only 2
 
     step_characters = []
-    tried_lists = defaultdict(list)
+    tried_lists = []
     step_word_origins = []
+    for i in range(0, length):
+      step_characters.append("")
+      tried_lists.append([])
+      step_word_origins.append("")
 
     step_counter = 0
     
-    # in while true:
-    # 1. filter all chars in step_characters and tried_lists out of the queryset
-    # 2. get a word.
-    #    if there is no word,
-    #    backtrack:
-    #       get rid of the last thing in step characters and instead add it to tried_lists at
-    #       the index before
-    # 3. get a character in the word that is not any of the ones in step_characters
-    # 4. add that character to step_characters
-    # 5. next cycle
     while True:
       
-      if step_counter == 0:
-        included_pattern = '.*'
-      else:
-        required = step_characters[step_counter - 1]
-        banned = "".join(char for char in step_word_origins if char != required)
+      required = step_characters[step_counter - 1]
+      banned = "".join(char for char in tried_lists[step_counter])
+      for word in step_word_origins[:step_counter]:
+        #print("WORD IS", word)
+        for char in word:
+          if char != required and char not in banned:
+            banned = banned + char
+            #print("banned is now", banned)
 
-        included_pattern = \
-          f'^[^{banned}]*' + \
-          f'[{required}]' + \
-          f'[^{banned}]*$'
+      # Debug
+      #print("REQUIRED IS", required)
+      #print("BANNED IS ", banned)
 
-      working_set = all_known_words.filter(origin__iregex = included_pattern)
+      # Filter working set based on currently banned (already used in path's words or tried to no 
+      # success) characters and the required character (the most recently added char to the actual 
+      # path)
+      regex = ""
+
+      if banned != "":
+        regex += f'^[^{banned}]*'
+      if required != "":
+        regex += f'[{required}]'
+      if banned != "":
+        regex += f'[^{banned}]*$'
+      if regex == "":
+        regex = '.*'
+
+      working_set = all_known_words.filter(origin__iregex = regex)
+
+      # DEBUG
+
+      #print("At beginning")
+      #print("Size of ws is ", len(working_set))
+      #print("Regex was ", regex)
+      #print("Step counter is ", step_counter)
+      #print("Step chars is ", step_characters)
+      #print("Step word origins is ", step_word_origins)
+      #print("Hanja path is ", hanja_path)
+      #print("Tried is ", tried_lists[step_counter])
+      #print()
+
+      # Look for link
 
       found_link = False
 
       for valid_word in working_set:
-        # check this word for any valid link
+        # Check this word for any valid link
         for character in valid_word.origin:
-          if character not in tried_lists[step_counter] and character not in step_characters and HanjaCharacter.objects.filter(pk = character).exists():
+          if character not in tried_lists[step_counter] and \
+                  character not in step_characters and \
+                  HanjaCharacter.objects.filter(pk = character).exists():
+            
             found_link = True
-            #print('character is ', character)
+
             hanja_path.append({
               'step_character': HanjaCharacterSerializer(
                           HanjaCharacter.objects.get(pk = character)).data,
               'example_word': HanjaGameWordSerializer(
                           valid_word, context = {'request': request}).data,
               })
-            step_characters.append(character)
-            step_word_origins.append(valid_word.origin)
-            step_counter += 1
             
+            step_characters[step_counter] = character
+            step_word_origins[step_counter] = valid_word.origin
+
             break # out of for character in valid_word
 
         if found_link:
           break # out of for valid_word in working_set
-        else:
-          for character in valid_word.origin:
-            tried_lists[step_counter].append(character)
 
       # step_counter and list of characters already updated; dont need to do again
-      if step_counter >= length:
-        return hanja_path
-      elif not found_link and step_counter != 0:
-        #tried_lists[step_counter - 1].append(hanja_path[step_counter])
-        print('in heere; printing tried before and after update')
-        print(tried_lists[step_counter])
-        for character in step_word_origins[step_counter - 1]:
-          tried_lists[step_counter].append(character)
-        print(tried_lists[step_counter])
-        step_counter -= 1
-        step_characters.pop()
-        step_word_origins.pop()
-        hanja_path.pop()
-      elif not found_link and step_counter == 0:
-        break
+      if found_link:
+        step_counter += 1
 
-    return None
+        if step_counter >= length:
+          return hanja_path
+
+      else:
+
+        # DEBUG
+        #print("Made it into fail")
+        #print(step_counter)
+        #print(step_characters)
+        #print(step_word_origins)
+        #print(hanja_path)
+
+        # If even at step_counter 0 there is no character to match, then it has cycled
+        # through every single word and needs to just return None. There is no path of
+        # the required length.
+        if step_counter == 0:
+          return None
+
+        tried_lists[step_counter - 1].append(step_characters[step_counter - 1])
+        step_characters[step_counter] = ""
+        step_word_origins[step_counter] = ""
+        hanja_path.pop()
+
+        #print('updated data in fail')
+        #print(tried_lists)
+        #print(step_characters)
+        #print(step_word_origins)
+        #print(hanja_path)
+
+        step_counter -= 1
 
 class HanjaGameView(APIView):
 
@@ -376,7 +411,7 @@ class HanjaGameView(APIView):
       all_known_words = request.user.known_words.all().filter(origin__iregex = regex).order_by('?')
       index = 0
 
-      while num_supplied_characters < num_supplied_needed:
+      while num_supplied_characters < num_supplied_needed and index < len(all_known_words):
         for character in all_known_words[index].origin:
           if ord(character) > 0x4e00 and ord(character) < 0x9fff and \
             character not in supplied_characters and num_supplied_characters < num_supplied_needed:
