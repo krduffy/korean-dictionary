@@ -36,6 +36,7 @@ const PanelHeader = ({
                             });
                         }
                     }}
+                    title="홈페이지로 바로가기"
                 >
                     🏠
                 </button>
@@ -52,6 +53,7 @@ const PanelHeader = ({
                     onClick={() => {
                         setShowPanelContent(!showPanelContent);
                     }}
+                    title={showPanelContent ? "내용 숨기기" : "내용 보기"}
                 >
                     {showPanelContent ? "⇩" : "⇧"}
                 </button>

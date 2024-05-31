@@ -100,6 +100,7 @@ const ButtonSection = ({ setSeed }) => {
                     updateCurrentViewInHistory(newView);
                     setSeed(newSeed);
                 }}
+                title="홈페이지에 보이는 단어 바꾸기"
             >
                 무작위
             </button>
@@ -114,6 +115,7 @@ const ButtonSection = ({ setSeed }) => {
                         },
                     });
                 }}
+                title="한자 잇기 게임에 바로가기"
             >
                 게임
             </button>
@@ -130,6 +132,7 @@ const ButtonSection = ({ setSeed }) => {
                         });
                     }
                 }}
+                title="사전에 새로운 단어 추가 문서로 바로가기"
             >
                 단어 추가
             </button>
@@ -144,8 +147,9 @@ const ButtonSection = ({ setSeed }) => {
                         },
                     });
                 }}
+                title="아는 단어 추가 도우미로 바로가기"
             >
-                단어장 도우미
+                단어 찾기 도구
             </button>
         </div>
     );

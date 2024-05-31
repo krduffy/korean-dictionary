@@ -87,6 +87,7 @@ const SearchBar = () => {
                             : "not-activated-button"
                     }
                     onClick={() => setDictionary("korean")}
+                    title="한국어 사전 검색"
                 >
                     한
                 </button>
@@ -97,6 +98,7 @@ const SearchBar = () => {
                             : "not-activated-button"
                     }
                     onClick={() => setDictionary("hanja")}
+                    title="한자 사전 검색"
                 >
                     漢
                 </button>
@@ -113,6 +115,7 @@ const SearchBar = () => {
                                 );
                             });
                     }}
+                    title="붙여넣기"
                 >
                     🗐⤳
                 </button>

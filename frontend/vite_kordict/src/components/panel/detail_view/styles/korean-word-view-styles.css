@@ -17,15 +17,16 @@
 }
 
 .known-word-button {
+    background-color: blueviolet;
+}
+
+.studied-word-button {
     background-color: #946821;
 }
 
-.unknown-word-button {
+.unknown-word-button,
+.not-studied-word-button {
     background-color: gray;
-}
-
-.known-word-button {
-    background-color: #946821;
 }
 
 .unknown-word-button {

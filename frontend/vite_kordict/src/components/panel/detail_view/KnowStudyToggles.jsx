@@ -72,8 +72,13 @@ const KnownOrUnknownView = ({ targetCode, initiallyKnown }) => {
             onClick={() => {
                 handleClick();
             }}
+            title={
+                wordIsKnown
+                    ? "클릭하여 아는 단어장에서 제거"
+                    : "클릭하여 아는 단어장에 추가"
+            }
         >
-            {wordIsKnown ? "★" : "☆"}
+            {wordIsKnown ? "✅︎" : "？"}
         </span>
     );
 };
@@ -125,8 +130,13 @@ const StudiedOrNotStudiedView = ({ targetCode, initiallyStudied }) => {
             onClick={() => {
                 handleClick();
             }}
+            title={
+                wordIsStudied
+                    ? "클릭하여 암기장에서 제거"
+                    : "클릭하여 암기장에 추가"
+            }
         >
-            {wordIsStudied ? "암기" : "비암기"}
+            {wordIsStudied ? "★" : "☆"}
         </span>
     );
 };

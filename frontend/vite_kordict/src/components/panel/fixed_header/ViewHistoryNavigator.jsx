@@ -28,6 +28,7 @@ const ViewHistoryNavigator = ({
                         updateViewWithoutPushingToHistory(getPrecedingView());
                     }
                 }}
+                title="한 페이지 뒤로 가기"
             >
                 {canNavigateBack() ? "◀" : "◁"}
             </button>
@@ -42,6 +43,7 @@ const ViewHistoryNavigator = ({
                         updateViewWithoutPushingToHistory(getFollowingView());
                     }
                 }}
+                title="한 페이지 앞으로 가기"
             >
                 {canNavigateForward() ? "▶" : "▷"}
             </button>

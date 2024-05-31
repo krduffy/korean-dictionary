@@ -8,18 +8,22 @@
 
 .same-hanja-section {
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .same-hanja-section-writer {
-    justify-content: center;
-    align-items: center;
-    display: inline-block;
+    display: flex;
     cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
 }
 
 .same-hanja-section-examples {
     display: inline-block;
-    width: 80%;
+    width: calc(100% - 100px);
 }
 
 .same-hanja-list-item {
@@ -30,6 +34,8 @@
 
 .single-same-hanja-container {
     width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .homepage-section-header {
@@ -38,4 +44,11 @@
     margin-bottom: 0;
     padding-left: 5px;
     margin-top: 10px;
+}
+
+.logged-out-homepage {
+    padding: 20px;
+    text-align: center;
+    font-size: 20px;
+    text-decoration: underline;
 }
