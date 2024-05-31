@@ -1,4 +1,3 @@
-from collections import defaultdict
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
@@ -9,33 +8,11 @@ from .dictionary_models import HanjaCharacter, KoreanWord, Sense
 from .dictionary_serializers import HanjaCharacterSerializer, KoreanWordSerializer, SenseSerializer, KoreanSerializerForHanja, HanjaGameWordSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
-from django.db.models import IntegerField, F, ExpressionWrapper
 from rest_framework.pagination import PageNumberPagination
 import random
-import re
 from django.db import transaction
-import math
 
-from konlpy.tag import Kkma
-
-def remove_non_user_words(queryset, allowed_user):
-  queryset = queryset.filter(creator=None) | queryset.filter(creator=allowed_user)
-  return queryset
-
-def reorder_queryset_with_seed(queryset, seed):
-
-  def get_rel_index(target_code, seed):
-    # Need the randomness to remain a database operation. So using random cannot work.
-    # Using .order_by('?') is also not idempotent; needs to remain same even on rerenders
-    # of the homepage component with the same seed
-    x = (seed - target_code) % 1000
-    return x * x
-
-  queryset = queryset.annotate(
-    rel_index = ExpressionWrapper(get_rel_index(F('target_code'), seed), output_field=IntegerField()),
-  )
-  queryset = queryset.order_by("rel_index", "-target_code")
-  return queryset
+from .util import reorder_queryset_with_seed, get_nouns_verbs 
 
 # Page size = 10
 class PaginationClass(PageNumberPagination):
@@ -461,36 +438,6 @@ class HanjaGameView(APIView):
       'required_characters': required_characters,
       'hanja_path': hanja_path
     })
-  
-def get_nouns_verbs(sentence):
-
-  def accept_pos(str):
-    return str.startswith("N") or str.startswith("V") or str.startswith("M") or str == "XR" or str == "XSA" or str == "OL"
-  
-  def is_verb(str):
-    return str.startswith("V")
-  
-  def is_어근_followed_by_deriv_suffix(str1, str2):
-    return (str1 == "XR" or str1 == 'NNG') and str2 == "XSA"
-
-  kkma = Kkma()
-  analysis = kkma.pos(sentence)
-
-  accepted_lemmas = [item for item in analysis if accept_pos(item[1])]
-  num_accepted_lemmas = len(accepted_lemmas)
-  return_list = []
-
-  for i in range(0, num_accepted_lemmas):
-    
-    if i != (num_accepted_lemmas - 1) and \
-              is_어근_followed_by_deriv_suffix(accepted_lemmas[i][1], accepted_lemmas[i+1][1]):
-
-      return_list.append((accepted_lemmas[i][0] + accepted_lemmas[i+1][0], 'V'))
-    
-    elif not accepted_lemmas[i][1] == 'XSA':
-      return_list.append(accepted_lemmas[i])
-
-  return (return_list, analysis)
 
 class UnknownWordsView(APIView):
 

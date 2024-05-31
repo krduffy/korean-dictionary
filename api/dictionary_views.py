@@ -13,43 +13,11 @@ from rest_framework.permissions import IsAuthenticated
 import re
 import copy
 
-# nlp
-from konlpy.tag import Kkma
+from .util import remove_all_user_additions, remove_non_user_additions, prioritize_known_or_studying, get_nouns_verbs
 
 # Page size = 10
 class PaginationClass(PageNumberPagination):
   page_size = 10
-
-# have not tested yet
-def ignore_other_user_words(queryset, user):
-
-  return queryset.annotate(
-      user_or_default = Case(
-          When(creator=None, then=Value(True)),
-          When(creator=user, then=Value(True)),
-          default=Value(False),
-          output_field=BooleanField(),
-      )
-  ).filter("user_or_default")
-
-def prioritize_known_or_studying(queryset, user):
-  known_words = user.known_words.all()
-  study_words = user.study_words.all()
-
-  new_queryset = None
-
-  if known_words.exists() or study_words.exists():
-      new_queryset = queryset.annotate(
-          prioritized=Case(
-              When(target_code__in=known_words, then=Value(True)),
-              When(target_code__in=study_words, then=Value(True)),
-              default=Value(False),
-              output_field=BooleanField(),
-          ),
-          length=Length("word")
-      ).order_by("-prioritized", "length", "target_code")
-
-  return new_queryset if new_queryset else queryset
 
 # Returns list of KoreanWords for given search_term query parameter.
 class KoreanWordList(generics.ListAPIView):
@@ -57,7 +25,11 @@ class KoreanWordList(generics.ListAPIView):
   pagination_class = PaginationClass
 
   def get_queryset(self):
-    queryset = KoreanWord.objects.all()
+    queryset = None
+    if self.request.user:
+      queryset = remove_non_user_additions(KoreanWord.objects.all(), self.request.user.pk)
+    else:
+      queryset = remove_all_user_additions(KoreanWord.objects.all())
 
     search_term = self.request.query_params.get('search_term', '')
     
@@ -93,53 +65,17 @@ class KoreanWordList(generics.ListAPIView):
   
 # Returns all data associated with a KoreanWord given a primary key.
 class KoreanWordDetail(generics.RetrieveAPIView):
-  queryset = KoreanWord.objects.all()
   serializer_class = KoreanWordDetailedSerializer
 
-def get_nouns_verbs(sentence):
+  def get_queryset(self):
+    queryset = None
+    if self.request.user:
+      queryset = remove_non_user_additions(KoreanWord.objects.all(), self.request.user.pk)
+    else:
+      queryset = remove_all_user_additions(KoreanWord.objects.all())
 
-  def accept_pos(str):
-    return str.startswith("N") or str.startswith("V") or str.startswith("M") or str == "XR" or str == "XSA" or str == "OL"
+    return queryset
   
-  def is_verb(str):
-    return str.startswith("V")
-  
-  def is_어근_followed_by_deriv_suffix(str1, str2):
-    return (str1 == "XR" or str1 == 'NNG') and str2 == "XSA"
-
-  kkma = Kkma()
-  analysis = kkma.pos(sentence)
-
-  accepted_lemmas = [item for item in analysis if accept_pos(item[1])]
-  num_accepted_lemmas = len(accepted_lemmas)
-  return_list = []
-
-  for i in range(0, num_accepted_lemmas):
-    
-    if i != (num_accepted_lemmas - 1) and \
-              is_어근_followed_by_deriv_suffix(accepted_lemmas[i][1], accepted_lemmas[i+1][1]):
-
-      return_list.append((accepted_lemmas[i][0] + accepted_lemmas[i+1][0], 'V'))
-    
-    elif not accepted_lemmas[i][1] == 'XSA':
-      return_list.append(accepted_lemmas[i])
-
-  return (return_list, analysis)
-  
-def get_hanja_if_in_original(found_word, original_string):
-
-  regex = r'\([\u4e00-\u9fff]+\)'
-  pattern = re.compile(regex)
-
-  match = pattern.search(original_string)
-  if match:
-      hanja_word = match.group()[1:-1]
-      if KoreanWord.objects.filter(word__exact = found_word).filter(origin__exact = hanja_word).exists():
-        return hanja_word
-      return None
-  
-  return None
-
 class KoreanWordAnalyze(APIView):
   serializer_class = NLPRequestValidator
   # in this file because the user's data does not impact this. however, it will need to be
@@ -216,6 +152,18 @@ class KoreanWordAnalyze(APIView):
           return_word = original_inner_strings[
             number_words.index(return_word.replace(dummy_string, ''))
           ]
+
+        def get_hanja_if_in_original(found_word, original_string):
+
+          regex = r'\([\u4e00-\u9fff]+\)'
+          pattern = re.compile(regex)
+
+          match = pattern.search(original_string)
+          if match:
+              hanja_word = match.group()[1:-1]
+              if KoreanWord.objects.filter(word__exact = found_word).filter(origin__exact = hanja_word).exists():
+                return hanja_word
+              return None
         
         hanja = get_hanja_if_in_original(return_word, mouse_over)
 
@@ -337,10 +285,14 @@ class HanjaExamples(generics.ListAPIView):
   def get_queryset(self):
     character = self.request.query_params.get('character')
 
-    queryset = KoreanWord.objects.all()
-    queryset = queryset.filter(origin__contains = character)
+    queryset = None
+    
     if self.request.user.is_authenticated:
+      queryset = remove_non_user_additions(KoreanWord.objects.all(), allowed_user=self.request.user.pk)
       queryset = prioritize_known_or_studying(queryset=queryset, user=self.request.user)
+    else:
+      queryset = remove_all_user_additions(KoreanWord.objects.all())
+      queryset = queryset.filter(origin__contains = character)
     
     return queryset
 
@@ -357,13 +309,17 @@ class HanjaPopup(APIView):
       meaning_reading = None
 
     num_results = 10
+    
     queryset = KoreanWord.objects.all()
     queryset = queryset.filter(origin__contains = character)
     
     if self.request.user.is_authenticated:
+      queryset = remove_non_user_additions(queryset=queryset, allowed_user=self.request.user.pk)
       queryset = prioritize_known_or_studying(queryset=queryset, user=self.request.user)
     else:
+      queryset = remove_all_user_additions(queryset=queryset)
       queryset = queryset.order_by(Length("word").asc())
+
     queryset = queryset[:num_results]
     
     serialized_words = KoreanSerializerForHanja(queryset, many = True).data

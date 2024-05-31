@@ -49,23 +49,30 @@ const SenseRelationInfo = ({ relationInfo }) => {
                                                     key={innerIndex}
                                                 >
                                                     <span
-                                                        className="clickable-result"
-                                                        key={innerIndex}
-                                                        onClick={() =>
-                                                            updateViewAndPushToHistory(
-                                                                {
-                                                                    view: "detail_korean",
-                                                                    value: filteredRelation.link_target_code,
-                                                                    searchBarInitialState:
-                                                                        {
-                                                                            boxContent:
-                                                                                filteredRelation.word,
-                                                                            dictionary:
-                                                                                "korean",
-                                                                        },
-                                                                }
-                                                            )
+                                                        className={
+                                                            filteredRelation.link_target_code
+                                                                ? "clickable-result"
+                                                                : ""
                                                         }
+                                                        key={innerIndex}
+                                                        onClick={() => {
+                                                            if (
+                                                                filteredRelation.link_target_code
+                                                            )
+                                                                updateViewAndPushToHistory(
+                                                                    {
+                                                                        view: "detail_korean",
+                                                                        value: filteredRelation.link_target_code,
+                                                                        searchBarInitialState:
+                                                                            {
+                                                                                boxContent:
+                                                                                    filteredRelation.word,
+                                                                                dictionary:
+                                                                                    "korean",
+                                                                            },
+                                                                    }
+                                                                );
+                                                        }}
                                                     >
                                                         {filteredRelation.word}
                                                     </span>

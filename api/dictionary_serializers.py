@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from api.util import remove_all_user_additions, remove_non_user_additions
 from .dictionary_models import KoreanWord, Sense, HanjaCharacter
 
 class KoreanWordSerializer(serializers.ModelSerializer):
@@ -30,7 +32,13 @@ class KoreanWordSerializer(serializers.ModelSerializer):
   def get_kw_senses(self, obj):
     # filter out whenever order is greater than 0 to eliminate
     # dummy senses used just for keeping examples. (which are saved as order=0)
-    first_five = obj.senses.all().filter(order__gt = 0).order_by('order')[:5]
+    sense_queryset = obj.senses.all()
+    if self.context['request'].user.is_authenticated:
+      sense_queryset = remove_non_user_additions(queryset=sense_queryset, allowed_user=self.context['request'].user.pk)
+    else:
+      sense_queryset = remove_all_user_additions(queryset=sense_queryset)
+
+    first_five = sense_queryset.filter(order__gt = 0).order_by('order')[:5]
     sense_serializer = SimplifiedSenseSerializer(first_five, many=True)
     return sense_serializer.data
 
@@ -56,7 +64,13 @@ class KoreanWordDetailedSerializer(serializers.ModelSerializer):
     return None
 
   def get_senses(self, obj):
-    senses = obj.senses.all().order_by('order')
+    sense_queryset = obj.senses.all()
+    if self.context['request'].user.is_authenticated:
+      sense_queryset = remove_non_user_additions(queryset=sense_queryset, allowed_user=self.context['request'].user.pk)
+    else:
+      sense_queryset = remove_all_user_additions(queryset=sense_queryset)
+
+    senses = sense_queryset.order_by('order')
     sense_serializer = SenseSerializer(senses, many = True)
     return sense_serializer.data
 

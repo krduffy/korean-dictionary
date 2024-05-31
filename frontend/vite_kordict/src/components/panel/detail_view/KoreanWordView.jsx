@@ -17,7 +17,7 @@ import "./styles/korean-word-view-styles.css";
 
 const KoreanWordView = ({ targetCode }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
-    const { apiFetch, loading, error } = useAPIFetcher();
+    const { apiFetch, loading, error, response } = useAPIFetcher();
     const [wordData, setWordData] = useState({});
     const updateViewAndPushToHistory =
         useContext(ViewContext)["updateViewAndPushToHistory"];
@@ -36,7 +36,7 @@ const KoreanWordView = ({ targetCode }) => {
             {loading ? (
                 <LoadingMessage />
             ) : error ? (
-                <ErrorMessage errorStrings={error} />
+                <ErrorMessage errorResponse={response} />
             ) : (
                 <div className="korean-word-view">
                     <span className="word-header">
