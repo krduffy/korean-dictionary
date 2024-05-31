@@ -1,10 +1,13 @@
 import { useState } from "react";
 
 export function useAPIFetcher() {
+    const BASE_URL = "http://127.0.0.1:8000/";
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const apiFetch = (url, token, setStateHook) => {
+        url = BASE_URL + url;
         setLoading(true);
         setError(null);
 

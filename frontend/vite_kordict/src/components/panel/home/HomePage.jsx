@@ -25,7 +25,7 @@ const HomePage = ({ initialSeed }) => {
     useEffect(() => {
         if (authInfo["token"]) {
             apiFetch(
-                `http://127.0.0.1:8000/api/homepage_info/?seed=${seed}`,
+                `api/homepage_info/?seed=${seed}`,
                 authInfo["token"],
                 setHomepageData
             );

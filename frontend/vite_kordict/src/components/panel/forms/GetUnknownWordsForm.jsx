@@ -39,7 +39,7 @@ const GetUnknownWordsForm = () => {
 
     const handleSubmit = () => {
         apiModify(
-            "http://127.0.0.1:8000/api/user_unknown_words/",
+            "api/user_unknown_words/",
             authInfo["token"],
             formData,
             "POST"

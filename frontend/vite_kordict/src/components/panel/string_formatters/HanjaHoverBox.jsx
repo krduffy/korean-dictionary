@@ -15,8 +15,7 @@ const HanjaHoverBox = ({ character, x, y }) => {
 
     useEffect(() => {
         const apiUrl = apiFetch(
-            `http://127.0.0.1:8000/api/hanja_popup_view/?` +
-                `character=${character}`,
+            `api/hanja_popup_view/?` + `character=${character}`,
             authInfo["token"],
             setHoverBoxData
         );

@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 export const useAPIModifier = (initialFormData) => {
+    const BASE_URL = "http://127.0.0.1:8000/";
+
     const [successful, setSuccessful] = useState(false);
     const [response, setResponse] = useState(null);
     const [error, setError] = useState(false);
@@ -14,6 +16,8 @@ export const useAPIModifier = (initialFormData) => {
     };
 
     const apiModify = (url, token, body, method) => {
+        url = BASE_URL + url;
+
         setSuccessful(false);
         setError(false);
 

@@ -126,11 +126,11 @@ const WordWithNLP = ({ word, fullSentence }) => {
         useContext(ViewContext)["updateViewAndPushToHistory"];
 
     const fixBoxXToScreen = (x) => {
-        return x > window.innerWidth / 2 ? x - 220 : x + 20;
+        return x > window.innerWidth / 2 ? x - 50 : x + 50;
     };
 
     const fixBoxYToScreen = (y) => {
-        return y > window.innerHeight / 2 ? y - 220 : y + 20;
+        return y > window.innerHeight / 2 ? y - 50 : y + 50;
     };
 
     const handleClick = (e) => {
@@ -138,7 +138,7 @@ const WordWithNLP = ({ word, fullSentence }) => {
         setMousePosition({ x: e.clientX, y: e.clientY });
 
         apiModify(
-            "http://127.0.0.1:8000/api/korean_word_lemma/",
+            "api/korean_word_lemma/",
             authInfo["token"],
             formData,
             "POST"

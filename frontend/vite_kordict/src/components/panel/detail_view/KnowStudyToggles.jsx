@@ -44,7 +44,7 @@ const KnownOrUnknownView = ({ targetCode, initiallyKnown }) => {
         const method = wordIsKnown ? "DELETE" : "PUT";
 
         apiModify(
-            `http://127.0.0.1:8000/api/toggle_word_known/${targetCode}`,
+            `api/toggle_word_known/${targetCode}`,
             authInfo["token"],
             "",
             method
@@ -100,7 +100,7 @@ const StudiedOrNotStudiedView = ({ targetCode, initiallyStudied }) => {
     const handleClick = () => {
         const method = wordIsStudied ? "DELETE" : "PUT";
         apiModify(
-            `http://127.0.0.1:8000/api/toggle_word_studied/${targetCode}`,
+            `api/toggle_word_studied/${targetCode}`,
             authInfo["token"],
             "",
             method

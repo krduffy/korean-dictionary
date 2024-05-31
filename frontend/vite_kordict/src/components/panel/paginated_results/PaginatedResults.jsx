@@ -32,17 +32,17 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
 
         if (searchType === "search_korean") {
             apiUrl =
-                `http://127.0.0.1:8000/api/korean_word/?` +
+                `api/korean_word/?` +
                 `page=${currentPage}&` +
                 `search_term=${searchTerm}`;
         } else if (searchType === "search_hanja") {
             apiUrl =
-                `http://127.0.0.1:8000/api/hanja_char/?` +
+                `api/hanja_char/?` +
                 `page=${currentPage}&` +
                 `search_term=${searchTerm}&`;
         } else if (searchType === "search_hanja_examples") {
             apiUrl =
-                `http://127.0.0.1:8000/api/hanja_examples/?` +
+                `api/hanja_examples/?` +
                 `page=${currentPage}&` +
                 `character=${searchTerm}`;
         }

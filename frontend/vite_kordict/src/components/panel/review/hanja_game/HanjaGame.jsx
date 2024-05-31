@@ -39,7 +39,7 @@ const HanjaGame = () => {
 
     const generateGame = () => {
         apiFetch(
-            `http://127.0.0.1:8000/api/hanja_game_info/?length=${currentGameLength}&seed=${randomSeed}`,
+            `api/hanja_game_info/?length=${currentGameLength}&seed=${randomSeed}`,
             authInfo["token"],
             setCurrentGameData
         );

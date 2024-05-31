@@ -21,7 +21,7 @@ const EditWordForm = ({ targetCode }) => {
 
     useEffect(() => {
         apiFetch(
-            `http://127.0.0.1:8000/api/korean_word/${targetCode}`,
+            `api/korean_word/${targetCode}`,
             authInfo["token"],
             setWordData
         );

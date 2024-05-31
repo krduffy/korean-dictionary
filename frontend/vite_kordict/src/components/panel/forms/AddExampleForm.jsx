@@ -48,12 +48,7 @@ const AddExampleForm = ({ wordTargetCode, initiallyExistingExamples }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        apiModify(
-            "http://127.0.0.1:8000/api/create_sense/",
-            authInfo["token"],
-            formData,
-            "POST"
-        );
+        apiModify("api/create_sense/", authInfo["token"], formData, "POST");
     };
 
     useEffect(() => {

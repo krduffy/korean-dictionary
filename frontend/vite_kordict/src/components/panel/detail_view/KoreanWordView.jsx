@@ -27,11 +27,7 @@ const KoreanWordView = ({ targetCode }) => {
     };
 
     useEffect(() => {
-        apiFetch(
-            `http://127.0.0.1:8000/api/korean_word/${targetCode}`,
-            authInfo["token"],
-            setData
-        );
+        apiFetch(`api/korean_word/${targetCode}`, authInfo["token"], setData);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [targetCode]);
 

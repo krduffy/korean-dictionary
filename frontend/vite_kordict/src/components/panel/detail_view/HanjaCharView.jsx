@@ -21,11 +21,7 @@ const HanjaCharView = ({ hanjaChar }) => {
     const { apiFetch, loading, error } = useAPIFetcher();
 
     useEffect(() => {
-        apiFetch(
-            `http://127.0.0.1:8000/api/hanja_char/${hanjaChar}`,
-            authInfo["token"],
-            setCharData
-        );
+        apiFetch(`api/hanja_char/${hanjaChar}`, authInfo["token"], setCharData);
     }, [hanjaChar]);
 
     return (
