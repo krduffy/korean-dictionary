@@ -12,10 +12,7 @@ import UsableCharactersBoard from "./UsableCharactersBoard.jsx";
 
 const HanjaGame = () => {
     const [currentGameData, setCurrentGameData] = useState({});
-    {
-        /* 7 is a good length */
-    }
-    const [currentGameLength, setCurrentGameLength] = useState(3);
+    const [currentGameLength, setCurrentGameLength] = useState(4);
     const [randomSeed, setRandomSeed] = useState(
         Math.floor(Math.random() * 1000000)
     );
@@ -54,23 +51,32 @@ const HanjaGame = () => {
     }, []);
 
     return (
-        <div className="hanja-game-container">
-            {loading ? (
-                <LoadingMessage />
-            ) : (
-                currentGameData &&
-                currentGameData["supplied_characters"] && (
-                    <div className="game-boards">
-                        <UsableCharactersBoard
-                            charactersList={
-                                currentGameData["supplied_characters"]
-                            }
-                        />
-                        <ConnectionBoard rows={connectionRows} />
-                    </div>
-                )
-            )}
-        </div>
+        <DndProvider backend={HTML5Backend}>
+            <div className="hanja-game-container">
+                {loading ? (
+                    <LoadingMessage />
+                ) : (
+                    currentGameData &&
+                    currentGameData["supplied_characters"] && (
+                        <div className="game-container">
+                            <div className="game-top">
+                                <UsableCharactersBoard
+                                    charactersList={
+                                        currentGameData["supplied_characters"]
+                                    }
+                                />
+                            </div>
+                            <div className="game-bottom">
+                                <ConnectionBoard
+                                    rows={connectionRows}
+                                    updateRowCol={updateRowCol}
+                                />
+                            </div>
+                        </div>
+                    )
+                )}
+            </div>
+        </DndProvider>
     );
 };
 

@@ -18,14 +18,19 @@ import math
 
 from konlpy.tag import Kkma
 
-def get_rel_index(target_code, seed):
-  # Need the randomness to remain a database operation. So using random cannot work.
-  # Using .order_by('?') is also not idempotent; needs to remain same even on rerenders
-  # of the homepage component with the same seed
-  x = (seed - target_code) % 1000
-  return x * x
+def remove_non_user_words(queryset, allowed_user):
+  queryset = queryset.filter(creator=None) | queryset.filter(creator=allowed_user)
+  return queryset
 
 def reorder_queryset_with_seed(queryset, seed):
+
+  def get_rel_index(target_code, seed):
+    # Need the randomness to remain a database operation. So using random cannot work.
+    # Using .order_by('?') is also not idempotent; needs to remain same even on rerenders
+    # of the homepage component with the same seed
+    x = (seed - target_code) % 1000
+    return x * x
+
   queryset = queryset.annotate(
     rel_index = ExpressionWrapper(get_rel_index(F('target_code'), seed), output_field=IntegerField()),
   )
@@ -230,16 +235,11 @@ class HomepageInfoView(APIView):
       'random_study_words': random_study_words,
     })
 
-def get_path_of_length(request, length, seed):
+def get_path_of_length(queryset, length, request):
   # Finds a path that the user can take to solve the game.
     
     # get list of (only) hanja words that the user knows;
     # regex gets words with at least 2 characters
-    regex = r'[\u4e00-\u9fff]{2,}'
-    all_known_words = request.user.known_words.all().filter(origin__iregex = regex)
-
-    all_known_words = reorder_queryset_with_seed(all_known_words, seed)
-
     hanja_path = []
     # Hanja path in the form of [[character, word to connect this], 
     # [next character, next word]] etc. So an example would be
@@ -285,7 +285,7 @@ def get_path_of_length(request, length, seed):
       if regex == "":
         regex = '.*'
 
-      working_set = all_known_words.filter(origin__iregex = regex)
+      working_set = queryset.filter(origin__iregex = regex)
 
       # DEBUG
 
@@ -374,14 +374,20 @@ class HanjaGameView(APIView):
 
     # difficulty can only be 'desired'. it is not guaranteed because there is no way to know
     # which words the user specifically knows; it is possible for every attempt to create a good
-    # path to be only 1 word long, in which case 
+    # path to be only 1 word long, in which case
     length = int(self.request.query_params.get('length', 3))
     seed = int(self.request.query_params.get('seed', 1000))
 
     hanja_path = []
 
     # do the generation
-    hanja_path = get_path_of_length(request, length=length, seed=seed)
+    all_known_words = request.user.known_words.all()
+
+    valid_regex = r'^[\u4e00-\u9fff]{2,}$'
+    valid_known_words = all_known_words.filter(origin__iregex = valid_regex)
+
+    valid_known_words = reorder_queryset_with_seed(valid_known_words, seed)
+    hanja_path = get_path_of_length(queryset=valid_known_words, length=length, request=self.request)
     
     #TODO handle hanja_path is None
 
@@ -406,9 +412,8 @@ class HanjaGameView(APIView):
 
     num_supplied_characters = len(supplied_characters)
     num_supplied_needed = 16
+    
     if num_supplied_characters < num_supplied_needed:
-      regex = r'[\u4e00-\u9fff][\u4e00-\u9fff]'
-      all_known_words = request.user.known_words.all().filter(origin__iregex = regex).order_by('?')
       index = 0
 
       while num_supplied_characters < num_supplied_needed and index < len(all_known_words):
@@ -419,7 +424,32 @@ class HanjaGameView(APIView):
               supplied_characters.append(character)
         index += 1
 
-    random.shuffle(supplied_characters)
+    def reorder(list, seed):
+      # this is only meant for lists of length not more than 16
+      new_list = ['' for _ in range (0, len(list))]
+      used = []
+      
+      a = (seed >> 10) & 31
+      b = (seed >> 5) & 31
+      c = (seed) & 31
+      const = seed % 15
+      
+      def new_index(original_index):
+        new = ((original_index - a) * (original_index - b) * (original_index - c) + const) % 15
+        while new in used:
+          new += 1
+          if new > len(list) - 1:
+            new = 0
+        used.append(new)
+        return new
+    
+      for i in range(0, len(list)):
+        new_list[new_index(i)] = list[i]
+
+      print(used)
+      return new_list
+
+    supplied_characters = reorder(supplied_characters, seed)
 
     for i in range(0, num_requirements):
       required_characters.append(random.sample(selected[i]["example_word"]["kw_origin"], k=1))

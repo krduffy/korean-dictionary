@@ -24,6 +24,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: grab;
 }
 
 .character-square-right-side {
@@ -63,17 +64,62 @@
     grid-template-columns: repeat(auto-fill, minmax(21%, 1fr));
     gap: 2%;
     box-sizing: border-box;
-    border: 2px solid white;
-    width: 50%;
+    border: 1px solid white;
+    width: 40%;
     padding: 10px;
     margin-top: 20px;
+    padding-bottom: 20px;
 }
 
 .connection-square {
+    border: 1px white solid;
+    aspect-ratio: 1;
+    padding: 5px;
+    position: relative;
+}
+
+.connection-square-character {
     text-align: center;
     vertical-align: middle;
-    border: 1px white solid;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    padding: 5px;
+    font-size: 24px;
+    width: 100%;
+    display: inline-block;
+}
+
+.clear-connection-square-button {
+    cursor: pointer;
+    width: 25%;
+    aspect-ratio: 1;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+    background-color: transparent;
+    overflow: hidden;
+    text-align: center;
+    font-size: xx-small;
+    z-index: 100;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    border: none;
+}
+
+.clear-connection-square-button:hover {
+    color: red;
+}
+
+.game-boards {
+    height: 100%;
+    width: 100%;
+}
+
+.game-top {
+    height: 30%;
+    width: 100%;
+}
+
+.game-bottom {
+    height: 70%;
+    width: 100%;
 }
