@@ -16,10 +16,12 @@ urlpatterns = [
   path('update_word/<pk>', UpdateWordView.as_view()),
   path('toggle_word_known/<pk>', ToggleWordKnownView.as_view()),
   path('toggle_word_studied/<pk>', ToggleWordStudiedView.as_view()),
+  
   path('create_sense/', CreateSenseView.as_view()),
-  path('update_sense/<pk>', UpdateSenseView.as_view()),
+  path('delete_sense/<pk>', DeleteSenseView.as_view()),
+  
   path('create_note/', CreateNoteView.as_view()),
-  path('update_note/<pk>', UpdateNoteView.as_view()),
+  #path('delete_note/<pk>', DeleteNoteView.as_view()),
 
   path('homepage_info/', HomepageInfoView.as_view()),
   path('user_known_words/', UserKnownWords.as_view()),

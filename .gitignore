@@ -4,3 +4,4 @@ db.sqlite3
 /venv
 *.env
 /api/management/dict_files
+/user_note_images

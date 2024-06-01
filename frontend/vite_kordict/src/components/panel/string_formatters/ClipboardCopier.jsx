@@ -42,7 +42,11 @@ const ClipboardCopier = ({ string }) => {
             ) : showError ? (
                 <span className="x-symbol">✗</span>
             ) : (
-                <span className="clipboard-symbol" onClick={handleClick}>
+                <span
+                    className="clipboard-symbol"
+                    onClick={handleClick}
+                    title="복사"
+                >
                     🗐
                 </span>
             )}

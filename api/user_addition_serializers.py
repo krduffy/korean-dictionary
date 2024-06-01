@@ -25,7 +25,6 @@ class UserField(serializers.PrimaryKeyRelatedField):
         except DictionaryUser.DoesNotExist:
             return None
 
-
 class UserWordSerializer(serializers.Serializer):
   word = serializers.CharField(
         max_length=100, 
@@ -100,15 +99,22 @@ class UserSenseSerializer(serializers.Serializer):
         for field_name in ['type', 'category', 'pos', 'additional_info']:
             self.fields[field_name].required = False
 
-
-class UserNoteSerializer(serializers.Serializer):
-  word_ref = KoreanWordField(queryset = KoreanWord.objects.all())
+class UserNoteSerializer(serializers.ModelSerializer):
+  word_ref = KoreanWordField(queryset=KoreanWord.objects.all())
+  note_image = serializers.ImageField(required=False)
   order = serializers.IntegerField()
-  note_text = serializers.CharField(max_length = 1000)
-  
+  note_text = serializers.CharField()
+  creator = UserField(queryset = DictionaryUser.objects.all())
+
   class Meta:
     model = UserNote
-    fields = ['word_ref', 'order', 'note_text']
+    fields = ['word_ref', 'order', 'note_text', 'note_image', 'creator']
 
   def create(self, validated_data):
     return UserNote.objects.create(**validated_data)
+  
+  def validate_note_image(self, value):
+    valid_image_types = ['image/jpeg', 'image/png', 'image/gif']
+    if value and value.content_type not in valid_image_types:
+        raise serializers.ValidationError("Please upload a valid image file (JPEG, PNG, GIF).")
+    return value

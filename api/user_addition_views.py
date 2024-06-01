@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
@@ -11,6 +12,7 @@ from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 import random
 from django.db import transaction
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from .util import reorder_queryset_with_seed, get_nouns_verbs 
 
@@ -20,14 +22,16 @@ class PaginationClass(PageNumberPagination):
 
 class CreateNoteView(APIView):
   permission_classes = (IsAuthenticated,)
+  parser_classes = (MultiPartParser, FormParser,)
 
   def post(self, request):
-    serializer = UserNoteSerializer(data = request.data)
+    data = request.data
+    data['creator'] = request.user.pk
+    serializer = UserNoteSerializer(data=data, context={'request': request})
     if serializer.is_valid():
       serializer.save()
       return Response(serializer.data, status=status.HTTP_201_CREATED)
-    else:
-      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CreateWordView(APIView):
 
@@ -48,6 +52,7 @@ class CreateSenseView(APIView):
 
   def post(self, request):
     data = request.data
+    print(data)
     data['creator'] = request.user.pk
     serializer = UserSenseSerializer(data = data, context={'request': request})
     if serializer.is_valid():
@@ -67,6 +72,25 @@ class CreateSenseView(APIView):
           return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteSenseView(APIView):
+
+  permission_classes = (IsAuthenticated,)
+
+  def delete(self, request, pk):
+    
+    senses = Sense.objects.all().filter(pk = pk)
+    if not senses.exists():
+      return Response({"error": "삭제할 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+    
+    sense = senses.first()
+
+    if sense.creator is None or sense.creator != request.user:
+      return Response({"error": "삭제할 수 없습니다."}, status=status.HTTP_403_FORBIDDEN)
+    
+    with transaction.atomic():
+      sense.delete()
+      return Response({"message": "삭제가 성공했습니다."}, status=status.HTTP_204_NO_CONTENT)
 
 class UpdateWordView(UpdateAPIView):
   permission_classes = (IsAuthenticated,)
@@ -426,6 +450,8 @@ class HanjaGameView(APIView):
       print(used)
       return new_list
 
+    # done twice to promote more separation of the generated path's characters (?)
+    #supplied_characters = reorder(reorder(supplied_characters, seed), seed * 2 + seed)
     supplied_characters = reorder(supplied_characters, seed)
 
     for i in range(0, num_requirements):

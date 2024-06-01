@@ -24,7 +24,7 @@ const AddExampleForm = ({ wordTargetCode, initiallyExistingExamples }) => {
         response,
         error,
         loading,
-    } = useAPIModifier({
+    } = useAPIModifier(false, {
         referent: wordTargetCode,
         definition: "정의", // will not be rendered in sense view component because order is 0
         additional_info: {

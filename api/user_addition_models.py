@@ -4,7 +4,7 @@ from dictionary_users.models import DictionaryUser
 
 def get_image_path(instance, filename):
   # example path may be MEDIAROOT/userid_1/myimage.png
-  return f'userid_{instance.creator.id}/{filename}'
+  return f'userid_{instance.creator_id}/{filename}'
 
 class UserNote(models.Model):
   id = models.BigAutoField(primary_key=True)

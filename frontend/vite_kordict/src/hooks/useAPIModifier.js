@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const useAPIModifier = (initialFormData) => {
+export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
     const BASE_URL = "http://127.0.0.1:8000/";
 
     const [successful, setSuccessful] = useState(false);
@@ -8,10 +8,28 @@ export const useAPIModifier = (initialFormData) => {
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const [formData, setFormData] = useState(initialFormData);
+    const [formData, setFormData] = useState(
+        useFormDataObject ? new FormData() : initialJSONObject
+    );
+
     const updateFormDataField = (field, value) => {
-        let newFormData = { ...formData };
-        newFormData[field] = value;
+        let newFormData = useFormDataObject ? new FormData() : {};
+
+        if (useFormDataObject) {
+            for (const key of formData.keys()) {
+                newFormData.set(key, formData.get(key));
+            }
+        } else {
+            newFormData = { ...formData };
+        }
+
+        if (useFormDataObject) {
+            newFormData.set(field, value);
+        } else {
+            newFormData[field] = value;
+        }
+
+        console.log(newFormData);
         setFormData(newFormData);
     };
 
@@ -23,17 +41,21 @@ export const useAPIModifier = (initialFormData) => {
 
         setLoading(true);
 
-        const headers = token
-            ? {
-                  "Content-Type": "application/json",
-                  Authorization: `Token ${token}`,
-              }
-            : { "Content-Type": "application/json" };
+        let headers = new Headers();
+
+        if (token) {
+            headers.append("Authorization", `Token ${token}`);
+        }
+
+        if (!useFormDataObject) {
+            body = JSON.stringify(body);
+            headers.append("Content-Type", "application/json");
+        }
 
         fetch(url, {
             method: method,
+            body: body,
             headers: headers,
-            body: JSON.stringify(body),
         }).then((response) => {
             response
                 .text()

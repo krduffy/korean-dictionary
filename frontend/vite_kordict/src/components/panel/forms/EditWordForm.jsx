@@ -8,6 +8,7 @@ import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 import { AuthenticationInfoContext } from "../../../App.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import AddExampleForm from "./AddExampleForm.jsx";
+import UpdateNoteForm from "./UpdateNoteForm.jsx";
 
 import "./form-styles.css";
 
@@ -57,6 +58,11 @@ const EditWordForm = ({ targetCode }) => {
                     <AddExampleForm
                         wordTargetCode={targetCode}
                         initiallyExistingExamples={initiallyExistingExamples}
+                    />
+
+                    <UpdateNoteForm
+                        wordTargetCode={targetCode}
+                        numInitiallyExistingNotes={0}
                     />
                     {/*
           <div className="senses-container">
