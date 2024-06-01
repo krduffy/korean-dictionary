@@ -84,6 +84,22 @@ class KoreanWordAnalyze(APIView):
 
   def post(self, request):
 
+    # this is called to ensure that if something like 공자(孔子) the analysis will return
+    # 孔子 instead of 공자 in general. Because there are so many 동음이의어 in korean, this
+    # is more convenient for the user so that they do not have to scroll through results
+    # to get to the correct one if the string itself specifies a hanja origin.
+    def get_hanja_if_in_original(found_word, original_string):
+
+      regex = r'\([\u4e00-\u9fff]+\)'
+      pattern = re.compile(regex)
+
+      match = pattern.search(original_string)
+      if match:
+        hanja_word = match.group()[1:-1]
+        if KoreanWord.objects.filter(word__exact = found_word).filter(origin__exact = hanja_word).exists():
+          return hanja_word
+        return None
+
     serializer = self.serializer_class(data=request.data)
 
     if serializer.is_valid(raise_exception=True):
@@ -152,18 +168,6 @@ class KoreanWordAnalyze(APIView):
           return_word = original_inner_strings[
             number_words.index(return_word.replace(dummy_string, ''))
           ]
-
-        def get_hanja_if_in_original(found_word, original_string):
-
-          regex = r'\([\u4e00-\u9fff]+\)'
-          pattern = re.compile(regex)
-
-          match = pattern.search(original_string)
-          if match:
-              hanja_word = match.group()[1:-1]
-              if KoreanWord.objects.filter(word__exact = found_word).filter(origin__exact = hanja_word).exists():
-                return hanja_word
-              return None
         
         hanja = get_hanja_if_in_original(return_word, mouse_over)
 
@@ -289,6 +293,7 @@ class HanjaExamples(generics.ListAPIView):
     
     if self.request.user.is_authenticated:
       queryset = remove_non_user_additions(KoreanWord.objects.all(), allowed_user=self.request.user.pk)
+      queryset = queryset.filter(origin__contains = character)
       queryset = prioritize_known_or_studying(queryset=queryset, user=self.request.user)
     else:
       queryset = remove_all_user_additions(KoreanWord.objects.all())
@@ -296,9 +301,15 @@ class HanjaExamples(generics.ListAPIView):
     
     return queryset
 
+  def get_serializer_context(self):
+    context = super().get_serializer_context()
+    context['request'] = self.request
+    return context
+
 # Returns the data shown when hovering over a Hanja character.  
 class HanjaPopup(APIView):
 
+  # request and format are not used but this will break if they are removed.
   def get(self, request, format=None):
     character = self.request.query_params.get('character')
     meaning_reading = None
@@ -322,7 +333,7 @@ class HanjaPopup(APIView):
 
     queryset = queryset[:num_results]
     
-    serialized_words = KoreanSerializerForHanja(queryset, many = True).data
+    serialized_words = KoreanSerializerForHanja(queryset, many = True, context={'request': self.request}).data
 
     return Response({
       "meaning_reading": meaning_reading,

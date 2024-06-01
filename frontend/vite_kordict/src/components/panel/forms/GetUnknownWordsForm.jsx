@@ -75,7 +75,12 @@ const GetUnknownWordsForm = () => {
                 ></textarea>
                 <div className="input-button-container">
                     <button
-                        onClick={handleSubmit}
+                        onClick={() => {
+                            if (!loading) {
+                                handleSubmit();
+                            }
+                        }}
+                        style={{ cursor: loading ? "not-allowed" : "pointer" }}
                         className="find-words-button"
                     >
                         분석

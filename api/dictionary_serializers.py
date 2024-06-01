@@ -118,8 +118,16 @@ class KoreanSerializerForHanja(serializers.ModelSerializer):
     read_only_fields = ['__all__']
 
   def get_kw_first_definition(self, obj):
-    first = obj.senses.all().order_by('order')[0]
-    return first.definition
+    sense_queryset = obj.senses.all()
+    print(self.context)
+    if self.context['request'].user.is_authenticated:
+      sense_queryset = remove_non_user_additions(queryset=sense_queryset, allowed_user=self.context['request'].user.pk)
+    else:
+      sense_queryset = remove_all_user_additions(queryset=sense_queryset)
+
+    first = sense_queryset.filter(order__gt = 0).order_by('order')[0]
+
+    return first.definition if first is not None else "정의는 아직 추가하지 않으셨습니다."
   
 class HanjaGameWordSerializer(serializers.Serializer):
   kw_target_code = serializers.IntegerField(source='target_code', default = None)
