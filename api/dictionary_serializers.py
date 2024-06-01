@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from api.util import remove_all_user_additions, remove_non_user_additions
 from .dictionary_models import KoreanWord, Sense, HanjaCharacter
+from .user_addition_serializers import UserNoteSerializer
 
 class KoreanWordSerializer(serializers.ModelSerializer):
   kw_target_code = serializers.IntegerField(source='target_code', default = None)
@@ -45,6 +46,7 @@ class KoreanWordSerializer(serializers.ModelSerializer):
 class KoreanWordDetailedSerializer(serializers.ModelSerializer):
   senses = serializers.SerializerMethodField()
   user_data = serializers.SerializerMethodField()
+  notes = serializers.SerializerMethodField()
 
   class Meta:
     model = KoreanWord
@@ -73,6 +75,16 @@ class KoreanWordDetailedSerializer(serializers.ModelSerializer):
     senses = sense_queryset.order_by('order')
     sense_serializer = SenseSerializer(senses, many = True)
     return sense_serializer.data
+  
+  def get_notes(self, obj):
+    
+    if self.context['request'].user.is_authenticated:
+      note_queryset = obj.user_notes.all()
+      notes = remove_non_user_additions(queryset = note_queryset, allowed_user=self.context['request'].user.pk)
+      note_serializer = UserNoteSerializer(notes, many = True)
+      return note_serializer.data
+    else:
+      return []
 
 class NLPRequestValidator(serializers.Serializer):
   sentence = serializers.CharField(required = True)

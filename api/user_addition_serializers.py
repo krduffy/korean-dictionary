@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .user_addition_models import UserNote
 from .dictionary_models import KoreanWord, Sense
-from .dictionary_serializers import KoreanWordDetailedSerializer
 from dictionary_users.models import DictionaryUser
 from dictionary_users.serializers import UserSerializer
 
@@ -10,8 +9,10 @@ class KoreanWordField(serializers.PrimaryKeyRelatedField):
         pk = super(KoreanWordField, self).to_representation(value)
         try:
             item = KoreanWord.objects.get(pk=pk)
-            serializer = KoreanWordDetailedSerializer(item, context=self.context)
-            return serializer.data
+            return {
+               "word": item.word,
+               "target_code": pk,
+            }
         except KoreanWord.DoesNotExist:
             return None
     
@@ -99,7 +100,7 @@ class UserSenseSerializer(serializers.Serializer):
         for field_name in ['type', 'category', 'pos', 'additional_info']:
             self.fields[field_name].required = False
 
-class UserNoteSerializer(serializers.ModelSerializer):
+class UserNoteValidator(serializers.ModelSerializer):
   word_ref = KoreanWordField(queryset=KoreanWord.objects.all())
   note_image = serializers.ImageField(required=False)
   order = serializers.IntegerField()
@@ -118,3 +119,9 @@ class UserNoteSerializer(serializers.ModelSerializer):
     if value and value.content_type not in valid_image_types:
         raise serializers.ValidationError("Please upload a valid image file (JPEG, PNG, GIF).")
     return value
+  
+class UserNoteSerializer(serializers.ModelSerializer):
+   class Meta:
+    model = UserNote
+    fields = '__all__'
+    read_only_fields = ['__all__']

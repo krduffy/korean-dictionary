@@ -4,7 +4,7 @@ from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from .user_addition_models import UserNote
-from .user_addition_serializers import UserNoteSerializer, UserSenseSerializer, UserWordSerializer
+from .user_addition_serializers import UserNoteValidator, UserSenseSerializer, UserWordSerializer
 from .dictionary_models import HanjaCharacter, KoreanWord, Sense
 from .dictionary_serializers import HanjaCharacterSerializer, KoreanWordSerializer, SenseSerializer, KoreanSerializerForHanja, HanjaGameWordSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -27,7 +27,7 @@ class CreateNoteView(APIView):
   def post(self, request):
     data = request.data
     data['creator'] = request.user.pk
-    serializer = UserNoteSerializer(data=data, context={'request': request})
+    serializer = UserNoteValidator(data=data, context={'request': request})
     if serializer.is_valid():
       serializer.save()
       return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -175,7 +175,7 @@ class UpdateNoteView(UpdateAPIView):
   permission_classes = (IsAuthenticated,)
 
   queryset = UserNote.objects.all()
-  serializer_class = UserNoteSerializer
+  serializer_class = UserNoteValidator
 
 class UserKnownWords(generics.ListAPIView):
   permission_classes = (IsAuthenticated, )
