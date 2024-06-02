@@ -12,16 +12,15 @@ const UpdateNoteForm = ({ wordTargetCode, numInitiallyExistingNotes }) => {
     const {
         formData,
         updateFormDataField,
+        initFormFromDict,
         apiModify,
         successful,
         response,
         error,
         loading,
-    } = useAPIModifier({
+    } = useAPIModifier(true, {
         word_ref: wordTargetCode,
         order: numInitiallyExistingNotes,
-        note_text: "",
-        note_image: null,
     });
 
     const handleSubmit = (e) => {
@@ -56,22 +55,6 @@ const UpdateNoteForm = ({ wordTargetCode, numInitiallyExistingNotes }) => {
                             event.target.files[0]
                         );
                         console.log(event.target.files[0]);
-                    }}
-                ></input>
-
-                <input
-                    type="number"
-                    value={formData.word_ref}
-                    onChange={(event) => {
-                        updateFormDataField("word_ref", event.target.value);
-                    }}
-                ></input>
-
-                <input
-                    type="number"
-                    value={formData.order}
-                    onChange={(event) => {
-                        updateFormDataField("order", event.target.value);
                     }}
                 ></input>
 

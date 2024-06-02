@@ -1,10 +1,14 @@
 from django.db import models
 from .dictionary_models import KoreanWord
 from dictionary_users.models import DictionaryUser
+import uuid
+import os
 
 def get_image_path(instance, filename):
   # example path may be MEDIAROOT/userid_1/myimage.png
-  return f'userid_{instance.creator_id}/{filename}'
+  _, ext = os.path.splitext(filename)
+  new_filename = uuid.uuid4().hex + ext
+  return f'user{instance.creator_id}/{new_filename}'
 
 class UserNote(models.Model):
   id = models.BigAutoField(primary_key=True)

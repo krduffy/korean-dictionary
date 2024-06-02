@@ -104,7 +104,7 @@ class UserNoteValidator(serializers.ModelSerializer):
   word_ref = KoreanWordField(queryset=KoreanWord.objects.all())
   note_image = serializers.ImageField(required=False)
   order = serializers.IntegerField()
-  note_text = serializers.CharField()
+  note_text = serializers.CharField(required=False)
   creator = UserField(queryset = DictionaryUser.objects.all())
 
   class Meta:

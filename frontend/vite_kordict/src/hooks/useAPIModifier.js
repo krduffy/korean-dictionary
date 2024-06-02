@@ -8,8 +8,25 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    /* only works for when useFormDataObject is true.
+       if it is not, then initial values are passed in via initialJSONObject.
+       */
+    const initFormFromDict = (dictionary) => {
+        const newFormData = new FormData();
+        if (!dictionary) {
+            return newFormData;
+        }
+        for (const [key, value] of Object.entries(dictionary)) {
+            newFormData.set(key, value);
+        }
+
+        return newFormData;
+    };
+
     const [formData, setFormData] = useState(
-        useFormDataObject ? new FormData() : initialJSONObject
+        useFormDataObject
+            ? initFormFromDict(initialJSONObject)
+            : initialJSONObject
     );
 
     const updateFormDataField = (field, value) => {
@@ -81,6 +98,7 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
     return {
         formData,
         updateFormDataField,
+        initFormFromDict,
         apiModify,
         successful,
         response,
