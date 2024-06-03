@@ -6,7 +6,11 @@ import { AuthenticationInfoContext } from "../../../App.jsx";
 
 import "./form-styles.css";
 
-const AddExampleForm = ({ wordTargetCode, initiallyExistingExamples }) => {
+const AddExampleForm = ({
+    wordTargetCode,
+    senseTargetCode,
+    initiallyExistingExamples,
+}) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
     // Use a function to initialize state for better handling of initial values
@@ -48,7 +52,13 @@ const AddExampleForm = ({ wordTargetCode, initiallyExistingExamples }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        apiModify("api/create_sense/", authInfo["token"], formData, "POST");
+        const url =
+            exampleList.length > 0
+                ? "api/create_sense/"
+                : `api/delete_sense/${senseTargetCode}`;
+        const method = exampleList.length > 0 ? "POST" : "DELETE";
+
+        apiModify(url, authInfo["token"], formData, method);
     };
 
     useEffect(() => {
@@ -76,9 +86,7 @@ const AddExampleForm = ({ wordTargetCode, initiallyExistingExamples }) => {
 
     return (
         <div className="add-example-form">
-            <div className="form-upper-bar">
-                <span className="add-example-header">예문 추가하기</span>
-            </div>
+            <div className="section-header">예문 수정</div>
 
             <div className="form-tip">
                 추가하시는 단어는 본인만 보실 수 있습니다.
@@ -167,7 +175,7 @@ const AddExampleForm = ({ wordTargetCode, initiallyExistingExamples }) => {
                     onClick={(e) => handleSubmit(e)}
                     className="add-example-submit-button"
                 >
-                    추가
+                    저장
                 </button>
             </div>
         </div>

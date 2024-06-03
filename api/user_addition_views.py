@@ -98,7 +98,7 @@ class DeleteSenseView(APIView):
     
     with transaction.atomic():
       sense.delete()
-      return Response({"message": "삭제가 성공했습니다."}, status=status.HTTP_204_NO_CONTENT)
+      return Response({"message": "삭제가 성공했습니다."}, status=status.HTTP_200_OK)
 
 class UpdateWordView(UpdateAPIView):
   permission_classes = (IsAuthenticated,)
@@ -193,6 +193,15 @@ class UserKnownWords(generics.ListAPIView):
   def get_queryset(self):
     known_words = self.request.user.known_words.all()
     return known_words
+  
+class UserStudyWords(generics.ListAPIView):
+  permission_classes = (IsAuthenticated, )
+  serializer_class = KoreanWordSerializer
+  pagination_class = PaginationClass
+
+  def get_queryset(self):
+    study_words = self.request.user.study_words.all()
+    return study_words
   
 class HomepageInfoView(APIView):
   permission_classes = (IsAuthenticated, )
@@ -507,4 +516,3 @@ class UnknownWordsView(APIView):
     
     return Response({'unknown': user_doesnt_know_unique}, status=status.HTTP_200_OK)
     
-  

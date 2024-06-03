@@ -6,7 +6,7 @@ import { AuthenticationInfoContext } from "../../../App.jsx";
 
 import "./form-styles.css";
 
-const UpdateNoteForm = ({ wordTargetCode, numInitiallyExistingNotes }) => {
+const UpdateNoteForm = ({ wordTargetCode, initiallyExistingNotes }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const selectedFileTextRef = useRef(null);
 
@@ -21,7 +21,7 @@ const UpdateNoteForm = ({ wordTargetCode, numInitiallyExistingNotes }) => {
         loading,
     } = useAPIModifier(true, {
         word_ref: wordTargetCode,
-        order: numInitiallyExistingNotes,
+        order: initiallyExistingNotes.length,
     });
 
     const handleSubmit = (e) => {
@@ -32,11 +32,7 @@ const UpdateNoteForm = ({ wordTargetCode, numInitiallyExistingNotes }) => {
 
     return (
         <React.Fragment>
-            <div className="add-example-form">
-                <div className="form-upper-bar">
-                    <span className="add-example-header">예문 추가하기</span>
-                </div>
-            </div>
+            <div className="section-header">노트 수정</div>
 
             <form encType="multipart/form-data">
                 <textarea

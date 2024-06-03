@@ -101,8 +101,6 @@
 }
 
 .add-example-form-lower-bar {
-    height: 20px;
-    padding-top: 10px;
 }
 
 .add-example-submit-button {
@@ -114,7 +112,6 @@
     border-radius: 7px;
     cursor: pointer;
     padding: 0px;
-    line-height: 0px;
 }
 
 .example-section-header {
