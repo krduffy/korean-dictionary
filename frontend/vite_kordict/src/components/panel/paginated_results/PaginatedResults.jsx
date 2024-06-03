@@ -45,6 +45,10 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
                 `api/hanja_examples/?` +
                 `page=${currentPage}&` +
                 `character=${searchTerm}`;
+        } else if (searchType === "known_words") {
+            apiUrl = "api/user_known_words/";
+        } else if (searchType === "study_words") {
+            apiUrl = "api/user_study_words/";
         }
 
         apiFetch(apiUrl, authInfo["token"], setSearchResults);
@@ -70,7 +74,11 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
 
         /* test for existence of a field only present for specific search type */
 
-        if (searchType === "search_korean") {
+        if (
+            searchType === "search_korean" ||
+            searchType === "known_words" ||
+            searchType === "study_words"
+        ) {
             return firstResult.kw_senses != null;
         } else if (searchType === "search_hanja") {
             return firstResult.meaning_reading != null;
@@ -96,7 +104,11 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
 
                         {searchResults.results &&
                             searchResults.results.map((result) => {
-                                if (searchType === "search_korean") {
+                                if (
+                                    searchType === "search_korean" ||
+                                    searchType === "known_words" ||
+                                    searchType === "study_words"
+                                ) {
                                     return (
                                         <KoreanResult
                                             key={result.kw_target_code}

@@ -76,7 +76,9 @@ const Panel = () => {
             />
             <div className={showPanelContent ? "panel" : "panel-hidden"}>
                 {(currentView["view"] === "search_korean" ||
-                    currentView["view"] === "search_hanja") && (
+                    currentView["view"] === "search_hanja" ||
+                    currentView["view"] === "known_words" ||
+                    currentView["view"] === "study_words") && (
                     <PaginatedResults
                         searchType={currentView["view"]}
                         searchTerm={currentView["value"]}

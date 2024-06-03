@@ -151,6 +151,36 @@ const ButtonSection = ({ setSeed }) => {
             >
                 단어 찾기 도구
             </button>
+            <button
+                onClick={() => {
+                    updateViewAndPushToHistory({
+                        view: "known_words",
+                        value: 0,
+                        searchBarInitialState: {
+                            boxContent: "",
+                            dictionary: "korean",
+                        },
+                    });
+                }}
+                title="아는 단어 추가 도우미로 바로가기"
+            >
+                아는 단어 목록
+            </button>
+            <button
+                onClick={() => {
+                    updateViewAndPushToHistory({
+                        view: "study_words",
+                        value: 0,
+                        searchBarInitialState: {
+                            boxContent: "",
+                            dictionary: "korean",
+                        },
+                    });
+                }}
+                title="아는 단어 추가 도우미로 바로가기"
+            >
+                공부 단어 목록
+            </button>
         </div>
     );
 };
