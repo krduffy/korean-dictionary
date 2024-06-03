@@ -149,3 +149,7 @@
 .no-examples-text {
     text-align: center;
 }
+
+#file-input {
+    display: none;
+}

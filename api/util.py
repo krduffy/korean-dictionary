@@ -4,6 +4,10 @@ from django.db.models.functions import Length
 
 from konlpy.tag import Kkma
 
+def get_only_user_additions(queryset, allowed_user):
+  queryset = queryset.filter(creator=allowed_user)
+  return queryset
+
 # Removes any words that were not created by the user from a queryset of KoreanWords.
 # A creator of None is also allowed since this indicates that the base dictionary (from
 # 우리말샘 urimalsaem) provided the word.

@@ -4,7 +4,7 @@ from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from .user_addition_models import UserNote
-from .user_addition_serializers import UserNoteValidator, UserSenseSerializer, UserWordSerializer
+from .user_addition_serializers import UserNoteValidator, UserSenseSerializer, UserWordSerializer, KoreanWordForEditingSerializer
 from .dictionary_models import HanjaCharacter, KoreanWord, Sense
 from .dictionary_serializers import HanjaCharacterSerializer, KoreanWordSerializer, SenseSerializer, KoreanSerializerForHanja, HanjaGameWordSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -14,11 +14,19 @@ import random
 from django.db import transaction
 from rest_framework.parsers import MultiPartParser, FormParser
 
-from .util import reorder_queryset_with_seed, get_nouns_verbs 
+from .util import reorder_queryset_with_seed, get_nouns_verbs, remove_non_user_additions
 
 # Page size = 10
 class PaginationClass(PageNumberPagination):
   page_size = 10
+
+class KoreanWordForEditingView(generics.RetrieveAPIView):
+  permission_classes = (IsAuthenticated, )
+  serializer_class = KoreanWordForEditingSerializer
+
+  def get_queryset(self):
+    queryset = KoreanWord.objects.all()
+    return queryset
 
 class CreateNoteView(APIView):
   permission_classes = (IsAuthenticated,)

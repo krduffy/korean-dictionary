@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useRef } from "react";
 
 import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 
@@ -8,6 +8,7 @@ import "./form-styles.css";
 
 const UpdateNoteForm = ({ wordTargetCode, numInitiallyExistingNotes }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
+    const selectedFileTextRef = useRef(null);
 
     const {
         formData,
@@ -46,17 +47,27 @@ const UpdateNoteForm = ({ wordTargetCode, numInitiallyExistingNotes }) => {
                     }}
                 ></textarea>
 
-                <input
-                    type="file"
-                    accept=".jpg,.png,.gif"
-                    onChange={(event) => {
-                        updateFormDataField(
-                            "note_image",
-                            event.target.files[0]
-                        );
-                        console.log(event.target.files[0]);
-                    }}
-                ></input>
+                <div>
+                    <label id="file-input-button" htmlFor="file-input">
+                        파일 찾아보기
+                    </label>
+                    <input
+                        type="file"
+                        id="file-input"
+                        accept=".jpg,.png,.gif"
+                        onChange={(event) => {
+                            selectedFileTextRef.current.innerText =
+                                event.target.files[0].name;
+                            updateFormDataField(
+                                "note_image",
+                                event.target.files[0]
+                            );
+                        }}
+                    ></input>
+                    <span ref={selectedFileTextRef} id="selected-file-span">
+                        선택한 파일이 없습니다.
+                    </span>
+                </div>
 
                 <button
                     onClick={(e) => handleSubmit(e)}

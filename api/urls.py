@@ -17,6 +17,8 @@ urlpatterns = [
   path('toggle_word_known/<pk>', ToggleWordKnownView.as_view()),
   path('toggle_word_studied/<pk>', ToggleWordStudiedView.as_view()),
   
+  path('korean_word_edit_info/<pk>', KoreanWordForEditingView.as_view()),
+
   path('create_sense/', CreateSenseView.as_view()),
   path('delete_sense/<pk>', DeleteSenseView.as_view()),
   

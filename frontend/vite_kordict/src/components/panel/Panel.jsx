@@ -4,6 +4,7 @@ import { useHistoryManager } from "../../hooks/useHistoryManager.js";
 
 import HanjaCharView from "./detail_view/HanjaCharView.jsx";
 import KoreanWordView from "./detail_view/KoreanWordView.jsx";
+import { UserNoteDetail } from "./detail_view/UserNote.jsx";
 import PanelHeader from "./fixed_header/PanelHeader.jsx";
 import EditWordForm from "./forms/EditWordForm.jsx";
 import GetUnknownWordsForm from "./forms/GetUnknownWordsForm.jsx";
@@ -121,6 +122,12 @@ const Panel = () => {
                 {currentView["view"] === "get_unknown_words" && (
                     <div>
                         <GetUnknownWordsForm />
+                    </div>
+                )}
+
+                {currentView["view"] === "detail_note" && (
+                    <div>
+                        <UserNoteDetail noteData={currentView["value"]} />
                     </div>
                 )}
             </div>

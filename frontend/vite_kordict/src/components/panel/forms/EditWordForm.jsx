@@ -16,34 +16,14 @@ const EditWordForm = ({ targetCode }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const [wordData, setWordData] = useState({});
     const { apiFetch, loading, error } = useAPIFetcher();
-    const [initiallyExistingExamples, setInitiallyExistingExamples] = useState(
-        []
-    );
 
     useEffect(() => {
         apiFetch(
-            `api/korean_word/${targetCode}`,
+            `api/korean_word_edit_info/${targetCode}`,
             authInfo["token"],
             setWordData
         );
     }, [targetCode]);
-
-    useEffect(() => {
-        if (
-            wordData &&
-            wordData["senses"] &&
-            wordData["senses"][0] &&
-            wordData["senses"][0]["order"] == 0 &&
-            wordData["senses"][0]["additional_info"] &&
-            wordData["senses"][0]["additional_info"]["example_info"] &&
-            wordData["senses"][0]["additional_info"]["example_info"]
-        ) {
-            console.log("in");
-            setInitiallyExistingExamples(
-                wordData["senses"][0]["additional_info"]["example_info"]
-            );
-        }
-    }, [wordData]);
 
     return (
         <>
@@ -51,27 +31,30 @@ const EditWordForm = ({ targetCode }) => {
                 <LoadingMessage />
             ) : (
                 <div className="korean-word-view">
-                    <span className="word-header">
-                        <span>{wordData["word"]}</span>
-                    </span>
+                    {wordData["word"] && (
+                        <span className="word-header">
+                            <span>{wordData["word"]}</span>
+                        </span>
+                    )}
 
-                    <AddExampleForm
-                        wordTargetCode={targetCode}
-                        initiallyExistingExamples={initiallyExistingExamples}
-                    />
+                    {wordData["example_info"] && (
+                        <AddExampleForm
+                            wordTargetCode={targetCode}
+                            senseTargetCode={
+                                wordData.example_info["target_code"]
+                            }
+                            initiallyExistingExamples={
+                                wordData.example_info["examples"]
+                            }
+                        />
+                    )}
 
-                    <UpdateNoteForm
-                        wordTargetCode={targetCode}
-                        numInitiallyExistingNotes={0}
-                    />
-                    {/*
-          <div className="senses-container">
-            {formData["senses"] &&
-              formData["senses"].map((data) => (
-                <KoreanSenseView key={data["target_code"]} senseData={data} />
-              ))}
-          </div>
-            */}
+                    {wordData["notes"] && (
+                        <UpdateNoteForm
+                            wordTargetCode={targetCode}
+                            initiallyExistingNotes={wordData.notes}
+                        />
+                    )}
                 </div>
             )}
         </>

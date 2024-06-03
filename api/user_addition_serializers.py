@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from api.util import get_only_user_additions
 from .user_addition_models import UserNote
 from .dictionary_models import KoreanWord, Sense
 from dictionary_users.models import DictionaryUser
@@ -15,7 +17,37 @@ class KoreanWordField(serializers.PrimaryKeyRelatedField):
             }
         except KoreanWord.DoesNotExist:
             return None
+
+
+class KoreanWordForEditingSerializer(serializers.ModelSerializer):
+  target_code = serializers.IntegerField()
+  word = serializers.CharField()
+  # because all examples are held under a single sense, the sense that contains them
+  # has its target code returned.
+  example_info = serializers.SerializerMethodField()
+  notes = serializers.SerializerMethodField()
+
+  class Meta:
+    model = KoreanWord
+    fields = ['target_code', 'word', 'example_info', 'notes']
+    read_only_fields = ['__all__']
+
+  def get_example_info(self, obj):
+    only_user_senses = get_only_user_additions(Sense.objects.all(), self.context['request'].user.pk)
+    sense = only_user_senses.filter(referent = obj.pk)
+
+    if sense.exists():
+       sense = sense.first()
+       return {'target_code': sense.pk, 'examples': sense.additional_info['example_info']}
+    else:
+       return {'target_code': 0, 'examples': []}
     
+  def get_notes(self, obj):
+     notes = get_only_user_additions(obj.user_notes, self.context['request'].user.pk)
+
+     return UserNoteSerializer(notes, many=True).data
+
+
 class UserField(serializers.PrimaryKeyRelatedField):
     def to_representation(self, value):
         pk = super(UserField, self).to_representation(value)
