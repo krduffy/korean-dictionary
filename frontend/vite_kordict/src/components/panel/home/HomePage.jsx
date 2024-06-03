@@ -158,7 +158,7 @@ const ButtonSection = ({ setSeed }) => {
 const StudyWordSection = ({ studyWordData }) => {
     return (
         <div className="study-words">
-            <div className="homepage-section-header">암기장에 추가한 단어</div>
+            <div className="section-header">암기장에 추가한 단어</div>
             <ul className="study-word-list-item">
                 {studyWordData &&
                     Object.entries(studyWordData).map((studyWordItem, id) => (
@@ -182,7 +182,7 @@ const SameHanjaSection = ({ sameHanjaData }) => {
 
     return (
         <div className="same-hanja-section">
-            <div className="homepage-section-header">
+            <div className="section-header">
                 같은 한자가 포함되는 것을 알고 계셨나요?
             </div>
             <ul className="same-hanja-list-item">

@@ -101,7 +101,7 @@ const WordWithNLP = ({ word, fullSentence }) => {
       are ever changed*/
     }
     const { formData, apiModify, successful, response, error, loading } =
-        useAPIModifier({
+        useAPIModifier(true, {
             sentence: fullSentence,
             mouse_over: word,
         });

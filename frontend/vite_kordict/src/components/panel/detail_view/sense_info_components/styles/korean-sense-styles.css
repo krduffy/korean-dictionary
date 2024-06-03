@@ -94,13 +94,6 @@ ul {
     text-decoration: underline;
 }
 
-.additional-info-section-header {
-    font-size: 20px;
-    background-color: #312f36;
-    margin-bottom: 0;
-    padding-left: 5px;
-}
-
 .additional-info-container {
     padding-top: 10px;
     padding-bottom: 20px;

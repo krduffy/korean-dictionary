@@ -124,6 +124,14 @@ const Panel = () => {
                     </div>
                 )}
             </div>
+
+            <div
+                className="horizontal-bar"
+                style={{
+                    marginTop: "40px",
+                    marginBottom: "40px",
+                }}
+            />
         </ViewContext.Provider>
     );
 };

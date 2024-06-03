@@ -5,11 +5,21 @@ const UserNote = ({ noteData }) => {
 
     return (
         <div className="user-note-container">
-            <div className="user-note-text">{noteData.note_text}</div>
             <img
-                className="user-note-image-container"
+                className="user-note-image"
                 src={BASE_URL + noteData["note_image"]}
             ></img>
+            <div className="user-note-text">{noteData.note_text}</div>
+        </div>
+    );
+};
+
+export const UserNoteGrid = ({ noteData }) => {
+    return (
+        <div className="user-note-grid">
+            {noteData.map((data, id) => (
+                <UserNote key={id} noteData={data} />
+            ))}
         </div>
     );
 };

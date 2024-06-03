@@ -70,7 +70,7 @@ const KoreanWordView = ({ targetCode }) => {
                                 </span>
                             )}
 
-                            <span
+                            <button
                                 onClick={() => {
                                     updateViewAndPushToHistory({
                                         view: "edit_word",
@@ -82,16 +82,22 @@ const KoreanWordView = ({ targetCode }) => {
                                     });
                                 }}
                             >
-                                수정
-                            </span>
+                                노트 및 예문 수정
+                            </button>
                         </div>
 
-                        <div className="notes-container">
-                            {wordData["notes"] &&
-                                wordData["notes"].map((data, id) => (
-                                    <UserNote noteData={data} key={id} />
-                                ))}
-                        </div>
+                        {wordData["notes"].length > 0 && (
+                            <React.Fragment>
+                                <p className="section-header">
+                                    내가 추가한 노트
+                                </p>
+                                <div className="notes-container">
+                                    {wordData["notes"].map((data, id) => (
+                                        <UserNote noteData={data} key={id} />
+                                    ))}
+                                </div>
+                            </React.Fragment>
+                        )}
 
                         <div className="senses-container">
                             {wordData["senses"] &&

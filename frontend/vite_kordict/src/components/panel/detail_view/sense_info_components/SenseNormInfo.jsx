@@ -3,7 +3,7 @@ import React from "react";
 const SenseNormInfo = ({ normInfo }) => {
     return (
         <div className="sense-norm-info">
-            <p className="additional-info-section-header">규범 정보</p>
+            <p className="section-header">규범 정보</p>
             <ul>
                 {normInfo.map((norm, id) => (
                     <li key={id}>

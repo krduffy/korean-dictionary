@@ -146,14 +146,6 @@
     background-color: #59211b;
 }
 
-.horizontal-bar {
-    width: 75%;
-    height: 2px;
-    background-color: rgba(128, 128, 128, 0.2);
-    margin-left: 12.5%;
-    margin-right: 12.5%;
-}
-
 .no-examples-text {
     text-align: center;
 }

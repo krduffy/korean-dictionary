@@ -16,9 +16,7 @@ const KoreanSenseView = ({ senseData }) => {
     return (
         <div>
             {senseData["order"] == 0 ? (
-                <div className="user-example-container-header">
-                    내가 추가한 예문
-                </div>
+                <div className="section-header">내가 추가한 예문</div>
             ) : (
                 <div className="sense-main-data">
                     {senseData["order"]}.{" "}
@@ -110,6 +108,16 @@ const KoreanSenseView = ({ senseData }) => {
                             )} */}
                     </TruncatorDropdown>
                 </div>
+            )}
+
+            {senseData["order"] == 0 && (
+                <div
+                    className="horizontal-bar"
+                    style={{
+                        marginTop: "5px",
+                        marginBottom: "25px",
+                    }}
+                />
             )}
         </div>
     );

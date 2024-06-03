@@ -159,7 +159,7 @@ const HanjaCharView = ({ hanjaChar }) => {
 
                         {charData["explanation"] && (
                             <div className="main-info-lower">
-                                <div className="additional-info-section-header">
+                                <div className="section-header">
                                     자세한 설명
                                 </div>
                                 <div className="truncator-dropdown-container">
@@ -194,9 +194,7 @@ const HanjaCharView = ({ hanjaChar }) => {
                         )}
                     </div>
 
-                    <div className="additional-info-section-header">
-                        연관단어
-                    </div>
+                    <div className="section-header">연관단어</div>
                     <div className="example-container">
                         <PaginatedResults
                             searchType="search_hanja_examples"

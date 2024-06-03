@@ -9,6 +9,10 @@
     color: gold;
 }
 
+#navbar > * {
+    z-index: 100;
+}
+
 #login-button,
 #logout-button {
     text-align: right;

@@ -5,7 +5,7 @@ import StringWithHanja from "../../string_formatters/StringWithHanja.jsx";
 const SenseHistoryInfo = ({ historyInfo }) => {
     return (
         <div className="sense-history-info">
-            <p className="additional-info-section-header">역사 정보</p>
+            <p className="section-header">역사 정보</p>
 
             <table className="history-header-info-table">
                 <colgroup>

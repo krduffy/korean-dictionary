@@ -9,7 +9,7 @@ import "./styles/korean-sense-styles.css";
 const SenseProverbInfo = ({ proverbInfo }) => {
     return (
         <div className="sense-proverb-list">
-            <p className="additional-info-section-header">관용구·속담</p>
+            <p className="section-header">관용구·속담</p>
             <ul>
                 {proverbInfo.map((proverb, id) => (
                     <li key={id}>
