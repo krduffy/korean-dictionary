@@ -5,10 +5,14 @@ Next tasks
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 ==================================
-1. add form to create new user
+1. TEST API VIEWS
 2. add form to update user (change pw)
-3. reinstate database after changing it to match new requirements
-   add base user of "우리말샘" so that most of the base words will have 출처 우리말샘 and then otherwise it will just say 출처 키런 or whatever
+3. add actual form to create new account
+4. allow for editing and deleting of notes
+5. finalize game (
+	1. create view for checking answer
+	2. animation of 성공 on screen
+)
 
 change the display of the results to have buttons for add to list
 and also make it so there are forms in the acutal dictionary to use the add views [ done for adding word ]

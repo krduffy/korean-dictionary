@@ -121,23 +121,6 @@ const ButtonSection = ({ setSeed }) => {
             </button>
             <button
                 onClick={() => {
-                    if (currentView["view"] !== "add_word") {
-                        updateViewAndPushToHistory({
-                            view: "add_word",
-                            value: 0,
-                            searchBarInitialState: {
-                                boxContent: "",
-                                dictionary: "korean",
-                            },
-                        });
-                    }
-                }}
-                title="사전에 새로운 단어 추가 문서로 바로가기"
-            >
-                단어 추가
-            </button>
-            <button
-                onClick={() => {
                     updateViewAndPushToHistory({
                         view: "get_unknown_words",
                         value: 0,
