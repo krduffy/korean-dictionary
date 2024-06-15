@@ -30,4 +30,13 @@ module.exports = {
             },
         ],
     },
+    overrides: [
+        {
+            files: ["**/*.test.js"],
+            rules: {
+                /* prevents jest functions from triggering unused warning */
+                "no-undef": "off",
+            },
+        },
+    ],
 };

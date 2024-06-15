@@ -92,7 +92,7 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
                 typeAndResultsMatch() && (
                     <div className="paginated-results">
                         <span className="result-count-indicator">
-                            '{searchTerm}' 결과 {searchResults.count}건 (
+                            결과 {searchResults.count}건 (
                             {10 * (currentPage - 1) + 1} -{" "}
                             {Math.min(searchResults.count, currentPage * 10)})
                         </span>
