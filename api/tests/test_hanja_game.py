@@ -9,7 +9,7 @@ from api.dictionary_models import KoreanWord, HanjaCharacter
 
 def forms_path(origins):
 
-  for i in range(0, len(origins) - 1):
+  for i in range(len(origins) - 1):
     found_same = False
 
     for char in origins[i]:
@@ -119,3 +119,76 @@ class TestHanjaGameBacktrackSameCharacterView(TestCase):
 
         word_origins = [step['example_word']['kw_origin'] for step in data['hanja_path']]
         self.assertEqual(forms_path(word_origins), True)
+  
+class TestHanjaGameNoKnownWords(TestCase):
+
+  @classmethod
+  def setUpTestData(cls):
+    
+    # with three words 인심, 미인, 일인, , it will have to backtrack if it picks 인심 and then 미인
+    # but still end up using 인 to continue the path (with 범인)
+    cls.word1 = KoreanWord.objects.create(target_code=1, word="인심", origin="人心")
+    cls.word2 = KoreanWord.objects.create(target_code=2, word="미인", origin="美人")
+    cls.word3 = KoreanWord.objects.create(target_code=3, word="범인", origin="犯人")
+    cls.word4 = KoreanWord.objects.create(target_code=4, word="침범", origin="侵犯")
+    # purpose of word 4 is to make sure there are at least 16 characters for the view to return
+    cls.word5 = KoreanWord.objects.create(target_code=5, word="뭐뭐뭐", origin="零一二三四五六七八九十百千月火水木金土日")
+
+    cls.character1 = HanjaCharacter.objects.create(pk="心", meaning_reading="마음 심", strokes=1)
+    cls.character2 = HanjaCharacter.objects.create(pk="人", meaning_reading="사람 인", strokes=1)
+    cls.character3 = HanjaCharacter.objects.create(pk="美", meaning_reading="아름다울 미", strokes=1)
+    cls.character4 = HanjaCharacter.objects.create(pk="犯", meaning_reading="범할 범", strokes=1)
+    cls.character5 = HanjaCharacter.objects.create(pk="侵", meaning_reading="침노할 침", strokes=1)
+      
+    cls.user = DictionaryUser.objects.create_user(username="test_user", password="test_user")
+    
+    # user does not have anything added to their list of known words
+
+  def setUp(self):
+    self.client = APIClient()
+    self.user = TestHanjaGameNoKnownWords.user
+    self.token = AuthToken.objects.create(user=self.user)[1]
+    self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+
+  def test_returns_error(self):
+    length = 3
+    seed = 0
+    response = self.client.get('/api/hanja_game_info/', {'length': length, 'seed': seed})
+    self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+  
+class TestHanjaGamePathLengthTooLong(TestCase):
+
+  @classmethod
+  def setUpTestData(cls):
+    
+    # with three words 인심, 미인, 일인, , it will have to backtrack if it picks 인심 and then 미인
+    # but still end up using 인 to continue the path (with 범인)
+    cls.word1 = KoreanWord.objects.create(target_code=1, word="인심", origin="人心")
+    cls.word2 = KoreanWord.objects.create(target_code=2, word="미인", origin="美人")
+    cls.word3 = KoreanWord.objects.create(target_code=3, word="범인", origin="犯人")
+    cls.word4 = KoreanWord.objects.create(target_code=4, word="침범", origin="侵犯")
+    # purpose of word 4 is to make sure there are at least 16 characters for the view to return
+    cls.word5 = KoreanWord.objects.create(target_code=5, word="뭐뭐뭐", origin="零一二三四五六七八九十百千月火水木金土日")
+
+    cls.character1 = HanjaCharacter.objects.create(pk="心", meaning_reading="마음 심", strokes=1)
+    cls.character2 = HanjaCharacter.objects.create(pk="人", meaning_reading="사람 인", strokes=1)
+    cls.character3 = HanjaCharacter.objects.create(pk="美", meaning_reading="아름다울 미", strokes=1)
+    cls.character4 = HanjaCharacter.objects.create(pk="犯", meaning_reading="범할 범", strokes=1)
+    cls.character5 = HanjaCharacter.objects.create(pk="侵", meaning_reading="침노할 침", strokes=1)
+      
+    cls.user = DictionaryUser.objects.create_user(username="test_user", password="test_user")
+
+    cls.user.known_words.set([cls.word1, cls.word2, cls.word3, cls.word4, cls.word5])
+
+  def setUp(self):
+    self.client = APIClient()
+    self.user = TestHanjaGamePathLengthTooLong.user
+    self.token = AuthToken.objects.create(user=self.user)[1]
+    self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+
+  def test_returns_error(self):
+    # cannot find any path of length 10
+    length = 10
+    seed = 0
+    response = self.client.get('/api/hanja_game_info/', {'length': length, 'seed': seed})
+    self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

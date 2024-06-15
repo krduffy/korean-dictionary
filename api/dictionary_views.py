@@ -27,7 +27,7 @@ class KoreanWordList(generics.ListAPIView):
     Query Parameters:
         search_term (string, optional): The search term. Can contain _ or *, which are converted
         to . and .* respectively before the search term is matched against all words as a regular
-        expression.
+        expression. If not supplied, a blank search_term is used.
   """
   serializer_class = KoreanWordSerializer
   pagination_class = PaginationClass
@@ -233,14 +233,13 @@ class SenseList(generics.ListAPIView):
   def get_queryset(self):
     raise NotImplementedError('cannot find sense list.')
 
-
 # Returns a list of HanjaCharacters for a given search_term query parameter.
 class HanjaList(generics.ListAPIView):
   """
     API view to return a list of Hanja characters from a search term.
   
     Query Parameters:
-        search_term (string, optional): The search term.
+        search_term (string, optional): The search term. If not supplied, a blank search_term is used.
   """
   serializer_class = HanjaCharacterSerializer
   pagination_class = PaginationClass

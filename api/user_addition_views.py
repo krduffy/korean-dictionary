@@ -62,7 +62,6 @@ class CreateSenseView(APIView):
 
   def post(self, request):
     data = request.data
-    print(data)
     data['creator'] = request.user.pk
     serializer = UserSenseSerializer(data = data, context={'request': request})
     if serializer.is_valid():
@@ -114,7 +113,7 @@ class ToggleWordKnownView(APIView):
   """
     API view to set a word to known or not known by the authenticated user.
     The pk of the word should be passed in via the url. POST requests set the word to
-    studied, while DELETE requests set the word to not studied.
+    known, while DELETE requests set the word to unknown.
   """
   permission_classes = (IsAuthenticated,)
 
@@ -306,8 +305,9 @@ def get_path_of_length(queryset, length: int, request) -> list:
   # was to get from 力 힘 력 to 備 갖출 비 and the number of steps was only 2
 
   step_characters = [""] * length
-  tried_lists = [[]] * length
+  tried_lists = [[] for _ in range (length)]
   step_word_origins = [""] * length
+
   step_counter = 0
   
   while True:
@@ -323,6 +323,7 @@ def get_path_of_length(queryset, length: int, request) -> list:
     # success) characters and the required character (the most recently added char to the actual 
     # path)
     regex = ""
+
     if banned != "":
       regex += f'^[^{banned}]*'
     if required != "":
@@ -334,9 +335,7 @@ def get_path_of_length(queryset, length: int, request) -> list:
 
     working_set = queryset.filter(origin__iregex = regex)
 
-
     # Look for link
-
     found_link = False
     for valid_word in working_set:
       # Check this word for any valid link
@@ -370,6 +369,7 @@ def get_path_of_length(queryset, length: int, request) -> list:
         return hanja_path
 
     else:
+
       # If even at step_counter 0 there is no character to match, then it has cycled
       # through every single word and needs to just return None. There is no path of
       # the required length.
@@ -423,7 +423,7 @@ class HanjaGameView(APIView):
     if not hanja_path:
       return Response({
         "error": "Could not find path."
-      })
+      }, status=status.HTTP_404_NOT_FOUND)
 
     path_length = len(hanja_path)
 
@@ -480,7 +480,6 @@ class HanjaGameView(APIView):
       for i in range(0, len(list)):
         new_list[new_index(i)] = list[i]
 
-      print(used)
       return new_list
 
     # done twice to promote more separation of the generated path's characters (?)
