@@ -14,11 +14,15 @@ const HanjaHoverBox = ({ character, x, y }) => {
     const { apiFetch, loading, error } = useAPIFetcher();
 
     useEffect(() => {
-        const apiUrl = apiFetch(
-            `api/hanja_popup_view/?` + `character=${character}`,
-            authInfo["token"],
-            setHoverBoxData
-        );
+        const setData = async () => {
+            const data = await apiFetch(
+                `api/hanja_popup_view/?` + `character=${character}`,
+                authInfo["token"]
+            );
+            setHoverBoxData(data);
+        };
+
+        setData();
     }, [character]);
 
     return (

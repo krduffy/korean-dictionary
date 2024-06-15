@@ -38,11 +38,15 @@ const HanjaGame = () => {
     };
 
     const generateGame = () => {
-        apiFetch(
-            `api/hanja_game_info/?length=${currentGameLength}&seed=${randomSeed}`,
-            authInfo["token"],
-            setCurrentGameData
-        );
+        const setData = async () => {
+            const data = await apiFetch(
+                `api/hanja_game_info/?length=${currentGameLength}&seed=${randomSeed}`,
+                authInfo["token"]
+            );
+            setCurrentGameData(data);
+        };
+
+        setData();
     };
 
     useEffect(() => {

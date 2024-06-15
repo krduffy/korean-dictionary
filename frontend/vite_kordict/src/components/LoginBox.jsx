@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 
-import { setTokenFromResponse } from "../../util/tokenManagement.js";
 import { useAPIModifier } from "../hooks/useAPIModifier.js";
 
 import { AuthenticationInfoContext } from "../App.jsx";

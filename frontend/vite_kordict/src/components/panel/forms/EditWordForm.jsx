@@ -18,11 +18,15 @@ const EditWordForm = ({ targetCode }) => {
     const { apiFetch, loading, error } = useAPIFetcher();
 
     useEffect(() => {
-        apiFetch(
-            `api/korean_word_edit_info/${targetCode}`,
-            authInfo["token"],
-            setWordData
-        );
+        const setData = async () => {
+            const data = await apiFetch(
+                `api/korean_word_edit_info/${targetCode}`,
+                authInfo["token"]
+            );
+            setWordData(data);
+        };
+
+        setData();
     }, [targetCode]);
 
     return (

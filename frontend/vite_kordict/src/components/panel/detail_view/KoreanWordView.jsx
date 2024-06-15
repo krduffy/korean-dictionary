@@ -23,12 +23,16 @@ const KoreanWordView = ({ targetCode }) => {
     const updateViewAndPushToHistory =
         useContext(ViewContext)["updateViewAndPushToHistory"];
 
-    const setData = (dataFromFetch) => {
-        setWordData(dataFromFetch);
-    };
-
     useEffect(() => {
-        apiFetch(`api/korean_word/${targetCode}`, authInfo["token"], setData);
+        const setData = async () => {
+            const data = await apiFetch(
+                `api/korean_word/${targetCode}`,
+                authInfo["token"]
+            );
+            setWordData(data);
+        };
+
+        setData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [targetCode]);
 

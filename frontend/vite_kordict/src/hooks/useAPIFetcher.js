@@ -6,7 +6,7 @@ export function useAPIFetcher() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const apiFetch = (url, token, setStateHook) => {
+    const apiFetch = async (url, token) => {
         url = BASE_URL + url;
         setLoading(true);
         setError(null);
@@ -18,23 +18,21 @@ export function useAPIFetcher() {
               }
             : { "Content-Type": "application/json" };
 
-        fetch(url, { headers })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Network response error");
-                } else {
-                    return response.json();
-                }
-            })
-            .then((data) => {
-                setStateHook(data);
-            })
-            .catch((error) => {
-                setError(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        try {
+            const response = await fetch(url, { headers });
+
+            if (!response.ok) {
+                throw new Error("Network error.");
+            } else {
+                const data = await response.json();
+                return data;
+            }
+        } catch (error) {
+            setError(error);
+            return null;
+        } finally {
+            setLoading(false);
+        }
     };
 
     return { apiFetch, loading, error };

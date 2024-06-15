@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import PropTypes from "prop-types";
 
+import { getTopicMarker } from "../../../../util/stringUtils.js";
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
@@ -14,44 +15,32 @@ import PageChanger from "./PageChanger.jsx";
 import "./styles/results.css";
 
 const PaginatedResults = ({ searchType, searchTerm }) => {
-    /* Below are the result types and required keys in formParms and functions (both dictionaries)
-     Form params always search_term, may just switch to using a basic string
-    SEARCH TYPE              FORM PARAMS              FUNCTIONS
-    search_korean            "search_term"            click_kor, click_han (to be added)
-    search_hanja             "search_term"            click_han
-    search_hanja_examples    "search_term"            click_han (to be added)
-  */
-
     const [currentPage, setCurrentPage] = useState(1);
     const [searchResults, setSearchResults] = useState({});
     const { apiFetch, loading } = useAPIFetcher();
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
-    const updateSearchResults = () => {
-        let apiUrl;
+    /* For spamproofing the results. An indicator of which request is most recent */
+    const requestRef = useRef(0);
 
-        if (searchType === "search_korean") {
-            apiUrl =
-                `api/korean_word/?` +
-                `page=${currentPage}&` +
-                `search_term=${searchTerm}`;
-        } else if (searchType === "search_hanja") {
-            apiUrl =
-                `api/hanja_char/?` +
-                `page=${currentPage}&` +
-                `search_term=${searchTerm}&`;
+    const updateSearchResults = async () => {
+        requestRef.current++;
+        const requestNum = requestRef.current;
+
+        let apiUrl = `api/${searchType}/`;
+
+        /* Add parameters to certain search types */
+        if (searchType === "search_korean" || searchType === "search_hanja") {
+            apiUrl = apiUrl + `?page=${currentPage}&search_term=${searchTerm}`;
         } else if (searchType === "search_hanja_examples") {
-            apiUrl =
-                `api/hanja_examples/?` +
-                `page=${currentPage}&` +
-                `character=${searchTerm}`;
-        } else if (searchType === "known_words") {
-            apiUrl = "api/user_known_words/";
-        } else if (searchType === "study_words") {
-            apiUrl = "api/user_study_words/";
+            apiUrl = apiUrl + `?page=${currentPage}&character=${searchTerm}`;
         }
 
-        apiFetch(apiUrl, authInfo["token"], setSearchResults);
+        const results = await apiFetch(apiUrl, authInfo["token"]);
+
+        if (requestNum == requestRef.current) {
+            setSearchResults(results);
+        }
     };
 
     useEffect(() => {
@@ -69,6 +58,7 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchTerm, searchType]);
 
+    /* to force waiting for data update before rerendering on prop change */
     const typeAndResultsMatch = () => {
         const firstResult = searchResults["results"][0];
 
@@ -92,12 +82,17 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
             {loading || !searchResults || !searchResults.results ? (
                 <LoadingMessage />
             ) : searchResults.count === 0 ? (
-                <span>결과가 없습니다.</span>
+                <span>
+                    검색어 {"'"}
+                    {searchTerm}
+                    {"'"}
+                    {getTopicMarker(searchTerm)} 결과가 없습니다.
+                </span>
             ) : (
                 typeAndResultsMatch() && (
                     <div className="paginated-results">
                         <span className="result-count-indicator">
-                            결과 {searchResults.count}건 (
+                            '{searchTerm}' 결과 {searchResults.count}건 (
                             {10 * (currentPage - 1) + 1} -{" "}
                             {Math.min(searchResults.count, currentPage * 10)})
                         </span>

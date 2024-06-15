@@ -24,11 +24,15 @@ const HomePage = ({ initialSeed }) => {
 
     useEffect(() => {
         if (authInfo["token"]) {
-            apiFetch(
-                `api/homepage_info/?seed=${seed}`,
-                authInfo["token"],
-                setHomepageData
-            );
+            const setData = async () => {
+                const data = await apiFetch(
+                    `api/homepage_info/?seed=${seed}`,
+                    authInfo["token"]
+                );
+
+                setHomepageData(data);
+            };
+            setData();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [seed, authInfo["token"]]);

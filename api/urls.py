@@ -3,13 +3,13 @@ from .dictionary_views import *
 from .user_addition_views import *
 
 urlpatterns = [
-  path('korean_word/', KoreanWordList.as_view()),
+  path('search_korean/', KoreanWordList.as_view()),
   path('korean_word/<pk>', KoreanWordDetail.as_view()),
   path('korean_word_lemma/', KoreanWordAnalyze.as_view()),
 
-  path('hanja_char/', HanjaList.as_view()),
+  path('search_hanja/', HanjaList.as_view()),
   path('hanja_char/<pk>', HanjaDetail.as_view()),
-  path('hanja_examples/', HanjaExamples.as_view()),
+  path('search_hanja_examples/', HanjaExamples.as_view()),
   path('hanja_popup_view/', HanjaPopup.as_view()),
 
   path('create_word/', CreateWordView.as_view()),
@@ -27,8 +27,8 @@ urlpatterns = [
 
   path('homepage_info/', HomepageInfoView.as_view()),
   path('user_known_words/', UserKnownWords.as_view()),
-  path('user_study_words/', UserStudyWords.as_view()),
-  path('user_unknown_words/', UnknownWordsView.as_view()),
+  path('study_words/', UserStudyWords.as_view()),
+  path('unknown_words/', UnknownWordsView.as_view()),
 
   path('hanja_game_info/', HanjaGameView.as_view()),
 ]
