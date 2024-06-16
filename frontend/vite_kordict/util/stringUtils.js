@@ -107,17 +107,11 @@ const engKeyToKoreanKey = (key) => {
 };
 
 const isConsonant = (jamo) => {
-    /* Range visible at https://en.wikipedia.org/wiki/Hangul_Jamo_(Unicode_block) */
-
-    const code = jamo.charCodeAt(0);
-    return code >= 0x3131 && code <= 0x314e;
+    return "ㅂㅈㄷㄱㅅㅁㄴㅇㄹㅎㅋㅌㅊㅍㅃㅉㄸㄲㅆ".includes(jamo);
 };
 
 const isVowel = (jamo) => {
-    /* Range visible at https://en.wikipedia.org/wiki/Hangul_Jamo_(Unicode_block) */
-
-    const code = jamo.charCodeAt(0);
-    return code >= 0x314f && code <= 0x3163;
+    return "ㅛㅕㅑㅐㅔㅗㅓㅏㅣㅠㅜㅡ".includes(jamo);
 };
 
 const consonantOrVowel = (jamo) => {
@@ -133,7 +127,7 @@ const consonantOrVowel = (jamo) => {
 const toSyllable = (choseong, jungseong, jongseong) => {
     const choseongNum = choseong.charCodeAt(0) - 0x1100;
     const jungseongNum = jungseong.charCodeAt(0) - 0x1161;
-    /* 0x11a7 instead of 0x11a8 to account for 0 possible */
+    /* 0x11a7 instead of 11a8 to account for 0 possible */
     const jongseongNum = jongseong ? jongseong.charCodeAt(0) - 0x11a7 : 0;
 
     return String.fromCharCode(
@@ -306,7 +300,7 @@ const mergeJungseong = (v1, v2) => {
         if (v2 === "ㅣ") return "ㅢ";
     }
 
-    return v1;
+    return null;
 };
 
 const mergeJongseong = (c1, c2) => {
@@ -327,7 +321,7 @@ const mergeJongseong = (c1, c2) => {
         if (c2 === "ㅅ") return "ㅄ";
     }
 
-    return c1;
+    return null;
 };
 
 const arrayToSyllable = (array) => {
@@ -342,7 +336,7 @@ const arrayToSyllable = (array) => {
             toJongseong(array[2])
         );
     }
-
+    console.error("Array to syllable: array unexpectedly long: " + array);
     return array.join("");
 };
 
@@ -353,23 +347,29 @@ export const engKeyboardToKorean = (string) => {
      For example,
         engKeyboardToKorean("gksrnrdj") = "한국어"
         engKeyboardToKorean("줄rl") = "줄기"
-  */
+    */
 
-    let tokens = string.split("").map(engKeyToKoreanKey);
+    let tokens = string.split("");
+    tokens = tokens.map(engKeyToKoreanKey);
     for (let i = 0; i < tokens.length; i++) {
         tokens[i] = [consonantOrVowel(tokens[i]), [tokens[i]]];
     }
 
     /*
-     * Four passes through tokens for combining
+     * Four passes through tokens can correctly combine jamo
      *
-     * Pass 1 = combine consecutive vowels into one vowel
+     * Pass 1 = combine consecutive vowels into one vowel if they can go together
+     *          (ㅜ and ㅣ can, while ㅓ and ㅓ cannot, for example)
      * Pass 2 = combine consecutive consonant -> vowel into a single CV (consonant-vowel)
-     * Pass 3 = combine consecutive consonants into one consonant
+     * Pass 3 = combine consecutive consonants into one consonant if they can go together
+     *          (ㅂ and ㅅ can, while ㄹ and ㅋ cannot, for example)
      * Pass 4 = combine consecutive CV -> consonant into one syllable block
      *
-     * Example
-     * [C, V, C, V, V, C, C]
+     * In the code, these passes are made backwards to prevent in place array splicing from
+     * altering the iteration of the for loops
+     *
+     * Example of four passes
+     * Initial list of jamo: [C, V, C, V, V, C, C]
      * -> [C, V, C, VV, C, C]
      * -> [CV, CVV, C, C]
      * -> [CV, CVV, CC]
@@ -380,7 +380,11 @@ export const engKeyboardToKorean = (string) => {
     /* Pass 1 */
     /* Combined vowels are still represented as V (not VV) despite being diphthongs */
     for (let i = tokens.length - 2; i >= 0; i--) {
-        if (tokens[i][0] === "V" && tokens[i + 1][0] === "V") {
+        if (
+            tokens[i][0] === "V" &&
+            tokens[i + 1][0] === "V" &&
+            mergeJungseong(tokens[i][1][0], tokens[i + 1][1][0]) != null
+        ) {
             const replacement = [
                 "V",
                 [mergeJungseong(tokens[i][1][0], tokens[i + 1][1][0])],
@@ -400,7 +404,11 @@ export const engKeyboardToKorean = (string) => {
     /* Pass 3 */
     /* 겹받침 written as C, not CC */
     for (let i = tokens.length - 2; i >= 0; i--) {
-        if (tokens[i][0] === "C" && tokens[i + 1][0] === "C") {
+        if (
+            tokens[i][0] === "C" &&
+            tokens[i + 1][0] === "C" &&
+            mergeJongseong(tokens[i][1][0], tokens[i + 1][1][0]) != null
+        ) {
             const replacement = [
                 "C",
                 [mergeJongseong(tokens[i][1][0], tokens[i + 1][1][0])],

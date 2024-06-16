@@ -43,4 +43,10 @@ describe("Testing engKeyboardToKorean()", () => {
     test('testing that engKeyboardToKorean(한rmf) === "한글"', () => {
         expect(engKeyboardToKorean("한rmf")).toBe("한글");
     });
+    test('testing that engKeyboardToKorean(rsetns) === "ㄱㄴㄷ순"', () => {
+        expect(engKeyboardToKorean("rsetns")).toBe("ㄱㄴㄷ순");
+    });
+    test('testing that engKeyboardToKorean(agwllrmmlmkn) === "ㅁㅎ지ㅣ그ㅢㅡㅏㅜ"', () => {
+        expect(engKeyboardToKorean("agwllrmmlmkn")).toBe("ㅁㅎ지ㅣ그ㅢㅡㅏㅜ");
+    });
 });
