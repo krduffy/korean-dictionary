@@ -1,3 +1,10 @@
+/**
+ * Returns the appropriate topic marker for a given string. If the final character of `string` is
+ * not a Korean syllable, returns an empty string.
+ *
+ * @param {string} string - The string whose topic marker should be returned.
+ * @returns {"은" | "는" | ""} The appropriate topic marker for `string`.
+ */
 export const getTopicMarker = (string) => {
     /* This can seem magic-numbery, but for those interested in how to convert a unicode in the 
        Korean Syllables unicode block to its constituent jamo, see the Wikipedia article below.
@@ -33,7 +40,8 @@ export const getTopicMarker = (string) => {
     return "는";
 };
 
-/* Returns what a key on the english keyboard maps to on the korean keyboard. */
+/* Returns what a key on the english keyboard maps to on the korean keyboard, or
+   `key` if `key` does not map to a different key on the korean keyboard. */
 const engKeyToKoreanKey = (key) => {
     switch (key) {
         case "q":
@@ -340,6 +348,16 @@ const arrayToSyllable = (array) => {
     return array.join("");
 };
 
+/**
+ * Remaps any english character in a string to its corresponding letter on the korean keyboard and
+ * combines any combinable jamo in the resulting remapping.
+ *
+ * For example,
+ * engKeyboardToKorean("gksrnrdj") === "한국어".
+ *
+ * @param {string} string - The string to remap.
+ * @returns {string} The remapped string.
+ */
 export const engKeyboardToKorean = (string) => {
     /* Returns what a string of characters from the english keyboard would be if the user
      instead used the korean keyboard.
@@ -436,16 +454,31 @@ export const engKeyboardToKorean = (string) => {
     return tokens.map((token) => arrayToSyllable(token[1])).join("");
 };
 
-export const isSingleHanja = (substr) => {
-    if (substr.length !== 1) return false;
-    const charCode = substr.charCodeAt(0);
+/**
+ * Determines whether a string is a single hanja character.
+ * The only considered hanja characters are those in the CJK Unified Ideograph block of
+ * Unicode addresses.
+ *
+ * @param {string} string - The string to analyze.
+ * @returns {boolean} - True if the string has a length of 1 and the character is a Hanja character, false otherwise.
+ */
+export const isSingleHanja = (string) => {
+    if (string.length !== 1) return false;
+    const charCode = string.charCodeAt(0);
     /* 4e00 through 9fff is block of CJK unified ideographs in unicode */
     return charCode >= 0x4e00 && charCode <= 0x9fff;
 };
 
-export const isolateHanja = (originalString) => {
+/**
+ * Isolates Hanja characters from a string.
+ *
+ * For example,
+ * isolateHanja("한자(漢字)만으로 쓴 글.") = ["한자(", "漢", "字", "")만으로 쓴 글."]
+ *
+ * @param {string} string - The string to isolate Hanja from.
+ * @returns {string[]} An array of strings, including isolated Hanja characters and other segments of the original string.
+ */
+export const isolateHanja = (string) => {
     /* 4e00 through 9fff is block of CJK unified ideographs in unicode */
-    return originalString
-        .split(/([\u4e00-\u9fff])/g)
-        .filter((str) => str.length > 0);
+    return string.split(/([\u4e00-\u9fff])/g).filter((str) => str.length > 0);
 };
