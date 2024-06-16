@@ -1,4 +1,8 @@
-import { engKeyboardToKorean, getTopicMarker } from "../../util/stringUtils.js";
+import {
+    engKeyboardToKorean,
+    getTopicMarker,
+    isSingleHanja,
+} from "../../util/stringUtils.js";
 
 describe("Testing getTopicMarker()", () => {
     test("gets topic marker for 키런 to be 은", () => {
@@ -48,5 +52,37 @@ describe("Testing engKeyboardToKorean()", () => {
     });
     test('testing that engKeyboardToKorean(agwllrmmlmkn) === "ㅁㅎ지ㅣ그ㅢㅡㅏㅜ"', () => {
         expect(engKeyboardToKorean("agwllrmmlmkn")).toBe("ㅁㅎ지ㅣ그ㅢㅡㅏㅜ");
+    });
+    test('testing that engKeyboardToKorean(ekfrt) === "닭ㅅ"', () => {
+        expect(engKeyboardToKorean("ekfrt")).toBe("닭ㅅ");
+    });
+    // a definition (sense) for 어학
+    test('testing that engKeyboardToKorean(dhlrnrdjfmf dusrngkrjsk tmqemrgkrl dnlgks gkrans. Ehsms rmfjs gkrrhk(學科).) === "외국어를 연구하거나 습득하기 위한 학문. 또는 그런 학과(學科)."', () => {
+        expect(
+            engKeyboardToKorean(
+                "dhlrnrdjfmf dusrngkrjsk tmqemrgkrl dnlgks gkrans. Ehsms rmfjs gkrrhk(學科)."
+            )
+        ).toBe("외국어를 연구하거나 습득하기 위한 학문. 또는 그런 학과(學科).");
+    });
+});
+
+describe("Testing isSingleHanja()", () => {
+    test("testing that 一 is hanja (first in CJK range)", () => {
+        expect(isSingleHanja("一")).toBe(true);
+    });
+    test("testing that ䷿ is not hanja (1 less than first in CJK range)", () => {
+        expect(isSingleHanja("䷿")).toBe(false);
+    });
+    test("testing that 鿿 is hanja (last in CJK range)", () => {
+        expect(isSingleHanja("鿿")).toBe(true);
+    });
+    test("testing that ꀀ is not hanja (1 more than last in CJK range)", () => {
+        expect(isSingleHanja("ꀀ")).toBe(false);
+    });
+    test("testing that 血 is hanja", () => {
+        expect(isSingleHanja("血")).toBe(true);
+    });
+    test("testing that 血血血 is not hanja (too long)", () => {
+        expect(isSingleHanja("血血血")).toBe(false);
     });
 });

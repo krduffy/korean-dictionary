@@ -407,7 +407,12 @@ export const engKeyboardToKorean = (string) => {
         if (
             tokens[i][0] === "C" &&
             tokens[i + 1][0] === "C" &&
-            mergeJongseong(tokens[i][1][0], tokens[i + 1][1][0]) != null
+            mergeJongseong(tokens[i][1][0], tokens[i + 1][1][0]) != null &&
+            /* below is to avoid a corner case with 3 consonants in a row,
+               which could have the first and second OR second and third combined
+               eg ㄹ ㄱ ㅅ
+             */
+            !(i >= 1 && mergeJongseong(tokens[i - 1][1][0], tokens[i][1][0]))
         ) {
             const replacement = [
                 "C",
@@ -429,4 +434,18 @@ export const engKeyboardToKorean = (string) => {
     }
 
     return tokens.map((token) => arrayToSyllable(token[1])).join("");
+};
+
+export const isSingleHanja = (substr) => {
+    if (substr.length !== 1) return false;
+    const charCode = substr.charCodeAt(0);
+    /* 4e00 through 9fff is block of CJK unified ideographs in unicode */
+    return charCode >= 0x4e00 && charCode <= 0x9fff;
+};
+
+export const isolateHanja = (originalString) => {
+    /* 4e00 through 9fff is block of CJK unified ideographs in unicode */
+    return originalString
+        .split(/([\u4e00-\u9fff])/g)
+        .filter((str) => str.length > 0);
 };

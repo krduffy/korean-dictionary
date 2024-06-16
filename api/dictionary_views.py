@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 import re
 import copy
 
-from .util import remove_all_user_additions, remove_non_user_additions, prioritize_known_or_studying, get_nouns_verbs
+from .util import is_hanja, remove_all_user_additions, remove_non_user_additions, prioritize_known_or_studying, get_nouns_verbs
 
 # Page size = 10
 class PaginationClass(PageNumberPagination):
@@ -51,7 +51,7 @@ class KoreanWordList(generics.ListAPIView):
     
     input_language = "kor"
     for character in search_term:
-      if ord(character) >= 0x4e00 and ord(character) <= 0x9fff:
+      if is_hanja(character):
         input_language = "han"
         break
 
@@ -253,7 +253,7 @@ class HanjaList(generics.ListAPIView):
     search_term = self.request.query_params.get('search_term', '')
     input_language = "kor"
     for character in search_term:
-      if ord(character) >= 0x4e00 and ord(character) <= 0x9fff:
+      if is_hanja(character):
         input_language = "han"
         break
 
