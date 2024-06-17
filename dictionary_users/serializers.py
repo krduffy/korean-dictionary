@@ -9,6 +9,23 @@ class UserSerializer(serializers.ModelSerializer):
     fields = ('id', 'username', 'password')
 
 class CreateUserSerializer(serializers.ModelSerializer):
+    
+    username = serializers.CharField(
+        required=True, 
+        error_messages={
+            'required': '아이디는 필수입니다.',
+            'blank': '아이디는 필수입니다.',
+            'unique': '이미 사용 중인 아이디입니다.',
+        }
+    )
+    password = serializers.CharField(
+        required=True, 
+        error_messages={
+            'required': '비밀번호는 필수입니다.',
+            'blank': '비밀번호는 필수입니다.',
+        }
+    )
+
     class Meta:
         model = DictionaryUser
         fields = ('username', 'password')
@@ -19,7 +36,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         username = attrs.get('username', '')
         if DictionaryUser.objects.filter(username=username).exists():
-            raise serializers.ValidationError('Username is taken.')
+            raise serializers.ValidationError({'아이디': '이미 사용 중인 아이디입니다.'})
         return attrs
 
     def create(self, validated_data):

@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 
-import LoginBox from "./components/LoginBox.jsx";
+import CreateAccountBox from "./components/accounts/CreateAccountBox.jsx";
+import LoginBox from "./components/accounts/LoginBox.jsx";
 import NavBar from "./components/nav_bar/NavBar.jsx";
 import Panel from "./components/panel/Panel.jsx";
 
@@ -9,10 +10,9 @@ import "./app.css";
 export const AuthenticationInfoContext = createContext(null);
 
 const App = () => {
+    /* navState is for navigation state (make new account, login, logout, etc) in the 
+       accounts context */
     const [navState, setNavState] = useState(null);
-    //const [loggedInUsername, setLoggedInUsername] = useState(
-    //    localStorage.getItem("username")
-    //);
     const [authInfo, setAuthInfo] = useState({});
 
     return (
@@ -39,6 +39,9 @@ const App = () => {
                 <div>
                     {navState === "login" && (
                         <LoginBox setNavState={setNavState} />
+                    )}
+                    {navState === "create_account" && (
+                        <CreateAccountBox setNavState={setNavState} />
                     )}
                 </div>
             </AuthenticationInfoContext.Provider>

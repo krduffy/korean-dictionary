@@ -13,6 +13,18 @@ class CreateUserAPI(CreateAPIView):
     serializer_class = CreateUserSerializer
     permission_classes = (AllowAny,)
 
+    def post(self, request):
+      serializer = self.serializer_class(data=request.data)
+      if serializer.is_valid():
+        user = serializer.save()
+        # cannot just return serializer.data; it needs to be stored inside of a 'user' key
+        returned_data = {}
+        serialized_user = UserSerializer(instance = user)
+        returned_data['user'] = serialized_user.data
+        return Response(returned_data, status=status.HTTP_201_CREATED)
+      else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class UpdateUserAPI(UpdateAPIView):
     queryset = DictionaryUser.objects.all()
     serializer_class = UpdateUserSerializer

@@ -129,7 +129,7 @@ const consonantOrVowel = (jamo) => {
     if (isVowel(jamo)) {
         return "V";
     }
-    return "N";
+    return "N"; //neither
 };
 
 const toSyllable = (choseong, jungseong, jongseong) => {

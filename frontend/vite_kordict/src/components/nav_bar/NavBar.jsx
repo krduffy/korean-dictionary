@@ -25,14 +25,24 @@ const NavBar = ({ setNavState }) => {
                     </button>
                 </React.Fragment>
             ) : (
-                <button
-                    id="login-button"
-                    onClick={() => {
-                        setNavState("login");
-                    }}
-                >
-                    로그인
-                </button>
+                <>
+                    <button
+                        id="create-account-button"
+                        onClick={() => {
+                            setNavState("create_account");
+                        }}
+                    >
+                        새로운
+                    </button>
+                    <button
+                        id="login-button"
+                        onClick={() => {
+                            setNavState("login");
+                        }}
+                    >
+                        로그인
+                    </button>
+                </>
             )}
         </div>
     );

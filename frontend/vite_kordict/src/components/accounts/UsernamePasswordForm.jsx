@@ -1,58 +1,20 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 
-import { useAPIModifier } from "../hooks/useAPIModifier.js";
+import ErrorMessage from "../panel/messages/ErrorMessage.jsx";
 
-import { AuthenticationInfoContext } from "../App.jsx";
-import ErrorMessage from "../components/panel/messages/ErrorMessage.jsx";
-
-import "./account-styles.css";
-
-const LoginBox = ({ setNavState }) => {
-    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
-    const setAuthInfo = useContext(AuthenticationInfoContext)["setAuthInfo"];
-
-    const {
-        formData,
-        updateFormDataField,
-        apiModify,
-        successful,
-        response,
-        error,
-    } = useAPIModifier({
-        username: "",
-        password: "",
-    });
-
-    {
-        /* for when user clicks to log in and it is successful; automatically
-       gets rid of the login box. */
-    }
-    useEffect(() => {
-        if (successful) {
-            const timer = setTimeout(() => {
-                setNavState("none");
-            }, 1000);
-
-            setAuthInfo({
-                username: response.user["username"],
-                token: response.token,
-            });
-
-            // Clear the timeout to avoid memory leaks
-            return () => clearTimeout(timer);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [successful]);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        apiModify("user/login/", authInfo["token"], formData, "POST");
-    };
-
+const UsernamePasswordForm = ({
+    title,
+    setNavState,
+    handleSubmit,
+    updateFormDataField,
+    successful,
+    error,
+    response,
+}) => {
     return (
         <div className="login-box">
             <div id="login-form-top-strip">
-                <span id="login-form-header">로그인</span>
+                <span id="login-form-header">{title}</span>
                 <button
                     id="cancel-login-button"
                     onClick={() => {
@@ -93,16 +55,16 @@ const LoginBox = ({ setNavState }) => {
                 <div id="submit-and-message-container">
                     <div id="messages-container">
                         {successful && (
-                            <span id="login-success-message">로그인 성공</span>
+                            <span id="login-success-message">{title} 성공</span>
                         )}
-                        {error && response && response.non_field_errors && (
+                        {error && response && (
                             <span id="login-fail-message">
                                 <ErrorMessage errorResponse={response} />
                             </span>
                         )}
                     </div>
                     <button id="submit-login-button" onClick={handleSubmit}>
-                        로그인
+                        {title}
                     </button>
                 </div>
             </form>
@@ -110,4 +72,4 @@ const LoginBox = ({ setNavState }) => {
     );
 };
 
-export default LoginBox;
+export default UsernamePasswordForm;
