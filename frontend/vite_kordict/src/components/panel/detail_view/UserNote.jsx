@@ -2,8 +2,17 @@ import { ViewContext } from "../Panel";
 
 import React, { useContext } from "react";
 
+import PropTypes from "prop-types";
+
 const BASE_URL = "http://127.0.0.1:8000";
 
+/**
+ * A component for rendering a user note as a boxed note in a grid of notes.
+ *
+ * @param {Object} props - Component props.
+ * @param {Object} props.noteData - The note data map containing `note_image` and `note_text` keys.
+ * @returns {React.JSX.Element} The rendered UserNote component.
+ */
 const UserNote = ({ noteData }) => {
     const viewContext = useContext(ViewContext);
     const updateViewAndPushToHistory =
@@ -32,6 +41,19 @@ const UserNote = ({ noteData }) => {
     );
 };
 
+UserNote.propTypes = {
+    noteData: PropTypes.shape({
+        note_image: PropTypes.string.isRequired,
+        note_text: PropTypes.string.isRequired,
+    }).isRequired,
+};
+
+/**
+ * A component for rendering a list of clickable notes with images and descriptions.
+ * @param {Object} props - Component props.
+ * @param {Object} props.noteData - An array of objects that contain keys for note display [`note_image` and `note_text`].
+ * @returns The rendered note grid.
+ */
 export const UserNoteGrid = ({ noteData }) => {
     return (
         <div className="user-note-grid">
@@ -42,6 +64,22 @@ export const UserNoteGrid = ({ noteData }) => {
     );
 };
 
+UserNoteGrid.propTypes = {
+    noteData: PropTypes.arrayOf(
+        PropTypes.shape({
+            note_image: PropTypes.string.isRequired,
+            note_text: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+};
+
+/**
+ * A component for rendering a user note in detail to the entire view window.
+ *
+ * @param {Object} props - Component props.
+ * @param {Object} props.noteData - The note data map containing `note_image` and `note_text` keys.
+ * @returns {React.JSX.Element} The rendered UserNoteDetail component.
+ */
 export const UserNoteDetail = ({ noteData }) => {
     return (
         <div className="user-note-detail">
@@ -52,6 +90,13 @@ export const UserNoteDetail = ({ noteData }) => {
             <div className="user-note-text-detail">{noteData.note_text}</div>
         </div>
     );
+};
+
+UserNoteDetail.propTypes = {
+    noteData: PropTypes.shape({
+        note_image: PropTypes.string.isRequired,
+        note_text: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
 export default UserNote;

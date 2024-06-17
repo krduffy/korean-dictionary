@@ -8,14 +8,24 @@ import { AuthenticationInfoContext } from "../../../App.jsx";
 
 import "./styles/korean-word-view-styles.css";
 
+/**
+ * A component to render buttons for toggling whether a word is known/not known or studied/not
+ * studied by the authenticated user.
+ *
+ * @param {Object} props - Component props.
+ * @param {number} props.targetCode - The target code for the word.
+ * @param {boolean} props.initiallyKnown - Whether this word was known by the user when the component initially renders.
+ * @param {boolean} props.initiallyStudied - Whether this word was studied by the user when the component initially renders.
+ * @returns {React.JSX.Element} The rendered KnownStudyToggles component.
+ */
 const KnowStudyToggles = ({ targetCode, initiallyKnown, initiallyStudied }) => {
     return (
         <>
-            <KnownOrUnknownView
+            <KnownOrUnknownButton
                 targetCode={targetCode}
                 initiallyKnown={initiallyKnown}
             />
-            <StudiedOrNotStudiedView
+            <StudiedOrNotStudiedButton
                 targetCode={targetCode}
                 initiallyStudied={initiallyStudied}
             />
@@ -31,7 +41,16 @@ KnowStudyToggles.propTypes = {
 
 export default KnowStudyToggles;
 
-const KnownOrUnknownView = ({ targetCode, initiallyKnown }) => {
+/**
+ * A component to render a button for toggling whether a word is known/not known by the
+ * authenticated user.
+ *
+ * @param {Object} props - Component props.
+ * @param {number} props.targetCode - The target code for the word.
+ * @param {boolean} props.initiallyKnown - Whether this word was known by the user when the component initially renders.
+ * @returns {React.JSX.Element} The rendered KnownOrUnknownView component.
+ */
+const KnownOrUnknownButton = ({ targetCode, initiallyKnown }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const { apiModify, successful, error } = useAPIModifier({});
     const [wordIsKnown, setWordIsKnown] = useState(initiallyKnown);
@@ -55,6 +74,7 @@ const KnownOrUnknownView = ({ targetCode, initiallyKnown }) => {
         if (successful) {
             setWordIsKnown(!wordIsKnown);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [successful]);
 
     useEffect(() => {
@@ -83,12 +103,21 @@ const KnownOrUnknownView = ({ targetCode, initiallyKnown }) => {
     );
 };
 
-KnownOrUnknownView.propTypes = {
+KnownOrUnknownButton.propTypes = {
     targetCode: PropTypes.number.isRequired,
     initiallyKnown: PropTypes.bool.isRequired,
 };
 
-const StudiedOrNotStudiedView = ({ targetCode, initiallyStudied }) => {
+/**
+ * A component to render a button for toggling whether a word is studied/not studied by the
+ * authenticated user.
+ *
+ * @param {Object} props - Component props.
+ * @param {number} props.targetCode - The target code for the word.
+ * @param {boolean} props.initiallyStudied - Whether this word was known by the user when the component initially renders.
+ * @returns {React.JSX.Element} The rendered KnownOrUnknownView component.
+ */
+const StudiedOrNotStudiedButton = ({ targetCode, initiallyStudied }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const { apiModify, successful, error } = useAPIModifier({});
     const [wordIsStudied, setWordIsStudied] = useState(initiallyStudied);
@@ -111,6 +140,7 @@ const StudiedOrNotStudiedView = ({ targetCode, initiallyStudied }) => {
         if (successful) {
             setWordIsStudied(!wordIsStudied);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [successful]);
 
     useEffect(() => {
@@ -141,7 +171,7 @@ const StudiedOrNotStudiedView = ({ targetCode, initiallyStudied }) => {
     );
 };
 
-StudiedOrNotStudiedView.propTypes = {
+StudiedOrNotStudiedButton.propTypes = {
     targetCode: PropTypes.number.isRequired,
     initiallyStudied: PropTypes.bool.isRequired,
 };

@@ -6,6 +6,7 @@ import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
 import HanjaWriter from "../hanja-writing/HanjaWriter.jsx";
+import ErrorMessage from "../messages/ErrorMessage.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import PaginatedResults from "../paginated_results/PaginatedResults.jsx";
 import ClipboardCopier from "../string_formatters/ClipboardCopier.jsx";
@@ -15,10 +16,17 @@ import TruncatorDropdown from "../string_formatters/TruncatorDropdown.jsx";
 
 import "./styles/hanja-char-view-styles.css";
 
+/**
+ * A component that renders detailed data for a Hanja character to the entire view area.
+ *
+ * @param {Object} props - Component props.
+ * @param {string} props.hanjaChar - The character to view data for. Should consist of exactly one (`hanjaChar.length == 1`) hanja character.
+ * @returns {React.JSX.Element} The rendered HanjaCharView component.
+ */
 const HanjaCharView = ({ hanjaChar }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const [charData, setCharData] = useState({});
-    const { apiFetch, loading, error } = useAPIFetcher();
+    const { apiFetch, loading, error, response } = useAPIFetcher();
 
     useEffect(() => {
         const setData = async () => {
@@ -29,15 +37,20 @@ const HanjaCharView = ({ hanjaChar }) => {
             setCharData(data);
         };
         setData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hanjaChar]);
 
     return (
         <>
             {loading ? (
                 <LoadingMessage />
+            ) : error ? (
+                <ErrorMessage errorResponse={response} />
             ) : (
                 <div>
+                    {/* MAIN INFO */}
                     <div className="main-info-section">
+                        {/* CHARACTER, STROKES, UNICODE, ANIMATION PLAYER ETC */}
                         <div className="main-info-upper">
                             <div className="main-info-upper-left">
                                 <div className="jahuneum">
@@ -160,10 +173,11 @@ const HanjaCharView = ({ hanjaChar }) => {
                                 </div>
                             </div>
                             <div className="main-info-upper-right">
-                                <OnDemandHanjaDrawer hanjaChar={hanjaChar} />
+                                <HanjaAnimationPlayer hanjaChar={hanjaChar} />
                             </div>
                         </div>
 
+                        {/* EXPLANATION OF CHARACTER */}
                         {charData["explanation"] && (
                             <div className="main-info-lower">
                                 <div className="section-header">
@@ -201,6 +215,7 @@ const HanjaCharView = ({ hanjaChar }) => {
                         )}
                     </div>
 
+                    {/* WORDS THAT CONTAIN THIS CHARACTER */}
                     <div className="section-header">연관단어</div>
                     <div className="example-container">
                         <PaginatedResults
@@ -221,7 +236,14 @@ HanjaCharView.propTypes = {
 
 export default HanjaCharView;
 
-const OnDemandHanjaDrawer = ({ hanjaChar }) => {
+/**
+ * A component that renders a Hanja character stroke animation player. It can be paused and played.
+ *
+ * @param {Object} props - Component props.
+ * @param {string} props.hanjaChar - The character to view the animation player for. Should consist of exactly one (`hanjaChar.length == 1`) hanja character.
+ * @returns {React.JSX.Element} The rendered HanjaAnimationPlayer component.
+ */
+const HanjaAnimationPlayer = ({ hanjaChar }) => {
     const ref = useRef(null);
     const [hanjaLoadError, setHanjaLoadError] = useState(false);
     const [showControls, setShowControls] = useState(false);
@@ -253,6 +275,8 @@ const OnDemandHanjaDrawer = ({ hanjaChar }) => {
                 }}
                 ref={ref}
             />
+
+            {/* BUTTONS BELOW PLAYER */}
             {showControls && (
                 <div className="hanja-writer-controls">
                     <button className="hanja-play-button" onClick={handleClick}>
@@ -262,4 +286,8 @@ const OnDemandHanjaDrawer = ({ hanjaChar }) => {
             )}
         </>
     );
+};
+
+HanjaAnimationPlayer.propTypes = {
+    hanjaChar: PropTypes.string.isRequired,
 };

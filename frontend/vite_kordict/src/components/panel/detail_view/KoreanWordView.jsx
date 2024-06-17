@@ -16,6 +16,13 @@ import SenseHistoryInfo from "./sense_info_components/SenseHistoryInfo.jsx";
 
 import "./styles/korean-word-view-styles.css";
 
+/**
+ * A component for viewing a Korean word's data in detail, taking up the entire view area.
+ *
+ * @param {Object} props - Component props.
+ * @param {number} props.targetCode - The target code of the word to be displayed.
+ * @returns {React.JSX.Element} The rendered KoreanWordView component.
+ */
 const KoreanWordView = ({ targetCode }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const { apiFetch, loading, error, response } = useAPIFetcher();
@@ -45,6 +52,8 @@ const KoreanWordView = ({ targetCode }) => {
             ) : (
                 wordData && (
                     <div className="korean-word-view">
+                        {/* WORD ITSELF AND ORIGIN, eg
+                              사과 沙果/砂果        */}
                         <span className="word-header">
                             <span>{wordData["word"]}</span>
                             {"  "}
@@ -53,6 +62,8 @@ const KoreanWordView = ({ targetCode }) => {
                             )}
                         </span>
 
+                        {/* Type of word (어휘 등), buttons for known and studying, 
+                            button for editing        */}
                         <div className="word-extra-info-container">
                             <span className="word-extra-info">
                                 {wordData["word_type"]}
@@ -90,6 +101,7 @@ const KoreanWordView = ({ targetCode }) => {
                             </button>
                         </div>
 
+                        {/* NOTES */}
                         {wordData["notes"].length > 0 && (
                             <React.Fragment>
                                 <p className="section-header">
@@ -103,6 +115,7 @@ const KoreanWordView = ({ targetCode }) => {
                             </React.Fragment>
                         )}
 
+                        {/* SENSES */}
                         <div className="senses-container">
                             {wordData["senses"] &&
                                 wordData["senses"].map((data) => (
@@ -113,6 +126,12 @@ const KoreanWordView = ({ targetCode }) => {
                                 ))}
                         </div>
 
+                        {/* HISTORY 
+                            History is stored at the sense level to allow for
+                            individual histories for different senses of the same
+                            word in the case that they need to be separately rendered
+                            Right now, only the first sense's history is shown at the bottom
+                            because most of the senses have the same history */}
                         <div>
                             {wordData["senses"] &&
                                 wordData["senses"].length > 0 &&

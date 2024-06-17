@@ -8,7 +8,6 @@ import { UserNoteDetail } from "./detail_view/UserNote.jsx";
 import PanelHeader from "./fixed_header/PanelHeader.jsx";
 import EditWordForm from "./forms/EditWordForm.jsx";
 import GetUnknownWordsForm from "./forms/GetUnknownWordsForm.jsx";
-import NewWordForm from "./forms/NewWordForm.jsx";
 import HomePage from "./home/HomePage.jsx";
 import PaginatedResults from "./paginated_results/PaginatedResults.jsx";
 import HanjaGame from "./review/hanja_game/HanjaGame.jsx";
