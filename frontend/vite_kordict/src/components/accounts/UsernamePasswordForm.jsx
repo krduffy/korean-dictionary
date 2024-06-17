@@ -2,6 +2,19 @@ import React from "react";
 
 import ErrorMessage from "../panel/messages/ErrorMessage.jsx";
 
+/**
+ * A component that renders a form for entering a username and password.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.title - The title to be displayed in the form header and on the submit button.
+ * @param {Function} props.setNavState - The function that updates the navigation state of user account management.
+ * @param {Function} props.handleSubmit - A function to handle form submission.
+ * @param {Function} props.updateFormDataField - The function to update a form field value.
+ * @param {boolean} props.successful - The flag indicating if the form submission was successful.
+ * @param {boolean} props.error - The flag indicating if an error occurred during form submission.
+ * @param {Object} props.response - The response object received from the server after form submission.
+ * @returns {JSX.Element} The rendered UsernamePasswordForm component.
+ */
 const UsernamePasswordForm = ({
     title,
     setNavState,

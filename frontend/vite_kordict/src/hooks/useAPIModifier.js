@@ -1,5 +1,32 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
+/**
+ * A hook for making any request to the API other than a get request.
+ *
+ * @param {boolean} useFormDataObject - Whether to use a `FormData` object to store form data. Defaults to true.
+ * @param {Object} initialJSONObject - The initial object to use. Should be a mapping of form data
+ * to initial values such as {"username": "un", "password": "pw"}. This dictionary will be turned into
+ * a `FormData` object if `useFormDataObject` is true.
+ * @returns {{
+ *   formData: FormData|Object,
+ *   updateFormDataField: Function,
+ *   initFormFromDict: Function,
+ *   apiModify: Function,
+ *   successful: boolean,
+ *   response: any,
+ *   error: boolean,
+ *   loading: boolean
+ * }}
+ *   An object containing the following properties:
+ *   formData - A `FormData` object or a regular object containing the form data
+ *   updateFormDataField - A function to update a field in the form data
+ *   initFormFromDict - A function to initialize the form data from a dictionary
+ *   apiModify - A function to make API requests
+ *   successful - A boolean indicating whether the last API request was successful
+ *   response - The response data from the last API request
+ *   error - A boolean indicating whether an error occurred during the last API request
+ *   loading - A boolean indicating whether an API request is currently in progress
+ */
 export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
     const BASE_URL = "http://127.0.0.1:8000/";
 
@@ -29,6 +56,12 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
             : initialJSONObject
     );
 
+    /**
+     * A function that updates a single field in `formData` with a new value.
+     *
+     * @param {string} field - The field to update in `formData`.
+     * @param {any} value - The value to set for `field`.
+     */
     const updateFormDataField = (field, value) => {
         let newFormData = useFormDataObject ? new FormData() : {};
 
@@ -46,10 +79,17 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
             newFormData[field] = value;
         }
 
-        console.log(newFormData);
         setFormData(newFormData);
     };
 
+    /**
+     * A function that sends requests to the API. `response` will be updated with the response to the request.
+     *
+     * @param {string} url - The API endpoint to send the request to.
+     * @param {string} token - An optional authentication token to send with the request.
+     * @param {Object} body - A dictionary of keys and values to send in the body of the request.
+     * @param {string} method - The method of the request (POST, DELETE, ...).
+     */
     const apiModify = (url, token, body, method) => {
         url = BASE_URL + url;
 
@@ -80,8 +120,6 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
                     const asJSON = JSON.parse(res);
                     setResponse(asJSON);
                 })
-                /* error / success needs to be set after response to ensure that when
-           the auth token is added to local storage response is not null */
                 .then(() => {
                     if (!response.ok) {
                         setError(true);
@@ -98,7 +136,6 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
     return {
         formData,
         updateFormDataField,
-        initFormFromDict,
         apiModify,
         successful,
         response,

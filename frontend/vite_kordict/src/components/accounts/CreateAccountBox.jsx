@@ -7,6 +7,12 @@ import UsernamePasswordForm from "./UsernamePasswordForm.jsx";
 
 import "./account-styles.css";
 
+/**
+ * A box component to create a new account.
+ *
+ * @param {Function} setNavState - setNavState, the function that updates the navigation state of user account management.
+ * @returns {React.JSX.Element} The rendered CreateAccountBox component.
+ */
 const CreateAccountBox = ({ setNavState }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const setAuthInfo = useContext(AuthenticationInfoContext)["setAuthInfo"];

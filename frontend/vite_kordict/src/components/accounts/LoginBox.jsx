@@ -6,7 +6,15 @@ import { AuthenticationInfoContext } from "../../App.jsx";
 import UsernamePasswordForm from "./UsernamePasswordForm.jsx";
 
 import "./account-styles.css";
+import "./account-styles.css";
 
+/**
+ * A box component to allow for user logins.
+ *
+ * @param {Object} props - Component props.
+ * @param {Function} props.setNavState - The function that updates the navigation state of user account management.
+ * @returns {React.JSX.Element} The rendered LoginBox component.
+ */
 const LoginBox = ({ setNavState }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const setAuthInfo = useContext(AuthenticationInfoContext)["setAuthInfo"];
