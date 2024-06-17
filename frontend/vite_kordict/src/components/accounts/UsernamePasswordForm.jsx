@@ -13,7 +13,7 @@ import ErrorMessage from "../panel/messages/ErrorMessage.jsx";
  * @param {boolean} props.successful - The flag indicating if the form submission was successful.
  * @param {boolean} props.error - The flag indicating if an error occurred during form submission.
  * @param {Object} props.response - The response object received from the server after form submission.
- * @returns {JSX.Element} The rendered UsernamePasswordForm component.
+ * @returns {React.JSX.Element} The rendered UsernamePasswordForm component.
  */
 const UsernamePasswordForm = ({
     title,

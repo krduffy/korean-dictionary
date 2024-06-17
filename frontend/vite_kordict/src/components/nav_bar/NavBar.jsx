@@ -4,6 +4,14 @@ import { AuthenticationInfoContext } from "../../App.jsx";
 
 import "./navbar-styles.css";
 
+/**
+ * A component for the nav bar at the top of the screen. Contains buttons for logging in, logging out,
+ * creating an account, and the currently logged in user depending on if any user is logged in.
+ *
+ * @param {Object} props - Component props.
+ * @param {Function} setNavState - The function that updates navigation state of user account components.
+ * @returns {React.JSX.Element} The rendered NavBar component.
+ */
 const NavBar = ({ setNavState }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const setAuthInfo = useContext(AuthenticationInfoContext)["setAuthInfo"];

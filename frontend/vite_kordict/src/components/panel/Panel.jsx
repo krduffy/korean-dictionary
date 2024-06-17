@@ -17,6 +17,12 @@ import "./panel-styles.css";
 
 export const ViewContext = createContext(null);
 
+/**
+ * A Panel component for content that will occupy one half of the screen. Contains content to
+ * make searches, display results, and other dictionary functions.
+ *
+ * @returns {React.JSX.Element} The rendered Panel component.
+ */
 const Panel = () => {
     const initialHomepageSeed = Math.floor(Math.random() * 1000000);
 
@@ -54,7 +60,35 @@ const Panel = () => {
         setCurrentView(newView);
     };
 
+    /* Whether to have display: none or not */
     const [showPanelContent, setShowPanelContent] = useState(true);
+
+    const getPanelContent = (view, value) => {
+        switch (view) {
+            case "search_korean":
+            case "search_hanja":
+            case "known_words":
+            case "study_words":
+                return (
+                    <PaginatedResults searchType={view} searchTerm={value} />
+                );
+            case "detail_korean":
+                return <KoreanWordView targetCode={value} />;
+            case "detail_hanja":
+                return <HanjaCharView hanjaChar={value} />;
+            case "homepage":
+                return <HomePage initialSeed={value} />;
+            case "hanja_game":
+                return <HanjaGame />;
+            /* Add word is not currently in the application */
+            case "edit_word":
+                return <EditWordForm targetCode={value} />;
+            case "get_unknown_words":
+                return <GetUnknownWordsForm />;
+            case "detail_note":
+                return <UserNoteDetail noteData={value} />;
+        }
+    };
 
     return (
         <ViewContext.Provider
@@ -74,73 +108,19 @@ const Panel = () => {
                 showPanelContent={showPanelContent}
                 setShowPanelContent={setShowPanelContent}
             />
+
             <div className={showPanelContent ? "panel" : "panel-hidden"}>
-                {(currentView["view"] === "search_korean" ||
-                    currentView["view"] === "search_hanja" ||
-                    currentView["view"] === "known_words" ||
-                    currentView["view"] === "study_words") && (
-                    <PaginatedResults
-                        searchType={currentView["view"]}
-                        searchTerm={currentView["value"]}
-                    />
-                )}
+                {getPanelContent(currentView["view"], currentView["value"])}
 
-                {(currentView["view"] === "detail_korean" ||
-                    currentView["view"] === "detail_hanja") && (
-                    <div>
-                        {currentView["view"] == "detail_korean" && (
-                            <KoreanWordView targetCode={currentView["value"]} />
-                        )}
-                        {currentView["view"] == "detail_hanja" && (
-                            <HanjaCharView hanjaChar={currentView["value"]} />
-                        )}
-                    </div>
-                )}
-
-                {currentView["view"] === "homepage" && (
-                    <div>
-                        <HomePage initialSeed={currentView["value"]} />
-                    </div>
-                )}
-
-                {currentView["view"] === "hanja_game" && (
-                    <div>
-                        <HanjaGame />
-                    </div>
-                )}
-
-                {currentView["view"] === "add_word" && (
-                    <div>
-                        <NewWordForm />
-                    </div>
-                )}
-
-                {currentView["view"] === "edit_word" && (
-                    <div>
-                        <EditWordForm targetCode={currentView["value"]} />
-                    </div>
-                )}
-
-                {currentView["view"] === "get_unknown_words" && (
-                    <div>
-                        <GetUnknownWordsForm />
-                    </div>
-                )}
-
-                {currentView["view"] === "detail_note" && (
-                    <div>
-                        <UserNoteDetail noteData={currentView["value"]} />
-                    </div>
-                )}
+                {/* bar under content as padding */}
+                <div
+                    className="horizontal-bar"
+                    style={{
+                        marginTop: "40px",
+                        marginBottom: "40px",
+                    }}
+                />
             </div>
-
-            <div
-                className="horizontal-bar"
-                style={{
-                    marginTop: "40px",
-                    marginBottom: "40px",
-                }}
-            />
         </ViewContext.Provider>
     );
 };
