@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { processRequest } from "./useCache.js";
+
 /**
  * A hook for making any request to the API other than a get request.
  *
@@ -91,7 +93,7 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
      * @param {string} method - The method of the request (POST, DELETE, ...).
      */
     const apiModify = (url, token, body, method) => {
-        url = BASE_URL + url;
+        const fullUrl = BASE_URL + url;
 
         setSuccessful(false);
         setError(false);
@@ -109,7 +111,7 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
             headers.append("Content-Type", "application/json");
         }
 
-        fetch(url, {
+        fetch(fullUrl, {
             method: method,
             body: body,
             headers: headers,
@@ -119,11 +121,31 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
                 .then((res) => {
                     const asJSON = JSON.parse(res);
                     setResponse(asJSON);
+                    return asJSON;
                 })
-                .then(() => {
+                .then((asJSON) => {
                     if (!response.ok) {
                         setError(true);
                     } else {
+                        /* on success */
+                        const additionalInfo = {};
+
+                        additionalInfo["word"] = asJSON["kw_word"]
+                            ? asJSON["kw_word"]
+                            : asJSON["word"]
+                              ? asJSON["word"]
+                              : "";
+                        additionalInfo["target_code"] = asJSON["kw_target_code"]
+                            ? asJSON["kw_target_code"]
+                            : asJSON["target_code"]
+                              ? asJSON["target_code"]
+                              : "";
+
+                        console.log(asJSON);
+                        console.log(additionalInfo);
+                        console.log(url, method);
+                        processRequest(url, method, additionalInfo);
+
                         setSuccessful(true);
                     }
                 })

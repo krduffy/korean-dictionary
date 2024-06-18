@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useCache } from "./useCache.js";
+import { cachePut, cacheRetrieve } from "./useCache.js";
 
 /**
  * A hook for sending GET requests to the API.
@@ -18,8 +18,6 @@ export function useAPIFetcher() {
     const BASE_URL = "http://127.0.0.1:8000/";
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-
-    const { cacheRetrieve, cachePut, cacheInvalidate } = useCache();
 
     /**
      * Asynchronous function to fetch data from the API.
