@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { useCache } from "./useCache.js";
+
 /**
  * A hook for sending GET requests to the API.
  *
@@ -17,6 +19,8 @@ export function useAPIFetcher() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    const { cacheRetrieve, cachePut, cacheInvalidate } = useCache();
+
     /**
      * Asynchronous function to fetch data from the API.
      *
@@ -25,28 +29,39 @@ export function useAPIFetcher() {
      * @returns {Promise<any>} A Promise that resolves with the fetched data or rejects with an error
      */
     const apiFetch = async (url, token) => {
-        url = BASE_URL + url;
         setLoading(true);
         setError(null);
-        const headers = token
-            ? {
-                  "Content-Type": "application/json",
-                  Authorization: `Token ${token}`,
-              }
-            : { "Content-Type": "application/json" };
-        try {
-            const response = await fetch(url, { headers });
-            if (!response.ok) {
-                throw new Error("Network error.");
-            } else {
-                const data = await response.json();
-                return data;
-            }
-        } catch (error) {
-            setError(error);
-            return null;
-        } finally {
+
+        const cachedResponse = cacheRetrieve(url);
+        if (cachedResponse) {
+            /* Responses that result in error are not cached, so not a consideration */
             setLoading(false);
+            return Promise.resolve(cachedResponse);
+        } else {
+            const fullUrl = BASE_URL + url;
+
+            const headers = token
+                ? {
+                      "Content-Type": "application/json",
+                      Authorization: `Token ${token}`,
+                  }
+                : { "Content-Type": "application/json" };
+            try {
+                const response = await fetch(fullUrl, { headers });
+
+                if (!response.ok) {
+                    throw new Error("Network error.");
+                } else {
+                    const data = await response.json();
+                    cachePut(url, data);
+                    return data;
+                }
+            } catch (error) {
+                setError(error);
+                return null;
+            } finally {
+                setLoading(false);
+            }
         }
     };
 

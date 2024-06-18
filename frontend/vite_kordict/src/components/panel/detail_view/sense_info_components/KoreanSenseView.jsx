@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 
 import PropTypes from "prop-types";
 
@@ -12,6 +12,13 @@ import SenseRelationInfo from "./SenseRelationInfo.jsx";
 
 import "./styles/korean-sense-styles.css";
 
+/**
+ * A component for viewing all of the data for a single sense for a Korean word.
+ *
+ * @param {Object} props - Component props.
+ * @param {Object} props.senseData - The map of sense data.
+ * @returns {React.JSX.Element} The rendered KoreanSenseView component.
+ */
 const KoreanSenseView = ({ senseData }) => {
     return (
         <div>
@@ -35,7 +42,7 @@ const KoreanSenseView = ({ senseData }) => {
                     )}
                     {senseData["additional_info"]["pattern_info"] &&
                         senseData["additional_info"]["pattern_info"].map(
-                            (pattern, id, patternArray) => (
+                            (pattern, id) => (
                                 <span key={id} style={{ color: "#42d1f5" }}>
                                     ≪{pattern.pattern}≫{" "}
                                 </span>
@@ -128,16 +135,26 @@ KoreanSenseView.propTypes = {
     senseData: PropTypes.shape({
         order: PropTypes.number.isRequired,
         type: PropTypes.string.isRequired,
-        pos: PropTypes.string.isRequired,
-        category: PropTypes.string.isRequired,
+        pos: PropTypes.string,
+        category: PropTypes.string,
         definition: PropTypes.string.isRequired,
         additional_info: PropTypes.shape({
-            region_info: PropTypes.shape({
-                region: PropTypes.string,
-            }),
+            region_info: PropTypes.arrayOf(
+                PropTypes.shape({
+                    region: PropTypes.string.isRequired,
+                })
+            ),
             example_info: PropTypes.arrayOf(PropTypes.shape({})),
+            grammar_info: PropTypes.arrayOf(PropTypes.shape({})),
+            norm_info: PropTypes.arrayOf(PropTypes.shape({})),
+            relation_info: PropTypes.arrayOf(PropTypes.shape({})),
             proverb_info: PropTypes.arrayOf(PropTypes.shape({})),
-        }),
+            pattern_info: PropTypes.arrayOf(
+                PropTypes.shape({
+                    pattern: PropTypes.string.isRequired,
+                })
+            ),
+        }).isRequired,
     }).isRequired,
 };
 
