@@ -33,8 +33,12 @@ export function useAPIFetcher() {
         const cachedResponse = cacheRetrieve(url);
         if (cachedResponse) {
             /* Responses that result in error are not cached, so not a consideration */
-            setLoading(false);
-            return Promise.resolve(cachedResponse);
+
+            return new Promise((resolve) => {
+                resolve(cachedResponse);
+            }).finally(() => {
+                setLoading(false);
+            });
         } else {
             const fullUrl = BASE_URL + url;
 

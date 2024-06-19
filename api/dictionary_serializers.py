@@ -5,32 +5,32 @@ from .dictionary_models import KoreanWord, Sense, HanjaCharacter
 from .user_addition_serializers import UserNoteSerializer
 
 class KoreanWordSerializer(serializers.ModelSerializer):
-  kw_target_code = serializers.IntegerField(source='target_code', default = None)
-  kw_word = serializers.CharField(source='word', default = None)
-  kw_origin = serializers.CharField(source='origin', default = None)
-  kw_word_type = serializers.CharField(source='word_type', default = None)
-  kw_senses = serializers.SerializerMethodField()
-  kw_user_data = serializers.SerializerMethodField()
+  target_code = serializers.IntegerField()
+  word = serializers.CharField()
+  origin = serializers.CharField()
+  word_type = serializers.CharField()
+  senses = serializers.SerializerMethodField()
+  user_data = serializers.SerializerMethodField()
 
   class Meta:
     model = KoreanWord
-    fields = ['kw_target_code', 'kw_word', 'kw_origin', 'kw_word_type', 
-              'kw_senses', 'kw_user_data']
+    fields = ['target_code', 'word', 'origin', 'word_type', 
+              'senses', 'user_data']
     read_only_fields = ['__all__']
 
-  def get_kw_user_data(self, obj):
+  def get_user_data(self, obj):
     sr_user = self.context['request'].user
 
     if sr_user.is_authenticated:
       user_data = dict()
-      user_data['kw_is_known'] = sr_user.known_words.filter(pk = obj.target_code).exists()
-      user_data['kw_is_studied'] = sr_user.study_words.filter(pk = obj.target_code).exists()
-      user_data['kw_added_by_user'] = KoreanWord.objects.get(pk = obj.target_code).creator == sr_user
+      user_data['is_known'] = sr_user.known_words.filter(pk = obj.target_code).exists()
+      user_data['is_studied'] = sr_user.study_words.filter(pk = obj.target_code).exists()
+      user_data['added_by_user'] = KoreanWord.objects.get(pk = obj.target_code).creator == sr_user
       return user_data
 
     return None
 
-  def get_kw_senses(self, obj):
+  def get_senses(self, obj):
     # filter out whenever order is greater than 0 to eliminate
     # dummy senses used just for keeping examples. (which are saved as order=0)
     sense_queryset = obj.senses.all()
@@ -92,17 +92,17 @@ class NLPRequestValidator(serializers.Serializer):
 
 class SimplifiedSenseSerializer(serializers.ModelSerializer):
 
-  s_target_code = serializers.IntegerField(source='target_code', default = None)
-  s_definition = serializers.CharField(source='definition', default = None)
-  s_type = serializers.CharField(source='type', default = None)
-  s_order = serializers.IntegerField(source='order', default = None)
-  s_category = serializers.CharField(source='category', default = None)
-  s_pos = serializers.CharField(source='pos', default = None)
+  target_code = serializers.IntegerField()
+  definition = serializers.CharField()
+  type = serializers.CharField()
+  order = serializers.IntegerField()
+  category = serializers.CharField()
+  pos = serializers.CharField()
 
   class Meta:
     model = Sense
-    fields = ['s_target_code', 's_definition', 's_type', 's_order', 
-              's_category', 's_pos']
+    fields = ['target_code', 'definition', 'type', 'order', 
+              'category', 'pos']
     read_only_fields = ['__all__']
 
 class SenseSerializer(serializers.ModelSerializer):
@@ -119,19 +119,18 @@ class HanjaCharacterSerializer(serializers.ModelSerializer):
     read_only_fields = ['__all__']
 
 class KoreanSerializerForHanja(serializers.ModelSerializer):
-  kw_target_code = serializers.IntegerField(source='target_code', default = None)
-  kw_word = serializers.CharField(source='word', default = None)
-  kw_origin = serializers.CharField(source='origin', default = None)
-  kw_first_definition = serializers.SerializerMethodField()
+  target_code = serializers.IntegerField()
+  word = serializers.CharField()
+  origin = serializers.CharField()
+  first_definition = serializers.SerializerMethodField()
 
   class Meta:
     model = KoreanWord
-    fields = ['kw_target_code', 'kw_word', 'kw_origin', 'kw_first_definition']
+    fields = ['target_code', 'word', 'origin', 'first_definition']
     read_only_fields = ['__all__']
 
-  def get_kw_first_definition(self, obj):
+  def get_first_definition(self, obj):
     sense_queryset = obj.senses.all()
-    print(self.context)
     if self.context['request'].user.is_authenticated:
       sense_queryset = remove_non_user_additions(queryset=sense_queryset, allowed_user=self.context['request'].user.pk)
     else:
@@ -142,11 +141,11 @@ class KoreanSerializerForHanja(serializers.ModelSerializer):
     return first.definition if first is not None else "정의는 아직 추가하지 않으셨습니다."
   
 class HanjaGameWordSerializer(serializers.Serializer):
-  kw_target_code = serializers.IntegerField(source='target_code', default = None)
-  kw_word = serializers.CharField(source='word', default = None)
-  kw_origin = serializers.CharField(source='origin', default = None)
+  target_code = serializers.IntegerField()
+  word = serializers.CharField()
+  origin = serializers.CharField()
 
   class Meta:
     model = KoreanWord
-    fields = ['kw_target_code', 'kw_word', 'kw_origin']
+    fields = ['target_code', 'word', 'origin']
     read_only_fields = ['__all__']

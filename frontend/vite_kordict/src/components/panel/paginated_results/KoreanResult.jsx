@@ -17,7 +17,7 @@ const KoreanResult = ({ result }) => {
             view: "detail_korean",
             value: targetCode,
             searchBarInitialState: {
-                boxContent: result["kw_word"],
+                boxContent: result["word"],
                 dictionary: "korean",
             },
         });
@@ -28,29 +28,27 @@ const KoreanResult = ({ result }) => {
             <div className="header">
                 <div>
                     <span
-                        onClick={() => viewKoreanDetail(result.kw_target_code)}
+                        onClick={() => viewKoreanDetail(result.target_code)}
                         className="word_header clickable-result"
                     >
-                        {result.kw_word}
+                        {result.word}
                     </span>
 
                     {"   "}
 
-                    {result.kw_origin && (
-                        <StringWithHanja string={result.kw_origin} />
+                    {result.origin && (
+                        <StringWithHanja string={result.origin} />
                     )}
                 </div>
 
                 <div>
-                    {result["kw_user_data"] && (
+                    {result["user_data"] && (
                         <span className="korean-result-know-study-container">
                             <KnowStudyToggles
-                                targetCode={result["kw_target_code"]}
-                                initiallyKnown={
-                                    result["kw_user_data"]["kw_is_known"]
-                                }
+                                targetCode={result["target_code"]}
+                                initiallyKnown={result["user_data"]["is_known"]}
                                 initiallyStudied={
-                                    result["kw_user_data"]["kw_is_studied"]
+                                    result["user_data"]["is_studied"]
                                 }
                             />
                         </span>
@@ -59,20 +57,20 @@ const KoreanResult = ({ result }) => {
             </div>
 
             <ul className="listed_senses">
-                {result.kw_senses.map((sense) => (
-                    <li key={sense.s_order}>
-                        {sense.s_order}.{" "}
-                        <span style={{ color: "#8e44ad" }}>{sense.s_pos}</span>{" "}
+                {result.senses.map((sense) => (
+                    <li key={sense.order}>
+                        {sense.order}.{" "}
+                        <span style={{ color: "#8e44ad" }}>{sense.pos}</span>{" "}
                         <span style={{ color: "#3498db" }}>
-                            {sense.s_category}
+                            {sense.category}
                         </span>{" "}
-                        <StringWithNLP string={sense.s_definition} />
+                        <StringWithNLP string={sense.definition} />
                     </li>
                 ))}
             </ul>
 
             <p className="source">
-                {result.kw_user_data && result.kw_user_data["kw_added_by_user"]
+                {result.user_data && result.user_data["added_by_user"]
                     ? "내가 추가한 단어"
                     : "출처: 우리말샘"}
             </p>
@@ -82,21 +80,21 @@ const KoreanResult = ({ result }) => {
 
 KoreanResult.propTypes = {
     result: PropTypes.shape({
-        kw_target_code: PropTypes.number.isRequired,
-        kw_word: PropTypes.string.isRequired,
-        kw_origin: PropTypes.string.isRequired,
-        kw_senses: PropTypes.arrayOf(
+        target_code: PropTypes.number.isRequired,
+        word: PropTypes.string.isRequired,
+        origin: PropTypes.string.isRequired,
+        senses: PropTypes.arrayOf(
             PropTypes.shape({
-                s_order: PropTypes.number.isRequired,
-                s_pos: PropTypes.string.isRequired,
-                s_category: PropTypes.string.isRequired,
-                s_definition: PropTypes.string.isRequired,
+                order: PropTypes.number.isRequired,
+                pos: PropTypes.string.isRequired,
+                category: PropTypes.string.isRequired,
+                definition: PropTypes.string.isRequired,
             })
         ).isRequired,
-        kw_user_data: PropTypes.shape({
-            kw_is_known: PropTypes.bool,
-            kw_is_studied: PropTypes.bool,
-            kw_created_by_user: PropTypes.bool,
+        user_data: PropTypes.shape({
+            is_known: PropTypes.bool,
+            is_studied: PropTypes.bool,
+            created_by_user: PropTypes.bool,
         }),
     }).isRequired,
 };

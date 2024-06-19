@@ -77,7 +77,7 @@ const KoreanWordSection = ({ wordArray }) => {
         <div className="korean-word-section">
             {wordArray.map((wordData, id) => (
                 <div key={id} className="single-hanja-example">
-                    {wordData["kw_word"]} {wordData["kw_origin"]}
+                    {wordData["word"]} {wordData["origin"]}
                 </div>
             ))}
         </div>

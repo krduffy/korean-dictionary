@@ -23,24 +23,26 @@ export const processRequest = (url, method, additionalInfo) => {
       Login and logout invalidate entire cache.
     */
 
-    console.log("ADDITIONAL INFO IS ");
-    console.log(additionalInfo);
-
     /* toggle_word_known */
     if (new RegExp("^api/toggle_word_k").test(url)) {
-        console.log("toggling");
-        console.log(
-            "matches?" +
-                getSearchesMatchingWord("^api/search_k", additionalInfo["word"])
-        );
         const searchesToUpdate = getSearchesMatchingWord(
             "^api/search_k",
             additionalInfo["word"]
         );
-
         for (let i = 0; i < searchesToUpdate.length; i++) {
             cacheInPlaceUpdate(searchesToUpdate[i], "known", method);
         }
+
+        if (cache[`api/korean_word/${additionalInfo["target_code"]}`]) {
+            cacheInPlaceUpdate(
+                `api/korean_word/${additionalInfo["target_code"]}`,
+                "known",
+                method
+            );
+        }
+
+        /* CHECK FOR HANJA IN EXAMPLES AND POPUP */
+        /* ORIGIN NEEDS TO BE IN ADDITIONAL INFO */
     } else if (new RegExp("^api/toggle_word_s").test(url)) {
         /* toggle_word_studied */
         cacheInPlaceUpdate("^api/korean_word/", "studied", method);

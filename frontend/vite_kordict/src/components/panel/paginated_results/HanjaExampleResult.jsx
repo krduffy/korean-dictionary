@@ -16,7 +16,7 @@ const HanjaExampleResult = ({ result }) => {
             view: "detail_korean",
             value: targetCode,
             searchBarInitialState: {
-                boxContent: result["kw_word"],
+                boxContent: result["word"],
                 dictionary: "korean",
             },
         });
@@ -28,18 +28,18 @@ const HanjaExampleResult = ({ result }) => {
                 <span
                     className="clickable-result"
                     onClick={() => {
-                        viewKoreanDetail(result["kw_target_code"]);
+                        viewKoreanDetail(result["target_code"]);
                     }}
                 >
-                    {result["kw_word"]}
+                    {result["word"]}
                 </span>
                 (
-                <StringWithHanja string={result["kw_origin"]} />)
+                <StringWithHanja string={result["origin"]} />)
             </div>
 
             <div className="hanja_example_definition">
                 <StringWithNLP
-                    string={result["kw_first_definition"]}
+                    string={result["first_definition"]}
                     hasExamples={false}
                 />
             </div>
@@ -49,10 +49,10 @@ const HanjaExampleResult = ({ result }) => {
 
 HanjaExampleResult.propTypes = {
     result: PropTypes.shape({
-        kw_target_code: PropTypes.number.isRequired,
-        kw_word: PropTypes.string.isRequired,
-        kw_origin: PropTypes.string.isRequired,
-        kw_first_definition: PropTypes.string.isRequired,
+        target_code: PropTypes.number.isRequired,
+        word: PropTypes.string.isRequired,
+        origin: PropTypes.string.isRequired,
+        first_definition: PropTypes.string.isRequired,
     }).isRequired,
 };
 

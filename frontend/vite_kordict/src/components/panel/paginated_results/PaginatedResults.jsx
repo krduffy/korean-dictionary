@@ -69,11 +69,11 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
             searchType === "known_words" ||
             searchType === "study_words"
         ) {
-            return firstResult.kw_senses != null;
+            return firstResult.senses != null;
         } else if (searchType === "search_hanja") {
             return firstResult.meaning_reading != null;
         } else if (searchType === "search_hanja_examples") {
-            return firstResult.kw_first_definition != null;
+            return firstResult.first_definition != null;
         }
     };
 
