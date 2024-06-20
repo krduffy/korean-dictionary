@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import { processRequest } from "./useCache.js";
+import { BASE_URL } from "../constants.js";
+import { processRequest } from "./cache.js";
 
 /**
  * A hook for making any request to the API other than a get request.
@@ -30,8 +31,6 @@ import { processRequest } from "./useCache.js";
  *   loading - A boolean indicating whether an API request is currently in progress
  */
 export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
-    const BASE_URL = "http://127.0.0.1:8000/";
-
     const [successful, setSuccessful] = useState(false);
     const [response, setResponse] = useState(null);
     const [error, setError] = useState(false);

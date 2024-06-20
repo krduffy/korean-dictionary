@@ -1,8 +1,21 @@
-const cache = {};
-/* array of ages; lru eviction policy */
+export const cache = {};
+export const CACHE_CAPACITY = 100;
 
-const CAPACITY = 100;
 let itemsStored = 0;
+
+/* used for storing age */
+let counter = 0;
+
+export const clearCache = () => {
+    const keys = Object.keys(cache);
+
+    for (let i = 0; i < keys.length; i++) {
+        delete cache[keys[i]];
+    }
+
+    itemsStored = 0;
+    counter = 0;
+};
 
 export const processRequest = (url, method, additionalInfo) => {
     /*
@@ -40,13 +53,23 @@ export const processRequest = (url, method, additionalInfo) => {
                 method
             );
         }
-
-        /* CHECK FOR HANJA IN EXAMPLES AND POPUP */
-        /* ORIGIN NEEDS TO BE IN ADDITIONAL INFO */
     } else if (new RegExp("^api/toggle_word_s").test(url)) {
         /* toggle_word_studied */
-        cacheInPlaceUpdate("^api/korean_word/", "studied", method);
-        return getSearchesMatchingWord("^api/search_k", additionalInfo["word"]);
+        const searchesToUpdate = getSearchesMatchingWord(
+            "^api/search_k",
+            additionalInfo["word"]
+        );
+        for (let i = 0; i < searchesToUpdate.length; i++) {
+            cacheInPlaceUpdate(searchesToUpdate[i], "studied", method);
+        }
+
+        if (cache[`api/korean_word/${additionalInfo["target_code"]}`]) {
+            cacheInPlaceUpdate(
+                `api/korean_word/${additionalInfo["target_code"]}`,
+                "studied",
+                method
+            );
+        }
     } else if (new RegExp("^api/create_s").test(url)) {
         if (cache[`/api/korean_word/${additionalInfo["word_target_code"]}`]) {
             /* Returns single url as an array of length 1 so that
@@ -63,7 +86,8 @@ export const processRequest = (url, method, additionalInfo) => {
 
 export const cacheRetrieve = (url) => {
     if (Object.keys(cache).includes(url)) {
-        return cache[url];
+        cache[url].lastAccessed = ++counter;
+        return cache[url].response;
     }
     return null;
 };
@@ -76,20 +100,19 @@ const cacheInPlaceUpdate = (url, updateType, updateMethod) => {
     }
 };
 
-/* recursively check object for known key */
-/* will remove annoying kw_ prefix in only one serializer */
-const updateFieldRecur = (obj, field1, field2, value) => {
+/* recursively check object for key */
+const updateFieldRecur = (obj, field, value) => {
     if (typeof obj === "object" && obj !== null) {
         if (Array.isArray(obj)) {
             for (let i = 0; i < obj.length; i++) {
-                updateFieldRecur(obj[i], field1, field2, value);
+                updateFieldRecur(obj[i], field, value);
             }
         } else {
             Object.keys(obj).forEach((key) => {
-                if (key === field1 || key === field2) {
+                if (key === field) {
                     obj[key] = value;
                 } else {
-                    updateFieldRecur(obj[key], field1, field2, value);
+                    updateFieldRecur(obj[key], field, value);
                 }
             });
         }
@@ -102,27 +125,47 @@ const changeKnownInPlace = (url, newBoolean) => {
     const cacheItem = cache[url];
 
     /* recursively check object for known key */
-    updateFieldRecur(cacheItem, "is_known", "kw_is_known", newBoolean);
+    updateFieldRecur(cacheItem, "is_known", newBoolean);
 };
 
 const changeStudiedInPlace = (url, newBoolean) => {
     const cacheItem = cache[url];
 
     /* recursively check object for studied key */
-    updateFieldRecur(cacheItem, "is_studied", "kw_is_studied", newBoolean);
+    updateFieldRecur(cacheItem, "is_studied", newBoolean);
 };
 
 export const cachePut = (url, response) => {
-    if (!Object.keys(cache).includes(url)) {
-        itemsStored++;
-    } else if (itemsStored == CAPACITY) {
-        /* first in first out eviction is temp */
-        const first = Object.entries(cache)[0];
-        delete cache[first];
+    if (itemsStored >= CACHE_CAPACITY) {
+        /* evict least recently used */
+
+        console.log("evict");
+
+        let lowest = Infinity;
+        const cacheAsArray = Object.entries(cache);
+        let urlToEvict = "";
+
+        for (let i = 0; i < cacheAsArray.length; i++) {
+            if (cacheAsArray[i][1].lastAccessed < lowest) {
+                lowest = cacheAsArray[i][1].lastAccessed;
+                urlToEvict = cacheAsArray[i][0];
+            }
+        }
+
+        console.log(urlToEvict);
+
+        delete cache[urlToEvict];
+        itemsStored--;
     }
-    cache[url] = response;
+
+    cache[url] = {
+        lastAccessed: ++counter,
+        response: response,
+    };
+    itemsStored++;
 };
 
+/*
 const cacheInvalidate = (urlRegex) => {
     const regex = new RegExp(urlRegex);
 
@@ -133,6 +176,7 @@ const cacheInvalidate = (urlRegex) => {
         }
     });
 };
+*/
 
 const getSearchesMatchingWord = (urlRegex, word) => {
     const urlMatches = (url, prefix, needsToHave) => {

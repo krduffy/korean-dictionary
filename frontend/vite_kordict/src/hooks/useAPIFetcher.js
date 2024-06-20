@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import { cachePut, cacheRetrieve } from "./useCache.js";
+import { BASE_URL } from "../constants.js";
+import { cachePut, cacheRetrieve } from "./cache.js";
 
 /**
  * A hook for sending GET requests to the API.
@@ -15,7 +16,6 @@ import { cachePut, cacheRetrieve } from "./useCache.js";
  *   error - An Error object or null, representing any error that occurred during the last request
  */
 export function useAPIFetcher() {
-    const BASE_URL = "http://127.0.0.1:8000/";
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
