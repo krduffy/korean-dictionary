@@ -6,6 +6,9 @@ let itemsStored = 0;
 /* used for storing age */
 let counter = 0;
 
+/**
+ * Clears the cache.
+ */
 export const clearCache = () => {
     const keys = Object.keys(cache);
 
@@ -17,6 +20,15 @@ export const clearCache = () => {
     counter = 0;
 };
 
+/**
+ * A function to update the cache given a new non-get request. Invalidates or updates cache
+ * items that are changed by the provided request.
+ *
+ * @param {string} url - The url for the request.
+ * @param {string} method - The method (POST, DELETE, etc).
+ * @param {object} additionalInfo - Any additional info necessary for processing the request;
+ * can include target_code, word, origin.
+ */
 export const processRequest = (url, method, additionalInfo) => {
     /*
       Only non-get requests can ever invalidate anything in the cache, so this function
@@ -81,6 +93,12 @@ export const processRequest = (url, method, additionalInfo) => {
     }
 };
 
+/**
+ * A function that returns a response to a get request if it exists in the cache.
+ *
+ * @param {string} url - The url for the get request.
+ * @returns {Object} The cached response, if the url is in the cache; `null` otherwise.
+ */
 export const cacheRetrieve = (url) => {
     if (Object.keys(cache).includes(url)) {
         cache[url].lastAccessed = ++counter;
@@ -89,7 +107,17 @@ export const cacheRetrieve = (url) => {
     return null;
 };
 
+/**
+ * A function that updates cache entries in response to changes in is_known or is_studied variables
+ * for the user.
+ *
+ * @param {string} url - The url to update in the cache.
+ * @param {"known" | "studied"} updateType - Whether is_known or is_studied should be updated in cache entries.
+ * @param {string} updateMethod - The method (POST or DELETE).
+ */
 const cacheInPlaceUpdate = (url, updateType, updateMethod) => {
+    /* changing in place essentially = making cache dirty instead of refetching */
+    /* except there is no need to write back to any other memory */
     if (updateType === "known") {
         changeKnownInPlace(url, updateMethod === "PUT" ? true : false);
     } else if (updateType === "studied") {
@@ -116,8 +144,6 @@ const updateFieldRecur = (obj, field, value) => {
     }
 };
 
-/* changing in place essentially = making cache dirty instead of refetching */
-/* except there is no need to write back to any other memory */
 const changeKnownInPlace = (url, newBoolean) => {
     const cacheItem = cache[url];
 
@@ -132,6 +158,12 @@ const changeStudiedInPlace = (url, newBoolean) => {
     updateFieldRecur(cacheItem, "is_studied", newBoolean);
 };
 
+/**
+ * Caches the response to the given url. Uses an LRU eviction policy if the cache is full.
+ *
+ * @param {string} url - The url.
+ * @param {object} response - The response.
+ */
 export const cachePut = (url, response) => {
     if (itemsStored >= CACHE_CAPACITY) {
         /* evict least recently used */
@@ -158,6 +190,7 @@ export const cachePut = (url, response) => {
     itemsStored++;
 };
 
+/* Not currently used for anything because logging in and out just calls the clear cache function */
 /*
 const cacheInvalidate = (urlRegex) => {
     const regex = new RegExp(urlRegex);
@@ -171,6 +204,14 @@ const cacheInvalidate = (urlRegex) => {
 };
 */
 
+/**
+ * A function to get cached urls for searches in the Korean dictionary for any regular expression
+ * matching the given word.
+ *
+ * @param {string} urlRegex - The url regular expression for returned urls to match.
+ * @param {string} word - The word that urls must have potentially returned in their results.
+ * @returns {[string]} An array of strings that match the given urlRegex and word.
+ */
 const getSearchesMatchingWord = (urlRegex, word) => {
     const urlMatches = (url, prefix, needsToHave) => {
         const regex = new RegExp(`^${prefix}(.*)$`);
