@@ -34,6 +34,10 @@ export function useAPIFetcher() {
         if (cachedResponse) {
             /* Responses that result in error are not cached, so not a consideration */
 
+            /* Looks better to have loading appear briefly */
+            const delay = 250;
+            await new Promise((resolve) => setTimeout(resolve, delay));
+
             return new Promise((resolve) => {
                 resolve(cachedResponse);
             }).finally(() => {

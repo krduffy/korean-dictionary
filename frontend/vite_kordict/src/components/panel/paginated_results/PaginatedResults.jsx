@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+    useContext,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+    useState,
+} from "react";
 
 import PropTypes from "prop-types";
 
@@ -23,6 +29,9 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
     /* For spamproofing the results. An indicator of which request is most recent */
     const requestRef = useRef(0);
 
+    const resultDivRef = useRef(null);
+    const hasInteractedRef = useRef(false);
+
     const updateSearchResults = async () => {
         requestRef.current++;
         const requestNum = requestRef.current;
@@ -42,6 +51,15 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
             setSearchResults(results);
         }
     };
+
+    useLayoutEffect(() => {
+        if (hasInteractedRef.current) {
+            resultDivRef.current?.scrollIntoView({
+                top: 0,
+                behavior: "smooth",
+            });
+        }
+    }, [searchResults]);
 
     useEffect(() => {
         updateSearchResults();
@@ -90,7 +108,7 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
                 </span>
             ) : (
                 typeAndResultsMatch() && (
-                    <div className="paginated-results">
+                    <div className="paginated-results" ref={resultDivRef}>
                         <span className="result-count-indicator">
                             결과 {searchResults.count}건 (
                             {10 * (currentPage - 1) + 1} -{" "}
@@ -136,6 +154,7 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
                                 page={currentPage}
                                 hasNextPage={searchResults.next != null}
                                 setPageFunction={setCurrentPage}
+                                hasInteractedRef={hasInteractedRef}
                             />
                         )}
                     </div>

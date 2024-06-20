@@ -4,11 +4,15 @@ import PropTypes from "prop-types";
 
 import "./styles/page-changer-styles.css";
 
-const PageChanger = ({ page, hasNextPage, setPageFunction }) => {
+const PageChanger = ({
+    page,
+    hasNextPage,
+    setPageFunction,
+    hasInteractedRef,
+}) => {
     const handleClick = (newPage) => {
-        return () => {
-            setPageFunction(newPage);
-        };
+        hasInteractedRef.current = true;
+        setPageFunction(newPage);
     };
 
     return (
@@ -19,7 +23,7 @@ const PageChanger = ({ page, hasNextPage, setPageFunction }) => {
                 <button
                     className="page-left-button"
                     id="page-left-button-exists"
-                    onClick={handleClick(page - 1)}
+                    onClick={() => handleClick(page - 1)}
                 >
                     ◀
                 </button>
@@ -39,7 +43,7 @@ const PageChanger = ({ page, hasNextPage, setPageFunction }) => {
                 <button
                     className="page-right-button"
                     id="page-right-button-exists"
-                    onClick={handleClick(page + 1)}
+                    onClick={() => handleClick(page + 1)}
                 >
                     ▶
                 </button>
