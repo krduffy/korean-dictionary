@@ -71,16 +71,13 @@ export const processRequest = (url, method, additionalInfo) => {
             );
         }
     } else if (new RegExp("^api/create_s").test(url)) {
-        if (cache[`/api/korean_word/${additionalInfo["word_target_code"]}`]) {
-            /* Returns single url as an array of length 1 so that
-                 it can be refetched */
-            return [`/api/korean_word/${additionalInfo["word_target_code"]}`];
-        }
+        /* */
     } else if (new RegExp("^api/create_n").test(url)) {
-        /* same as adding sense (updating examples) */
-        if (cache[`/api/korean_word/${additionalInfo["word_target_code"]}`]) {
-            return [`/api/korean_word/${additionalInfo["word_target_code"]}`];
-        }
+        /* */
+    } else if (new RegExp("^users/login").test(url)) {
+        clearCache();
+    } else if (new RegExp("^users/logout").test(url)) {
+        clearCache();
     }
 };
 
@@ -139,8 +136,6 @@ export const cachePut = (url, response) => {
     if (itemsStored >= CACHE_CAPACITY) {
         /* evict least recently used */
 
-        console.log("evict");
-
         let lowest = Infinity;
         const cacheAsArray = Object.entries(cache);
         let urlToEvict = "";
@@ -151,8 +146,6 @@ export const cachePut = (url, response) => {
                 urlToEvict = cacheAsArray[i][0];
             }
         }
-
-        console.log(urlToEvict);
 
         delete cache[urlToEvict];
         itemsStored--;

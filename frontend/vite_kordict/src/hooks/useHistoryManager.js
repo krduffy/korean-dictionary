@@ -106,6 +106,15 @@ export function useHistoryManager(initialView) {
         setHistory(newHistory);
     };
 
+    const navigateToLastViewOfType = (viewType) => {
+        for (let i = historyPointer; i >= 0; i--) {
+            if (history[i].view === viewType) {
+                setHistoryPointer(i);
+                return history[i];
+            }
+        }
+    };
+
     return {
         pushViewToHistory,
         canNavigateBack,
@@ -113,5 +122,6 @@ export function useHistoryManager(initialView) {
         canNavigateForward,
         getFollowingView,
         updateCurrentViewInHistory,
+        navigateToLastViewOfType,
     };
 }

@@ -15,6 +15,7 @@ const PanelHeader = ({
     getFollowingView,
     showPanelContent,
     setShowPanelContent,
+    backToHomepage,
 }) => {
     const currentView = useContext(ViewContext)["currentView"];
     const updateViewAndPushToHistory =
@@ -26,14 +27,7 @@ const PanelHeader = ({
                 <button
                     onClick={() => {
                         if (currentView.view !== "homepage") {
-                            updateViewAndPushToHistory({
-                                view: "homepage",
-                                value: 0,
-                                searchBarInitialState: {
-                                    boxContent: "",
-                                    dictionary: "korean",
-                                },
-                            });
+                            backToHomepage();
                         }
                     }}
                     title="홈페이지로 바로가기"

@@ -41,6 +41,7 @@ const Panel = () => {
         canNavigateForward,
         getFollowingView,
         updateCurrentViewInHistory,
+        navigateToLastViewOfType,
     } = useHistoryManager({
         view: "homepage",
         value: initialHomepageSeed,
@@ -57,6 +58,11 @@ const Panel = () => {
 
     const updateViewWithoutPushingToHistory = (newView) => {
         setCurrentView(newView);
+    };
+
+    const backToHomepage = () => {
+        const view = navigateToLastViewOfType("homepage");
+        setCurrentView(view);
     };
 
     /* Whether to have display: none or not */
@@ -106,6 +112,7 @@ const Panel = () => {
                 getFollowingView={getFollowingView}
                 showPanelContent={showPanelContent}
                 setShowPanelContent={setShowPanelContent}
+                backToHomepage={backToHomepage}
             />
 
             <div className={showPanelContent ? "panel" : "panel-hidden"}>
