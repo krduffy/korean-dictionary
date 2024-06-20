@@ -60,9 +60,7 @@ class KoreanWordList(generics.ListAPIView):
       return queryset
     
     # Word is not hanja input
-    regized_search_term = '^'
-    regized_search_term += search_term.replace('_', '.').replace('*', '.*')
-    regized_search_term += '$'
+    regized_search_term = '^' + search_term + '$'
 
     queryset = queryset.filter(word__iregex = regized_search_term)
     queryset = queryset.order_by(Length("word").asc())
@@ -359,7 +357,7 @@ class HanjaPopup(APIView):
 
     queryset = queryset[:num_results]
     
-    serialized_words = KoreanSerializerForHanja(queryset, many = True, context={'request': self.request}).data
+    serialized_words = WordOriginSerializer(queryset, many = True, context={'request': self.request}).data
 
     return Response({
       "meaning_reading": meaning_reading,

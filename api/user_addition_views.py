@@ -6,7 +6,7 @@ from rest_framework import status
 from .user_addition_models import UserNote
 from .user_addition_serializers import UserNoteValidator, UserSenseSerializer, UserWordSerializer, KoreanWordForEditingSerializer
 from .dictionary_models import HanjaCharacter, KoreanWord, Sense
-from .dictionary_serializers import HanjaCharacterSerializer, KoreanWordSerializer, SenseSerializer, KoreanSerializerForHanja, HanjaGameWordSerializer
+from .dictionary_serializers import HanjaCharacterSerializer, KoreanWordSerializer, SenseSerializer, KoreanSerializerForHanja, WordOriginSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
@@ -349,7 +349,7 @@ def get_path_of_length(queryset, length: int, request) -> list:
           hanja_path.append({
             'step_character': HanjaCharacterSerializer(
                         HanjaCharacter.objects.get(pk = character)).data,
-            'example_word': HanjaGameWordSerializer(
+            'example_word': WordOriginSerializer(
                         valid_word, context = {'request': request}).data,
             })
           

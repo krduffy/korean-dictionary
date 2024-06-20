@@ -50,7 +50,7 @@ class KoreanWordDetailedSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = KoreanWord
-    fields = '__all__'
+    exclude = ('known_by', 'studied_by')
     read_only_fields = ['__all__']
 
   def get_user_data(self, obj):
@@ -140,7 +140,7 @@ class KoreanSerializerForHanja(serializers.ModelSerializer):
 
     return first.definition if first is not None else "정의는 아직 추가하지 않으셨습니다."
   
-class HanjaGameWordSerializer(serializers.Serializer):
+class WordOriginSerializer(serializers.Serializer):
   target_code = serializers.IntegerField()
   word = serializers.CharField()
   origin = serializers.CharField()
