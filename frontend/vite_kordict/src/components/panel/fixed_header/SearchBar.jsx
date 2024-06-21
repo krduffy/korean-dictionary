@@ -1,12 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { engKeyboardToKorean } from "../../../../util/stringUtils.js";
 
 import { ViewContext } from "../Panel.jsx";
+import PopupBox from "../string_formatters/PopupBox.jsx";
 
 import "./styles/fixed-header-styles.css";
 
 const SearchBar = () => {
+    const barRef = useRef(null);
+
     const [boxContent, setBoxContent] = useState("");
     const [dictionary, setDictionary] = useState("korean");
     const [showChangedMessage, setShowChangedMessage] = useState(false);
@@ -21,6 +24,19 @@ const SearchBar = () => {
         setDictionary(searchBarInitialState["dictionary"]);
     }, [searchBarInitialState]);
 
+    const getBarCenter = () => {
+        if (barRef.current) {
+            const rect = barRef.current.getBoundingClientRect();
+
+            return {
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2,
+            };
+        }
+
+        return { x: 0, y: 0 };
+    };
+
     const sanitize = (content) => {
         const allowedUnicodeRanges = [
             // Korean Hangul characters
@@ -34,8 +50,9 @@ const SearchBar = () => {
             "\u0041-\u005a", // A-Z
 
             "\u0020", // space
-            "\u005f", // underscore (_)
             "\u002a", // asterisk (*)
+            "\u002e", // period (.)
+
             "\u4e00-\u9fff", // Hanja characters (CJK Unified Ideographs)
         ];
 
@@ -52,6 +69,11 @@ const SearchBar = () => {
         let fixedContent = boxContent.trim();
         if (containsEng) {
             fixedContent = engKeyboardToKorean(fixedContent);
+
+            setShowChangedMessage(true);
+            setTimeout(() => {
+                setShowChangedMessage(false);
+            }, 1000);
         }
 
         /* visual changes */
@@ -135,7 +157,7 @@ const SearchBar = () => {
                 </button>
             </div>
 
-            <form className="form-content" onSubmit={handleSubmit}>
+            <form ref={barRef} className="form-content" onSubmit={handleSubmit}>
                 <input
                     type="text"
                     placeholder="검색어를 입력해주세요"
@@ -149,6 +171,12 @@ const SearchBar = () => {
                 />
                 <button type="submit">검색</button>
             </form>
+
+            {showChangedMessage && (
+                <PopupBox fromX={getBarCenter().x} fromY={getBarCenter().y}>
+                    <div>영문이 한글로 변화되었습니다.</div>
+                </PopupBox>
+            )}
         </div>
     );
 };
