@@ -116,7 +116,7 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
                         </span>
 
                         {searchResults.results &&
-                            searchResults.results.map((result) => {
+                            searchResults.results.map((result, id) => {
                                 if (
                                     searchType === "search_korean" ||
                                     searchType === "known_words" ||
@@ -124,28 +124,24 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
                                 ) {
                                     return (
                                         <KoreanResult
-                                            key={result.kw_target_code}
+                                            key={id}
                                             result={result}
                                         />
                                     );
                                 } else if (searchType === "search_hanja") {
                                     return (
-                                        <HanjaResult
-                                            key={result.character}
-                                            result={result}
-                                        />
+                                        <HanjaResult key={id} result={result} />
                                     );
                                 } else if (
                                     searchType === "search_hanja_examples"
                                 ) {
                                     return (
                                         <HanjaExampleResult
-                                            key={result.kw_target_code}
+                                            key={id}
                                             result={result}
                                         />
                                     );
                                 }
-                                return null; // Added to satisfy JSX requirement
                             })}
 
                         {/* 10 is page size */}

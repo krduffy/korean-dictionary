@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 
 import { fitBoxX, fitBoxY } from "../../../../util/mathUtils.js";
 
-const PopupBox = ({ children, fromX, fromY }) => {
+import "./universal-styles.css";
+
+const PopupBox = ({ children, fromX, fromY, positioning, padding }) => {
     const divRef = useRef(null);
 
     const [x, setX] = useState(0);
@@ -12,22 +14,34 @@ const PopupBox = ({ children, fromX, fromY }) => {
 
     useLayoutEffect(() => {
         if (divRef.current) {
-            const { boxHeight, boxWidth } =
-                divRef.current.getBoundingClientRect();
-            setX(fitBoxX(fromX, boxWidth, 10));
-            setY(fitBoxY(fromY, boxHeight, 10));
+            const dim = divRef.current.getBoundingClientRect();
+            const boxWidth = dim.width;
+            const boxHeight = dim.height;
+
+            switch (positioning) {
+                case "fit":
+                    setX(fitBoxX(fromX, boxWidth, padding));
+                    setY(fitBoxY(fromY, boxHeight, padding));
+                    break;
+                case "above":
+                    setX(fromX - boxWidth / 2);
+                    setY(fromY - boxHeight - padding);
+                    break;
+                case "below":
+                    setX(fromX - boxWidth / 2);
+                    setY(fromY + padding);
+                    break;
+            }
         }
-    }, [fromX, fromY]);
+    }, [fromX, fromY, padding, positioning]);
 
     return (
         <div
             ref={divRef}
+            className="popup-box"
             style={{
-                x: x,
-                y: y,
-                position: "fixed",
-                zIndex: 1000,
-                display: "flexbox",
+                left: x,
+                top: y,
             }}
         >
             {children}

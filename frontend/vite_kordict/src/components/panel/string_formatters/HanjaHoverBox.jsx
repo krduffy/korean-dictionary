@@ -31,30 +31,33 @@ const HanjaHoverBox = ({ character, mouseX, mouseY }) => {
             {loading ? (
                 <></>
             ) : (
-                <PopupBox fromX={mouseX} fromY={mouseY}>
-                    <div className="hanja-hover-box">
-                        {hoverBoxData && (
-                            <div>
-                                <div className="meaning-reading-section">
-                                    <span>
-                                        {character}{" "}
-                                        {hoverBoxData["meaning_reading"]}
-                                    </span>
-                                </div>
-
-                                {hoverBoxData["retrieved_words"] > 0 ? (
-                                    <KoreanWordSection
-                                        wordArray={hoverBoxData["words"]}
-                                    />
-                                ) : (
-                                    <div>
-                                        연관단어가 없습니다.
-                                        {hoverBoxData["retrieved_words"]}
-                                    </div>
-                                )}
+                <PopupBox
+                    fromX={mouseX}
+                    fromY={mouseY}
+                    positioning={"fit"}
+                    padding={10}
+                >
+                    {hoverBoxData && (
+                        <div className="hanja-hover-box">
+                            <div className="meaning-reading-section">
+                                <span>
+                                    {character}{" "}
+                                    {hoverBoxData["meaning_reading"]}
+                                </span>
                             </div>
-                        )}
-                    </div>
+
+                            {hoverBoxData["retrieved_words"] > 0 ? (
+                                <KoreanWordSection
+                                    wordArray={hoverBoxData["words"]}
+                                />
+                            ) : (
+                                <div>
+                                    연관단어가 없습니다.
+                                    {hoverBoxData["retrieved_words"]}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </PopupBox>
             )}
         </>

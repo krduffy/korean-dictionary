@@ -119,7 +119,7 @@ const isConsonant = (jamo) => {
 };
 
 const isVowel = (jamo) => {
-    return "ㅛㅕㅑㅐㅔㅗㅓㅏㅣㅠㅜㅡ".includes(jamo);
+    return "ㅛㅕㅑㅐㅔㅗㅓㅏㅣㅠㅜㅡㅖㅒ".includes(jamo);
 };
 
 const consonantOrVowel = (jamo) => {

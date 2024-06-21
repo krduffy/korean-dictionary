@@ -6,14 +6,18 @@
     text-shadow: 0 0 5px #00ffff;
 }
 
-.hanja-hover-box {
-    width: 200px;
+.popup-box {
     position: absolute;
     background-color: #3d3f47;
     border: 1px solid #ccc;
     z-index: 100;
     padding: 0;
     margin: 0;
+    display: flex;
+}
+
+.hanja-hover-box {
+    min-width: 200px;
 }
 
 .meaning-reading-section {

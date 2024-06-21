@@ -24,13 +24,15 @@ const SearchBar = () => {
         setDictionary(searchBarInitialState["dictionary"]);
     }, [searchBarInitialState]);
 
-    const getBarCenter = () => {
+    const getBarSizing = () => {
         if (barRef.current) {
             const rect = barRef.current.getBoundingClientRect();
 
             return {
-                x: rect.left + rect.width / 2,
-                y: rect.top + rect.height / 2,
+                centerX: rect.left + rect.width / 2,
+                centerY: rect.top + rect.height / 2,
+                paddingX: rect.width / 2,
+                paddingY: rect.height / 2,
             };
         }
 
@@ -73,7 +75,7 @@ const SearchBar = () => {
             setShowChangedMessage(true);
             setTimeout(() => {
                 setShowChangedMessage(false);
-            }, 1000);
+            }, 2000);
         }
 
         /* visual changes */
@@ -157,8 +159,9 @@ const SearchBar = () => {
                 </button>
             </div>
 
-            <form ref={barRef} className="form-content" onSubmit={handleSubmit}>
+            <form className="form-content" onSubmit={handleSubmit}>
                 <input
+                    ref={barRef}
                     type="text"
                     placeholder="검색어를 입력해주세요"
                     value={boxContent}
@@ -173,8 +176,15 @@ const SearchBar = () => {
             </form>
 
             {showChangedMessage && (
-                <PopupBox fromX={getBarCenter().x} fromY={getBarCenter().y}>
-                    <div>영문이 한글로 변화되었습니다.</div>
+                <PopupBox
+                    fromX={getBarSizing().centerX}
+                    fromY={getBarSizing().centerY}
+                    positioning={"above"}
+                    padding={getBarSizing().paddingY + 10}
+                >
+                    <div style={{ paddingLeft: "10px", paddingRight: "10px" }}>
+                        영문 입력이 한글로 자동 변환되었습니다.
+                    </div>
                 </PopupBox>
             )}
         </div>
