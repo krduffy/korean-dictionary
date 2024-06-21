@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react";
 
+import { getNewSeed } from "../../../util/mathUtils.js";
 import { useHistoryManager } from "../../hooks/useHistoryManager.js";
 
 import HanjaCharView from "./detail_view/HanjaCharView.jsx";
@@ -23,7 +24,11 @@ export const ViewContext = createContext(null);
  * @returns {React.JSX.Element} The rendered Panel component.
  */
 const Panel = () => {
-    const initialHomepageSeed = Math.floor(Math.random() * 1000000);
+    /* homepage seed doesnt need to be a state because the value in the view stores it */
+    const initialHomepageSeed = getNewSeed();
+    /* hanja game seed does so that it can be prefetched */
+    const [initialHanjaGameSeed, setInitialHanjaGameSeed] =
+        useState(getNewSeed());
 
     const [currentView, setCurrentView] = useState({
         view: "homepage",
@@ -82,9 +87,21 @@ const Panel = () => {
             case "detail_hanja":
                 return <HanjaCharView hanjaChar={value} />;
             case "homepage":
-                return <HomePage initialSeed={value} />;
+                return (
+                    <HomePage
+                        initialSeed={value}
+                        /* this is passed to the homepage so that the homepage can prefetch the
+                           first hanja game */
+                        initialHanjaGameSeed={initialHanjaGameSeed}
+                    />
+                );
             case "hanja_game":
-                return <HanjaGame />;
+                return (
+                    <HanjaGame
+                        initialSeed={initialHanjaGameSeed}
+                        setSeed={setInitialHanjaGameSeed}
+                    />
+                );
             /* Add word is not currently in the application */
             case "edit_word":
                 return <EditWordForm targetCode={value} />;

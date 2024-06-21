@@ -19,6 +19,15 @@ export function useAPIFetcher() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    const getHeaders = (token) => {
+        return token
+            ? {
+                  "Content-Type": "application/json",
+                  Authorization: `Token ${token}`,
+              }
+            : { "Content-Type": "application/json" };
+    };
+
     /**
      * Asynchronous function to fetch data from the API.
      *
@@ -46,12 +55,8 @@ export function useAPIFetcher() {
         } else {
             const fullUrl = BASE_URL + url;
 
-            const headers = token
-                ? {
-                      "Content-Type": "application/json",
-                      Authorization: `Token ${token}`,
-                  }
-                : { "Content-Type": "application/json" };
+            const headers = getHeaders(token);
+
             try {
                 const response = await fetch(fullUrl, { headers });
 
@@ -71,5 +76,22 @@ export function useAPIFetcher() {
         }
     };
 
-    return { apiFetch, loading, error };
+    const apiPrefetch = async (url, token) => {
+        const alreadyCached = cacheRetrieve(url) != null;
+
+        if (!alreadyCached) {
+            const fullUrl = BASE_URL + url;
+
+            const headers = getHeaders(token);
+
+            const response = await fetch(fullUrl, { headers });
+
+            if (response.ok) {
+                const data = await response.json();
+                cachePut(url, data);
+            }
+        }
+    };
+
+    return { apiFetch, apiPrefetch, loading, error };
 }

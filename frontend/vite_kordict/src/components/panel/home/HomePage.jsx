@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
+import { HANJA_GAME_LENGTH } from "../../../constants.js";
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
@@ -12,10 +13,10 @@ import KoreanResult from "../paginated_results/KoreanResult.jsx";
 
 import "./homepage-styles.css";
 
-const HomePage = ({ initialSeed }) => {
+const HomePage = ({ initialSeed, initialHanjaGameSeed }) => {
     const [homepageData, setHomepageData] = useState();
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
-    const { apiFetch, loading, error } = useAPIFetcher();
+    const { apiFetch, apiPrefetch, loading, error } = useAPIFetcher();
     const [seed, setSeed] = useState(initialSeed);
 
     const viewContext = useContext(ViewContext);
@@ -33,6 +34,9 @@ const HomePage = ({ initialSeed }) => {
                 setHomepageData(data);
             };
             setData();
+
+            const hanjaUrl = `api/hanja_game_info/?length=${HANJA_GAME_LENGTH}&seed=${initialHanjaGameSeed}`;
+            apiPrefetch(hanjaUrl, authInfo["token"]);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [seed, authInfo["token"]]);

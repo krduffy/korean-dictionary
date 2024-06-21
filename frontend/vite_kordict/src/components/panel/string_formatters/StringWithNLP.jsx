@@ -102,7 +102,7 @@ const WordWithNLP = ({ word, fullSentence }) => {
     }
     const { formData, apiModify, successful, response, error, loading } =
         useAPIModifier(true, {
-            sentence: fullSentence,
+            text: fullSentence,
             mouse_over: word,
         });
 

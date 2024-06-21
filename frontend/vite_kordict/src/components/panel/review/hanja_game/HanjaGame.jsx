@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
+import { HANJA_GAME_LENGTH } from "../../../../constants.js";
 import { useAPIFetcher } from "../../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../../App.jsx";
@@ -10,12 +11,9 @@ import { LoadingMessage } from "../../messages/LoadingMessage.jsx";
 import ConnectionBoard from "./ConnectionBoard.jsx";
 import UsableCharactersBoard from "./UsableCharactersBoard.jsx";
 
-const HanjaGame = () => {
+const HanjaGame = ({ initialSeed }) => {
     const [currentGameData, setCurrentGameData] = useState({});
-    const [currentGameLength, setCurrentGameLength] = useState(4);
-    const [randomSeed, setRandomSeed] = useState(
-        Math.floor(Math.random() * 1000000)
-    );
+    const [seed, setSeed] = useState(initialSeed);
 
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
@@ -40,7 +38,7 @@ const HanjaGame = () => {
     const generateGame = () => {
         const setData = async () => {
             const data = await apiFetch(
-                `api/hanja_game_info/?length=${currentGameLength}&seed=${randomSeed}`,
+                `api/hanja_game_info/?length=${HANJA_GAME_LENGTH}&seed=${seed}`,
                 authInfo["token"]
             );
             setCurrentGameData(data);
