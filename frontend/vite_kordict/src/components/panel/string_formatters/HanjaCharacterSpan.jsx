@@ -54,9 +54,8 @@ const HanjaCharacterSpan = ({ character, overrideDisplay, disableClick }) => {
             {showHoverBox && (
                 <HanjaHoverBox
                     character={character}
-                    /* Width and height of box both 200 */
-                    x={fitBoxX(mousePosition.x, 200, 10)}
-                    y={fitBoxY(mousePosition.y, 200, 10)}
+                    mouseX={mousePosition.x}
+                    mouseY={mousePosition.y}
                 />
             )}
             <span

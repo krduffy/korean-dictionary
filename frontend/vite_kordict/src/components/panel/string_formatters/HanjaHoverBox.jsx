@@ -5,10 +5,11 @@ import PropTypes from "prop-types";
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
+import PopupBox from "./PopupBox.jsx";
 
 import "./universal-styles.css";
 
-const HanjaHoverBox = ({ character, x, y }) => {
+const HanjaHoverBox = ({ character, mouseX, mouseY }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const [hoverBoxData, setHoverBoxData] = useState({});
     const { apiFetch, loading, error } = useAPIFetcher();
@@ -30,13 +31,7 @@ const HanjaHoverBox = ({ character, x, y }) => {
             {loading ? (
                 <></>
             ) : (
-                <div
-                    style={{
-                        position: "absolute",
-                        left: x,
-                        top: y,
-                    }}
-                >
+                <PopupBox fromX={mouseX} fromY={mouseY}>
                     <div className="hanja-hover-box">
                         {hoverBoxData && (
                             <div>
@@ -60,7 +55,7 @@ const HanjaHoverBox = ({ character, x, y }) => {
                             </div>
                         )}
                     </div>
-                </div>
+                </PopupBox>
             )}
         </>
     );
