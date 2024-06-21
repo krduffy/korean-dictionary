@@ -9,6 +9,7 @@ import "./styles/fixed-header-styles.css";
 const SearchBar = () => {
     const [boxContent, setBoxContent] = useState("");
     const [dictionary, setDictionary] = useState("korean");
+    const [showChangedMessage, setShowChangedMessage] = useState(false);
 
     const searchBarInitialState =
         useContext(ViewContext)["currentView"]["searchBarInitialState"];

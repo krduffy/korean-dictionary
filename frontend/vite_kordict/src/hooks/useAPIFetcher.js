@@ -19,6 +19,13 @@ export function useAPIFetcher() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    /**
+     * Returns the headers for a get request. Content-Type is set to "application/json"
+     * and Authorization will be set to "Token `token`" if a token is provided.
+     *
+     * @param {string | null} token - The user's authentication token (or null).
+     * @returns {object} An object containing the request headers.
+     */
     const getHeaders = (token) => {
         return token
             ? {
@@ -76,6 +83,13 @@ export function useAPIFetcher() {
         }
     };
 
+    /**
+     * A function to prefetch a url and store its response in the cache.
+     * If the request returns an error status code, the response is not cached.
+     *
+     * @param {string} url - The url to prefetch.
+     * @param {string} token - An authorization token.
+     */
     const apiPrefetch = async (url, token) => {
         const alreadyCached = cacheRetrieve(url) != null;
 

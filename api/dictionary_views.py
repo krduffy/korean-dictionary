@@ -105,7 +105,6 @@ class KoreanWordAnalyze(APIView):
   serializer_class = NLPRequestValidator
   # in this file because the user's data does not impact this. however, it will need to be
   # required to be turned on in settings
-  permission_classes = (IsAuthenticated, )
 
   def post(self, request):
 
@@ -124,8 +123,6 @@ class KoreanWordAnalyze(APIView):
         if KoreanWord.objects.filter(word__exact = found_word).filter(origin__exact = hanja_word).exists():
           return hanja_word
         return None
-
-    print(request.data['text'])
 
     if not request.data['text']:
       return Response({'error': '분석할 글이 없습니다.'})

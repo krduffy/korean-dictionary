@@ -1,3 +1,4 @@
+import { fitBoxX, fitBoxY } from "../../../../util/mathUtils";
 import { ViewContext } from "../Panel";
 import HanjaHoverBox from "./HanjaHoverBox";
 
@@ -23,14 +24,6 @@ const HanjaCharacterSpan = ({ character, overrideDisplay, disableClick }) => {
     const handleMouseLeave = (event) => {
         event.stopPropagation();
         setShowHoverBox(false);
-    };
-
-    const fixBoxXToScreen = (x) => {
-        return x > window.innerWidth / 2 ? x - 220 : x + 20;
-    };
-
-    const fixBoxYToScreen = (y) => {
-        return y > window.innerHeight / 2 ? y - 220 : y + 20;
     };
 
     const notAlreadyViewing = () => {
@@ -61,8 +54,9 @@ const HanjaCharacterSpan = ({ character, overrideDisplay, disableClick }) => {
             {showHoverBox && (
                 <HanjaHoverBox
                     character={character}
-                    x={fixBoxXToScreen(mousePosition.x)}
-                    y={fixBoxYToScreen(mousePosition.y)}
+                    /* Width and height of box both 200 */
+                    x={fitBoxX(mousePosition.x, 200, 10)}
+                    y={fitBoxY(mousePosition.y, 200, 10)}
                 />
             )}
             <span
