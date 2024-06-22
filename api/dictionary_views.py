@@ -125,11 +125,11 @@ class KoreanWordAnalyze(APIView):
         return None
 
     if not request.data['text']:
-      return Response({'error': '분석할 글이 없습니다.'})
+      return Response({'errors': ['분석할 글이 없습니다.']})
     elif not request.data['mouse_over']:
-      return Response({'error': '분석할 단어를 제공하지 않았습니다.'})
+      return Response({'errors': ['분석할 단어를 제공하지 않았습니다.']})
     elif request.data['mouse_over'] not in request.data['text'].split():
-      return Response({'error': '제공한 단어를 글에 찾을 수 없습니다.'})
+      return Response({'errors': ['제공한 단어를 글에 찾을 수 없습니다.']})
 
     sentence = request.data['text']
 
@@ -216,7 +216,7 @@ class KoreanWordAnalyze(APIView):
           return JsonResponse({'found': word[0] + "다" if word[1].startswith('V') else word[0],
                               'num_words': len(analysis), 'analysis': original})
 
-    return JsonResponse({'errors': '해당 단어를 찾을 수 없습니다.', 'nss': new_sentence_strings
+    return JsonResponse({'errors': ['해당 단어를 찾을 수 없습니다.'], 'nss': new_sentence_strings
         , 'num_words': len(analysis), 'analysis': original}, status=status.HTTP_404_NOT_FOUND)
 
 # TODO hide nonuser senses

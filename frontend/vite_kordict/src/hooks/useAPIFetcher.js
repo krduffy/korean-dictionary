@@ -17,7 +17,9 @@ import { cachePut, cacheRetrieve } from "./cache.js";
  */
 export function useAPIFetcher() {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(false);
+
+    const [response, setResponse] = useState(null);
 
     /**
      * Returns the headers for a get request. Content-Type is set to "application/json"
@@ -44,7 +46,7 @@ export function useAPIFetcher() {
      */
     const apiFetch = async (url, token) => {
         setLoading(true);
-        setError(null);
+        setError(false);
 
         const cachedResponse = cacheRetrieve(url);
         if (cachedResponse) {
@@ -66,16 +68,17 @@ export function useAPIFetcher() {
 
             try {
                 const response = await fetch(fullUrl, { headers });
+                const data = await response.json();
+                setResponse(data);
 
                 if (!response.ok) {
                     throw new Error("Network error.");
                 } else {
-                    const data = await response.json();
                     cachePut(url, data);
                     return data;
                 }
             } catch (error) {
-                setError(error);
+                setError(true);
                 return null;
             } finally {
                 setLoading(false);
@@ -107,5 +110,5 @@ export function useAPIFetcher() {
         }
     };
 
-    return { apiFetch, apiPrefetch, loading, error };
+    return { apiFetch, apiPrefetch, loading, error, response };
 }

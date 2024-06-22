@@ -16,7 +16,7 @@ import "./homepage-styles.css";
 const HomePage = ({ initialSeed, initialHanjaGameSeed }) => {
     const [homepageData, setHomepageData] = useState();
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
-    const { apiFetch, apiPrefetch, loading, error } = useAPIFetcher();
+    const { apiFetch, apiPrefetch, loading, error, response } = useAPIFetcher();
     const [seed, setSeed] = useState(initialSeed);
 
     const viewContext = useContext(ViewContext);
@@ -52,7 +52,7 @@ const HomePage = ({ initialSeed, initialHanjaGameSeed }) => {
                     {loading ? (
                         <LoadingMessage />
                     ) : error ? (
-                        <ErrorMessage errorStrings={error} />
+                        <ErrorMessage errorResponse={response} />
                     ) : (
                         homepageData && (
                             <div id="homepage-main-content">

@@ -145,6 +145,7 @@ AUTH_USER_MODEL = 'dictionary_users.DictionaryUser'
 
 REST_FRAMEWORK = {
   'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication', ),
+  'EXCEPTION_HANDLER': 'kordict_project.exception_handler.custom_exception_handler'
 }
 
 REST_KNOX = {

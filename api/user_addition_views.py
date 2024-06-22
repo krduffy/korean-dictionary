@@ -422,7 +422,7 @@ class HanjaGameView(APIView):
     
     if not hanja_path:
       return Response({
-        "error": "Could not find path."
+        "errors": ["Could not find path."]
       }, status=status.HTTP_404_NOT_FOUND)
 
     path_length = len(hanja_path)
@@ -521,14 +521,14 @@ class UnknownWordsView(APIView):
     text = request.data['text']
 
     if text is None or text == '':
-      return Response({'error': '분석할 입력어가 없습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+      return Response({'errors': ['분석할 입력어가 없습니다.']}, status=status.HTTP_400_BAD_REQUEST)
 
     user_known_words = request.user.known_words.all()
 
     try:
       analysis, _ = get_nouns_verbs(text)
     except Exception:
-      return Response({'error': f'분석하면서 오류가 발생했습니다.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+      return Response({'errors': [f'분석하면서 오류가 발생했습니다.']}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     all_analyzed = []
 
     for i in range(0, len(analysis)):
