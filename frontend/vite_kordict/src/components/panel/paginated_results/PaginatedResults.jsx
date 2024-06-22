@@ -12,6 +12,7 @@ import { getTopicMarker } from "../../../../util/stringUtils.js";
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
+import ErrorMessage from "../messages/ErrorMessage.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import HanjaExampleResult from "./HanjaExampleResult.jsx";
 import HanjaResult from "./HanjaResult.jsx";
@@ -23,7 +24,7 @@ import "./styles/results.css";
 const PaginatedResults = ({ searchType, searchTerm }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchResults, setSearchResults] = useState({});
-    const { apiFetch, loading } = useAPIFetcher();
+    const { apiFetch, loading, error, response } = useAPIFetcher();
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
     /* For spamproofing the results. An indicator of which request is most recent */
@@ -99,6 +100,8 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
         <>
             {loading || !searchResults || !searchResults.results ? (
                 <LoadingMessage />
+            ) : error ? (
+                <ErrorMessage errorResponse={response} />
             ) : searchResults.count === 0 ? (
                 <span>
                     검색어 {"'"}

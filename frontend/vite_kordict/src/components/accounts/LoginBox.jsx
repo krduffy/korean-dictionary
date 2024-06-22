@@ -6,7 +6,6 @@ import { AuthenticationInfoContext } from "../../App.jsx";
 import UsernamePasswordForm from "./UsernamePasswordForm.jsx";
 
 import "./account-styles.css";
-import "./account-styles.css";
 
 /**
  * A box component to allow for user logins.
@@ -36,6 +35,8 @@ const LoginBox = ({ setNavState }) => {
        gets rid of the login box. */
     }
     useEffect(() => {
+        console.log("SUCCESS" + response);
+
         if (successful) {
             const timer = setTimeout(() => {
                 setNavState("none");
@@ -45,6 +46,8 @@ const LoginBox = ({ setNavState }) => {
                 username: response.user["username"],
                 token: response.token,
             });
+
+            console.log({ response });
 
             return () => clearTimeout(timer);
         }

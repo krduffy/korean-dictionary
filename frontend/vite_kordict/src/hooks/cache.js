@@ -48,40 +48,35 @@ export const processRequest = (url, method, additionalInfo) => {
       Login and logout invalidate entire cache.
     */
 
+    const updateWordKnownOrStudied = (updateKnown) => {
+        const searchesToUpdate = getSearchesMatchingWord(
+            "^api/search_k",
+            additionalInfo["word"]
+        );
+        for (let i = 0; i < searchesToUpdate.length; i++) {
+            changeUserDataInPlace(
+                searchesToUpdate[i],
+                updateKnown ? "is_known" : "is_studied",
+                method === "PUT" ? true : false,
+                additionalInfo["target_code"]
+            );
+        }
+
+        if (cache[`api/korean_word/${additionalInfo["target_code"]}`]) {
+            changeUserDataInPlace(
+                `api/korean_word/${additionalInfo["target_code"]}`,
+                updateKnown ? "is_known" : "is_studied",
+                method === "PUT" ? true : false,
+                additionalInfo["target_code"]
+            );
+        }
+    };
+
     /* toggle_word_known */
     if (new RegExp("^api/toggle_word_k").test(url)) {
-        const searchesToUpdate = getSearchesMatchingWord(
-            "^api/search_k",
-            additionalInfo["word"]
-        );
-        for (let i = 0; i < searchesToUpdate.length; i++) {
-            cacheInPlaceUpdate(searchesToUpdate[i], "known", method);
-        }
-
-        if (cache[`api/korean_word/${additionalInfo["target_code"]}`]) {
-            cacheInPlaceUpdate(
-                `api/korean_word/${additionalInfo["target_code"]}`,
-                "known",
-                method
-            );
-        }
+        updateWordKnownOrStudied(true);
     } else if (new RegExp("^api/toggle_word_s").test(url)) {
-        /* toggle_word_studied */
-        const searchesToUpdate = getSearchesMatchingWord(
-            "^api/search_k",
-            additionalInfo["word"]
-        );
-        for (let i = 0; i < searchesToUpdate.length; i++) {
-            cacheInPlaceUpdate(searchesToUpdate[i], "studied", method);
-        }
-
-        if (cache[`api/korean_word/${additionalInfo["target_code"]}`]) {
-            cacheInPlaceUpdate(
-                `api/korean_word/${additionalInfo["target_code"]}`,
-                "studied",
-                method
-            );
-        }
+        updateWordKnownOrStudied(false);
     } else if (new RegExp("^api/create_s").test(url)) {
         /* */
     } else if (new RegExp("^api/create_n").test(url)) {
@@ -107,55 +102,32 @@ export const cacheRetrieve = (url) => {
     return null;
 };
 
-/**
- * A function that updates cache entries in response to changes in is_known or is_studied variables
- * for the user.
- *
- * @param {string} url - The url to update in the cache.
- * @param {"known" | "studied"} updateType - Whether is_known or is_studied should be updated in cache entries.
- * @param {string} updateMethod - The method (POST or DELETE).
- */
-const cacheInPlaceUpdate = (url, updateType, updateMethod) => {
-    /* changing in place essentially = making cache dirty instead of refetching */
-    /* except there is no need to write back to any other memory */
-    if (updateType === "known") {
-        changeKnownInPlace(url, updateMethod === "PUT" ? true : false);
-    } else if (updateType === "studied") {
-        changeStudiedInPlace(url, updateMethod === "PUT" ? true : false);
-    }
-};
+const changeUserDataInPlace = (url, userDataKey, newBoolean, targetCode) => {
+    const fromCache = cache[url];
 
-/* recursively check object for key */
-const updateFieldRecur = (obj, field, value) => {
-    if (typeof obj === "object" && obj !== null) {
-        if (Array.isArray(obj)) {
-            for (let i = 0; i < obj.length; i++) {
-                updateFieldRecur(obj[i], field, value);
+    if (!fromCache) {
+        /* should never be satisfied */
+        return;
+    }
+
+    const cacheItem = fromCache.response;
+
+    /* List of search results in search_korean */
+    if (cacheItem.results != null) {
+        cacheItem.results.forEach((wordData) => {
+            if (
+                wordData["target_code"] == targetCode &&
+                wordData["user_data"]
+            ) {
+                wordData["user_data"][userDataKey] = newBoolean;
             }
-        } else {
-            Object.keys(obj).forEach((key) => {
-                if (key === field) {
-                    obj[key] = value;
-                } else {
-                    updateFieldRecur(obj[key], field, value);
-                }
-            });
-        }
+        });
+    } else if (
+        cacheItem["target_code"] == targetCode &&
+        cacheItem["user_data"]
+    ) {
+        cacheItem["user_data"][userDataKey] = newBoolean;
     }
-};
-
-const changeKnownInPlace = (url, newBoolean) => {
-    const cacheItem = cache[url];
-
-    /* recursively check object for known key */
-    updateFieldRecur(cacheItem, "is_known", newBoolean);
-};
-
-const changeStudiedInPlace = (url, newBoolean) => {
-    const cacheItem = cache[url];
-
-    /* recursively check object for studied key */
-    updateFieldRecur(cacheItem, "is_studied", newBoolean);
 };
 
 /**
