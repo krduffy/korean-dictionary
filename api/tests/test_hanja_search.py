@@ -4,6 +4,8 @@ from typing import List, Dict
 
 from api.dictionary_models import HanjaCharacter
 
+API_ENDPOINT = '/api/search_hanja/'
+
 def isExactHanjaOrder(results: List[Dict[str, any]], hanja_list: List[int]) -> bool:
   """
     A function that returns whether a list of results follows an exact order (by their target codes).
@@ -56,7 +58,7 @@ class TestHanjaSearch(TestCase):
     """
 
     search_term = '말'
-    response = self.client.get('/api/hanja_char/', {'search_term': search_term})
+    response = self.client.get(API_ENDPOINT, {'search_term': search_term})
 
     data = response.json()
     # results should be 끝 말 and 말씀 화
@@ -67,7 +69,7 @@ class TestHanjaSearch(TestCase):
     """Tests that characters are ordered by their result_ranking in descending order."""
 
     search_term = '화'
-    response = self.client.get('/api/hanja_char/', {'search_term': search_term})
+    response = self.client.get(API_ENDPOINT, {'search_term': search_term})
 
     data = response.json()
     # results should be 불 화, 꽃 화, and 말씀 화
@@ -82,7 +84,7 @@ class TestHanjaSearch(TestCase):
     """
 
     search_term = '지'
-    response = self.client.get('/api/hanja_char/', {'search_term': search_term})
+    response = self.client.get(API_ENDPOINT, {'search_term': search_term})
 
     data = response.json()
     # results should be 땅 지 (6 strokes) and 종이 지 (10 strokes)

@@ -96,7 +96,6 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
 
         setSuccessful(false);
         setError(false);
-
         setLoading(true);
 
         let headers = new Headers();

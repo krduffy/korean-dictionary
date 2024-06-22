@@ -428,8 +428,18 @@ class HanjaGameView(APIView):
     path_length = len(hanja_path)
 
     first = hanja_path[0]["step_character"]["character"]
+    # Due to the way that the algorithm works, there is no guarantee that the word
+    # chosen as start_from (or that any char in the array) is in HanjaCharacter.objects; 
+    # it will need to be conditionally serialized before being returned in response
     start_from = random.choice([char for char in hanja_path[0]["example_word"]["origin"] 
                                if char != first and ord(char) >= 0x4e00 and ord(char) <= 0x9fff])
+    
+    start_from_to_return = None
+    if HanjaCharacter.objects.filter(pk = start_from).exists():
+      start_from_to_return = HanjaCharacterSerializer(HanjaCharacter.objects.get(pk = start_from)).data
+    else:
+      start_from_to_return = start_from
+
     go_to = hanja_path[path_length - 1]["step_character"]["character"]
 
     # number of required words and characters.
@@ -490,7 +500,7 @@ class HanjaGameView(APIView):
       required_characters.append(random.sample(selected[i]["example_word"]["origin"], k=1))
 
     return Response({
-      'start_from': HanjaCharacterSerializer(HanjaCharacter.objects.get(pk = start_from)).data,
+      'start_from': start_from_to_return,
       'go_to': HanjaCharacterSerializer(HanjaCharacter.objects.get(pk = go_to)).data,
       'supplied_characters': supplied_characters,
       'required_characters': required_characters,

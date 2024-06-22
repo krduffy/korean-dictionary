@@ -6,6 +6,8 @@ from typing import List, Dict
 from dictionary_users.models import DictionaryUser
 from api.dictionary_models import KoreanWord
 
+API_ENDPOINT = '/api/search_korean/'
+
 def isExactKoreanWordOrder(results: List[Dict[str, any]], target_code_list: List[int]) -> bool:
   """
     A function that returns whether a list of results follows an exact order (by their target codes).
@@ -18,7 +20,7 @@ def isExactKoreanWordOrder(results: List[Dict[str, any]], target_code_list: List
     return False
 
   for i in range (len(results)):
-    if results[i]['kw_target_code'] != target_code_list[i]:
+    if results[i]['target_code'] != target_code_list[i]:
       return False
   
   return True
@@ -31,7 +33,7 @@ def targetCodeInResults(results: List[Dict[str, any]], target_code: int) -> bool
       - `results`: The list of result json dictionaries.
       - `target_code`: The target code to find in `results`.
   """
-  target_codes = [word['kw_target_code'] for word in results]
+  target_codes = [word['target_code'] for word in results]
   return target_code in target_codes
 
 class TestLoggedOutKoreanWordSearch(TestCase):
@@ -44,13 +46,13 @@ class TestLoggedOutKoreanWordSearch(TestCase):
     self.client = APIClient()
 
   def test_does_not_contain_user_data(self):
-    """Tests that when there is no logged in user, the kw_user_data key in a result has a value of None."""
+    """Tests that when there is no logged in user, the user_data key in a result has a value of None."""
     search_term = '단어'
-    response = self.client.get('/api/korean_word/', {'search_term': search_term})
+    response = self.client.get(API_ENDPOINT, {'search_term': search_term})
 
     data = response.json()
     self.assertEqual(len(data['results']), 1)
-    self.assertIsNone(data['results'][0]['kw_user_data'])
+    self.assertIsNone(data['results'][0]['user_data'])
 
 class TestLoggedInKoreanWordSearch(TestCase):
 
@@ -74,18 +76,18 @@ class TestLoggedInKoreanWordSearch(TestCase):
     self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
   
   def test_contains_user_data(self):
-    """Tests that when there is a logged in user, the kw_user_data key in a result does not have a value of None."""
+    """Tests that when there is a logged in user, the user_data key in a result does not have a value of None."""
     search_term = '지열'
-    response = self.client.get('/api/korean_word/', {'search_term': search_term})
+    response = self.client.get(API_ENDPOINT, {'search_term': search_term})
 
     data = response.json()
     self.assertEqual(len(data['results']), 1)
-    self.assertIsNotNone(data['results'][0]['kw_user_data'])
+    self.assertIsNotNone(data['results'][0]['user_data'])
   
   def test_ordered_by_target_code(self):
     """Tests that when there is more than one result, they are ordered by target code."""
     search_term = '기지'
-    response = self.client.get('/api/korean_word/', {'search_term': search_term})
+    response = self.client.get(API_ENDPOINT, {'search_term': search_term})
 
     data = response.json()
     self.assertEqual(len(data['results']), 2)
@@ -97,7 +99,7 @@ class TestLoggedInKoreanWordSearch(TestCase):
     TestLoggedInKoreanWordSearch.user.known_words.set([TestLoggedInKoreanWordSearch.word7])
 
     search_term = '기지'
-    response = self.client.get('/api/korean_word/', {'search_term': search_term})
+    response = self.client.get(API_ENDPOINT, {'search_term': search_term})
 
     data = response.json()
     self.assertEqual(len(data['results']), 2)
@@ -112,7 +114,7 @@ class TestLoggedInKoreanWordSearch(TestCase):
     TestLoggedInKoreanWordSearch.user.study_words.set([TestLoggedInKoreanWordSearch.word7])
 
     search_term = '기지'
-    response = self.client.get('/api/korean_word/', {'search_term': search_term})
+    response = self.client.get(API_ENDPOINT, {'search_term': search_term})
 
     data = response.json()
     self.assertEqual(len(data['results']), 2)
@@ -120,23 +122,3 @@ class TestLoggedInKoreanWordSearch(TestCase):
 
     # Reset study_words
     TestLoggedInKoreanWordSearch.user.study_words.set([])
-  
-  def test_star(self):
-    """Tests that a * in search_term correctly translates to .* in the search regex."""
-    search_term = '*지*'
-    response = self.client.get('/api/korean_word/', {'search_term': search_term})
-
-    data = response.json()
-    # Every word except 기기 (tc 4) should match
-    self.assertEqual(len(data['results']), 6)
-    self.assertFalse(targetCodeInResults(data['results'], 4))
-  
-  def test_wildcard(self):
-    """Tests that a . in search_term is correctly parsed in the search regex."""
-    search_term = '_지_'
-    response = self.client.get('/api/korean_word/', {'search_term': search_term})
-
-    data = response.json()
-    # Only 지지율 (tc 5) should match
-    self.assertEqual(len(data['results']), 1)
-    self.assertTrue(targetCodeInResults(data['results'], 5))

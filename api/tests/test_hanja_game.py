@@ -6,6 +6,7 @@ from knox.models import AuthToken
 from dictionary_users.models import DictionaryUser
 from api.dictionary_models import KoreanWord, HanjaCharacter
 
+API_ENDPOINT = '/api/hanja_game_info/'
 
 def forms_path(origins):
 
@@ -54,7 +55,7 @@ class TestHanjaGameSimpleTripleView(TestCase):
     for seed in range (0, 3):
       with self.subTest(seed=seed):
         
-        response = self.client.get('/api/hanja_game_info/', {'length': length, 'seed': seed})
+        response = self.client.get(API_ENDPOINT, {'length': length, 'seed': seed})
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.json()
@@ -66,7 +67,7 @@ class TestHanjaGameSimpleTripleView(TestCase):
         path_characters = [step['step_character']['character'] for step in data['hanja_path']]
         self.assertEqual(len(path_characters), len(set(path_characters)))
 
-        word_origins = [step['example_word']['kw_origin'] for step in data['hanja_path']]
+        word_origins = [step['example_word']['origin'] for step in data['hanja_path']]
         self.assertEqual(forms_path(word_origins), True)
 
 class TestHanjaGameBacktrackSameCharacterView(TestCase):
@@ -105,7 +106,7 @@ class TestHanjaGameBacktrackSameCharacterView(TestCase):
 
       with self.subTest(seed=seed):
         
-        response = self.client.get('/api/hanja_game_info/', {'length': length, 'seed': seed})
+        response = self.client.get(API_ENDPOINT, {'length': length, 'seed': seed})
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.json()
@@ -117,7 +118,7 @@ class TestHanjaGameBacktrackSameCharacterView(TestCase):
         path_characters = [step['step_character']['character'] for step in data['hanja_path']]
         self.assertEqual(len(path_characters), len(set(path_characters)))
 
-        word_origins = [step['example_word']['kw_origin'] for step in data['hanja_path']]
+        word_origins = [step['example_word']['origin'] for step in data['hanja_path']]
         self.assertEqual(forms_path(word_origins), True)
   
 class TestHanjaGameNoKnownWords(TestCase):
@@ -153,7 +154,7 @@ class TestHanjaGameNoKnownWords(TestCase):
   def test_returns_error(self):
     length = 3
     seed = 0
-    response = self.client.get('/api/hanja_game_info/', {'length': length, 'seed': seed})
+    response = self.client.get(API_ENDPOINT, {'length': length, 'seed': seed})
     self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
   
 class TestHanjaGamePathLengthTooLong(TestCase):
@@ -190,5 +191,43 @@ class TestHanjaGamePathLengthTooLong(TestCase):
     # cannot find any path of length 10
     length = 10
     seed = 0
-    response = self.client.get('/api/hanja_game_info/', {'length': length, 'seed': seed})
+    response = self.client.get(API_ENDPOINT, {'length': length, 'seed': seed})
+    self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+class TestHanjaGameCharactersNotInDictionary(TestCase):
+  @classmethod
+  def setUpTestData(cls):
+    
+    # with three words 인심, 미인, 일인, , it will have to backtrack if it picks 인심 and then 미인
+    # but still end up using 인 to continue the path (with 범인)
+    cls.word1 = KoreanWord.objects.create(target_code=1, word="인심", origin="人心")
+    cls.word2 = KoreanWord.objects.create(target_code=2, word="미인", origin="美人")
+    cls.word3 = KoreanWord.objects.create(target_code=3, word="범인", origin="犯人")
+    cls.word4 = KoreanWord.objects.create(target_code=4, word="침범", origin="侵犯")
+    # purpose of word 4 is to make sure there are at least 16 characters for the view to return
+    cls.word5 = KoreanWord.objects.create(target_code=5, word="뭐뭐뭐", origin="零一二三四五六七八九十百千月火水木金土日")
+
+    cls.character1 = HanjaCharacter.objects.create(pk="心", meaning_reading="마음 심", strokes=1)
+    #cls.character2 = HanjaCharacter.objects.create(pk="人", meaning_reading="사람 인", strokes=1)
+    cls.character3 = HanjaCharacter.objects.create(pk="美", meaning_reading="아름다울 미", strokes=1)
+    cls.character4 = HanjaCharacter.objects.create(pk="犯", meaning_reading="범할 범", strokes=1)
+    
+    # Similar to the no known words test case but the characters in the dictionary
+    # cannot allow for all of the characters in the path
+    cls.character5 = HanjaCharacter.objects.create(pk="侵", meaning_reading="침노할 침", strokes=1)
+      
+    cls.user = DictionaryUser.objects.create_user(username="test_user", password="test_user")
+    
+    # user does not have anything added to their list of known words
+
+  def setUp(self):
+    self.client = APIClient()
+    self.user = TestHanjaGameCharactersNotInDictionary.user
+    self.token = AuthToken.objects.create(user=self.user)[1]
+    self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+
+  def test_returns_error(self):
+    length = 3
+    seed = 0
+    response = self.client.get(API_ENDPOINT, {'length': length, 'seed': seed})
     self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
