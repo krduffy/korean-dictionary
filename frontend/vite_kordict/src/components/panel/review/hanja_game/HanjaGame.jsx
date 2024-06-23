@@ -1,14 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
+import { getElementSizing } from "../../../../../util/domUtils.js";
 import { HANJA_GAME_LENGTH } from "../../../../constants.js";
 import { useAPIFetcher } from "../../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../../App.jsx";
 import { LoadingMessage } from "../../messages/LoadingMessage.jsx";
 import ConnectionBoard from "./ConnectionBoard.jsx";
+import GameExplanationBox from "./GameExplanationBox.jsx";
 import UsableCharactersBoard from "./UsableCharactersBoard.jsx";
 
 const HanjaGame = ({ initialSeed }) => {
@@ -61,6 +63,17 @@ const HanjaGame = ({ initialSeed }) => {
                     currentGameData &&
                     currentGameData["supplied_characters"] && (
                         <div className="game-container">
+                            <div>
+                                {currentGameData["start_from"].character}
+                                {currentGameData["go_to"].character}
+
+                                <InstructionQuestionMark
+                                    start_from={
+                                        currentGameData["start_from"].character
+                                    }
+                                    go_to={currentGameData["go_to"].character}
+                                />
+                            </div>
                             <div className="game-top">
                                 <UsableCharactersBoard
                                     charactersList={
@@ -83,3 +96,29 @@ const HanjaGame = ({ initialSeed }) => {
 };
 
 export default HanjaGame;
+
+const InstructionQuestionMark = ({ start_from, go_to }) => {
+    const [showInstructions, setShowInstructions] = useState(false);
+    const questionMarkRef = useRef(null);
+
+    const renderInstructions = () => {
+        const dim = getElementSizing(questionMarkRef);
+        return <GameExplanationBox fromX={dim.centerX} fromY={dim.centerY} />;
+    };
+
+    return (
+        <>
+            <span
+                ref={questionMarkRef}
+                onMouseEnter={() => {
+                    setShowInstructions(true);
+                    console.log("in");
+                }}
+                onMouseLeave={() => setShowInstructions(false)}
+            >
+                ?
+            </span>
+            {showInstructions && renderInstructions()}
+        </>
+    );
+};

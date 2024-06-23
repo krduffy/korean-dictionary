@@ -122,3 +122,7 @@
     height: 70%;
     width: 100%;
 }
+
+.game-explanation-box {
+    max-width: 600px;
+}

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
+import { getElementSizing } from "../../../../util/domUtils.js";
 import { engKeyboardToKorean } from "../../../../util/stringUtils.js";
 
 import { ViewContext } from "../Panel.jsx";
@@ -23,21 +24,6 @@ const SearchBar = () => {
         setBoxContent(searchBarInitialState["boxContent"]);
         setDictionary(searchBarInitialState["dictionary"]);
     }, [searchBarInitialState]);
-
-    const getBarSizing = () => {
-        if (barRef.current) {
-            const rect = barRef.current.getBoundingClientRect();
-
-            return {
-                centerX: rect.left + rect.width / 2,
-                centerY: rect.top + rect.height / 2,
-                paddingX: rect.width / 2,
-                paddingY: rect.height / 2,
-            };
-        }
-
-        return { x: 0, y: 0 };
-    };
 
     const sanitize = (content) => {
         const allowedUnicodeRanges = [
@@ -175,18 +161,28 @@ const SearchBar = () => {
                 <button type="submit">검색</button>
             </form>
 
-            {showChangedMessage && (
-                <PopupBox
-                    fromX={getBarSizing().centerX}
-                    fromY={getBarSizing().centerY}
-                    positioning={"above"}
-                    padding={getBarSizing().paddingY + 10}
-                >
-                    <div style={{ paddingLeft: "10px", paddingRight: "10px" }}>
-                        영문 입력이 한글로 자동 변환되었습니다.
-                    </div>
-                </PopupBox>
-            )}
+            {showChangedMessage &&
+                (() => {
+                    const dim = getElementSizing(barRef);
+
+                    return (
+                        <PopupBox
+                            fromX={dim.centerX}
+                            fromY={dim.centerY}
+                            positioning={"above"}
+                            padding={dim.paddingY + 10}
+                        >
+                            <div
+                                style={{
+                                    paddingLeft: "10px",
+                                    paddingRight: "10px",
+                                }}
+                            >
+                                영문 입력이 한글로 자동 변환되었습니다.
+                            </div>
+                        </PopupBox>
+                    );
+                })}
         </div>
     );
 };

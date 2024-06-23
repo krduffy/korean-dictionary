@@ -438,7 +438,9 @@ class HanjaGameView(APIView):
     if HanjaCharacter.objects.filter(pk = start_from).exists():
       start_from_to_return = HanjaCharacterSerializer(HanjaCharacter.objects.get(pk = start_from)).data
     else:
-      start_from_to_return = start_from
+      start_from_to_return = {
+        'character': start_from
+      }
 
     go_to = hanja_path[path_length - 1]["step_character"]["character"]
 
