@@ -103,12 +103,16 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
             ) : error ? (
                 <ErrorMessage errorResponse={response} />
             ) : searchResults.count === 0 ? (
-                <span>
-                    검색어 {"'"}
-                    {searchTerm}
-                    {"'"}
-                    {getTopicMarker(searchTerm)} 결과가 없습니다.
-                </span>
+                ["search_korean", "search_hanja"].includes(searchTerm) ? (
+                    <span>
+                        검색어 {"'"}
+                        {searchTerm}
+                        {"'"}
+                        {getTopicMarker(searchTerm)} 결과가 없습니다.
+                    </span>
+                ) : (
+                    <span>결과가 없습니다.</span>
+                )
             ) : (
                 typeAndResultsMatch() && (
                     <div className="paginated-results" ref={resultDivRef}>

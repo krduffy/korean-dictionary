@@ -24,6 +24,8 @@ export const getTopicMarker = (string) => {
        If the input does not end in a Korean syllable, returns ''
     */
 
+    if (string.length < 1) return "";
+
     const charCode = string.charCodeAt(string.length - 1);
 
     const FIRST_SYLLABLE = 0xac00;

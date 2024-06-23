@@ -36,12 +36,7 @@ const CreateAccountBox = ({ setNavState }) => {
         if (successful) {
             const timer = setTimeout(() => {
                 setNavState("none");
-            }, 1000);
-
-            setAuthInfo({
-                username: response.user["username"],
-                token: response.token,
-            });
+            }, 3000);
 
             return () => clearTimeout(timer);
         }

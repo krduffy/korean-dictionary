@@ -26,8 +26,10 @@ urlpatterns = [
   #path('delete_note/<pk>', DeleteNoteView.as_view()),
 
   path('homepage_info/', HomepageInfoView.as_view()),
+
   path('user_known_words/', UserKnownWords.as_view()),
-  path('study_words/', UserStudyWords.as_view()),
+  path('user_study_words/', UserStudyWords.as_view()),
+
   path('user_unknown_words/', UnknownWordsView.as_view()),
 
   path('hanja_game_info/', HanjaGameView.as_view()),

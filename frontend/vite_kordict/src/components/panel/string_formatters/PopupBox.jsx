@@ -53,6 +53,8 @@ PopupBox.propTypes = {
     children: PropTypes.node.isRequired,
     fromX: PropTypes.number.isRequired,
     fromY: PropTypes.number.isRequired,
+    positioning: PropTypes.string.isRequired,
+    padding: PropTypes.number.isRequired,
 };
 
 export default PopupBox;

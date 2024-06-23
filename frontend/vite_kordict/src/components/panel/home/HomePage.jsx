@@ -145,8 +145,8 @@ const ButtonSection = ({ setSeed }) => {
             <button
                 onClick={() => {
                     updateViewAndPushToHistory({
-                        view: "known_words",
-                        value: 0,
+                        view: "user_known_words",
+                        value: "",
                         searchBarInitialState: {
                             boxContent: "",
                             dictionary: "korean",
@@ -160,8 +160,8 @@ const ButtonSection = ({ setSeed }) => {
             <button
                 onClick={() => {
                     updateViewAndPushToHistory({
-                        view: "study_words",
-                        value: 0,
+                        view: "user_study_words",
+                        value: "",
                         searchBarInitialState: {
                             boxContent: "",
                             dictionary: "korean",

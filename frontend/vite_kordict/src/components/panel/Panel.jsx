@@ -77,8 +77,8 @@ const Panel = () => {
         switch (view) {
             case "search_korean":
             case "search_hanja":
-            case "known_words":
-            case "study_words":
+            case "user_known_words":
+            case "user_study_words":
                 return (
                     <PaginatedResults searchType={view} searchTerm={value} />
                 );

@@ -4,14 +4,14 @@ export const getNewSeed = () => {
 
 /* for both fit box x and fit box y if boxWidth/height > innerWidth/height then the 
    box has no choice but to go off screen */
-export const fitBoxX = (fromX, boxWidth, buffer) => {
-    return fromX + buffer >= window.innerWidth / 2
-        ? fromX + buffer
-        : fromX - boxWidth - buffer;
+export const fitBoxX = (fromX, boxWidth, padding) => {
+    return fromX + boxWidth + padding < window.innerWidth
+        ? fromX + padding
+        : fromX - boxWidth - padding;
 };
 
-export const fitBoxY = (fromY, boxHeight, buffer) => {
-    return fromY + buffer >= window.innerHeight / 2
-        ? fromY - boxHeight - buffer
-        : fromY + buffer;
+export const fitBoxY = (fromY, boxHeight, padding) => {
+    return fromY - boxHeight - padding > 0
+        ? fromY - boxHeight - padding
+        : fromY + padding;
 };
