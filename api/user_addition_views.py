@@ -14,6 +14,8 @@ import random
 from django.db import transaction
 from rest_framework.parsers import MultiPartParser, FormParser
 
+import json
+
 from .util import reorder_queryset_with_seed, get_nouns_verbs
 
 # Page size = 10
@@ -508,6 +510,95 @@ class HanjaGameView(APIView):
       'required_characters': required_characters,
       'hanja_path': hanja_path
     })
+
+class HanjaGameSolutionVerifierView(APIView):
+  permission_classes = (IsAuthenticated,)
+
+  def post(self, request):
+
+    words = request.data['words']
+
+    if words is None:
+      return Response({
+        "errors": ["한자어들을 제공하지 않았습니다."]
+      }, status=status.HTTP_400_BAD_REQUEST)
+    try:
+      words = json.loads(words)
+    except json.decoder.JSONDecodeError:
+      return Response({
+        "errors": ["한자어 목록을 json으로 변환하다가 오류가 발생했습니다."]
+      }, status=status.HTTP_400_BAD_REQUEST)
+    if len(words) == 0:
+      return Response({
+        "errors": ["한자어들을 제공하지 않았습니다."]
+      }, status=status.HTTP_400_BAD_REQUEST)
+
+    allowed_characters = request.data['allowed_characters']
+    if allowed_characters is None:
+      return Response({
+        "errors": ["게임용 한자들을 제공하지 않았습니다."]
+      }, status=status.HTTP_400_BAD_REQUEST)
+    try:
+      allowed_characters = json.loads(allowed_characters)
+    except json.decoder.JSONDecodeError:
+      return Response({
+        "errors": ["게임용 한자 목록을 json으로 변환하다가 오류가 발생했습니다."]
+      }, status=status.HTTP_400_BAD_REQUEST)
+    if len(allowed_characters) == 0:
+      return Response({
+        "errors": ["게임용 한자들을 제공하지 않았습니다."]
+      }, status=status.HTTP_400_BAD_REQUEST)
+
+    start_from = request.data['start_from']
+    go_to = request.data['go_to']
+    
+    if start_from is None or len(start_from) == 0:
+      return Response({
+        "errors": ["출발 자를 제공하지 않았습니다."]
+      }, status=status.HTTP_400_BAD_REQUEST)
+    
+    if go_to is None or len(go_to) == 0:
+      return Response({
+        "errors": ["도착 자를 제공하지 않았습니다."]
+      }, status=status.HTTP_400_BAD_REQUEST)
+
+    errors = []
+    
+    for i in range (len(words)):
+      errors_for_character = []
+
+      if not KoreanWord.objects.filter(origin__exact = words[i]).exists():
+        errors_for_character.append(f"{words[i]}는 단어가 아닌 것 같습니다.")
+
+      for character in words[i]:
+        if character not in allowed_characters:
+          errors_for_character.append(f"{character}는 용자가 아닙니다.")
+
+      if i > 0:
+        found_link = False
+        for char in words[i]:
+          if char in words[i-1]:
+            found_link = True
+      
+        if not found_link:
+          errors_for_character.append(f"{words[i-1]}, {words[i]}는 같은 한자가 포함되지 않습니다.")
+
+      errors.append(errors_for_character)
+    
+    if start_from not in words[0]:
+      errors[0].append("출발 자가 포함되어야 합니다.")
+    
+    if go_to not in words[len(words) - 1]:
+      errors[len(words) - 1].append("도착 자가 포함되어야 합니다.")
+
+    for error_list in errors:
+      if len(error_list) > 0:
+        return Response({
+          "errors": errors,
+        }, status=status.HTTP_400_BAD_REQUEST)
+    
+    return Response("좋습니다", status=status.HTTP_200_OK)
+    
 
 class UnknownWordsView(APIView):
   """

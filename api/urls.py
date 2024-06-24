@@ -33,4 +33,5 @@ urlpatterns = [
   path('user_unknown_words/', UnknownWordsView.as_view()),
 
   path('hanja_game_info/', HanjaGameView.as_view()),
+  path('hanja_game_solution_verifier/', HanjaGameSolutionVerifierView.as_view())
 ]
