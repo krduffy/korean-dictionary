@@ -4,7 +4,19 @@ import { useDrop } from "react-dnd";
 
 import "./hanja-game-styles.css";
 
-const ConnectionBoard = ({ rows, updateRowCol }) => {
+const ConnectionBoard = ({ rows, updateRowCol, highlights }) => {
+    const getSquareColor = (row, col) => {
+        const colors = ["red", "orange", "yellow", "green", "blue", "purple"];
+
+        if (highlights["to"][row] === col) {
+            return colors[row + 1];
+        } else if (highlights["from"][row] === col) {
+            return colors[row];
+        }
+
+        return "black";
+    };
+
     return (
         <div className="connection-board">
             {rows.map((characterList, rowId) =>
@@ -14,6 +26,7 @@ const ConnectionBoard = ({ rows, updateRowCol }) => {
                             coords={[rowId, columnId]}
                             character={character}
                             updateRowCol={updateRowCol}
+                            backgroundColor={getSquareColor(rowId, columnId)}
                         />
                     </div>
                 ))
@@ -22,7 +35,12 @@ const ConnectionBoard = ({ rows, updateRowCol }) => {
     );
 };
 
-const ConnectionSquare = ({ coords, character, updateRowCol }) => {
+const ConnectionSquare = ({
+    coords,
+    character,
+    updateRowCol,
+    backgroundColor,
+}) => {
     const [{ isOver }, drop] = useDrop(
         () => ({
             accept: "character_square",
@@ -37,7 +55,13 @@ const ConnectionSquare = ({ coords, character, updateRowCol }) => {
     );
 
     return (
-        <div className="connection-square" ref={drop}>
+        <div
+            className="connection-square"
+            style={{
+                backgroundColor: backgroundColor,
+            }}
+            ref={drop}
+        >
             <span className="connection-square-character">{character}</span>
             {character !== " " && (
                 <button

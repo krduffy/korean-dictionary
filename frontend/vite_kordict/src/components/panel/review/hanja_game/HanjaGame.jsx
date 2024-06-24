@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -9,6 +9,7 @@ import { useAPIFetcher } from "../../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../../App.jsx";
 import { LoadingMessage } from "../../messages/LoadingMessage.jsx";
+import HanjaCharacterSpan from "../../string_formatters/HanjaCharacterSpan.jsx";
 import ConnectionBoard from "./ConnectionBoard.jsx";
 import GameExplanationBox from "./GameExplanationBox.jsx";
 import UsableCharactersBoard from "./UsableCharactersBoard.jsx";
@@ -20,11 +21,61 @@ const HanjaGame = ({ initialSeed }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
     const [connectionRows, setConnectionRows] = useState([
-        ["男", "男", "男", "男"],
-        ["男", "男", "男", "男"],
-        ["男", "男", "男", "男"],
-        ["男", "男", "男", "男"],
+        ["", "", "", ""],
+        ["", "", "", ""],
+        ["", "", "", ""],
+        ["", "", "", ""],
     ]);
+
+    const getHighlights = () => {
+        if (
+            !(
+                currentGameData["start_from"]?.character &&
+                currentGameData["go_to"]?.character
+            )
+        ) {
+            return {
+                to: [-1, -1, -1, -1, -1],
+                from: [-1, -1, -1, -1, -1],
+            };
+        }
+
+        const to = [-1, -1, -1, -1];
+        const from = [-1, -1, -1, -1];
+
+        for (let i = 0; i < connectionRows.length - 1; i++) {
+            for (let j = 0; j < connectionRows[i].length; j++) {
+                if (connectionRows[i][j].length < 1) {
+                    continue;
+                }
+                let index = -1;
+                if (
+                    (index = connectionRows[i + 1].indexOf(
+                        connectionRows[i][j]
+                    )) != -1
+                ) {
+                    to[i] = j;
+                    from[i + 1] = index;
+                }
+            }
+        }
+
+        from[0] = connectionRows[0].indexOf(
+            currentGameData["start_from"].character
+        );
+        to[3] = connectionRows[connectionRows.length - 1].indexOf(
+            currentGameData["go_to"].character
+        );
+
+        return {
+            to: to,
+            from: from,
+        };
+    };
+
+    const highlights = useMemo(() => {
+        return getHighlights();
+    }, [connectionRows]);
 
     const { apiFetch, loading } = useAPIFetcher();
 
@@ -63,16 +114,39 @@ const HanjaGame = ({ initialSeed }) => {
                     currentGameData &&
                     currentGameData["supplied_characters"] && (
                         <div className="game-container">
-                            <div>
-                                {currentGameData["start_from"].character}
-                                {currentGameData["go_to"].character}
+                            <div className="top-info">
+                                <div>
+                                    출발자:{" "}
+                                    <HanjaCharacterSpan
+                                        character={
+                                            currentGameData["start_from"]
+                                                .character
+                                        }
+                                        disableClick={true}
+                                    />
+                                </div>
 
-                                <InstructionQuestionMark
-                                    start_from={
-                                        currentGameData["start_from"].character
-                                    }
-                                    go_to={currentGameData["go_to"].character}
-                                />
+                                <div>
+                                    도착 자:{" "}
+                                    <HanjaCharacterSpan
+                                        character={
+                                            currentGameData["go_to"].character
+                                        }
+                                        disableClick={true}
+                                    />
+                                </div>
+
+                                <div style={{ textAlign: "left" }}>
+                                    <InstructionQuestionMark
+                                        start_from={
+                                            currentGameData["start_from"]
+                                                .character
+                                        }
+                                        go_to={
+                                            currentGameData["go_to"].character
+                                        }
+                                    />
+                                </div>
                             </div>
                             <div className="game-top">
                                 <UsableCharactersBoard
@@ -85,6 +159,7 @@ const HanjaGame = ({ initialSeed }) => {
                                 <ConnectionBoard
                                     rows={connectionRows}
                                     updateRowCol={updateRowCol}
+                                    highlights={highlights}
                                 />
                             </div>
                         </div>

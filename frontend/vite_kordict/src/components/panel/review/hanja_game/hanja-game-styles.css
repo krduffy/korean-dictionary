@@ -126,3 +126,9 @@
 .game-explanation-box {
     max-width: 600px;
 }
+
+.top-info {
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+}

@@ -62,7 +62,10 @@ const HanjaCharacterSpan = ({ character, overrideDisplay, disableClick }) => {
                 className="hanja-char"
                 onMouseOver={handleMouseEnter}
                 onMouseOut={handleMouseLeave}
-                style={{ cursor: notAlreadyViewing() ? "pointer" : "" }}
+                style={{
+                    cursor:
+                        notAlreadyViewing() && !disableClick ? "pointer" : "",
+                }}
                 onClick={handleClick}
             >
                 {overrideDisplay ? overrideDisplay : character}
