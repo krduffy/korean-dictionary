@@ -594,7 +594,7 @@ class HanjaGameSolutionVerifierView(APIView):
     for error_list in errors:
       if len(error_list) > 0:
         return Response({
-          "errors": errors,
+          "verifier_errors": errors,
         }, status=status.HTTP_400_BAD_REQUEST)
     
     return Response("좋습니다", status=status.HTTP_200_OK)

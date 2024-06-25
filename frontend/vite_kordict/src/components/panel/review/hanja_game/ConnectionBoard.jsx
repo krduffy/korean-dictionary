@@ -6,7 +6,7 @@ import "./hanja-game-styles.css";
 
 const ConnectionBoard = ({ rows, updateRowCol, highlights }) => {
     const getSquareColor = (row, col) => {
-        const colors = ["red", "orange", "yellow", "green", "blue", "purple"];
+        const colors = ["red", "orange", "yellow", "green", "#DAA520"];
 
         if (highlights["to"][row] === col) {
             return colors[row + 1];

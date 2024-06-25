@@ -1,4 +1,8 @@
 /* Universal */
+* {
+    box-sizing: border-box;
+}
+
 .source {
     color: gray;
     font-size: small;
