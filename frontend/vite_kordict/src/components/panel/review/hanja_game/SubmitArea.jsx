@@ -1,30 +1,52 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 import { getElementSizing } from "../../../../../util/domUtils.js";
 import { useAPIModifier } from "../../../../hooks/useAPIModifier.js";
 
+import { AuthenticationInfoContext } from "../../../../App.jsx";
+import ErrorMessage from "../../messages/ErrorMessage.jsx";
+import PopupBox from "../../string_formatters/PopupBox.jsx";
 import GameExplanationBox from "./GameExplanationBox.jsx";
 
 import "./hanja-game-styles.css";
 
 const SubmitArea = ({ allowedCharacters, words, startFrom, goTo }) => {
-    const { apiModify, successful, response, error, loading } = useAPIModifier(
-        true,
-        {
-            allowed_characters: allowedCharacters,
-            words: words,
+    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
+
+    const { formData, apiModify, successful, response, error, loading } =
+        useAPIModifier(true, {
+            /* need to stringify arrays */
+            allowed_characters: JSON.stringify(allowedCharacters),
+            words: (() => {
+                /* have to remove " " in array and combine the characters together */
+                const condenseStrs = [];
+
+                words.forEach((charList) => {
+                    condenseStrs.push(charList.join("").trim());
+                });
+
+                const withoutBlanks = condenseStrs.filter(
+                    (word) => word.length > 0
+                );
+
+                return JSON.stringify(withoutBlanks);
+            })(),
             start_from: startFrom,
             go_to: goTo,
-        }
-    );
+        });
 
     const handleSubmit = () => {
-        apiModify("api/hanja_game_solution_verifier/");
+        apiModify(
+            "api/hanja_game_solution_verifier/",
+            authInfo["token"],
+            formData,
+            "POST"
+        );
     };
 
     return (
         <div className="submit-area">
-            <div className="word-feedback-area">피드백</div>
+            {response?.errors && <WordFeedbackArea postResponse={response} />}
 
             <div className="instructions-area">
                 <InstructionQuestionMark startFrom={startFrom} goTo={goTo} />
@@ -59,6 +81,54 @@ const InstructionQuestionMark = ({ startFrom, goTo }) => {
                 ?
             </span>
             {showInstructions && renderInstructions()}
+        </>
+    );
+};
+
+const WordFeedbackArea = ({ postResponse }) => {
+    return (
+        <div className="word-feedback-area">
+            {postResponse["errors"].map((errorList, id) => (
+                <IndividualWordFeedbackArea key={id} errorList={errorList} />
+            ))}
+        </div>
+    );
+};
+
+const IndividualWordFeedbackArea = ({ errorList }) => {
+    const [showErrors, setShowErrors] = useState(false);
+    const exclamationRef = useRef(null);
+
+    const renderMessages = () => {
+        const dim = getElementSizing(exclamationRef);
+
+        return (
+            <PopupBox
+                padding={5}
+                positioning="fit"
+                fromX={dim.centerX}
+                fromY={dim.centerY}
+            >
+                <ErrorMessage errorResponse={errorList} />
+            </PopupBox>
+        );
+    };
+
+    return (
+        <>
+            <div
+                ref={exclamationRef}
+                onMouseEnter={() => {
+                    setShowErrors(true);
+                }}
+                onMouseLeave={() => {
+                    setShowErrors(false);
+                }}
+            >
+                !
+            </div>
+
+            {showErrors && renderMessages()}
         </>
     );
 };

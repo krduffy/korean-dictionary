@@ -20,10 +20,10 @@ const HanjaGame = ({ initialSeed }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
     const [connectionRows, setConnectionRows] = useState([
-        ["", "", "", ""],
-        ["", "", "", ""],
-        ["", "", "", ""],
-        ["", "", "", ""],
+        [" ", " ", " ", " "],
+        [" ", " ", " ", " "],
+        [" ", " ", " ", " "],
+        [" ", " ", " ", " "],
     ]);
 
     const getHighlights = () => {
@@ -44,7 +44,7 @@ const HanjaGame = ({ initialSeed }) => {
 
         for (let i = 0; i < connectionRows.length - 1; i++) {
             for (let j = 0; j < connectionRows[i].length; j++) {
-                if (connectionRows[i][j].length < 1) {
+                if (connectionRows[i][j] === " ") {
                     continue;
                 }
                 let index = -1;
@@ -149,6 +149,11 @@ const HanjaGame = ({ initialSeed }) => {
                                     highlights={highlights}
                                 />
                                 <SubmitArea
+                                    allowedCharacters={
+                                        currentGameData["supplied_characters"]
+                                    }
+                                    key={JSON.stringify(connectionRows)}
+                                    words={connectionRows}
                                     startFrom={
                                         currentGameData["start_from"].character
                                     }

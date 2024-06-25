@@ -517,6 +517,7 @@ class HanjaGameSolutionVerifierView(APIView):
   def post(self, request):
 
     words = request.data['words']
+    print(words)
 
     if words is None:
       return Response({
