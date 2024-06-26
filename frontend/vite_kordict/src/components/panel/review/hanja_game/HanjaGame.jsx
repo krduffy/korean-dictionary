@@ -58,10 +58,19 @@ const HanjaGame = ({ initialSeed }) => {
             return NO_HIGHLIGHTS;
         }
 
+        let numWordsInTable = 0;
+        for (let i = 0; i < connectionRows.length; i++) {
+            if (connectionRows[i].join("").trim().length > 0) {
+                numWordsInTable++;
+            } else {
+                break;
+            }
+        }
+
         const to = [-1, -1, -1, -1];
         const from = [-1, -1, -1, -1];
 
-        for (let i = 0; i < connectionRows.length - 1; i++) {
+        for (let i = 0; i < numWordsInTable - 1; i++) {
             for (let j = 0; j < connectionRows[i].length; j++) {
                 if (connectionRows[i][j] === " ") {
                     continue;
@@ -81,7 +90,7 @@ const HanjaGame = ({ initialSeed }) => {
         from[0] = connectionRows[0].indexOf(
             currentGameData["start_from"].character
         );
-        to[3] = connectionRows[connectionRows.length - 1].indexOf(
+        to[numWordsInTable - 1] = connectionRows[numWordsInTable - 1].indexOf(
             currentGameData["go_to"].character
         );
 
