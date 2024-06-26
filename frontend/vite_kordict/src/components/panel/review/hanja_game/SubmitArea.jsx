@@ -116,20 +116,26 @@ const WordFeedbackArea = ({ postResponse }) => {
     return (
         <div className="word-feedback-area">
             {postResponse["verifier_errors"].map((errorList, id) => (
-                <span key={id} style={{ gridRow: `${id + 1} / ${id + 2}` }}>
+                <div
+                    key={id}
+                    style={{
+                        gridRow: `${id + 1} / ${id + 2}`,
+                        gridColumn: "1 / 2",
+                    }}
+                >
                     <IndividualWordFeedbackArea errorList={errorList} />
-                </span>
+                </div>
             ))}
         </div>
     );
 };
 
 const IndividualWordFeedbackArea = ({ errorList }) => {
-    const [showErrors, setShowErrors] = useState(false);
-    const exclamationRef = useRef(null);
+    const [showInfo, setShowInfo] = useState(false);
+    const symbolRef = useRef(null);
 
     const renderMessages = () => {
-        const dim = getElementSizing(exclamationRef);
+        const dim = getElementSizing(symbolRef);
 
         return (
             <PopupBox
@@ -138,28 +144,34 @@ const IndividualWordFeedbackArea = ({ errorList }) => {
                 fromX={dim.centerX}
                 fromY={dim.centerY}
             >
-                {errorList.map((error, id) => (
-                    <div key={id}>{error}</div>
-                ))}
+                {errorList.length > 0 ? (
+                    errorList.map((error, id) => <div key={id}>{error}</div>)
+                ) : (
+                    <div>이 줄은 괜찮습니다.</div>
+                )}
             </PopupBox>
         );
     };
 
     return (
         <>
-            <div
-                ref={exclamationRef}
+            <span
+                className="hanja-word-feedback-warning"
+                ref={symbolRef}
                 onMouseEnter={() => {
-                    setShowErrors(true);
+                    setShowInfo(true);
                 }}
                 onMouseLeave={() => {
-                    setShowErrors(false);
+                    setShowInfo(false);
+                }}
+                style={{
+                    backgroundColor: errorList.length > 0 ? "red" : "green",
                 }}
             >
-                !
-            </div>
+                {errorList.length > 0 ? "⚠" : "☑"}
+            </span>
 
-            {showErrors && renderMessages()}
+            {showInfo && renderMessages()}
         </>
     );
 };

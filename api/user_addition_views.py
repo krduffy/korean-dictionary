@@ -579,7 +579,7 @@ class HanjaGameSolutionVerifierView(APIView):
             found_link = True
       
         if not found_link:
-          errors_for_character.append(f"{words[i-1]}, {words[i]}는 같은 한자가 포함되지 않습니다.")
+          errors_for_character.append("이전 줄 한자어와 공통 한자가 포함되지 않습니다.")
 
       errors.append(errors_for_character)
     
