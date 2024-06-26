@@ -113,6 +113,8 @@ export function useHistoryManager(initialView) {
                 return history[i];
             }
         }
+
+        return null;
     };
 
     return {

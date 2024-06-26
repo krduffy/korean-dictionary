@@ -13,7 +13,11 @@ import KoreanResult from "../paginated_results/KoreanResult.jsx";
 
 import "./homepage-styles.css";
 
-const HomePage = ({ initialSeed, initialHanjaGameSeed }) => {
+const HomePage = ({
+    initialSeed,
+    initialHanjaGameSeed,
+    backToHanjaGameOrPushNewGame,
+}) => {
     const [homepageData, setHomepageData] = useState();
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const { apiFetch, apiPrefetch, loading, error, response } = useAPIFetcher();
@@ -61,6 +65,9 @@ const HomePage = ({ initialSeed, initialHanjaGameSeed }) => {
                                         updateViewAndPushToHistory
                                     }
                                     setSeed={setSeed}
+                                    backToHanjaGameOrPushNewGame={
+                                        backToHanjaGameOrPushNewGame
+                                    }
                                 />
 
                                 <SameHanjaSection
@@ -83,9 +90,8 @@ const HomePage = ({ initialSeed, initialHanjaGameSeed }) => {
 
 export default HomePage;
 
-const ButtonSection = ({ setSeed }) => {
+const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
     const viewContext = useContext(ViewContext);
-    const currentView = viewContext["currentView"];
     const updateViewAndPushToHistory =
         viewContext["updateViewAndPushToHistory"];
     const updateCurrentViewInHistory =
@@ -114,14 +120,7 @@ const ButtonSection = ({ setSeed }) => {
             </button>
             <button
                 onClick={() => {
-                    updateViewAndPushToHistory({
-                        view: "hanja_game",
-                        value: "?",
-                        searchBarInitialState: {
-                            boxContent: "漢字",
-                            dictionary: "hanja",
-                        },
-                    });
+                    backToHanjaGameOrPushNewGame();
                 }}
                 title="한자 잇기 게임에 바로가기"
             >

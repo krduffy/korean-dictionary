@@ -3,10 +3,12 @@ import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
+import { getNewSeed } from "../../../../../util/mathUtils.js";
 import { HANJA_GAME_LENGTH } from "../../../../constants.js";
 import { useAPIFetcher } from "../../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../../App.jsx";
+import { ViewContext } from "../../Panel.jsx";
 import { LoadingMessage } from "../../messages/LoadingMessage.jsx";
 import HanjaCharacterSpan from "../../string_formatters/HanjaCharacterSpan.jsx";
 import ConnectionBoard from "./ConnectionBoard.jsx";
@@ -15,28 +17,39 @@ import UsableCharactersBoard from "./UsableCharactersBoard.jsx";
 
 const HanjaGame = ({ initialSeed }) => {
     const [currentGameData, setCurrentGameData] = useState({});
-    const [seed, setSeed] = useState(initialSeed);
+
+    const currentSeedRef = useRef(initialSeed);
+    const nextSeedRef = useRef(getNewSeed());
 
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
+    const updateCurrentViewInHistory =
+        useContext(ViewContext)["updateCurrentViewInHistory"];
 
-    const [connectionRows, setConnectionRows] = useState([
+    const BLANK_BOARD = [
         [" ", " ", " ", " "],
         [" ", " ", " ", " "],
         [" ", " ", " ", " "],
         [" ", " ", " ", " "],
-    ]);
+    ];
+    const [connectionRows, setConnectionRows] = useState(BLANK_BOARD);
 
-    const getHighlights = () => {
+    const resetConnectionRows = () => {
+        setConnectionRows(BLANK_BOARD);
+    };
+
+    const NO_HIGHLIGHTS = {
+        to: [-1, -1, -1, -1, -1],
+        from: [-1, -1, -1, -1, -1],
+    };
+    const [highlights, setHighlights] = useState(NO_HIGHLIGHTS);
+    const updateHighlights = () => {
         if (
             !(
                 currentGameData["start_from"]?.character &&
                 currentGameData["go_to"]?.character
             )
         ) {
-            return {
-                to: [-1, -1, -1, -1, -1],
-                from: [-1, -1, -1, -1, -1],
-            };
+            return NO_HIGHLIGHTS;
         }
 
         const to = [-1, -1, -1, -1];
@@ -66,17 +79,14 @@ const HanjaGame = ({ initialSeed }) => {
             currentGameData["go_to"].character
         );
 
-        return {
+        setHighlights({
             to: to,
             from: from,
-        };
+        });
     };
 
-    const highlights = useMemo(() => {
-        return getHighlights();
-    }, [connectionRows]);
-
-    const { apiFetch, loading } = useAPIFetcher();
+    const { apiFetch, apiPrefetch, loading, error, response, successful } =
+        useAPIFetcher();
 
     const updateRowCol = (row, col, newValue) => {
         setConnectionRows((prevRows) => {
@@ -87,20 +97,52 @@ const HanjaGame = ({ initialSeed }) => {
         });
     };
 
-    const generateGame = () => {
+    const getGame = () => {
         const setData = async () => {
             const data = await apiFetch(
-                `api/hanja_game_info/?length=${HANJA_GAME_LENGTH}&seed=${seed}`,
+                `api/hanja_game_info/?length=${HANJA_GAME_LENGTH}&seed=${currentSeedRef.current}`,
                 authInfo["token"]
             );
+
+            apiPrefetch(
+                `api/hanja_game_info/?length=${HANJA_GAME_LENGTH}&seed=${nextSeedRef.current}`,
+                authInfo["token"]
+            );
+
             setCurrentGameData(data);
+            resetConnectionRows();
+        };
+
+        setData();
+    };
+
+    const getNextGame = () => {
+        const setData = async () => {
+            currentSeedRef.current = nextSeedRef.current;
+            nextSeedRef.current = getNewSeed();
+
+            getGame();
+
+            const newView = {
+                view: "hanja_game",
+                value: currentSeedRef.current,
+                searchBarInitialState: {
+                    boxContent: "漢字",
+                    dictionary: "hanja",
+                },
+            };
+            updateCurrentViewInHistory(newView);
         };
 
         setData();
     };
 
     useEffect(() => {
-        generateGame();
+        updateHighlights();
+    }, [JSON.stringify(connectionRows)]);
+
+    useEffect(() => {
+        getGame();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -158,6 +200,7 @@ const HanjaGame = ({ initialSeed }) => {
                                         currentGameData["start_from"].character
                                     }
                                     goTo={currentGameData["go_to"].character}
+                                    getNextGame={getNextGame}
                                 />
                             </div>
                         </div>

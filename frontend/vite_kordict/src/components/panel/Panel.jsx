@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useRef, useState } from "react";
 
 import { getNewSeed } from "../../../util/mathUtils.js";
 import { useHistoryManager } from "../../hooks/useHistoryManager.js";
@@ -27,8 +27,7 @@ const Panel = () => {
     /* homepage seed doesnt need to be a state because the value in the view stores it */
     const initialHomepageSeed = getNewSeed();
     /* hanja game seed does so that it can be prefetched */
-    const [initialHanjaGameSeed, setInitialHanjaGameSeed] =
-        useState(getNewSeed());
+    const initialHanjaGameSeedRef = useRef(getNewSeed());
 
     const [currentView, setCurrentView] = useState({
         view: "homepage",
@@ -70,6 +69,23 @@ const Panel = () => {
         setCurrentView(view);
     };
 
+    const backToHanjaGameOrPushNewGame = () => {
+        const view = navigateToLastViewOfType("hanja_game");
+
+        if (view !== null) {
+            setCurrentView(view);
+        } else {
+            updateViewAndPushToHistory({
+                view: "hanja_game",
+                value: initialHanjaGameSeedRef.current,
+                searchBarInitialState: {
+                    boxContent: "漢字",
+                    dictionary: "hanja",
+                },
+            });
+        }
+    };
+
     /* Whether to have display: none or not */
     const [showPanelContent, setShowPanelContent] = useState(true);
 
@@ -92,16 +108,14 @@ const Panel = () => {
                         initialSeed={value}
                         /* this is passed to the homepage so that the homepage can prefetch the
                            first hanja game */
-                        initialHanjaGameSeed={initialHanjaGameSeed}
+                        initialHanjaGameSeed={initialHanjaGameSeedRef.current}
+                        backToHanjaGameOrPushNewGame={
+                            backToHanjaGameOrPushNewGame
+                        }
                     />
                 );
             case "hanja_game":
-                return (
-                    <HanjaGame
-                        initialSeed={initialHanjaGameSeed}
-                        setSeed={setInitialHanjaGameSeed}
-                    />
-                );
+                return <HanjaGame initialSeed={value} />;
             /* Add word is not currently in the application */
             case "edit_word":
                 return <EditWordForm targetCode={value} />;

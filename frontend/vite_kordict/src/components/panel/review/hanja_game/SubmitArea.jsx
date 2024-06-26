@@ -10,7 +10,13 @@ import GameExplanationBox from "./GameExplanationBox.jsx";
 
 import "./hanja-game-styles.css";
 
-const SubmitArea = ({ allowedCharacters, words, startFrom, goTo }) => {
+const SubmitArea = ({
+    allowedCharacters,
+    words,
+    startFrom,
+    goTo,
+    getNextGame,
+}) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
     const { formData, apiModify, successful, response, error, loading } =
@@ -46,7 +52,13 @@ const SubmitArea = ({ allowedCharacters, words, startFrom, goTo }) => {
 
     return (
         <div className="submit-area">
-            {response?.errors && <WordFeedbackArea postResponse={response} />}
+            {response?.errors ? (
+                <ErrorMessage errorResponse={response} />
+            ) : response?.verifier_errors ? (
+                <WordFeedbackArea postResponse={response} />
+            ) : (
+                successful && <SuccessArea getNextGame={getNextGame} />
+            )}
 
             <div className="instructions-area">
                 <InstructionQuestionMark startFrom={startFrom} goTo={goTo} />
@@ -85,10 +97,25 @@ const InstructionQuestionMark = ({ startFrom, goTo }) => {
     );
 };
 
+const SuccessArea = ({ getNextGame }) => {
+    return (
+        <div>
+            성공!
+            <button
+                onClick={() => {
+                    getNextGame();
+                }}
+            >
+                다른 게임 하기
+            </button>
+        </div>
+    );
+};
+
 const WordFeedbackArea = ({ postResponse }) => {
     return (
         <div className="word-feedback-area">
-            {postResponse["errors"].map((errorList, id) => (
+            {postResponse["verifier_errors"].map((errorList, id) => (
                 <IndividualWordFeedbackArea key={id} errorList={errorList} />
             ))}
         </div>
@@ -109,7 +136,9 @@ const IndividualWordFeedbackArea = ({ errorList }) => {
                 fromX={dim.centerX}
                 fromY={dim.centerY}
             >
-                <ErrorMessage errorResponse={errorList} />
+                {errorList.map((error, id) => (
+                    <div key={id}>{error}</div>
+                ))}
             </PopupBox>
         );
     };

@@ -417,7 +417,11 @@ class HanjaGameView(APIView):
 
     all_known_words = request.user.known_words.all()
     valid_regex = r'^[\u4e00-\u9fff]{2,}$'
-    valid_known_words = all_known_words.filter(origin__iregex = valid_regex)
+    # invalid_regex excludes words with only the same character repeating
+    invalid_regex = r'^(.)\1+$'
+    valid_known_words = all_known_words \
+                      .filter(origin__iregex = valid_regex) \
+                      .exclude(origin__iregex = invalid_regex)
 
     valid_known_words = reorder_queryset_with_seed(valid_known_words, seed)
     hanja_path = get_path_of_length(queryset=valid_known_words, length=length, request=self.request)
@@ -433,8 +437,10 @@ class HanjaGameView(APIView):
     # Due to the way that the algorithm works, there is no guarantee that the word
     # chosen as start_from (or that any char in the array) is in HanjaCharacter.objects; 
     # it will need to be conditionally serialized before being returned in response
-    start_from = random.choice([char for char in hanja_path[0]["example_word"]["origin"] 
-                               if char != first and ord(char) >= 0x4e00 and ord(char) <= 0x9fff])
+    print()
+    possible_start_from = [char for char in hanja_path[0]["example_word"]["origin"] 
+                    if char != first and ord(char) >= 0x4e00 and ord(char) <= 0x9fff]
+    start_from = possible_start_from[seed % len(possible_start_from)]
     
     start_from_to_return = None
     if HanjaCharacter.objects.filter(pk = start_from).exists():
