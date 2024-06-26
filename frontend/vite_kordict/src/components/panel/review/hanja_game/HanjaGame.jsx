@@ -9,6 +9,7 @@ import { useAPIFetcher } from "../../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../../App.jsx";
 import { ViewContext } from "../../Panel.jsx";
+import ErrorMessage from "../../messages/ErrorMessage.jsx";
 import { LoadingMessage } from "../../messages/LoadingMessage.jsx";
 import HanjaCharacterSpan from "../../string_formatters/HanjaCharacterSpan.jsx";
 import ConnectionBoard from "./ConnectionBoard.jsx";
@@ -18,8 +19,13 @@ import UsableCharactersBoard from "./UsableCharactersBoard.jsx";
 const HanjaGame = ({ initialSeed }) => {
     const [currentGameData, setCurrentGameData] = useState({});
 
+    /* just to prevent double rendering in strict mode. */
+    const fetchedRef = useRef(false);
+
     const currentSeedRef = useRef(initialSeed);
-    const nextSeedRef = useRef(getNewSeed());
+    /* is initially not a random number because that would cause another api call
+       on every load of the hanja game view */
+    const nextSeedRef = useRef(initialSeed + 1234);
 
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const updateCurrentViewInHistory =
@@ -99,6 +105,8 @@ const HanjaGame = ({ initialSeed }) => {
 
     const getGame = () => {
         const setData = async () => {
+            console.log("in get game : cur is " + currentSeedRef.current);
+
             const data = await apiFetch(
                 `api/hanja_game_info/?length=${HANJA_GAME_LENGTH}&seed=${currentSeedRef.current}`,
                 authInfo["token"]
@@ -142,7 +150,14 @@ const HanjaGame = ({ initialSeed }) => {
     }, [JSON.stringify(connectionRows)]);
 
     useEffect(() => {
-        getGame();
+        /* rapidly sent requests interweave on the server and cannot be the same, even
+           for the same set of known words and seed. double effect runs in strict mode
+           will cause changes in the list of supplied_word unless this ref guard is here
+           to block anything past the first render. */
+        if (!fetchedRef.current) {
+            fetchedRef.current = true;
+            getGame();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -151,6 +166,8 @@ const HanjaGame = ({ initialSeed }) => {
             <div className="hanja-game-container">
                 {loading ? (
                     <LoadingMessage />
+                ) : error ? (
+                    <ErrorMessage errorResponse={response} />
                 ) : (
                     currentGameData &&
                     currentGameData["supplied_characters"] && (

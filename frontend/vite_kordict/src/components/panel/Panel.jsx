@@ -46,6 +46,7 @@ const Panel = () => {
         getFollowingView,
         updateCurrentViewInHistory,
         navigateToLastViewOfType,
+        findMostRecentInHistoryOfType,
     } = useHistoryManager({
         view: "homepage",
         value: initialHomepageSeed,
@@ -70,9 +71,10 @@ const Panel = () => {
     };
 
     const backToHanjaGameOrPushNewGame = () => {
-        const view = navigateToLastViewOfType("hanja_game");
+        const view = findMostRecentInHistoryOfType("hanja_game");
+        console.log(view);
 
-        if (view !== null) {
+        if (view) {
             setCurrentView(view);
         } else {
             updateViewAndPushToHistory({

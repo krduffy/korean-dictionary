@@ -116,7 +116,9 @@ const WordFeedbackArea = ({ postResponse }) => {
     return (
         <div className="word-feedback-area">
             {postResponse["verifier_errors"].map((errorList, id) => (
-                <IndividualWordFeedbackArea key={id} errorList={errorList} />
+                <span key={id} style={{ gridRow: `${id + 1} / ${id + 2}` }}>
+                    <IndividualWordFeedbackArea errorList={errorList} />
+                </span>
             ))}
         </div>
     );

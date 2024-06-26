@@ -437,7 +437,6 @@ class HanjaGameView(APIView):
     # Due to the way that the algorithm works, there is no guarantee that the word
     # chosen as start_from (or that any char in the array) is in HanjaCharacter.objects; 
     # it will need to be conditionally serialized before being returned in response
-    print()
     possible_start_from = [char for char in hanja_path[0]["example_word"]["origin"] 
                     if char != first and ord(char) >= 0x4e00 and ord(char) <= 0x9fff]
     start_from = possible_start_from[seed % len(possible_start_from)]
@@ -451,12 +450,6 @@ class HanjaGameView(APIView):
       }
 
     go_to = hanja_path[path_length - 1]["step_character"]["character"]
-
-    # number of required words and characters.
-    num_requirements = path_length // 4
-    
-    required_characters = []
-    selected = random.sample(hanja_path[1:-1], k=num_requirements)
 
     supplied_characters = []
     for word_on_path in hanja_path:
@@ -477,6 +470,8 @@ class HanjaGameView(APIView):
               num_supplied_characters += 1
               supplied_characters.append(character)
         index += 1
+
+    print(supplied_characters)
 
     def reorder(list, seed):
       # this is only meant for lists of length not more than 16
@@ -506,14 +501,10 @@ class HanjaGameView(APIView):
     #supplied_characters = reorder(reorder(supplied_characters, seed), seed * 2 + seed)
     supplied_characters = reorder(supplied_characters, seed)
 
-    for i in range(0, num_requirements):
-      required_characters.append(random.sample(selected[i]["example_word"]["origin"], k=1))
-
     return Response({
       'start_from': start_from_to_return,
       'go_to': HanjaCharacterSerializer(HanjaCharacter.objects.get(pk = go_to)).data,
       'supplied_characters': supplied_characters,
-      'required_characters': required_characters,
       'hanja_path': hanja_path
     })
 
@@ -579,7 +570,7 @@ class HanjaGameSolutionVerifierView(APIView):
 
       for character in words[i]:
         if character not in allowed_characters:
-          errors_for_character.append(f"{character}는 용자가 아닙니다.")
+          errors_for_character.append(f"{character}는 게임용 한자가 아닙니다.")
 
       if i > 0:
         found_link = False
@@ -593,10 +584,10 @@ class HanjaGameSolutionVerifierView(APIView):
       errors.append(errors_for_character)
     
     if start_from not in words[0]:
-      errors[0].append("출발 자가 포함되어야 합니다.")
+      errors[0].append("첫 한자어는 출발 자가 포함되어야 합니다.")
     
     if go_to not in words[len(words) - 1]:
-      errors[len(words) - 1].append("도착 자가 포함되어야 합니다.")
+      errors[len(words) - 1].append("마지막 한자어는 도착 자가 포함되어야 합니다.")
 
     for error_list in errors:
       if len(error_list) > 0:

@@ -231,3 +231,67 @@ class TestHanjaGameCharactersNotInDictionary(TestCase):
     seed = 0
     response = self.client.get(API_ENDPOINT, {'length': length, 'seed': seed})
     self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+class TestCharactersSuppliedInSameOrder(TestCase):
+
+  @classmethod
+  def setUpTestData(cls):
+    
+    # with three words 인심, 미인, 미녀, it will have to backtrack if 미인 is the first
+    # selected word in the path
+    cls.word1 = KoreanWord.objects.create(target_code=1, word="인심", origin="人心")
+    cls.word2 = KoreanWord.objects.create(target_code=2, word="미인", origin="美人")
+    cls.word3 = KoreanWord.objects.create(target_code=3, word="미녀", origin="美女")
+    
+    # purpose of words 4-7 is to make sure there are at least 16 characters for the view to return
+    cls.word4 = KoreanWord.objects.create(target_code=4, word="뭐뭐뭐", origin="零一二百千東西南北向上主氣月火水木金土日")
+    cls.word5 = KoreanWord.objects.create(target_code=5, word="뭐뭐뭐", origin="零一二三四西南北向上五六七八金土日")
+    cls.word6 = KoreanWord.objects.create(target_code=6, word="뭐뭐뭐", origin="十百千月火水木金土日")
+    cls.word7 = KoreanWord.objects.create(target_code=7, word="뭐뭐뭐", origin="零一西南北向上二三四五六日")
+
+    cls.character1 = HanjaCharacter.objects.create(pk="心", meaning_reading="마음 심", strokes=1)
+    cls.character2 = HanjaCharacter.objects.create(pk="人", meaning_reading="사람 인", strokes=1)
+    cls.character3 = HanjaCharacter.objects.create(pk="美", meaning_reading="아름다울 미", strokes=1)
+    cls.character4 = HanjaCharacter.objects.create(pk="女", meaning_reading="계집 녀", strokes=1)
+      
+    cls.user = DictionaryUser.objects.create_user(username="test_user", password="test_user")
+    cls.user.known_words.set([cls.word1, cls.word2, cls.word3, cls.word4, cls.word5, cls.word6, cls.word7])
+
+  def setUp(self):
+    self.client = APIClient()
+    self.user = TestCharactersSuppliedInSameOrder.user
+    self.token = AuthToken.objects.create(user=self.user)[1]
+    self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+
+  def test_triple(self):
+    length = 3
+
+    for seed in range (0, 7):
+      with self.subTest(seed=seed):
+        
+        supplied_lists = []
+        for _ in range (10):
+          response = self.client.get(API_ENDPOINT, {'length': length, 'seed': seed})
+          
+          self.assertEqual(response.status_code, status.HTTP_200_OK)
+          data = response.json()
+          self.assertEqual(len(data['hanja_path']), length)
+          self.assertIn("supplied_characters", data)
+
+          supplied_lists.append(data['supplied_characters'])
+        
+        def listsAreSameOrder(list1, list2):
+
+          if len(list1) != len(list2):
+            return False
+
+          for i in range (len(list1)):
+            if list1[i] != list2[i]:
+              return False
+          
+          return True
+
+        for i in range (1, len(supplied_lists)):
+          self.assertTrue(listsAreSameOrder(supplied_lists[0], supplied_lists[i]),
+                          f"List {i} not equal to list 0; list 0: " + str(supplied_lists[0])
+                          + f"~ list {i}: " + str(supplied_lists[i]))

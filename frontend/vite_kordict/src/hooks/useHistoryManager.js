@@ -117,6 +117,17 @@ export function useHistoryManager(initialView) {
         return null;
     };
 
+    const findMostRecentInHistoryOfType = (viewType) => {
+        for (let i = history.length - 1; i >= 0; i--) {
+            if (history[i].view === viewType) {
+                setHistoryPointer(i);
+                return history[i];
+            }
+        }
+
+        return null;
+    };
+
     return {
         pushViewToHistory,
         canNavigateBack,
@@ -125,5 +136,6 @@ export function useHistoryManager(initialView) {
         getFollowingView,
         updateCurrentViewInHistory,
         navigateToLastViewOfType,
+        findMostRecentInHistoryOfType,
     };
 }
