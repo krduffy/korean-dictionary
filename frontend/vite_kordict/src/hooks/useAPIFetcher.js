@@ -45,7 +45,6 @@ export function useAPIFetcher() {
      * @returns {Promise<any>} A Promise that resolves with the fetched data or rejects with an error
      */
     const apiFetch = async (url, token) => {
-        console.log("call to fetc hfor " + url);
         setLoading(true);
         setError(false);
 
@@ -95,7 +94,6 @@ export function useAPIFetcher() {
      * @param {string} token - An authorization token.
      */
     const apiPrefetch = async (url, token) => {
-        console.log("call to prefetch for " + url);
         const alreadyCached = cacheRetrieve(url) != null;
 
         if (!alreadyCached) {

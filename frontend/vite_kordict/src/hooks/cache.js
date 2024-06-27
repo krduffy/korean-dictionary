@@ -81,9 +81,9 @@ export const processRequest = (url, method, additionalInfo) => {
         /* */
     } else if (new RegExp("^api/create_n").test(url)) {
         /* */
-    } else if (new RegExp("^users/login").test(url)) {
+    } else if (new RegExp("^user/login").test(url)) {
         clearCache();
-    } else if (new RegExp("^users/logout").test(url)) {
+    } else if (new RegExp("^user/logout").test(url)) {
         clearCache();
     }
 };
@@ -95,8 +95,6 @@ export const processRequest = (url, method, additionalInfo) => {
  * @returns {Object} The cached response, if the url is in the cache; `null` otherwise.
  */
 export const cacheRetrieve = (url) => {
-    console.log(cache);
-
     if (Object.keys(cache).includes(url)) {
         cache[url].lastAccessed = ++counter;
         return cache[url].response;

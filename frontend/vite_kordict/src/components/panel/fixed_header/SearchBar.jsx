@@ -182,7 +182,7 @@ const SearchBar = () => {
                             </div>
                         </PopupBox>
                     );
-                })}
+                })()}
         </div>
     );
 };
