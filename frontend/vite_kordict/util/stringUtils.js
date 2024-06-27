@@ -26,7 +26,15 @@ export const getTopicMarker = (string) => {
 
     if (string.length < 1) return "";
 
-    const charCode = string.charCodeAt(string.length - 1);
+    const lastChar = string.charAt(string.length - 1);
+
+    if (isConsonant(lastChar)) {
+        return "은";
+    } else if (isVowel(lastChar)) {
+        return "는";
+    }
+
+    const charCode = lastChar.charCodeAt(0);
 
     const FIRST_SYLLABLE = 0xac00;
     const LAST_SYLLABLE = 0xd7a3;

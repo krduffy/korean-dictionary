@@ -3,6 +3,25 @@
     box-sizing: border-box;
 }
 
+button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: border-color 0.25s;
+}
+button:hover {
+    border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+}
+
 .source {
     color: gray;
     font-size: small;
@@ -38,8 +57,8 @@
 
 #main-page {
     height: 100vh;
-    min-height: 500px;
     width: 100vw;
+    min-width: var(--min-screen-width);
     overflow: scroll;
 }
 
@@ -47,35 +66,34 @@
     display: flex;
     width: 100%;
     height: 7.5%;
+    min-height: 50px;
 }
 
 /* This is to extend the bar from the sides of the panels upward. Because the panels are unaware 
    of whether they are on the left or right and the navbar is separated from the panels functionally, 
    a single bar cannot be drawn. (all the way from the top to the bottom). */
-#nav-bar-container::before {
+.blue-bar {
     content: "";
     position: absolute;
     top: 0;
-    left: 50%;
+    left: max(calc(50% - 5px), calc(calc(var(--min-screen-width) / 2) - 5px));
     width: 10px;
     background-color: #0c0245;
-    transform: translateX(-50%);
-    /* height of the entire navbar in general is 7.5% so this follows suit */
     height: 100%;
 }
 
 #both-panels-container {
     display: flex;
-    width: 100%;
     height: 92.5%;
+    width: 100%;
 }
 
 .panel-container {
     height: 100%;
     flex: auto;
+    width: 50%;
     display: inline-block;
     overflow-y: scroll;
-    width: 50%;
 }
 
 #left-panel-container {

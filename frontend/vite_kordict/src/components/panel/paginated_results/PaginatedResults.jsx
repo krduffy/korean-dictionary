@@ -85,8 +85,8 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
 
         if (
             searchType === "search_korean" ||
-            searchType === "known_words" ||
-            searchType === "study_words"
+            searchType === "user_known_words" ||
+            searchType === "user_study_words"
         ) {
             return firstResult.senses != null;
         } else if (searchType === "search_hanja") {
@@ -103,31 +103,31 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
             ) : error ? (
                 <ErrorMessage errorResponse={response} />
             ) : searchResults.count === 0 ? (
-                ["search_korean", "search_hanja"].includes(searchTerm) ? (
-                    <span>
+                ["search_korean", "search_hanja"].includes(searchType) ? (
+                    <div className="no-results-indicator">
                         검색어 {"'"}
                         {searchTerm}
                         {"'"}
                         {getTopicMarker(searchTerm)} 결과가 없습니다.
-                    </span>
+                    </div>
                 ) : (
-                    <span>결과가 없습니다.</span>
+                    <div className="no-results-indicator">결과가 없습니다.</div>
                 )
             ) : (
                 typeAndResultsMatch() && (
                     <div className="paginated-results" ref={resultDivRef}>
-                        <span className="result-count-indicator">
+                        <div className="result-count-indicator">
                             결과 {searchResults.count}건 (
                             {10 * (currentPage - 1) + 1} -{" "}
                             {Math.min(searchResults.count, currentPage * 10)})
-                        </span>
+                        </div>
 
                         {searchResults.results &&
                             searchResults.results.map((result, id) => {
                                 if (
                                     searchType === "search_korean" ||
-                                    searchType === "known_words" ||
-                                    searchType === "study_words"
+                                    searchType === "user_known_words" ||
+                                    searchType === "user_study_words"
                                 ) {
                                     return (
                                         <KoreanResult
@@ -172,6 +172,8 @@ PaginatedResults.propTypes = {
         "search_korean",
         "search_hanja",
         "search_hanja_examples",
+        "user_known_words",
+        "user_study_words",
     ]).isRequired,
     searchTerm: PropTypes.string.isRequired,
 };

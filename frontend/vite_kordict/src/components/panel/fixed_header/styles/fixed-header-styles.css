@@ -1,5 +1,5 @@
 .fixed-header {
-    height: 40px;
+    min-height: 40px;
     padding-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
