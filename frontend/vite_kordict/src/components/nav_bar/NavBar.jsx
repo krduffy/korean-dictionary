@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 
 import { AuthenticationInfoContext } from "../../App.jsx";
+import LogoutButton from "../accounts/LogoutButton.jsx";
 
 import "./navbar-styles.css";
 
@@ -14,7 +15,6 @@ import "./navbar-styles.css";
  */
 const NavBar = ({ setNavState }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
-    const setAuthInfo = useContext(AuthenticationInfoContext)["setAuthInfo"];
 
     return (
         <div id="navbar">
@@ -23,14 +23,7 @@ const NavBar = ({ setNavState }) => {
             {authInfo["username"] ? (
                 <React.Fragment>
                     <span id="username-display">{authInfo["username"]}님</span>
-                    <button
-                        id="logout-button"
-                        onClick={() => {
-                            setAuthInfo({});
-                        }}
-                    >
-                        로그아웃
-                    </button>
+                    <LogoutButton />
                 </React.Fragment>
             ) : (
                 <div>

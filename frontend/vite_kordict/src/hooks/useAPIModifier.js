@@ -117,7 +117,13 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
             response
                 .text()
                 .then((res) => {
-                    const asJSON = JSON.parse(res);
+                    let asJSON;
+                    try {
+                        asJSON = JSON.parse(res);
+                    } catch {
+                        /* return blank if any error */
+                        asJSON = {};
+                    }
                     setResponse(asJSON);
                     return asJSON;
                 })
@@ -138,9 +144,6 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
                             ? asJSON["origin"]
                             : "";
 
-                        console.log(asJSON);
-                        console.log(additionalInfo);
-                        console.log(url, method);
                         processRequest(url, method, additionalInfo);
 
                         setSuccessful(true);
