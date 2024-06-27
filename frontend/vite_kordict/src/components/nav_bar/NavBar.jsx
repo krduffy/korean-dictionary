@@ -33,14 +33,14 @@ const NavBar = ({ setNavState }) => {
                     </button>
                 </React.Fragment>
             ) : (
-                <>
+                <div>
                     <button
                         id="create-account-button"
                         onClick={() => {
                             setNavState("create_account");
                         }}
                     >
-                        새로운
+                        새로운 계정 만들기
                     </button>
                     <button
                         id="login-button"
@@ -50,7 +50,7 @@ const NavBar = ({ setNavState }) => {
                     >
                         로그인
                     </button>
-                </>
+                </div>
             )}
         </div>
     );

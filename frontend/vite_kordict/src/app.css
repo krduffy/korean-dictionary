@@ -57,11 +57,11 @@
     position: absolute;
     top: 0;
     left: 50%;
-    width: 8px;
+    width: 10px;
     background-color: #0c0245;
     transform: translateX(-50%);
     /* height of the entire navbar in general is 7.5% so this follows suit */
-    height: 7.5%;
+    height: 100%;
 }
 
 #both-panels-container {
