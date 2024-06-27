@@ -11,7 +11,11 @@ export const fitBoxX = (fromX, boxWidth, padding) => {
 };
 
 export const fitBoxY = (fromY, boxHeight, padding) => {
-    return fromY - boxHeight - padding > 0
-        ? fromY - boxHeight - padding
-        : fromY + padding;
+    if (fromY - boxHeight - padding > 0) {
+        return fromY - boxHeight - padding;
+    } else if (fromY + boxHeight + padding < window.innerHeight) {
+        return fromY + padding;
+    } else {
+        return (window.innerHeight - boxHeight) / 2;
+    }
 };

@@ -40,11 +40,16 @@
     width: auto;
     height: auto;
     margin-bottom: 5px;
+    cursor: help;
 }
 
 .copier-container {
     width: auto;
     height: auto;
+}
+
+.usable-characters-board-container {
+    padding-top: 10px;
 }
 
 .usable-characters-board {
@@ -131,6 +136,11 @@
 
 .game-explanation-box {
     max-width: 600px;
+    font-size: small;
+}
+
+.game-explanation-box > div {
+    padding-bottom: 20px;
 }
 
 .top-info {
@@ -144,7 +154,7 @@
     grid-row: 1 / 2;
     grid-column: 2 / 3;
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr;
 }
 
@@ -152,8 +162,7 @@
     align-items: center;
     justify-content: center;
 
-    background-color: red;
-    grid-row: 1 / 3;
+    grid-row: 1 / 5;
     grid-column: 1 / 2;
 
     display: grid;
@@ -162,14 +171,12 @@
 }
 
 .instructions-area {
-    background-color: blue;
-    grid-row: 1 / 2;
+    grid-row: 1 / 4;
     grid-column: 2 / 3;
 }
 
 .submit-button-area {
-    background-color: green;
-    grid-row: 2 / 3;
+    grid-row: 4 / 5;
     grid-column: 2 / 3;
 }
 
@@ -180,4 +187,33 @@
     margin-left: 10%;
     box-sizing: border-box;
     vertical-align: middle;
+}
+
+.instructions-area {
+    padding: 10px;
+    align-items: center;
+    text-align: center;
+}
+
+.instruction-question-mark {
+    display: inline-block;
+    background-color: darkcyan;
+    cursor: help;
+    border: thin white solid;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.submit-button-area {
+    display: grid;
+    place-items: center;
+}
+
+.hanja-game-submit-button {
+    background-color: goldenrod;
+    display: inline-block;
+}
+
+.explanation-list {
+    padding-left: 20px;
 }

@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+    useContext,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+    useState,
+} from "react";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -187,28 +193,6 @@ const HanjaGame = ({ initialSeed }) => {
                     currentGameData &&
                     currentGameData["supplied_characters"] && (
                         <div className="game-container">
-                            <div className="top-info">
-                                <div>
-                                    출발자:{" "}
-                                    <HanjaCharacterSpan
-                                        character={
-                                            currentGameData["start_from"]
-                                                .character
-                                        }
-                                        disableClick={true}
-                                    />
-                                </div>
-
-                                <div>
-                                    도착 자:{" "}
-                                    <HanjaCharacterSpan
-                                        character={
-                                            currentGameData["go_to"].character
-                                        }
-                                        disableClick={true}
-                                    />
-                                </div>
-                            </div>
                             <div className="game-top">
                                 <UsableCharactersBoard
                                     charactersList={

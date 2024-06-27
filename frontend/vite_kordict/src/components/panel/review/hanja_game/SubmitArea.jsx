@@ -5,6 +5,7 @@ import { useAPIModifier } from "../../../../hooks/useAPIModifier.js";
 
 import { AuthenticationInfoContext } from "../../../../App.jsx";
 import ErrorMessage from "../../messages/ErrorMessage.jsx";
+import HanjaCharacterSpan from "../../string_formatters/HanjaCharacterSpan.jsx";
 import PopupBox from "../../string_formatters/PopupBox.jsx";
 import GameExplanationBox from "./GameExplanationBox.jsx";
 
@@ -31,11 +32,7 @@ const SubmitArea = ({
                     condenseStrs.push(charList.join("").trim());
                 });
 
-                const withoutBlanks = condenseStrs.filter(
-                    (word) => word.length > 0
-                );
-
-                return JSON.stringify(withoutBlanks);
+                return JSON.stringify(condenseStrs);
             })(),
             start_from: startFrom,
             go_to: goTo,
@@ -61,10 +58,35 @@ const SubmitArea = ({
             )}
 
             <div className="instructions-area">
+                <div>
+                    출발 자:{" "}
+                    <span style={{ cursor: "help" }}>
+                        <HanjaCharacterSpan
+                            character={startFrom}
+                            disableClick={true}
+                        />
+                    </span>
+                </div>
+                <div>⇓</div>{" "}
+                <div>
+                    도착 자:{" "}
+                    <span style={{ cursor: "help" }}>
+                        <HanjaCharacterSpan
+                            character={goTo}
+                            disableClick={true}
+                        />
+                    </span>
+                </div>
+                <br />
                 <InstructionQuestionMark startFrom={startFrom} goTo={goTo} />
             </div>
             <div className="submit-button-area">
-                <button onClick={handleSubmit}>완료</button>
+                <button
+                    className="hanja-game-submit-button"
+                    onClick={handleSubmit}
+                >
+                    완료
+                </button>
             </div>
         </div>
     );
@@ -84,6 +106,7 @@ const InstructionQuestionMark = ({ startFrom, goTo }) => {
     return (
         <>
             <span
+                className="instruction-question-mark"
                 ref={questionMarkRef}
                 onMouseEnter={() => {
                     setShowInstructions(true);

@@ -72,7 +72,6 @@ const Panel = () => {
 
     const backToHanjaGameOrPushNewGame = () => {
         const view = findMostRecentInHistoryOfType("hanja_game");
-        console.log(view);
 
         if (view) {
             setCurrentView(view);
@@ -128,6 +127,10 @@ const Panel = () => {
         }
     };
 
+    const barIsAdded = (view) => {
+        return view !== "hanja_game";
+    };
+
     return (
         <ViewContext.Provider
             value={{
@@ -152,13 +155,15 @@ const Panel = () => {
                 {getPanelContent(currentView["view"], currentView["value"])}
 
                 {/* bar under content as padding */}
-                <div
-                    className="horizontal-bar"
-                    style={{
-                        marginTop: "40px",
-                        marginBottom: "40px",
-                    }}
-                />
+                {barIsAdded(currentView["view"]) && (
+                    <div
+                        className="horizontal-bar"
+                        style={{
+                            marginTop: "40px",
+                            marginBottom: "40px",
+                        }}
+                    />
+                )}
             </div>
         </ViewContext.Provider>
     );

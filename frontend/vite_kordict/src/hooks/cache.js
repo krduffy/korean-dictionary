@@ -1,5 +1,5 @@
 export const cache = {};
-export const CACHE_CAPACITY = 100;
+export const CACHE_CAPACITY = 200;
 
 let itemsStored = 0;
 
@@ -95,6 +95,8 @@ export const processRequest = (url, method, additionalInfo) => {
  * @returns {Object} The cached response, if the url is in the cache; `null` otherwise.
  */
 export const cacheRetrieve = (url) => {
+    console.log(cache);
+
     if (Object.keys(cache).includes(url)) {
         cache[url].lastAccessed = ++counter;
         return cache[url].response;
@@ -137,6 +139,10 @@ const changeUserDataInPlace = (url, userDataKey, newBoolean, targetCode) => {
  * @param {object} response - The response.
  */
 export const cachePut = (url, response) => {
+    if (Object.keys(cache).includes(url)) {
+        cache[url].lastAccessed = ++counter;
+    }
+
     if (itemsStored >= CACHE_CAPACITY) {
         /* evict least recently used */
 
