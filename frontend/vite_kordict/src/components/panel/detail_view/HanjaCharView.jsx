@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import PropTypes from "prop-types";
 
@@ -10,6 +10,7 @@ import ErrorMessage from "../messages/ErrorMessage.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import PaginatedResults from "../paginated_results/PaginatedResults.jsx";
 import ClipboardCopier from "../string_formatters/ClipboardCopier.jsx";
+import Href from "../string_formatters/Href.jsx";
 import StringWithHanja from "../string_formatters/StringWithHanja.jsx";
 import StringWithNLP from "../string_formatters/StringWithNLP.jsx";
 import TruncatorDropdown from "../string_formatters/TruncatorDropdown.jsx";
@@ -27,6 +28,8 @@ const HanjaCharView = ({ hanjaChar }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const [charData, setCharData] = useState({});
     const { apiFetch, loading, error, response } = useAPIFetcher();
+
+    const [animatorLoaded, setAnimatorLoaded] = useState(false);
 
     useEffect(() => {
         const setData = async () => {
@@ -88,11 +91,12 @@ const HanjaCharView = ({ hanjaChar }) => {
                                                 <td className="main-info-table-data">
                                                     {charData["radical"] ? (
                                                         <StringWithHanja
-                                                            string={
-                                                                charData[
-                                                                    "radical"
-                                                                ]
-                                                            }
+                                                            string={charData[
+                                                                "radical"
+                                                            ].replace(
+                                                                "mmah",
+                                                                ""
+                                                            )}
                                                         />
                                                     ) : (
                                                         "-"
@@ -173,8 +177,88 @@ const HanjaCharView = ({ hanjaChar }) => {
                                 </div>
                             </div>
                             <div className="main-info-upper-right">
-                                <HanjaAnimatorAndTester hanjaChar={hanjaChar} />
+                                <HanjaAnimatorAndTester
+                                    hanjaChar={hanjaChar}
+                                    onLoad={() => {
+                                        if (!animatorLoaded) {
+                                            setAnimatorLoaded(true);
+                                        }
+                                    }}
+                                />
                             </div>
+                        </div>
+
+                        {/* sources for data at top */}
+                        <div
+                            style={{
+                                paddingTop: "10px",
+                                display: "grid",
+                            }}
+                        >
+                            <div
+                                style={{
+                                    gridRow: "1 / 2",
+                                    gridColumn: "1 / 2",
+                                }}
+                            >
+                                {charData?.radical &&
+                                charData["radical"].endsWith("mmah") ? (
+                                    <>
+                                        <div className="source">
+                                            훈음, 획수, 급수별, 교육용 출처:
+                                            <Href
+                                                link={`https://namu.wiki/w/${hanjaChar}`}
+                                                innerText={"나무위키"}
+                                            />
+                                        </div>
+                                        <div className="source">
+                                            부수, 모양자 출처:
+                                            <Href
+                                                link={
+                                                    "https://github.com/skishore/makemeahanzi"
+                                                }
+                                                innerText={"makemeahanzi"}
+                                            />
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="source">
+                                            훈음, 획수, 부수, 급수별, 교육용
+                                            출처:{" "}
+                                            <Href
+                                                link={`https://namu.wiki/w/${hanjaChar}`}
+                                                innerText={"나무위키"}
+                                            />
+                                        </div>
+                                        <div className="source">
+                                            모양자 출처{" "}
+                                            <Href
+                                                link={
+                                                    "https://github.com/skishore/makemeahanzi"
+                                                }
+                                                innerText={"makemeahanzi"}
+                                            />
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+
+                            {animatorLoaded && (
+                                <div
+                                    style={{
+                                        gridRow: "1 / 2",
+                                        gridColumn: "2 / 3",
+                                    }}
+                                    className="source"
+                                >
+                                    획순 재생기 및 시험기 출처:{" "}
+                                    <Href
+                                        link={"https://hanziwriter.org/"}
+                                        innerText={"hanziwriter"}
+                                    />
+                                </div>
+                            )}
                         </div>
 
                         {/* EXPLANATION OF CHARACTER */}
@@ -210,6 +294,13 @@ const HanjaCharView = ({ hanjaChar }) => {
                                                 )
                                             )}
                                     </TruncatorDropdown>
+                                </div>
+                                <div className="source">
+                                    출처:{" "}
+                                    <Href
+                                        link={`https://namu.wiki/w/${hanjaChar}`}
+                                        innerText={"나무위키"}
+                                    />
                                 </div>
                             </div>
                         )}

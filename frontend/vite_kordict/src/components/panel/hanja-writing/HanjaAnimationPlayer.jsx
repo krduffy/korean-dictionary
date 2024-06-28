@@ -12,7 +12,7 @@ import HanjaWriter from "./HanjaWriter.jsx";
  * @param {string} props.hanjaChar - The character to view the animation player for. Should consist of exactly one (`hanjaChar.length == 1`) hanja character.
  * @returns {React.JSX.Element} The rendered HanjaAnimationPlayer component.
  */
-const HanjaAnimationPlayer = ({ hanjaChar, setShowTest }) => {
+const HanjaAnimationPlayer = ({ hanjaChar, setShowTest, onLoad }) => {
     const ref = useRef(null);
     const [hanjaLoadError, setHanjaLoadError] = useState(false);
     const [showControls, setShowControls] = useState(false);
@@ -53,6 +53,7 @@ const HanjaAnimationPlayer = ({ hanjaChar, setShowTest }) => {
                         // is a flash of the control panel before quickly disappearing, which is
                         // visually unpleasing
                         setShowControls(true);
+                        onLoad();
                     },
                     onLoadCharDataError: () => {
                         setHanjaLoadError(true);
