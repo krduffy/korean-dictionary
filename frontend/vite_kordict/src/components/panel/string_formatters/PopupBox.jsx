@@ -31,6 +31,9 @@ const PopupBox = ({ children, fromX, fromY, positioning, padding }) => {
                     setX(fromX - boxWidth / 2);
                     setY(fromY + padding);
                     break;
+                case "exact":
+                    setX(fromX);
+                    setY(fromY);
             }
         }
     }, [fromX, fromY, padding, positioning]);
@@ -54,7 +57,7 @@ PopupBox.propTypes = {
     fromX: PropTypes.number.isRequired,
     fromY: PropTypes.number.isRequired,
     positioning: PropTypes.string.isRequired,
-    padding: PropTypes.number.isRequired,
+    padding: PropTypes.number,
 };
 
 export default PopupBox;

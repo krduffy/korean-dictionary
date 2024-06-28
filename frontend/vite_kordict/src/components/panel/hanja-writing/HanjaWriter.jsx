@@ -32,6 +32,15 @@ const HanjaWriter = forwardRef(({ character, writerArgs }, ref) => {
                 loopCharacterAnimation() {
                     hanjaRef.current.loopCharacterAnimation();
                 },
+                pauseAnimation() {
+                    hanjaRef.current.pauseAnimation();
+                },
+                resumeAnimation() {
+                    hanjaRef.current.resumeAnimation();
+                },
+                quiz(options) {
+                    hanjaRef.current.quiz(options);
+                },
             };
         },
         [ref]
@@ -44,6 +53,7 @@ HanjaWriter.displayName = "HanjaWriter";
 
 HanjaWriter.propTypes = {
     character: PropTypes.string.isRequired,
+    writerArgs: PropTypes.object,
 };
 
 export default HanjaWriter;

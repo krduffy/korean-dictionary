@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
 
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
-import HanjaWriter from "../hanja-writing/HanjaWriter.jsx";
+import HanjaAnimatorAndTester from "../hanja-writing/HanjaAnimatorAndTester.jsx";
 import ErrorMessage from "../messages/ErrorMessage.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import PaginatedResults from "../paginated_results/PaginatedResults.jsx";
@@ -173,7 +173,7 @@ const HanjaCharView = ({ hanjaChar }) => {
                                 </div>
                             </div>
                             <div className="main-info-upper-right">
-                                <HanjaAnimationPlayer hanjaChar={hanjaChar} />
+                                <HanjaAnimatorAndTester hanjaChar={hanjaChar} />
                             </div>
                         </div>
 
@@ -235,59 +235,3 @@ HanjaCharView.propTypes = {
 };
 
 export default HanjaCharView;
-
-/**
- * A component that renders a Hanja character stroke animation player. It can be paused and played.
- *
- * @param {Object} props - Component props.
- * @param {string} props.hanjaChar - The character to view the animation player for. Should consist of exactly one (`hanjaChar.length == 1`) hanja character.
- * @returns {React.JSX.Element} The rendered HanjaAnimationPlayer component.
- */
-const HanjaAnimationPlayer = ({ hanjaChar }) => {
-    const ref = useRef(null);
-    const [hanjaLoadError, setHanjaLoadError] = useState(false);
-    const [showControls, setShowControls] = useState(false);
-
-    const handleClick = () => {
-        if (ref.current) {
-            ref.current.loopCharacterAnimation();
-        }
-    };
-
-    return hanjaLoadError ? (
-        <></>
-    ) : (
-        <>
-            <HanjaWriter
-                character={hanjaChar}
-                writerArgs={{
-                    width: 150,
-                    height: 150,
-                    onLoadCharDataSuccess: () => {
-                        // if the control panel is not shown only after character load then there
-                        // is a flash of the control panel before quickly disappearing, which is
-                        // visually unpleasing
-                        setShowControls(true);
-                    },
-                    onLoadCharDataError: () => {
-                        setHanjaLoadError(true);
-                    },
-                }}
-                ref={ref}
-            />
-
-            {/* BUTTONS BELOW PLAYER */}
-            {showControls && (
-                <div className="hanja-writer-controls">
-                    <button className="hanja-play-button" onClick={handleClick}>
-                        획순 보기
-                    </button>
-                </div>
-            )}
-        </>
-    );
-};
-
-HanjaAnimationPlayer.propTypes = {
-    hanjaChar: PropTypes.string.isRequired,
-};
