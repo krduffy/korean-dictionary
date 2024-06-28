@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { ViewContext } from "../Panel.jsx";
 import KnowStudyToggles from "../detail_view/KnowStudyToggles.jsx";
+import Href from "../string_formatters/Href.jsx";
 import StringWithHanja from "../string_formatters/StringWithHanja.jsx";
 import StringWithNLP from "../string_formatters/StringWithNLP.jsx";
 
@@ -70,9 +71,11 @@ const KoreanResult = ({ result }) => {
             </ul>
 
             <p className="source">
-                {result.user_data && result.user_data["added_by_user"]
-                    ? "내가 추가한 단어"
-                    : "출처: 우리말샘"}
+                출처:{" "}
+                <Href
+                    link={"https://opendict.korean.go.kr/"}
+                    innerText={"우리말샘"}
+                />
             </p>
         </div>
     );

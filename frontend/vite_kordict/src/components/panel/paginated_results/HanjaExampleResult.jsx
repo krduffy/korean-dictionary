@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 
 import { ViewContext } from "../Panel.jsx";
+import Href from "../string_formatters/Href.jsx";
 import StringWithHanja from "../string_formatters/StringWithHanja.jsx";
 import StringWithNLP from "../string_formatters/StringWithNLP.jsx";
 
@@ -41,6 +42,14 @@ const HanjaExampleResult = ({ result }) => {
                 <StringWithNLP
                     string={result["first_definition"]}
                     hasExamples={false}
+                />
+            </div>
+
+            <div className="source">
+                출처:{" "}
+                <Href
+                    link={"https://opendict.korean.go.kr/"}
+                    innerText={"우리말샘"}
                 />
             </div>
         </div>

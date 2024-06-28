@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 
 import { ViewContext } from "../Panel.jsx";
+import Href from "../string_formatters/Href.jsx";
 
 import "./styles/hanja-result-styles.css";
 
@@ -42,7 +43,13 @@ const HanjaResult = ({ result }) => {
                 <div style={{ width: "20%" }}>{result["strokes"]}획</div>
             </div>
             <div className="hanja-result-bottom">{result["explanation"]}</div>
-            <div className="source">출처: 나무위키</div>
+            <div className="source">
+                출처:{" "}
+                <Href
+                    link={`https://namu.wiki/w/${result["character"]}`}
+                    innerText={"나무위키"}
+                />
+            </div>
         </div>
     );
 };
