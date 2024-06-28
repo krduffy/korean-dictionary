@@ -41,6 +41,12 @@ const HanjaWriter = forwardRef(({ character, writerArgs }, ref) => {
                 quiz(options) {
                     hanjaRef.current.quiz(options);
                 },
+                hideOutline() {
+                    hanjaRef.current.hideOutline();
+                },
+                showOutline() {
+                    hanjaRef.current.showOutline();
+                },
             };
         },
         [ref]

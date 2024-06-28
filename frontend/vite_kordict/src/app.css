@@ -85,6 +85,8 @@ button:focus-visible {
 #both-panels-container {
     display: flex;
     height: 92.5%;
+    /* 50 min height of navbar*/
+    max-height: calc(100vh - 50px);
     width: 100%;
 }
 

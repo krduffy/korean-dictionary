@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 
 import PropTypes from "prop-types";
 
-import HanjaQuizPopup from "./HanjaQuizzer.jsx";
 import HanjaWriter from "./HanjaWriter.jsx";
 
 /**
@@ -64,15 +63,26 @@ const HanjaAnimationPlayer = ({ hanjaChar, setShowTest, onLoad }) => {
 
             {/* BUTTONS BELOW PLAYER */}
             {showControls && (
-                <div className="hanja-writer-controls">
+                <div
+                    style={{
+                        paddingTop: "5px",
+                        fontSize: "16px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                    }}
+                >
                     <button className="hanja-play-button" onClick={play}>
                         ⏵
                     </button>
                     <button className="hanja-play-button" onClick={pause}>
                         ⏸
                     </button>
-                    <button className="hanja-play-button" onClick={test}>
-                        시험
+                    <button
+                        className="hanja-play-button"
+                        title="시험기로 가기"
+                        onClick={test}
+                    >
+                        시험기
                     </button>
                 </div>
             )}

@@ -53,6 +53,11 @@
     vertical-align: top;
 }
 
+.main-info-upper-left {
+    /* to prevent stuttering when toggling from hanja tester to stroke playback */
+    padding-bottom: 10px;
+}
+
 .main-info-table-head,
 .main-info-table-data {
     display: table-cell;
@@ -80,7 +85,9 @@
     text-align: center; /* Center text */
 
     color: #72a1ed;
-    background-color: transparent;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .truncator-dropdown-container {

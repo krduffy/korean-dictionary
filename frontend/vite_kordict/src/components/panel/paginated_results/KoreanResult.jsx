@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import PropTypes from "prop-types";
 
@@ -73,7 +73,7 @@ const KoreanResult = ({ result }) => {
             <p className="source">
                 출처:{" "}
                 <Href
-                    link={"https://opendict.korean.go.kr/"}
+                    link={`https://opendict.korean.go.kr/search/searchResult?&query=${result.word}`}
                     innerText={"우리말샘"}
                 />
             </p>

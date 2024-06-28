@@ -48,7 +48,10 @@ const HanjaCharView = ({ hanjaChar }) => {
             {loading ? (
                 <LoadingMessage />
             ) : error ? (
-                <ErrorMessage errorResponse={response} />
+                <>
+                    <ErrorMessage errorResponse={response} />
+                    <br />
+                </>
             ) : (
                 <div>
                     {/* MAIN INFO */}
@@ -89,6 +92,7 @@ const HanjaCharView = ({ hanjaChar }) => {
                                                     부수
                                                 </th>
                                                 <td className="main-info-table-data">
+                                                    {/* if ends in mmah then it is from makemeahanzi*/}
                                                     {charData["radical"] ? (
                                                         <StringWithHanja
                                                             string={charData[
@@ -205,14 +209,14 @@ const HanjaCharView = ({ hanjaChar }) => {
                                 charData["radical"].endsWith("mmah") ? (
                                     <>
                                         <div className="source">
-                                            훈음, 획수, 급수별, 교육용 출처:
+                                            훈음, 획수, 급수별, 교육용 출처:{" "}
                                             <Href
                                                 link={`https://namu.wiki/w/${hanjaChar}`}
                                                 innerText={"나무위키"}
                                             />
                                         </div>
                                         <div className="source">
-                                            부수, 모양자 출처:
+                                            부수, 모양자 분해 출처:{" "}
                                             <Href
                                                 link={
                                                     "https://github.com/skishore/makemeahanzi"
@@ -232,7 +236,7 @@ const HanjaCharView = ({ hanjaChar }) => {
                                             />
                                         </div>
                                         <div className="source">
-                                            모양자 출처{" "}
+                                            모양자 출처:{" "}
                                             <Href
                                                 link={
                                                     "https://github.com/skishore/makemeahanzi"
@@ -305,8 +309,12 @@ const HanjaCharView = ({ hanjaChar }) => {
                             </div>
                         )}
                     </div>
+                </div>
+            )}
 
-                    {/* WORDS THAT CONTAIN THIS CHARACTER */}
+            {/* WORDS THAT CONTAIN THIS CHARACTER; can load whether above is successful or not */}
+            {!loading && (
+                <>
                     <div className="section-header">연관단어</div>
                     <div className="example-container">
                         <PaginatedResults
@@ -315,7 +323,7 @@ const HanjaCharView = ({ hanjaChar }) => {
                             functions={null}
                         />
                     </div>
-                </div>
+                </>
             )}
         </>
     );

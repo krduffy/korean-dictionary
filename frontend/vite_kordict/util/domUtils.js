@@ -12,3 +12,12 @@ export const getElementSizing = (elementRef) => {
 
     return null;
 };
+
+export const callAfterMs = (func, ms) => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            func();
+            resolve();
+        }, ms);
+    });
+};

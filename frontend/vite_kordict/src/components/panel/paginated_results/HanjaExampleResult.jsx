@@ -48,7 +48,7 @@ const HanjaExampleResult = ({ result }) => {
             <div className="source">
                 출처:{" "}
                 <Href
-                    link={"https://opendict.korean.go.kr/"}
+                    link={`https://opendict.korean.go.kr/search/searchResult?&query=${result.origin}`}
                     innerText={"우리말샘"}
                 />
             </div>
