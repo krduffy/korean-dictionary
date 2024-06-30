@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
-from .dictionary_models import KoreanWord, HanjaCharacter
+from .dictionary_models import KoreanWord, HanjaCharacter, Sense
 from .dictionary_serializers import *
 from rest_framework.permissions import IsAuthenticated
 import re
@@ -18,6 +18,19 @@ from .util import is_hanja, remove_all_user_additions, remove_non_user_additions
 # Page size = 10
 class PaginationClass(PageNumberPagination):
   page_size = 10
+
+class TempSense(generics.ListAPIView):
+  serializer_class = SimplifiedSenseSerializer
+  pagination_class = PaginationClass
+
+  def get_queryset(self):
+    queryset = Sense.objects.all()
+    
+    # has some html taglike syntax in it (which should be removed)
+    regized_search_term = '^.*</[^F].*$'
+
+    queryset = queryset.filter(definition__iregex = regized_search_term)
+    return queryset
 
 # Returns list of KoreanWords for given search_term query parameter.
 class KoreanWordList(generics.ListAPIView):

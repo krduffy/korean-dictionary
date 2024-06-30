@@ -93,22 +93,22 @@ const GetUnknownWordsForm = () => {
                     <LoadingMessage />
                 ) : error ? (
                     <ErrorMessage errorResponse={response} />
+                ) : unknownWords.length == 0 ? (
+                    <div>모르는 단어가 없습니다.</div>
                 ) : (
-                    unknownWords.length != 0 && (
-                        <>
-                            <div className="unknown-words-box-header">
-                                모르는 단어
-                            </div>
-                            <div className="unknown-words-box">
-                                {unknownWords.map((word, index) => (
-                                    <span key={index} className="unknown-word">
-                                        {word}
-                                        <ClipboardCopier string={word} />
-                                    </span>
-                                ))}
-                            </div>
-                        </>
-                    )
+                    <>
+                        <div className="unknown-words-box-header">
+                            모르는 단어
+                        </div>
+                        <div className="unknown-words-box">
+                            {unknownWords.map((word, index) => (
+                                <span key={index} className="unknown-word">
+                                    {word}
+                                    <ClipboardCopier string={word} />
+                                </span>
+                            ))}
+                        </div>
+                    </>
                 )}
             </div>
         </>

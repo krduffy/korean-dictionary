@@ -78,9 +78,25 @@ export const processRequest = (url, method, additionalInfo) => {
     } else if (new RegExp("^api/toggle_word_s").test(url)) {
         updateWordKnownOrStudied(false);
     } else if (new RegExp("^api/create_s").test(url)) {
-        /* */
+        /* adding example */
+        if (
+            cache[
+                `api/korean_word/${additionalInfo["referent"]["target_code"]}`
+            ]
+        )
+            delete cache[
+                `api/korean_word/${additionalInfo["referent"]["target_code"]}`
+            ];
     } else if (new RegExp("^api/create_n").test(url)) {
-        /* */
+        /* adding note */
+        if (
+            cache[
+                `api/korean_word/${additionalInfo["word_ref"]["target_code"]}`
+            ]
+        )
+            delete cache[
+                `api/korean_word/${additionalInfo["word_ref"]["target_code"]}`
+            ];
     } else if (new RegExp("^user/login").test(url)) {
         clearCache();
     } else if (new RegExp("^user/logout").test(url)) {

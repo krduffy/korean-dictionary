@@ -7,6 +7,9 @@ urlpatterns = [
   path('korean_word/<pk>', KoreanWordDetail.as_view()),
   path('korean_word_lemma/', KoreanWordAnalyze.as_view()),
 
+  # temp
+  path('search_sense/', TempSense.as_view()),
+
   path('search_hanja/', HanjaList.as_view()),
   path('hanja_char/<pk>', HanjaDetail.as_view()),
   path('search_hanja_examples/', HanjaExamples.as_view()),

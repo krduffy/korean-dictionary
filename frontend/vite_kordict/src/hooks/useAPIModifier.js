@@ -140,6 +140,8 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
                         additionalInfo["target_code"] = asJSON["target_code"]
                             ? asJSON["target_code"]
                             : "";
+                        additionalInfo["word_ref"] = asJSON["word_ref"] ? asJSON["word_ref"] : null;
+                        additionalInfo["referent"] = asJSON["referent"] ? asJSON["referent"] : null;
                         additionalInfo["origin"] = asJSON["origin"]
                             ? asJSON["origin"]
                             : "";
