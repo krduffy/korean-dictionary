@@ -7,6 +7,8 @@ import re
 
 django.setup()
 
+#deletes almost all of the html. there are also random typos in the dataset like wrong order </l><l>
+#(not more than 15) that need to be updated manually
 class Command(BaseCommand):
 
   @no_translations

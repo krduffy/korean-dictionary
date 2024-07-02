@@ -8,7 +8,9 @@ import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 import { AuthenticationInfoContext } from "../../../App.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import AddExampleForm from "./AddExampleForm.jsx";
-import UpdateNoteForm from "./UpdateNoteForm.jsx";
+import AddNoteForm from "./AddNoteForm.jsx";
+import EditNoteForm from "./EditNoteForm.jsx";
+import EditNotesForm from "./EditNotesForm.jsx";
 
 import "./form-styles.css";
 
@@ -53,10 +55,10 @@ const EditWordForm = ({ targetCode }) => {
                         />
                     )}
 
-                    {wordData["notes"] && (
-                        <UpdateNoteForm
+                    {wordData.notes && (
+                        <EditNotesForm
                             wordTargetCode={targetCode}
-                            initiallyExistingNotes={wordData.notes}
+                            initiallyExistingNotes={wordData["notes"]}
                         />
                     )}
                 </div>

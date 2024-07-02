@@ -1,4 +1,5 @@
 
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
@@ -13,6 +14,7 @@ from rest_framework.pagination import PageNumberPagination
 import random
 from django.db import transaction
 from rest_framework.parsers import MultiPartParser, FormParser
+import os
 
 import json
 
@@ -41,9 +43,58 @@ class CreateNoteView(APIView):
     data['creator'] = request.user.pk
     serializer = UserNoteValidator(data=data, context={'request': request})
     if serializer.is_valid():
-      serializer.save()
-      return Response(serializer.data, status=status.HTTP_201_CREATED)
+      note = serializer.save()
+      note_data = serializer.data
+      note_data['id'] = note.pk
+      return Response(note_data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteNoteView(APIView):
+    """API view to delete a note and its image if it has one."""
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request, pk):
+      note = get_object_or_404(UserNote, pk=pk)
+
+      if note.creator != request.user:
+        return Response({"detail": "You don't have permission to delete this note."},
+                        status=status.HTTP_403_FORBIDDEN)
+
+      if note.note_image:
+        if os.path.isfile(note.note_image.path):
+          os.remove(note.note_image.path)
+
+      note.delete()
+
+      return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UpdateNoteView(UpdateAPIView):
+  """API view to update a note from its pk."""
+  permission_classes = (IsAuthenticated,)
+  queryset = UserNote.objects.all()
+  serializer_class = UserNoteValidator
+  parser_classes = (MultiPartParser, FormParser)
+
+  def get_object(self):
+    obj = super().get_object()
+    if obj.creator != self.request.user:
+        self.permission_denied(self.request)
+    return obj
+
+  def update(self, request, *args, **kwargs):
+    partial = kwargs.pop('partial', False)
+    instance = self.get_object()
+    old_image = instance.note_image
+
+    serializer = self.get_serializer(instance, data=request.data, partial=partial)
+    serializer.is_valid(raise_exception=True)
+    self.perform_update(serializer)
+
+    if old_image and old_image != instance.note_image:
+        if os.path.isfile(old_image.path):
+            os.remove(old_image.path)
+
+    return Response(serializer.data)
 
 class CreateWordView(APIView):
 
@@ -195,12 +246,6 @@ class UpdateSenseView(UpdateAPIView):
   queryset = Sense.objects.all()
   serializer_class = SenseSerializer
 
-class UpdateNoteView(UpdateAPIView):
-  """API view to update a note from its pk."""
-  permission_classes = (IsAuthenticated,)
-
-  queryset = UserNote.objects.all()
-  serializer_class = UserNoteValidator
 
 class UserKnownWords(generics.ListAPIView):
   """API view to retrieve the list of all known words for the authenticated user."""

@@ -26,7 +26,8 @@ urlpatterns = [
   path('delete_sense/<pk>', DeleteSenseView.as_view()),
   
   path('create_note/', CreateNoteView.as_view()),
-  #path('delete_note/<pk>', DeleteNoteView.as_view()),
+  path('delete_note/<pk>', DeleteNoteView.as_view()),
+  path('update_note/<pk>', UpdateNoteView.as_view()),
 
   path('homepage_info/', HomepageInfoView.as_view()),
 

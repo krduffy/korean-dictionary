@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 
 import PropTypes from "prop-types";
 
-const BASE_URL = "http://127.0.0.1:8000";
+import { BASE_URL } from "../../../constants.js";
 
 /**
  * A component for rendering a user note as a boxed note in a grid of notes.

@@ -1,19 +1,22 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
+import FileUpload from "./form_components/FileUpload.jsx";
 
 import "./form-styles.css";
 
-const UpdateNoteForm = ({ wordTargetCode, initiallyExistingNotes }) => {
+const AddNoteForm = ({
+    wordTargetCode,
+    initiallyExistingNotes,
+    appendNote,
+}) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
-    const selectedFileTextRef = useRef(null);
 
     const {
         formData,
         updateFormDataField,
-        initFormFromDict,
         apiModify,
         successful,
         response,
@@ -30,10 +33,14 @@ const UpdateNoteForm = ({ wordTargetCode, initiallyExistingNotes }) => {
         apiModify("api/create_note/", authInfo["token"], formData, "POST");
     };
 
+    useEffect(() => {
+        if (successful) {
+            appendNote(formData);
+        }
+    }, [successful]);
+
     return (
         <React.Fragment>
-            <div className="section-header">노트 수정</div>
-
             <form encType="multipart/form-data">
                 <textarea
                     className="note-text-area"
@@ -44,25 +51,10 @@ const UpdateNoteForm = ({ wordTargetCode, initiallyExistingNotes }) => {
                 ></textarea>
 
                 <div>
-                    <label id="file-input-button" htmlFor="file-input">
-                        파일 찾아보기
-                    </label>
-                    <input
-                        type="file"
-                        id="file-input"
-                        accept=".jpg,.png,.gif"
-                        onChange={(event) => {
-                            selectedFileTextRef.current.innerText =
-                                event.target.files[0].name;
-                            updateFormDataField(
-                                "note_image",
-                                event.target.files[0]
-                            );
-                        }}
-                    ></input>
-                    <span ref={selectedFileTextRef} id="selected-file-span">
-                        선택한 파일이 없습니다.
-                    </span>
+                    <FileUpload
+                        updateFormDataField={updateFormDataField}
+                        fieldToUpdate={"note_image"}
+                    />
                 </div>
 
                 <button
@@ -76,4 +68,4 @@ const UpdateNoteForm = ({ wordTargetCode, initiallyExistingNotes }) => {
     );
 };
 
-export default UpdateNoteForm;
+export default AddNoteForm;

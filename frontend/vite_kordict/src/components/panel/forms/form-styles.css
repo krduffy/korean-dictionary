@@ -147,6 +147,6 @@
     text-align: center;
 }
 
-#file-input {
+.file-input {
     display: none;
 }
