@@ -19,3 +19,15 @@ export const fitBoxY = (fromY, boxHeight, padding) => {
         return (window.innerHeight - boxHeight) / 2;
     }
 };
+
+export const getPanelCenterX = (x) => {
+    if (x > window.innerWidth) {
+        return 0.75 * window.innerWidth;
+    }
+
+    return 0.25 * window.innerWidth;
+};
+
+export const getPanelCenterY = (y) => {
+    return 0.55 * window.innerHeight;
+};

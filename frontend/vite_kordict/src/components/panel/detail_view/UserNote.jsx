@@ -13,7 +13,7 @@ import { BASE_URL } from "../../../constants.js";
  * @param {Object} props.noteData - The note data map containing `note_image` and `note_text` keys.
  * @returns {React.JSX.Element} The rendered UserNote component.
  */
-const UserNote = ({ noteData }) => {
+export const UserNote = ({ noteData, disableClick }) => {
     const viewContext = useContext(ViewContext);
     const updateViewAndPushToHistory =
         viewContext["updateViewAndPushToHistory"];
@@ -22,14 +22,16 @@ const UserNote = ({ noteData }) => {
         <div
             className="user-note-container"
             onClick={() => {
-                updateViewAndPushToHistory({
-                    view: "detail_note",
-                    value: noteData,
-                    searchBarInitialState: {
-                        boxContent: "",
-                        dictionary: "korean",
-                    },
-                });
+                if (!disableClick) {
+                    updateViewAndPushToHistory({
+                        view: "detail_note",
+                        value: noteData,
+                        searchBarInitialState: {
+                            boxContent: "",
+                            dictionary: "korean",
+                        },
+                    });
+                }
             }}
         >
             <img
@@ -58,7 +60,7 @@ export const UserNoteGrid = ({ noteData }) => {
     return (
         <div className="user-note-grid">
             {noteData.map((data, id) => (
-                <UserNote key={id} noteData={data} />
+                <UserNote key={id} noteData={data} disableClick={false} />
             ))}
         </div>
     );

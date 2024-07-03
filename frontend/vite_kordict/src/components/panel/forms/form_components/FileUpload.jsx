@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 
 import "./form-component-styles.css";
 
-const FileUpload = ({ updateFormDataField, fieldToUpdate, uniqueId }) => {
+const FileUpload = ({ updateFormDataField, fieldToUpdate }) => {
     const selectedFileTextRef = useRef(null);
 
     const handleFileChange = (event) => {

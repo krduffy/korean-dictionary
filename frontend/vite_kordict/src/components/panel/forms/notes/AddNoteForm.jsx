@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from "react";
 
-import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
+import { useAPIModifier } from "../../../../hooks/useAPIModifier.js";
 
-import { AuthenticationInfoContext } from "../../../App.jsx";
-import FileUpload from "./form_components/FileUpload.jsx";
+import { AuthenticationInfoContext } from "../../../../App.jsx";
+import FileUpload from "../form_components/FileUpload.jsx";
 
-import "./form-styles.css";
+import "../form-styles.css";
 
 const AddNoteForm = ({
     wordTargetCode,
@@ -35,7 +35,7 @@ const AddNoteForm = ({
 
     useEffect(() => {
         if (successful) {
-            appendNote(formData);
+            appendNote(response);
         }
     }, [successful]);
 
@@ -54,6 +54,7 @@ const AddNoteForm = ({
                     <FileUpload
                         updateFormDataField={updateFormDataField}
                         fieldToUpdate={"note_image"}
+                        uniqueId=""
                     />
                 </div>
 

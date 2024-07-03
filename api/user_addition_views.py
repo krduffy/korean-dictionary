@@ -5,7 +5,7 @@ from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from .user_addition_models import UserNote
-from .user_addition_serializers import UserNoteValidator, UserSenseSerializer, UserWordSerializer, KoreanWordForEditingSerializer
+from .user_addition_serializers import UserNoteValidator, UserNoteSerializer, UserSenseSerializer, UserWordSerializer, KoreanWordForEditingSerializer
 from .dictionary_models import HanjaCharacter, KoreanWord, Sense
 from .dictionary_serializers import HanjaCharacterSerializer, KoreanWordSerializer, SenseSerializer, KoreanSerializerForHanja, WordOriginSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -44,7 +44,7 @@ class CreateNoteView(APIView):
     serializer = UserNoteValidator(data=data, context={'request': request})
     if serializer.is_valid():
       note = serializer.save()
-      note_data = serializer.data
+      note_data = UserNoteSerializer(note).data
       note_data['id'] = note.pk
       return Response(note_data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

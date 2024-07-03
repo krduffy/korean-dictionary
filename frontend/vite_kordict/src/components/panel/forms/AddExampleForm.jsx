@@ -112,12 +112,12 @@ const AddExampleForm = ({
             ) : (
                 exampleList.map((example, index) => (
                     <div className="text-area-container" key={index}>
-                        <div className="example-section-header">
-                            <div className="example-number-title">
+                        <div className="item-section-header">
+                            <div className="item-number-title">
                                 예문 {index + 1}
                             </div>
                             <div
-                                className="example-delete-button"
+                                className="item-delete-button"
                                 onClick={() => deleteExampleByIndex(index)}
                             >
                                 예문 삭제

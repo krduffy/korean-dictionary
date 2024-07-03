@@ -8,9 +8,7 @@ import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 import { AuthenticationInfoContext } from "../../../App.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import AddExampleForm from "./AddExampleForm.jsx";
-import AddNoteForm from "./AddNoteForm.jsx";
-import EditNoteForm from "./EditNoteForm.jsx";
-import EditNotesForm from "./EditNotesForm.jsx";
+import EditNotesForm from "./notes/EditNotesForm.jsx";
 
 import "./form-styles.css";
 

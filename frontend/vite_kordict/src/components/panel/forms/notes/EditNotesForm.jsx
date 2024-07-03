@@ -7,6 +7,8 @@ const EditNotesForm = ({ wordTargetCode, initiallyExistingNotes }) => {
     const [notes, setNotes] = useState(initiallyExistingNotes);
 
     const deleteNoteById = (id) => {
+        console.log(id);
+        console.log(notes);
         const newNotes = notes.filter((noteData) => noteData.id != id);
         setNotes(newNotes);
     };

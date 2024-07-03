@@ -34,6 +34,10 @@ const PopupBox = ({ children, fromX, fromY, positioning, padding }) => {
                 case "exact":
                     setX(fromX);
                     setY(fromY);
+                    break;
+                case "center-around":
+                    setX(fromX - boxWidth / 2);
+                    setY(fromY - boxHeight / 2);
             }
         }
     }, [fromX, fromY, padding, positioning]);
