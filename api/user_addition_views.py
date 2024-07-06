@@ -60,13 +60,15 @@ class DeleteNoteView(APIView):
         return Response({"detail": "You don't have permission to delete this note."},
                         status=status.HTTP_403_FORBIDDEN)
 
+      serialized_data = UserNoteSerializer(note).data
+
       if note.note_image:
         if os.path.isfile(note.note_image.path):
           os.remove(note.note_image.path)
 
       note.delete()
 
-      return Response(status=status.HTTP_204_NO_CONTENT)
+      return Response(serialized_data, status=status.HTTP_200_OK)
 
 class UpdateNoteView(UpdateAPIView):
   """API view to update a note from its pk."""
