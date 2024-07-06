@@ -37,13 +37,13 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
         requestRef.current++;
         const requestNum = requestRef.current;
 
-        let apiUrl = `api/${searchType}/`;
+        let apiUrl = `api/${searchType}/?page=${currentPage}`;
 
         /* Add parameters to certain search types */
         if (searchType === "search_korean" || searchType === "search_hanja") {
-            apiUrl = apiUrl + `?page=${currentPage}&search_term=${searchTerm}`;
+            apiUrl = apiUrl + `&search_term=${searchTerm}`;
         } else if (searchType === "search_hanja_examples") {
-            apiUrl = apiUrl + `?page=${currentPage}&character=${searchTerm}`;
+            apiUrl = apiUrl + `&character=${searchTerm}`;
         }
 
         const results = await apiFetch(apiUrl, authInfo["token"]);

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 
@@ -14,6 +14,8 @@ const GetUnknownWordsForm = () => {
 
     const [textContent, setTextContent] = useState("");
     const [unknownWords, setUnknownWords] = useState([]);
+
+    const interactedRef = useRef(false);
 
     const {
         formData,
@@ -77,6 +79,7 @@ const GetUnknownWordsForm = () => {
                     <button
                         onClick={() => {
                             if (!loading) {
+                                interactedRef.current = true;
                                 handleSubmit();
                             }
                         }}
@@ -94,7 +97,10 @@ const GetUnknownWordsForm = () => {
                 ) : error ? (
                     <ErrorMessage errorResponse={response} />
                 ) : unknownWords.length == 0 ? (
-                    <div>모르는 단어가 없습니다.</div>
+                    <div>
+                        {interactedRef?.current === true &&
+                            "모르는 단어가 없습니다."}
+                    </div>
                 ) : (
                     <>
                         <div className="unknown-words-box-header">
