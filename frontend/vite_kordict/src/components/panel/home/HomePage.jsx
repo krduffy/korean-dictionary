@@ -11,8 +11,6 @@ import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import HanjaExampleResult from "../paginated_results/HanjaExampleResult.jsx";
 import KoreanResult from "../paginated_results/KoreanResult.jsx";
 
-import "./homepage-styles.css";
-
 const HomePage = ({
     initialSeed,
     initialHanjaGameSeed,
@@ -48,18 +46,18 @@ const HomePage = ({
     return (
         <React.Fragment>
             {authInfo["token"] == null ? (
-                <div className="logged-out-homepage">
+                <div className="lrpad-15 textcentered underlined">
                     로그인 후 개인에 맞는 홈페이가 볼 수 있습니다.
                 </div>
             ) : (
-                <div className="logged-in-homepage">
+                <div>
                     {loading ? (
                         <LoadingMessage />
                     ) : error ? (
                         <ErrorMessage errorResponse={response} />
                     ) : (
                         homepageData && (
-                            <div id="homepage-main-content">
+                            <div>
                                 <ButtonSection
                                     updateViewAndPushToHistory={
                                         updateViewAndPushToHistory
@@ -97,8 +95,9 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
     const updateCurrentViewInHistory =
         viewContext["updateCurrentViewInHistory"];
     return (
-        <div className="buttons">
+        <div className="space-children-horizontal pad-10">
             <button
+                className="pad-10"
                 onClick={() => {
                     const newSeed = Math.floor(Math.random() * 1000000);
 
@@ -119,6 +118,7 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
                 무작위
             </button>
             <button
+                className="pad-10"
                 onClick={() => {
                     backToHanjaGameOrPushNewGame();
                 }}
@@ -127,6 +127,7 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
                 게임
             </button>
             <button
+                className="pad-10"
                 onClick={() => {
                     updateViewAndPushToHistory({
                         view: "get_unknown_words",
@@ -142,6 +143,7 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
                 단어 찾기 도구
             </button>
             <button
+                className="pad-10"
                 onClick={() => {
                     updateViewAndPushToHistory({
                         view: "user_known_words",
@@ -157,6 +159,7 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
                 아는 단어 목록
             </button>
             <button
+                className="pad-10"
                 onClick={() => {
                     updateViewAndPushToHistory({
                         view: "user_study_words",
@@ -177,9 +180,9 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
 
 const StudyWordSection = ({ studyWordData }) => {
     return (
-        <div className="study-words">
+        <>
             <div className="section-header">암기장에 추가한 단어</div>
-            <ul className="study-word-list-item">
+            <ul className="full-width pad-10 shaded-background">
                 {studyWordData &&
                     Object.entries(studyWordData).map((studyWordItem, id) => (
                         <li className="study-word-data" key={id}>
@@ -187,7 +190,7 @@ const StudyWordSection = ({ studyWordData }) => {
                         </li>
                     ))}
             </ul>
-        </div>
+        </>
     );
 };
 
@@ -201,17 +204,26 @@ const SameHanjaSection = ({ sameHanjaData }) => {
         viewContext["updateViewAndPushToHistory"];
 
     return (
-        <div className="same-hanja-section">
+        <div className="flex full-width" style={{ flexDirection: "column" }}>
             <div className="section-header">
                 같은 한자가 포함되는 것을 알고 계셨나요?
             </div>
-            <ul className="same-hanja-list-item">
+            {/* padding is reset to zero to make hanja writer look centered */}
+            <ul
+                className="full-width pad-10 shaded-background"
+                style={{ paddingLeft: "0" }}
+            >
                 {sameHanjaData &&
                     Object.entries(sameHanjaData).map((sameHanjaItem, id) => (
-                        <li className="same-hanja-example" key={id}>
-                            <div className="single-same-hanja-container">
+                        <li key={id}>
+                            <div className="flex full-width">
                                 <div
-                                    className="same-hanja-section-writer"
+                                    className="pointer"
+                                    style={{
+                                        width: "100px",
+                                        height: "100px",
+                                        alignSelf: "center",
+                                    }}
                                     onClick={() => {
                                         updateViewAndPushToHistory({
                                             view: "detail_hanja",

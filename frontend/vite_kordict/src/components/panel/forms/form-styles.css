@@ -28,7 +28,6 @@
 .add-example-text-area {
     width: 90%;
     height: 100%;
-    resize: none;
 }
 
 .text-area-container {
@@ -53,8 +52,6 @@
     width: 80%;
     text-align: right;
     height: 50px;
-    margin: 0;
-    padding: 0;
 }
 
 .add-header,
@@ -69,7 +66,7 @@
     padding-bottom: 10px;
     font-size: 30px;
     text-align: center;
-    background-color: #221c91;
+    background-color: var(--deepblue);
     margin-bottom: 10px;
 }
 
@@ -111,7 +108,6 @@
     border: 3px solid black;
     border-radius: 7px;
     cursor: pointer;
-    padding: 0px;
 }
 
 .item-section-header {
@@ -133,14 +129,14 @@
 
 .item-delete-button {
     align-items: center;
-    background-color: #400903;
+    background-color: var(--deepred);
     padding-right: 15px;
     padding-left: 15px;
     cursor: pointer;
 }
 
 .item-delete-button:hover {
-    background-color: #59211b;
+    background-color: var(--brownred);
 }
 
 .no-examples-text {
