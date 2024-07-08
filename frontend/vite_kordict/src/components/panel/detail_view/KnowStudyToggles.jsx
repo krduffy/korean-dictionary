@@ -6,8 +6,6 @@ import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
 
-import "./styles/korean-word-view-styles.css";
-
 /**
  * A component to render buttons for toggling whether a word is known/not known or studied/not
  * studied by the authenticated user.
@@ -85,10 +83,8 @@ const KnownOrUnknownButton = ({ targetCode, initiallyKnown }) => {
 
     return (
         <span
-            className={
-                wordIsKnown ? "known-word-button" : "unknown-word-button"
-            }
-            style={{ cursor: "pointer" }}
+            className="pointer pad-10 round-corners"
+            style={{ backgroundColor: wordIsKnown ? "blueviolet" : "gray" }}
             onClick={() => {
                 handleClick();
             }}
@@ -151,12 +147,8 @@ const StudiedOrNotStudiedButton = ({ targetCode, initiallyStudied }) => {
 
     return (
         <span
-            className={
-                wordIsStudied
-                    ? "studied-word-button"
-                    : "not-studied-word-button"
-            }
-            style={{ cursor: "pointer" }}
+            className="pointer pad-10 round-corners"
+            style={{ backgroundColor: wordIsStudied ? "#946821" : "gray" }}
             onClick={() => {
                 handleClick();
             }}

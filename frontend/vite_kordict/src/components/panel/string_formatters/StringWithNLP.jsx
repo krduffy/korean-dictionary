@@ -56,7 +56,7 @@ const StringWithNLP = ({ string, hasExamples }) => {
                                             !word.match(/^[.,!?]*$/) &&
                                             " "}
                                         {hasExamples && word.match(/{.*?}/) ? (
-                                            <span className="bracketed-word-from-example">
+                                            <span className="underlined">
                                                 {word.substring(
                                                     1,
                                                     word.length - 1

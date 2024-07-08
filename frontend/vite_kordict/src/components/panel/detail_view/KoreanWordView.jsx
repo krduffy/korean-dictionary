@@ -14,8 +14,6 @@ import UserNote from "./UserNote.jsx";
 import KoreanSenseView from "./sense_info_components/KoreanSenseView.jsx";
 import SenseHistoryInfo from "./sense_info_components/SenseHistoryInfo.jsx";
 
-import "./styles/korean-word-view-styles.css";
-
 /**
  * A component for viewing a Korean word's data in detail, taking up the entire view area.
  *
@@ -51,94 +49,108 @@ const KoreanWordView = ({ targetCode }) => {
                 <ErrorMessage errorResponse={response} />
             ) : (
                 wordData && (
-                    <div className="korean-word-view">
+                    <>
                         {/* WORD ITSELF AND ORIGIN, eg
                               사과 沙果/砂果        */}
-                        <span className="word-header">
+                        <div className="word-header">
                             <span>{wordData["word"]}</span>
                             {"  "}
                             {wordData["origin"] && (
                                 <StringWithHanja string={wordData["origin"]} />
                             )}
-                        </span>
+                        </div>
 
                         {/* Type of word (어휘 등), buttons for known and studying, 
                             button for editing        */}
-                        <div className="word-extra-info-container">
-                            <span className="word-extra-info">
+                        <div className="word-extra-info-container space-children-horizontal">
+                            <span className="word-extra-info word-emphasized-box">
                                 {wordData["word_type"]}
                             </span>
-                            {wordData["user_data"] && (
-                                <KnowStudyToggles
-                                    targetCode={wordData["target_code"]}
-                                    initiallyKnown={
-                                        wordData["user_data"]["is_known"]
-                                    }
-                                    initiallyStudied={
-                                        wordData["user_data"]["is_studied"]
-                                    }
-                                />
-                            )}
-                            {wordData["created_by_user"] && (
+                            <div>
+                                {wordData["user_data"] && (
+                                    <KnowStudyToggles
+                                        targetCode={wordData["target_code"]}
+                                        initiallyKnown={
+                                            wordData["user_data"]["is_known"]
+                                        }
+                                        initiallyStudied={
+                                            wordData["user_data"]["is_studied"]
+                                        }
+                                    />
+                                )}
+                                {/*wordData["created_by_user"] && (
                                 <span className="word-extra-info">
                                     내가 추가한 단어
                                 </span>
+                            )*/}
+
+                                <button
+                                    onClick={() => {
+                                        updateViewAndPushToHistory({
+                                            view: "edit_word",
+                                            value: wordData["target_code"],
+                                            searchBarInitialState: {
+                                                boxContent: "",
+                                                dictionary: "korean",
+                                            },
+                                        });
+                                    }}
+                                >
+                                    노트 및 예문 수정
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            {/* NOTES */}
+                            {wordData["notes"].length > 0 && (
+                                <>
+                                    <p className="section-header">
+                                        내가 추가한 노트
+                                    </p>
+                                    <div
+                                        className="pad-10"
+                                        style={{
+                                            display: "grid",
+                                            gridTemplateColumns:
+                                                "repeat(3, 1fr)",
+                                            gridAutoRows: "minmax(100px, auto)",
+                                            gap: "8px",
+                                        }}
+                                    >
+                                        {wordData["notes"].map((data, id) => (
+                                            <UserNote
+                                                noteData={data}
+                                                key={id}
+                                            />
+                                        ))}
+                                    </div>
+                                </>
                             )}
 
-                            <button
-                                onClick={() => {
-                                    updateViewAndPushToHistory({
-                                        view: "edit_word",
-                                        value: wordData["target_code"],
-                                        searchBarInitialState: {
-                                            boxContent: "",
-                                            dictionary: "korean",
-                                        },
-                                    });
-                                }}
-                            >
-                                노트 및 예문 수정
-                            </button>
-                        </div>
-
-                        {/* NOTES */}
-                        {wordData["notes"].length > 0 && (
-                            <React.Fragment>
-                                <p className="section-header">
-                                    내가 추가한 노트
-                                </p>
-                                <div className="notes-container">
-                                    {wordData["notes"].map((data, id) => (
-                                        <UserNote noteData={data} key={id} />
-                                    ))}
-                                </div>
-                            </React.Fragment>
-                        )}
-
-                        {/* SENSES */}
-                        <div className="senses-container">
+                            {/* SENSES */}
                             {wordData["senses"] &&
                                 wordData["senses"].map((data) => (
-                                    <KoreanSenseView
+                                    <div
+                                        style={{
+                                            marginTop: "10px",
+                                            marginBottom: "10px",
+                                        }}
                                         key={data["target_code"]}
-                                        senseData={data}
-                                    />
+                                    >
+                                        <KoreanSenseView senseData={data} />
+                                    </div>
                                 ))}
-                        </div>
 
-                        {/* HISTORY 
+                            {/* HISTORY 
                             History is stored at the sense level to allow for
                             individual histories for different senses of the same
                             word in the case that they need to be separately rendered
                             Right now, only the first sense's history is shown at the bottom
                             because most of the senses have the same history */}
-                        <div>
-                            {wordData["senses"] &&
-                                wordData["senses"].length > 0 &&
-                                wordData["senses"][0]["additional_info"] &&
-                                wordData["senses"][0]["additional_info"][
-                                    "history_info"
-                                ] && (
+                            <div>
+                                {wordData.senses?.[0]?.additional_info
+                                    ?.history_info && (
                                     <SenseHistoryInfo
                                         historyInfo={
                                             wordData["senses"][0][
@@ -147,8 +159,9 @@ const KoreanWordView = ({ targetCode }) => {
                                         }
                                     />
                                 )}
+                            </div>
                         </div>
-                    </div>
+                    </>
                 )
             )}
         </>

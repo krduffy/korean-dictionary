@@ -4,7 +4,7 @@ import StringWithHanja from "../../string_formatters/StringWithHanja.jsx";
 
 const SenseHistoryInfo = ({ historyInfo }) => {
     return (
-        <div className="sense-history-info">
+        <div>
             <p className="section-header">역사 정보</p>
 
             <table className="history-header-info-table">
@@ -36,10 +36,12 @@ const SenseHistoryInfo = ({ historyInfo }) => {
             </table>
 
             {historyInfo.history_sense_info.length > 0 && (
-                <table className="history-examples-by-century-table">
-                    <caption className="history-examples-by-century-table-caption">
-                        세기별 용례
-                    </caption>
+                <table
+                    style={{
+                        borderCollapse: "collapse",
+                    }}
+                >
+                    <caption>세기별 용례</caption>
 
                     <colgroup>
                         <col width={"15%"} />
@@ -49,15 +51,9 @@ const SenseHistoryInfo = ({ historyInfo }) => {
 
                     <thead>
                         <tr>
-                            <th className="history-examples-by-century-table-column-name">
-                                세기
-                            </th>
-                            <th className="history-examples-by-century-table-column-name">
-                                형태
-                            </th>
-                            <th className="history-examples-by-century-table-column-name">
-                                용례
-                            </th>
+                            <th>세기</th>
+                            <th>형태</th>
+                            <th>용례</th>
                         </tr>
                     </thead>
 
@@ -65,19 +61,15 @@ const SenseHistoryInfo = ({ historyInfo }) => {
                         {historyInfo.history_sense_info[0].history_century_info.map(
                             (centuryInfo, id) => (
                                 <tr key={id}>
-                                    <td className="history-examples-by-century-table-row-header">
-                                        {centuryInfo.century}세기
-                                    </td>
-                                    <td className="history-examples-by-century-table-data">
-                                        {centuryInfo.mark}
-                                    </td>
-                                    <td className="history-examples-by-century-table-data">
+                                    <td>{centuryInfo.century}세기</td>
+                                    <td>{centuryInfo.mark}</td>
+                                    <td>
                                         <ul>
                                             {centuryInfo.history_example_info &&
                                                 centuryInfo.history_example_info.map(
                                                     (example, innerId) => (
                                                         <li key={innerId}>
-                                                            <div className="history-example">
+                                                            <div>
                                                                 <StringWithHanja
                                                                     string={
                                                                         example.example

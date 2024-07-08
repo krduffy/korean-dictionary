@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 
 import { ViewContext } from "../../Panel.jsx";
 
-import "./styles/korean-sense-styles.css";
-
 const SenseProverbInfo = ({ proverbInfo }) => {
     return (
         <div className="sense-proverb-list">

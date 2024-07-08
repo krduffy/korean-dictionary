@@ -180,9 +180,9 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
 
 const StudyWordSection = ({ studyWordData }) => {
     return (
-        <>
-            <div className="section-header">암기장에 추가한 단어</div>
-            <ul className="full-width pad-10 shaded-background">
+        <div className="curved-box tbmargin-10">
+            <div className="curved-box-header">암기장에 추가한 단어</div>
+            <ul className="full-width pad-10">
                 {studyWordData &&
                     Object.entries(studyWordData).map((studyWordItem, id) => (
                         <li className="study-word-data" key={id}>
@@ -190,7 +190,7 @@ const StudyWordSection = ({ studyWordData }) => {
                         </li>
                     ))}
             </ul>
-        </>
+        </div>
     );
 };
 
@@ -204,15 +204,15 @@ const SameHanjaSection = ({ sameHanjaData }) => {
         viewContext["updateViewAndPushToHistory"];
 
     return (
-        <div className="flex full-width" style={{ flexDirection: "column" }}>
-            <div className="section-header">
+        <div
+            className="curved-box flex full-width tbmargin-10"
+            style={{ flexDirection: "column" }}
+        >
+            <div className="curved-box-header">
                 같은 한자가 포함되는 것을 알고 계셨나요?
             </div>
             {/* padding is reset to zero to make hanja writer look centered */}
-            <ul
-                className="full-width pad-10 shaded-background"
-                style={{ paddingLeft: "0" }}
-            >
+            <ul className="full-width pad-10" style={{ paddingLeft: "0" }}>
                 {sameHanjaData &&
                     Object.entries(sameHanjaData).map((sameHanjaItem, id) => (
                         <li key={id}>

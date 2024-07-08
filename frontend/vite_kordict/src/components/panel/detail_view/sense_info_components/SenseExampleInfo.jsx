@@ -4,13 +4,11 @@ import PropTypes from "prop-types";
 
 import StringWithNLP from "../../string_formatters/StringWithNLP.jsx";
 
-import "./styles/korean-sense-styles.css";
-
 const SenseExampleInfo = ({ exampleInfo }) => {
     return (
-        <ul className="sense-example-list">
+        <ul>
             {exampleInfo.map((ex, id) => (
-                <li key={id} className="sense-example-list-item">
+                <li key={id}>
                     <SenseExample example={ex} />
                 </li>
             ))}
@@ -29,7 +27,7 @@ SenseExampleInfo.propTypes = {
 
 const SenseExample = ({ example }) => {
     return (
-        <div className="example-container">
+        <div style={{ marginBottom: "10px" }}>
             <StringWithNLP string={example["example"]} hasExamples={true} />
 
             {example["source"] && (

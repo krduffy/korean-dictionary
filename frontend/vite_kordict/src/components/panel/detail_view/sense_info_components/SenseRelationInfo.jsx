@@ -2,8 +2,6 @@ import React, { useContext } from "react";
 
 import { ViewContext } from "../../Panel.jsx";
 
-import "./styles/korean-sense-styles.css";
-
 const SenseRelationInfo = ({ relationInfo }) => {
     const possibleRelationTypes = [
         "하위어",
@@ -20,19 +18,25 @@ const SenseRelationInfo = ({ relationInfo }) => {
         useContext(ViewContext)["updateViewAndPushToHistory"];
 
     return (
-        <div className="sense-relation-info">
+        <div>
             <p className="section-header">관련 어휘</p>
-            <div className="relation-table">
+            <div style={{ display: "table" }}>
                 {possibleRelationTypes.map(
                     (relationType, index) =>
                         relationInfo.filter(
                             (relation) => relation["type"] === relationType
                         ).length > 0 && (
                             <dl key={index}>
-                                <dt className="relation-table-dt">
+                                <dt
+                                    style={{
+                                        display: "table-cell",
+                                        whiteSpace: "nowrap",
+                                        width: "100px",
+                                    }}
+                                >
                                     {relationType}
                                 </dt>
-                                <dd className="relation-table-dd">
+                                <dd style={{ display: "table-cell" }}>
                                     {relationInfo
                                         .filter(
                                             (relation) =>
