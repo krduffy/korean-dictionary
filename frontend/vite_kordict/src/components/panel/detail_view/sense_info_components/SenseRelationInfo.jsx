@@ -18,79 +18,73 @@ const SenseRelationInfo = ({ relationInfo }) => {
         useContext(ViewContext)["updateViewAndPushToHistory"];
 
     return (
-        <div>
-            <p className="section-header">관련 어휘</p>
-            <div style={{ display: "table" }}>
-                {possibleRelationTypes.map(
-                    (relationType, index) =>
-                        relationInfo.filter(
-                            (relation) => relation["type"] === relationType
-                        ).length > 0 && (
-                            <dl key={index}>
-                                <dt
-                                    style={{
-                                        display: "table-cell",
-                                        whiteSpace: "nowrap",
-                                        width: "100px",
-                                    }}
-                                >
-                                    {relationType}
-                                </dt>
-                                <dd style={{ display: "table-cell" }}>
-                                    {relationInfo
-                                        .filter(
-                                            (relation) =>
-                                                relation["type"] ===
-                                                relationType
-                                        )
-                                        .map(
-                                            (
-                                                filteredRelation,
-                                                innerIndex,
-                                                filteredArray
-                                            ) => (
-                                                <React.Fragment
+        <div style={{ display: "table" }}>
+            {possibleRelationTypes.map(
+                (relationType, index) =>
+                    relationInfo.filter(
+                        (relation) => relation["type"] === relationType
+                    ).length > 0 && (
+                        <dl key={index}>
+                            <dt
+                                style={{
+                                    display: "table-cell",
+                                    whiteSpace: "nowrap",
+                                    width: "100px",
+                                }}
+                            >
+                                {relationType}
+                            </dt>
+                            <dd style={{ display: "table-cell" }}>
+                                {relationInfo
+                                    .filter(
+                                        (relation) =>
+                                            relation["type"] === relationType
+                                    )
+                                    .map(
+                                        (
+                                            filteredRelation,
+                                            innerIndex,
+                                            filteredArray
+                                        ) => (
+                                            <React.Fragment key={innerIndex}>
+                                                <span
+                                                    className={
+                                                        filteredRelation.link_target_code
+                                                            ? "clickable-result"
+                                                            : ""
+                                                    }
                                                     key={innerIndex}
-                                                >
-                                                    <span
-                                                        className={
+                                                    onClick={() => {
+                                                        if (
                                                             filteredRelation.link_target_code
-                                                                ? "clickable-result"
-                                                                : ""
-                                                        }
-                                                        key={innerIndex}
-                                                        onClick={() => {
-                                                            if (
-                                                                filteredRelation.link_target_code
-                                                            )
-                                                                updateViewAndPushToHistory(
-                                                                    {
-                                                                        view: "detail_korean",
-                                                                        value: filteredRelation.link_target_code,
-                                                                        searchBarInitialState:
-                                                                            {
-                                                                                boxContent:
-                                                                                    filteredRelation.word,
-                                                                                dictionary:
-                                                                                    "korean",
-                                                                            },
-                                                                    }
-                                                                );
-                                                        }}
-                                                    >
-                                                        {filteredRelation.word}
-                                                    </span>
-                                                    {innerIndex <
-                                                        filteredArray.length -
-                                                            1 && ", "}
-                                                </React.Fragment>
-                                            )
-                                        )}
-                                </dd>
-                            </dl>
-                        )
-                )}
-            </div>
+                                                        )
+                                                            updateViewAndPushToHistory(
+                                                                {
+                                                                    view: "detail_korean",
+                                                                    value: filteredRelation.link_target_code,
+                                                                    searchBarInitialState:
+                                                                        {
+                                                                            boxContent:
+                                                                                filteredRelation.word,
+                                                                            dictionary:
+                                                                                "korean",
+                                                                        },
+                                                                }
+                                                            );
+                                                    }}
+                                                >
+                                                    {filteredRelation.word}
+                                                </span>
+                                                {innerIndex <
+                                                    filteredArray.length - 1 &&
+                                                    ", "}
+                                            </React.Fragment>
+                                        )
+                                    )}
+                            </dd>
+                        </dl>
+                    )
+            )}
         </div>
     );
 };

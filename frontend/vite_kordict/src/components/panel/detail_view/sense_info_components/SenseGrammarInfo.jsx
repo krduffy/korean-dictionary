@@ -2,16 +2,13 @@ import React from "react";
 
 const SenseGrammarInfo = ({ grammarInfo }) => {
     return (
-        <div className="sense-grammar-info">
-            <p className="section-header">문법 정보</p>
-            <ul>
-                {grammarInfo.map((grammar, id) => (
-                    <li key={id}>
-                        <span>{grammar.grammar}</span>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <ul>
+            {grammarInfo.map((grammar, id) => (
+                <li key={id}>
+                    <span>{grammar.grammar}</span>
+                </li>
+            ))}
+        </ul>
     );
 };
 

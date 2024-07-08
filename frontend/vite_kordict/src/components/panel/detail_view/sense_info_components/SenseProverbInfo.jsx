@@ -6,16 +6,13 @@ import { ViewContext } from "../../Panel.jsx";
 
 const SenseProverbInfo = ({ proverbInfo }) => {
     return (
-        <div className="sense-proverb-list">
-            <p className="section-header">관용구·속담</p>
-            <ul>
-                {proverbInfo.map((proverb, id) => (
-                    <li key={id}>
-                        <SenseProverb proverb={proverb} />
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <ul>
+            {proverbInfo.map((proverb, id) => (
+                <li key={id}>
+                    <SenseProverb proverb={proverb} />
+                </li>
+            ))}
+        </ul>
     );
 };
 

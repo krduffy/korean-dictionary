@@ -19,13 +19,10 @@ import SenseRelationInfo from "./SenseRelationInfo.jsx";
  */
 const KoreanSenseView = ({ senseData }) => {
     return (
-        <div className="curved-box">
-            {senseData["order"] === 0 && (
-                <div className="curved-box-header">내가 추가한 예문</div>
-            )}
+        <div>
             <div className="pad-10">
                 {senseData["order"] !== 0 && (
-                    <div className="sense-main-data">
+                    <div style={{ marginBottom: "10px" }}>
                         {senseData["order"]}.{" "}
                         <span style={{ color: "#47519e" }}>
                             「{senseData["type"]}」
@@ -71,49 +68,79 @@ const KoreanSenseView = ({ senseData }) => {
                     <div className="additional-info-container">
                         <TruncatorDropdown>
                             {senseData["additional_info"]["example_info"] && (
-                                <SenseExampleInfo
-                                    exampleInfo={
-                                        senseData["additional_info"][
-                                            "example_info"
-                                        ]
-                                    }
-                                />
+                                <div className="pad-10">
+                                    <SenseExampleInfo
+                                        exampleInfo={
+                                            senseData["additional_info"][
+                                                "example_info"
+                                            ]
+                                        }
+                                    />
+                                </div>
                             )}
                             {senseData["additional_info"]["grammar_info"] && (
-                                <SenseGrammarInfo
-                                    grammarInfo={
-                                        senseData["additional_info"][
-                                            "grammar_info"
-                                        ]
-                                    }
-                                />
+                                <div className="curved-box-nest2 tbmargin-10">
+                                    <div className="curved-box-header-nest2">
+                                        문법 정보
+                                    </div>
+                                    <div className="pad-10">
+                                        <SenseGrammarInfo
+                                            grammarInfo={
+                                                senseData["additional_info"][
+                                                    "grammar_info"
+                                                ]
+                                            }
+                                        />
+                                    </div>
+                                </div>
                             )}
                             {senseData["additional_info"]["norm_info"] && (
-                                <SenseNormInfo
-                                    normInfo={
-                                        senseData["additional_info"][
-                                            "norm_info"
-                                        ]
-                                    }
-                                />
+                                <div className="curved-box-nest2 tbmargin-10">
+                                    <div className="curved-box-header-nest2">
+                                        규범 정보
+                                    </div>
+                                    <div className="pad-10">
+                                        <SenseNormInfo
+                                            normInfo={
+                                                senseData["additional_info"][
+                                                    "norm_info"
+                                                ]
+                                            }
+                                        />
+                                    </div>
+                                </div>
                             )}
                             {senseData["additional_info"]["relation_info"] && (
-                                <SenseRelationInfo
-                                    relationInfo={
-                                        senseData["additional_info"][
-                                            "relation_info"
-                                        ]
-                                    }
-                                />
+                                <div className="curved-box-nest2 tbmargin-10">
+                                    <div className="curved-box-header-nest2">
+                                        관련 어휘
+                                    </div>
+                                    <div className="pad-10">
+                                        <SenseRelationInfo
+                                            relationInfo={
+                                                senseData["additional_info"][
+                                                    "relation_info"
+                                                ]
+                                            }
+                                        />
+                                    </div>
+                                </div>
                             )}
                             {senseData["additional_info"]["proverb_info"] && (
-                                <SenseProverbInfo
-                                    proverbInfo={
-                                        senseData["additional_info"][
-                                            "proverb_info"
-                                        ]
-                                    }
-                                />
+                                <div className="curved-box-nest2 tbmargin-10">
+                                    <div className="curved-box-header-nest2">
+                                        관용구·속담
+                                    </div>
+                                    <div className="pad-10">
+                                        <SenseProverbInfo
+                                            proverbInfo={
+                                                senseData["additional_info"][
+                                                    "proverb_info"
+                                                ]
+                                            }
+                                        />
+                                    </div>
+                                </div>
                             )}
                             {/*
                             {senseData["additional_info"]["history_info"] && (

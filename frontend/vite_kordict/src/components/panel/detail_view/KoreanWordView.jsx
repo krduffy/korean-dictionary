@@ -128,19 +128,53 @@ const KoreanWordView = ({ targetCode }) => {
                                 </>
                             )}
 
-                            {/* SENSES */}
-                            {wordData["senses"] &&
-                                wordData["senses"].map((data) => (
+                            {/* SENSE #0 (USER EXAMPLES) */}
+                            {wordData["senses"].some(
+                                (data) => data.order === 0
+                            ) && (
+                                <div className="curved-box">
+                                    <div className="curved-box-header">
+                                        내가 추가한 예문
+                                    </div>
                                     <div
                                         style={{
                                             marginTop: "10px",
                                             marginBottom: "10px",
                                         }}
-                                        key={data["target_code"]}
+                                        key={0}
                                     >
-                                        <KoreanSenseView senseData={data} />
+                                        <KoreanSenseView
+                                            senseData={wordData["senses"].find(
+                                                (data) => data.order === 0
+                                            )}
+                                        />
                                     </div>
-                                ))}
+                                </div>
+                            )}
+
+                            {/* OTHER SENSES */}
+                            {wordData["senses"] && (
+                                <div className="curved-box">
+                                    <div className="curved-box-header">
+                                        정의
+                                    </div>
+                                    {wordData["senses"]
+                                        .filter((data) => data.order !== 0)
+                                        .map((data) => (
+                                            <div
+                                                className="curved-box-nest1"
+                                                style={{
+                                                    margin: "20px",
+                                                }}
+                                                key={data["target_code"]}
+                                            >
+                                                <KoreanSenseView
+                                                    senseData={data}
+                                                />
+                                            </div>
+                                        ))}
+                                </div>
+                            )}
 
                             {/* HISTORY 
                             History is stored at the sense level to allow for
@@ -148,9 +182,13 @@ const KoreanWordView = ({ targetCode }) => {
                             word in the case that they need to be separately rendered
                             Right now, only the first sense's history is shown at the bottom
                             because most of the senses have the same history */}
-                            <div>
-                                {wordData.senses?.[0]?.additional_info
-                                    ?.history_info && (
+
+                            {wordData.senses?.[0]?.additional_info
+                                ?.history_info && (
+                                <div className="curved-box">
+                                    <div className="curved-box-header">
+                                        역사 정보
+                                    </div>
                                     <SenseHistoryInfo
                                         historyInfo={
                                             wordData["senses"][0][
@@ -158,8 +196,8 @@ const KoreanWordView = ({ targetCode }) => {
                                             ]["history_info"]
                                         }
                                     />
-                                )}
-                            </div>
+                                </div>
+                            )}
                         </div>
                     </>
                 )
