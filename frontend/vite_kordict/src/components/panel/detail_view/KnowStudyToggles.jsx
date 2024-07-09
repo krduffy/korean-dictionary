@@ -18,7 +18,7 @@ import { AuthenticationInfoContext } from "../../../App.jsx";
  */
 const KnowStudyToggles = ({ targetCode, initiallyKnown, initiallyStudied }) => {
     return (
-        <>
+        <div>
             <KnownOrUnknownButton
                 targetCode={targetCode}
                 initiallyKnown={initiallyKnown}
@@ -27,7 +27,7 @@ const KnowStudyToggles = ({ targetCode, initiallyKnown, initiallyStudied }) => {
                 targetCode={targetCode}
                 initiallyStudied={initiallyStudied}
             />
-        </>
+        </div>
     );
 };
 

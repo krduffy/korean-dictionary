@@ -52,7 +52,11 @@ const KoreanWordView = ({ targetCode }) => {
                     <>
                         {/* WORD ITSELF AND ORIGIN, eg
                               사과 沙果/砂果        */}
-                        <div className="word-header">
+                        <div
+                            style={{
+                                fontSize: "50px",
+                            }}
+                        >
                             <span>{wordData["word"]}</span>
                             {"  "}
                             {wordData["origin"] && (
@@ -62,28 +66,15 @@ const KoreanWordView = ({ targetCode }) => {
 
                         {/* Type of word (어휘 등), buttons for known and studying, 
                             button for editing        */}
-                        <div className="word-extra-info-container space-children-horizontal">
+                        <div
+                            className="space-children-horizontal tbpad-10"
+                            style={{ fontSize: "20px" }}
+                        >
                             <span className="word-extra-info word-emphasized-box">
                                 {wordData["word_type"]}
                             </span>
-                            <div>
-                                {wordData["user_data"] && (
-                                    <KnowStudyToggles
-                                        targetCode={wordData["target_code"]}
-                                        initiallyKnown={
-                                            wordData["user_data"]["is_known"]
-                                        }
-                                        initiallyStudied={
-                                            wordData["user_data"]["is_studied"]
-                                        }
-                                    />
-                                )}
-                                {/*wordData["created_by_user"] && (
-                                <span className="word-extra-info">
-                                    내가 추가한 단어
-                                </span>
-                            )*/}
 
+                            {wordData?.user_data && (
                                 <button
                                     onClick={() => {
                                         updateViewAndPushToHistory({
@@ -98,14 +89,31 @@ const KoreanWordView = ({ targetCode }) => {
                                 >
                                     노트 및 예문 수정
                                 </button>
-                            </div>
+                            )}
+
+                            {wordData?.user_data && (
+                                <KnowStudyToggles
+                                    targetCode={wordData["target_code"]}
+                                    initiallyKnown={
+                                        wordData["user_data"]["is_known"]
+                                    }
+                                    initiallyStudied={
+                                        wordData["user_data"]["is_studied"]
+                                    }
+                                />
+                            )}
+                            {/*wordData["created_by_user"] && (
+                                <span className="word-extra-info">
+                                    내가 추가한 단어
+                                </span>
+                            )*/}
                         </div>
 
                         <div>
                             {/* NOTES */}
                             {wordData["notes"].length > 0 && (
-                                <>
-                                    <p className="section-header">
+                                <div className="curved-box tbmargin-10">
+                                    <p className="curved-box-header">
                                         내가 추가한 노트
                                     </p>
                                     <div
@@ -125,14 +133,14 @@ const KoreanWordView = ({ targetCode }) => {
                                             />
                                         ))}
                                     </div>
-                                </>
+                                </div>
                             )}
 
                             {/* SENSE #0 (USER EXAMPLES) */}
                             {wordData["senses"].some(
                                 (data) => data.order === 0
                             ) && (
-                                <div className="curved-box">
+                                <div className="curved-box tbmargin-10">
                                     <div className="curved-box-header">
                                         내가 추가한 예문
                                     </div>
@@ -154,25 +162,27 @@ const KoreanWordView = ({ targetCode }) => {
 
                             {/* OTHER SENSES */}
                             {wordData["senses"] && (
-                                <div className="curved-box">
+                                <div className="curved-box tbmargin-10">
                                     <div className="curved-box-header">
                                         정의
                                     </div>
-                                    {wordData["senses"]
-                                        .filter((data) => data.order !== 0)
-                                        .map((data) => (
-                                            <div
-                                                className="curved-box-nest1"
-                                                style={{
-                                                    margin: "20px",
-                                                }}
-                                                key={data["target_code"]}
-                                            >
-                                                <KoreanSenseView
-                                                    senseData={data}
-                                                />
-                                            </div>
-                                        ))}
+                                    <div className="pad-10">
+                                        {wordData["senses"]
+                                            .filter((data) => data.order !== 0)
+                                            .map((data) => (
+                                                <div
+                                                    className="curved-box-nest1"
+                                                    style={{
+                                                        margin: "10px",
+                                                    }}
+                                                    key={data["target_code"]}
+                                                >
+                                                    <KoreanSenseView
+                                                        senseData={data}
+                                                    />
+                                                </div>
+                                            ))}
+                                    </div>
                                 </div>
                             )}
 
@@ -185,17 +195,19 @@ const KoreanWordView = ({ targetCode }) => {
 
                             {wordData.senses?.[0]?.additional_info
                                 ?.history_info && (
-                                <div className="curved-box">
+                                <div className="curved-box tbmargin-10">
                                     <div className="curved-box-header">
                                         역사 정보
                                     </div>
-                                    <SenseHistoryInfo
-                                        historyInfo={
-                                            wordData["senses"][0][
-                                                "additional_info"
-                                            ]["history_info"]
-                                        }
-                                    />
+                                    <div className="pad-10">
+                                        <SenseHistoryInfo
+                                            historyInfo={
+                                                wordData["senses"][0][
+                                                    "additional_info"
+                                                ]["history_info"]
+                                            }
+                                        />
+                                    </div>
                                 </div>
                             )}
                         </div>

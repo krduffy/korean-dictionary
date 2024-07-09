@@ -8,7 +8,7 @@ const SenseProverbInfo = ({ proverbInfo }) => {
     return (
         <ul>
             {proverbInfo.map((proverb, id) => (
-                <li key={id}>
+                <li style={{ marginTop: "5px", marginBottom: "15px" }} key={id}>
                     <SenseProverb proverb={proverb} />
                 </li>
             ))}
@@ -31,27 +31,31 @@ const SenseProverb = ({ proverb }) => {
     const updateViewAndPushToHistory =
         useContext(ViewContext)["updateViewAndPushToHistory"];
     return (
-        <div className="sense-proverb">
-            <span style={{ color: "#8e44ad" }}>{proverb.type}</span>{" "}
-            <span
-                className="clickable-result"
-                onClick={() => {
-                    if (proverb.link_target_code) {
-                        updateViewAndPushToHistory({
-                            view: "detail_korean",
-                            value: proverb.link_target_code,
-                            searchBarInitialState: {
-                                boxContent: proverb.word,
-                                dictionary: "korean",
-                            },
-                        });
-                    }
-                }}
-            >
-                {proverb.word}
-            </span>
-            <div className="proverb-definition">{proverb.definition}</div>
-        </div>
+        <>
+            <div style={{ paddingBottom: "5px" }}>
+                <span style={{ color: "#8e44ad" }}>{proverb.type}</span>{" "}
+                <span
+                    className="clickable-result"
+                    onClick={() => {
+                        if (proverb.link_target_code) {
+                            updateViewAndPushToHistory({
+                                view: "detail_korean",
+                                value: proverb.link_target_code,
+                                searchBarInitialState: {
+                                    boxContent: proverb.word,
+                                    dictionary: "korean",
+                                },
+                            });
+                        }
+                    }}
+                >
+                    {proverb.word}
+                </span>
+            </div>
+            <div style={{ position: "relative", left: "10px" }}>
+                {proverb.definition}
+            </div>
+        </>
     );
 };
 
