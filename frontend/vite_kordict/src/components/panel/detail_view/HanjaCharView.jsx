@@ -57,22 +57,48 @@ const HanjaCharView = ({ hanjaChar }) => {
                     {/* MAIN INFO */}
                     <div className="main-info-section">
                         {/* CHARACTER, STROKES, UNICODE, ANIMATION PLAYER ETC */}
-                        <div className="main-info-upper">
-                            <div className="main-info-upper-left">
-                                <div className="jahuneum">
-                                    <span className="hanja-header">
+                        <div>
+                            {/* UPPER LEFT (JAHUNEUM + UNICODE ETC) */}
+                            <div
+                                className="lrpad-10"
+                                style={{
+                                    /* 150 is to make room for hanja writer */
+                                    width: "calc(100% - 150px)",
+                                    display: "inline-block",
+                                    verticalAlign: "top",
+                                    /* padding to prevent stuttering when toggling from 
+                                       hanja tester to stroke playback */
+                                    paddingBottom: "10px",
+                                    minHeight: "200px",
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        paddingLeft: "20px",
+                                        paddingBottom: "10px",
+                                    }}
+                                >
+                                    <span
+                                        style={{
+                                            fontSize: "40px",
+                                            paddingRight: "20px",
+                                        }}
+                                    >
                                         {hanjaChar}
-                                    </span>{" "}
-                                    <span className="meaning-reading-header">
+                                    </span>
+                                    <span style={{ fontSize: "20px" }}>
                                         {charData["meaning_reading"]
                                             ? charData["meaning_reading"]
                                             : "훈음 정보가 없습니다."}
                                     </span>
                                 </div>
-                                <div className="main-info-tables">
+
+                                <div className="full-width pad-10">
                                     <table
-                                        className="main-info-table"
-                                        id="main-info-table-left"
+                                        style={{
+                                            width: "50%",
+                                            display: "inline-block",
+                                        }}
                                     >
                                         <tbody>
                                             <tr className="main-info-table-row">
@@ -131,8 +157,10 @@ const HanjaCharView = ({ hanjaChar }) => {
                                         </tbody>
                                     </table>
                                     <table
-                                        className="main-info-table"
-                                        id="main-info-table-right"
+                                        style={{
+                                            width: "50%",
+                                            display: "inline-block",
+                                        }}
                                     >
                                         <tbody>
                                             <tr className="main-info-table-row">
@@ -180,7 +208,14 @@ const HanjaCharView = ({ hanjaChar }) => {
                                     </table>
                                 </div>
                             </div>
-                            <div className="main-info-upper-right">
+
+                            <div
+                                style={{
+                                    width: "150px",
+                                    display: "inline-block",
+                                    verticalAlign: "top",
+                                }}
+                            >
                                 <HanjaAnimatorAndTester
                                     hanjaChar={hanjaChar}
                                     onLoad={() => {
@@ -194,6 +229,7 @@ const HanjaCharView = ({ hanjaChar }) => {
 
                         {/* sources for data at top */}
                         <div
+                            className="tbmargin-10"
                             style={{
                                 paddingTop: "10px",
                                 display: "grid",
@@ -267,11 +303,11 @@ const HanjaCharView = ({ hanjaChar }) => {
 
                         {/* EXPLANATION OF CHARACTER */}
                         {charData["explanation"] && (
-                            <div className="main-info-lower">
-                                <div className="section-header">
+                            <div className="curved-box tbmargin-10">
+                                <div className="curved-box-header">
                                     자세한 설명
                                 </div>
-                                <div className="truncator-dropdown-container">
+                                <div>
                                     <TruncatorDropdown>
                                         {charData["explanation"]
                                             .replaceAll(/\n{2,}/g, "\n")
@@ -314,16 +350,17 @@ const HanjaCharView = ({ hanjaChar }) => {
 
             {/* WORDS THAT CONTAIN THIS CHARACTER; can load whether above is successful or not */}
             {!loading && (
-                <>
-                    <div className="section-header">연관단어</div>
-                    <div className="example-container">
+                <div className="curved-box tbmargin-10">
+                    <div className="curved-box-header">연관단어</div>
+
+                    <div className="pad-10">
                         <PaginatedResults
                             searchType="search_hanja_examples"
                             searchTerm={hanjaChar}
-                            functions={null}
+                            nestLevel={1}
                         />
                     </div>
-                </>
+                </div>
             )}
         </>
     );

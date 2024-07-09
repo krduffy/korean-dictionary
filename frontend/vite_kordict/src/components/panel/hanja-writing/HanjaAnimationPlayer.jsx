@@ -42,24 +42,26 @@ const HanjaAnimationPlayer = ({ hanjaChar, setShowTest, onLoad }) => {
         <></>
     ) : (
         <>
-            <HanjaWriter
-                character={hanjaChar}
-                writerArgs={{
-                    width: 150,
-                    height: 150,
-                    onLoadCharDataSuccess: () => {
-                        // if the control panel is not shown only after character load then there
-                        // is a flash of the control panel before quickly disappearing, which is
-                        // visually unpleasing
-                        setShowControls(true);
-                        onLoad();
-                    },
-                    onLoadCharDataError: () => {
-                        setHanjaLoadError(true);
-                    },
-                }}
-                ref={ref}
-            />
+            <div className="curved-box">
+                <HanjaWriter
+                    character={hanjaChar}
+                    writerArgs={{
+                        width: 150,
+                        height: 150,
+                        onLoadCharDataSuccess: () => {
+                            // if the control panel is not shown only after character load then there
+                            // is a flash of the control panel before quickly disappearing, which is
+                            // visually unpleasing
+                            setShowControls(true);
+                            onLoad();
+                        },
+                        onLoadCharDataError: () => {
+                            setHanjaLoadError(true);
+                        },
+                    }}
+                    ref={ref}
+                />
+            </div>
 
             {/* BUTTONS BELOW PLAYER */}
             {showControls && (

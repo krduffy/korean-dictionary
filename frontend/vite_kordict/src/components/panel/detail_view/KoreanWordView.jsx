@@ -164,7 +164,7 @@ const KoreanWordView = ({ targetCode }) => {
                             {wordData["senses"] && (
                                 <div className="curved-box tbmargin-10">
                                     <div className="curved-box-header">
-                                        정의
+                                        뜻풀이
                                     </div>
                                     <div className="pad-10">
                                         {wordData["senses"]

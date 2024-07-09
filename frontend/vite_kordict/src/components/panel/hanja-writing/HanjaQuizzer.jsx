@@ -23,13 +23,22 @@ const HanjaQuizzer = ({ hanjaChar, setShowTest }) => {
             const flickers = 2;
 
             for (let i = 0; i < flickers; i++) {
+                /* try catch is to prevent spamming to/from quiz and drawer from throwing an error */
                 await callAfterMs(() => {
-                    ref.current.showOutline();
-                    outlineShownRef.current = true;
+                    try {
+                        ref.current.showOutline();
+                        outlineShownRef.current = true;
+                    } catch {
+                        console.log("speedy");
+                    }
                 }, waitTime);
                 await callAfterMs(() => {
-                    ref.current.hideOutline();
-                    outlineShownRef.current = false;
+                    try {
+                        ref.current.hideOutline();
+                        outlineShownRef.current = false;
+                    } catch {
+                        console.log("speedy");
+                    }
                 }, waitTime);
             }
 

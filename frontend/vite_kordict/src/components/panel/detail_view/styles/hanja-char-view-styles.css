@@ -1,63 +1,3 @@
-.example-container {
-    margin-top: 10px;
-}
-
-.word-list-header {
-    font-size: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.jahuneum {
-    padding-bottom: 20px;
-}
-
-.hanja-header {
-    color: #72a1ed;
-    font-size: 50px;
-}
-
-.meaning-reading-header {
-    font-size: 30px;
-    padding-left: 20px;
-}
-
-.main-info-section {
-    margin: 0;
-    box-sizing: border-box;
-}
-
-.main-info-upper-left {
-    width: calc(100% - 150px);
-}
-
-.main-info-upper-right {
-    width: 150px;
-}
-
-.main-info-tables {
-    width: 100%;
-}
-
-.main-info-table {
-    display: inline-block;
-    width: 50%;
-}
-
-.main-info-upper-left,
-.main-info-upper-right {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-    vertical-align: top;
-}
-
-.main-info-upper-left {
-    /* to prevent stuttering when toggling from hanja tester to stroke playback */
-    padding-bottom: 10px;
-}
-
 .main-info-table-head,
 .main-info-table-data {
     display: table-cell;
@@ -67,32 +7,17 @@
     white-space: nowrap;
     width: 50px;
     text-align: left;
-}
-
-.main-info-table-data {
-    padding-left: 50px;
-    margin-left: 5px;
-}
-
-.main-info-lower {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    padding-right: 20px;
 }
 
 .hanja-play-button {
     margin: 0;
     padding: 5px;
-    text-align: center; /* Center text */
-
+    text-align: center;
     color: #72a1ed;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-}
-
-.truncator-dropdown-container {
-    padding-top: 10px;
-    padding-bottom: 10px;
 }
 
 .hanja-writer-controls {

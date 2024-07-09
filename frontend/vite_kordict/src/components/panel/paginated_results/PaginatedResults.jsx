@@ -21,7 +21,7 @@ import PageChanger from "./PageChanger.jsx";
 
 import "./styles/results.css";
 
-const PaginatedResults = ({ searchType, searchTerm }) => {
+const PaginatedResults = ({ searchType, searchTerm, nestLevel }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchResults, setSearchResults] = useState({});
     const { apiFetch, loading, error, response } = useAPIFetcher();
@@ -96,6 +96,20 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
         }
     };
 
+    const getResultComponent = (result) => {
+        if (
+            searchType === "search_korean" ||
+            searchType === "user_known_words" ||
+            searchType === "user_study_words"
+        ) {
+            return <KoreanResult result={result} />;
+        } else if (searchType === "search_hanja") {
+            return <HanjaResult result={result} />;
+        } else if (searchType === "search_hanja_examples") {
+            return <HanjaExampleResult result={result} />;
+        }
+    };
+
     return (
         <>
             {loading || !searchResults || !searchResults.results ? (
@@ -124,29 +138,23 @@ const PaginatedResults = ({ searchType, searchTerm }) => {
 
                         {searchResults.results &&
                             searchResults.results.map((result, id) => {
-                                if (
-                                    searchType === "search_korean" ||
-                                    searchType === "user_known_words" ||
-                                    searchType === "user_study_words"
-                                ) {
+                                if (nestLevel) {
                                     return (
-                                        <KoreanResult
+                                        <div
                                             key={id}
-                                            result={result}
-                                        />
+                                            className={`curved-box-nest${nestLevel} pad-10 tbmargin-10`}
+                                        >
+                                            {getResultComponent(result)}
+                                        </div>
                                     );
-                                } else if (searchType === "search_hanja") {
+                                } else {
                                     return (
-                                        <HanjaResult key={id} result={result} />
-                                    );
-                                } else if (
-                                    searchType === "search_hanja_examples"
-                                ) {
-                                    return (
-                                        <HanjaExampleResult
+                                        <div
                                             key={id}
-                                            result={result}
-                                        />
+                                            className="curved-box pad-10 tbmargin-10"
+                                        >
+                                            {getResultComponent(result)}
+                                        </div>
                                     );
                                 }
                             })}
