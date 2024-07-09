@@ -72,7 +72,7 @@ const HanjaQuizzer = ({ hanjaChar, setShowTest }) => {
 
     return (
         <>
-            <div ref={containerDivRef}>
+            <div className="curved-box" ref={containerDivRef}>
                 <HanjaWriter
                     character={hanjaChar}
                     writerArgs={{

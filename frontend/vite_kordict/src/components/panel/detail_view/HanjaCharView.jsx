@@ -29,6 +29,8 @@ const HanjaCharView = ({ hanjaChar }) => {
     const [charData, setCharData] = useState({});
     const { apiFetch, loading, error, response } = useAPIFetcher();
 
+    const explanationRef = useRef(null);
+
     const [animatorLoaded, setAnimatorLoaded] = useState(false);
 
     useEffect(() => {
@@ -303,12 +305,17 @@ const HanjaCharView = ({ hanjaChar }) => {
 
                         {/* EXPLANATION OF CHARACTER */}
                         {charData["explanation"] && (
-                            <div className="curved-box tbmargin-10">
+                            <div
+                                ref={explanationRef}
+                                className="curved-box tbmargin-10"
+                            >
                                 <div className="curved-box-header">
                                     자세한 설명
                                 </div>
-                                <div>
-                                    <TruncatorDropdown>
+                                <div className="pad-10">
+                                    <TruncatorDropdown
+                                        onCollapseScrollToRef={explanationRef}
+                                    >
                                         {charData["explanation"]
                                             .replaceAll(/\n{2,}/g, "\n")
                                             .split(/\n/)
@@ -334,13 +341,13 @@ const HanjaCharView = ({ hanjaChar }) => {
                                                 )
                                             )}
                                     </TruncatorDropdown>
-                                </div>
-                                <div className="source">
-                                    출처:{" "}
-                                    <Href
-                                        link={`https://namu.wiki/w/${hanjaChar}`}
-                                        innerText={"나무위키"}
-                                    />
+                                    <div className="source tbmargin-10">
+                                        출처:{" "}
+                                        <Href
+                                            link={`https://namu.wiki/w/${hanjaChar}`}
+                                            innerText={"나무위키"}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         )}

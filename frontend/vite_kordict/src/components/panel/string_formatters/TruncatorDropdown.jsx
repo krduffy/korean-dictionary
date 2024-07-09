@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import "./truncator-dropdown-styles.css";
 
-const TruncatorDropdown = ({ children, onCollapse }) => {
+const TruncatorDropdown = ({ children, onCollapseScrollToRef }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [showButton, setShowButton] = useState(false);
     const contentRef = useRef(null);
@@ -16,6 +16,18 @@ const TruncatorDropdown = ({ children, onCollapse }) => {
             setShowButton(contentHeight == 100);
         }
     }, [children]);
+
+    const onCollapse = () => {
+        if (onCollapseScrollToRef.current) {
+            const bcr = onCollapseScrollToRef.current.getBoundingClientRect();
+
+            if (bcr.top < 0 || bcr.top > window.innerHeight) {
+                onCollapseScrollToRef.current.scrollIntoView({
+                    behavior: "instant",
+                });
+            }
+        }
+    };
 
     return (
         <div className="truncator-dropdown">

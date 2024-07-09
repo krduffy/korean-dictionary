@@ -20,13 +20,6 @@ import SenseRelationInfo from "./SenseRelationInfo.jsx";
 const KoreanSenseView = ({ senseData }) => {
     const senseDivRef = useRef(null);
 
-    const onCollapse = () => {
-        senseDivRef.current?.scrollIntoView({
-            top: 0,
-            behavior: "instant",
-        });
-    };
-
     return (
         <div ref={senseDivRef}>
             <div className="pad-10">
@@ -75,7 +68,7 @@ const KoreanSenseView = ({ senseData }) => {
                 {/* is a drop down menu because there can be a lot of data*/}
                 {Object.keys(senseData["additional_info"]).length > 0 && (
                     <div className="additional-info-container">
-                        <TruncatorDropdown onCollapse={onCollapse}>
+                        <TruncatorDropdown onCollapseScrollToRef={senseDivRef}>
                             {senseData["additional_info"]["example_info"] && (
                                 <div className="pad-10">
                                     <SenseExampleInfo
