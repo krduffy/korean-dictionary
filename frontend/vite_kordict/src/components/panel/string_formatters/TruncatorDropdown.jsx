@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import "./truncator-dropdown-styles.css";
 
-const TruncatorDropdown = ({ children }) => {
+const TruncatorDropdown = ({ children, onCollapse }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [showButton, setShowButton] = useState(false);
     const contentRef = useRef(null);
@@ -28,12 +28,22 @@ const TruncatorDropdown = ({ children }) => {
                                 : "retract-line-shortened-unexpanded"
                             : "retract-line-unshortened"
                     }
-                    onClick={() => setIsExpanded(false)}
+                    onClick={() => {
+                        if (isExpanded) {
+                            onCollapse();
+                        }
+                        setIsExpanded(false);
+                    }}
                 ></div>
                 {showButton && (
                     <div
                         className="expand-button"
-                        onClick={() => setIsExpanded(!isExpanded)}
+                        onClick={() => {
+                            if (isExpanded) {
+                                onCollapse();
+                            }
+                            setIsExpanded(!isExpanded);
+                        }}
                     >
                         {isExpanded ? "▲" : "▼"}
                     </div>

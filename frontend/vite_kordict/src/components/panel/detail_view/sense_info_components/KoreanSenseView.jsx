@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import PropTypes from "prop-types";
 
@@ -18,13 +18,22 @@ import SenseRelationInfo from "./SenseRelationInfo.jsx";
  * @returns {React.JSX.Element} The rendered KoreanSenseView component.
  */
 const KoreanSenseView = ({ senseData }) => {
+    const senseDivRef = useRef(null);
+
+    const onCollapse = () => {
+        senseDivRef.current?.scrollIntoView({
+            top: 0,
+            behavior: "instant",
+        });
+    };
+
     return (
-        <div>
+        <div ref={senseDivRef}>
             <div className="pad-10">
                 {senseData["order"] !== 0 && (
                     <div style={{ marginBottom: "10px" }}>
                         {senseData["order"]}.{" "}
-                        <span style={{ color: "#47519e" }}>
+                        <span style={{ color: "#5c68bd" }}>
                             「{senseData["type"]}」
                         </span>
                         {senseData["pos"] && (
@@ -66,7 +75,7 @@ const KoreanSenseView = ({ senseData }) => {
                 {/* is a drop down menu because there can be a lot of data*/}
                 {Object.keys(senseData["additional_info"]).length > 0 && (
                     <div className="additional-info-container">
-                        <TruncatorDropdown>
+                        <TruncatorDropdown onCollapse={onCollapse}>
                             {senseData["additional_info"]["example_info"] && (
                                 <div className="pad-10">
                                     <SenseExampleInfo
