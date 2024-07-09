@@ -15,18 +15,6 @@
     margin: 0;
 }
 
-.hanja-hover-box {
-    min-width: 200px;
-}
-
-.meaning-reading-section {
-    width: 100%;
-    text-align: center;
-    background-color: #272938;
-    color: white;
-    font-size: large;
-}
-
 .korean-word-section {
     width: 100%;
     display: grid;

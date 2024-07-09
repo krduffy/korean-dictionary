@@ -76,11 +76,12 @@ class KoreanWordList(generics.ListAPIView):
     regized_search_term = '^' + search_term + '$'
 
     queryset = queryset.filter(word__iregex = regized_search_term)
-    queryset = queryset.order_by(Length("word").asc())
+    
 
     if self.request.user.is_authenticated:
       return prioritize_known_or_studying(queryset=queryset, user=self.request.user)
-    return queryset
+    else:
+      return queryset.order_by(Length("word").asc(), "target_code")
   
 # Returns all data associated with a KoreanWord given a primary key.
 class KoreanWordDetail(generics.RetrieveAPIView):
@@ -322,15 +323,15 @@ class HanjaExamples(generics.ListAPIView):
   def get_queryset(self):
     character = self.request.query_params.get('character')
 
-    queryset = None
+    queryset = KoreanWord.objects.all()
+    queryset = queryset.filter(origin__contains = character)
     
     if self.request.user.is_authenticated:
-      queryset = remove_non_user_additions(KoreanWord.objects.all(), allowed_user=self.request.user.pk)
-      queryset = queryset.filter(origin__contains = character)
+      queryset = remove_non_user_additions(queryset=queryset, allowed_user=self.request.user.pk)
       queryset = prioritize_known_or_studying(queryset=queryset, user=self.request.user)
     else:
-      queryset = remove_all_user_additions(KoreanWord.objects.all())
-      queryset = queryset.filter(origin__contains = character)
+      queryset = remove_all_user_additions(queryset=queryset)
+      queryset = queryset.order_by(Length("word").asc(), "target_code")
     
     return queryset
 
@@ -363,7 +364,7 @@ class HanjaPopup(APIView):
       queryset = prioritize_known_or_studying(queryset=queryset, user=self.request.user)
     else:
       queryset = remove_all_user_additions(queryset=queryset)
-      queryset = queryset.order_by(Length("word").asc())
+      queryset = queryset.order_by(Length("word").asc(), "target_code")
 
     queryset = queryset[:num_results]
     

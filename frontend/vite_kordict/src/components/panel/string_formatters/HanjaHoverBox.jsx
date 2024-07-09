@@ -38,8 +38,11 @@ const HanjaHoverBox = ({ character, mouseX, mouseY }) => {
                     padding={10}
                 >
                     {hoverBoxData && (
-                        <div className="hanja-hover-box">
-                            <div className="meaning-reading-section">
+                        <div
+                            className="shaded-background"
+                            style={{ minWidth: "200px", color: "white" }}
+                        >
+                            <div className="section-header textcentered full-width">
                                 <span>
                                     {character}{" "}
                                     {hoverBoxData["meaning_reading"]}
@@ -51,9 +54,8 @@ const HanjaHoverBox = ({ character, mouseX, mouseY }) => {
                                     wordArray={hoverBoxData["words"]}
                                 />
                             ) : (
-                                <div>
+                                <div className="pad-10 ">
                                     연관단어가 없습니다.
-                                    {hoverBoxData["retrieved_words"]}
                                 </div>
                             )}
                         </div>
