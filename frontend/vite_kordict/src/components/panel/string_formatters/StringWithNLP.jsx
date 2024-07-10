@@ -1,6 +1,12 @@
 import { AuthenticationInfoContext } from "../../../App";
 import { useAPIModifier } from "../../../hooks/useAPIModifier";
 import { ViewContext } from "../Panel";
+import ErrorMessage from "../messages/ErrorMessage";
+import {
+    LoadingMessage,
+    TrailingDotCustomMessage,
+} from "../messages/LoadingMessage";
+import PopupBox from "./PopupBox";
 import StringWithHanja from "./StringWithHanja";
 
 import React, { useContext, useEffect, useState } from "react";
@@ -125,14 +131,6 @@ const WordWithNLP = ({ word, fullSentence }) => {
     const updateViewAndPushToHistory =
         useContext(ViewContext)["updateViewAndPushToHistory"];
 
-    const fixBoxXToScreen = (x) => {
-        return x > window.innerWidth / 2 ? x - 50 : x + 50;
-    };
-
-    const fixBoxYToScreen = (y) => {
-        return y > window.innerHeight / 2 ? y - 50 : y + 50;
-    };
-
     const handleClick = (e) => {
         e.preventDefault();
         setMousePosition({ x: e.clientX, y: e.clientY });
@@ -203,28 +201,70 @@ const WordWithNLP = ({ word, fullSentence }) => {
             </span>
             <span>
                 {loading && (
-                    <div
-                        className="nlp-loading-indicator"
-                        style={{
-                            position: "absolute",
-                            left: fixBoxXToScreen(mousePosition.x),
-                            top: fixBoxYToScreen(mousePosition.y),
-                        }}
+                    <NLPLoadingIndicator
+                        fromX={mousePosition.x}
+                        fromY={mousePosition.y}
                     />
                 )}
                 {showErrorBox && (
-                    <div
-                        className="nlp-error-message"
-                        style={{
-                            position: "absolute",
-                            left: fixBoxXToScreen(mousePosition.x),
-                            top: fixBoxYToScreen(mousePosition.y),
-                        }}
-                    >
-                        {response.errors}
-                    </div>
+                    <NLPErrorMessage
+                        fromX={mousePosition.x}
+                        fromY={mousePosition.y}
+                        errorResponse={response}
+                    />
                 )}
             </span>
         </React.Fragment>
+    );
+};
+
+const NLPLoadingIndicator = ({ fromX, fromY }) => {
+    const [showIndicator, setShowIndicator] = useState(false);
+
+    /* looks strange if it shows up for a split second on fast returns */
+    useEffect(() => {
+        setTimeout(() => {
+            setShowIndicator(true);
+        }, 250);
+    }, []);
+
+    return (
+        showIndicator && (
+            <div
+                style={{
+                    fontSize: "20px",
+                }}
+            >
+                <PopupBox
+                    fromX={fromX}
+                    fromY={fromY}
+                    padding={10}
+                    positioning="fit"
+                >
+                    <TrailingDotCustomMessage
+                        customMessage={"단어를 찾는 중"}
+                    />
+                </PopupBox>
+            </div>
+        )
+    );
+};
+
+const NLPErrorMessage = ({ fromX, fromY, errorResponse }) => {
+    return (
+        <div
+            style={{
+                fontSize: "20px",
+            }}
+        >
+            <PopupBox
+                fromX={fromX}
+                fromY={fromY}
+                padding={10}
+                positioning="fit"
+            >
+                <ErrorMessage errorResponse={errorResponse} />
+            </PopupBox>
+        </div>
     );
 };

@@ -36,10 +36,15 @@ const SenseHistoryInfo = ({ historyInfo }) => {
 
     return (
         <div>
-            <table className="history-header-info-table tbmargin-10">
+            <table
+                className="history-header-info-table tbmargin-10"
+                style={{
+                    borderSpacing: "0px 10px",
+                }}
+            >
                 <colgroup>
-                    <col width={"15%"} />
-                    <col width={"85%"} />
+                    <col width={"20%"} />
+                    <col width={"80%"} />
                 </colgroup>
 
                 <tbody>
@@ -84,13 +89,13 @@ const SenseHistoryInfo = ({ historyInfo }) => {
 
                             <thead>
                                 <tr>
-                                    <th style={{ paddingBottom: "10px" }}>
+                                    <th className="tbpad-10 underlined">
                                         세기
                                     </th>
-                                    <th style={{ paddingBottom: "10px" }}>
+                                    <th className="tbpad-10 underlined">
                                         형태
                                     </th>
-                                    <th style={{ paddingBottom: "10px" }}>
+                                    <th className="tbpad-10 underlined">
                                         용례
                                     </th>
                                 </tr>

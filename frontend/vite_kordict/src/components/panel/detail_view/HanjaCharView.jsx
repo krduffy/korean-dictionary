@@ -305,14 +305,11 @@ const HanjaCharView = ({ hanjaChar }) => {
 
                         {/* EXPLANATION OF CHARACTER */}
                         {charData["explanation"] && (
-                            <div
-                                ref={explanationRef}
-                                className="curved-box tbmargin-10"
-                            >
+                            <div className="curved-box tbmargin-10">
                                 <div className="curved-box-header">
                                     자세한 설명
                                 </div>
-                                <div className="pad-10">
+                                <div ref={explanationRef} className="pad-10">
                                     <TruncatorDropdown
                                         onCollapseScrollToRef={explanationRef}
                                     >

@@ -32,7 +32,6 @@
     white-space: nowrap;
 }
 
-/* HTML: <div class="loader"></div> */
 .nlp-loading-indicator {
     width: 60px;
     aspect-ratio: 4;
@@ -41,10 +40,10 @@
     clip-path: inset(0 100% 0 0);
     animation: l1 2s steps(4) infinite;
     position: absolute;
-    background-color: #3d3f47;
+    background-color: #1a1a1a;
     border: 1px solid #ccc;
     z-index: 100;
-    padding: 0;
+    padding: 10px;
     margin: 0;
 }
 @keyframes l1 {

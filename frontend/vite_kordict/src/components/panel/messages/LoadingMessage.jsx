@@ -7,3 +7,12 @@ export const LoadingMessage = () => {
         </div>
     );
 };
+
+export const TrailingDotCustomMessage = ({ customMessage }) => {
+    return (
+        <div>
+            {customMessage}
+            <span className="dots" />
+        </div>
+    );
+};

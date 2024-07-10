@@ -268,13 +268,17 @@ const SameHanjaSection = ({ sameHanjaData }) => {
                                 </div>
                                 <div className="same-hanja-section-examples">
                                     {/* first item in example. */}
-                                    <HanjaExampleResult
-                                        result={sameHanjaItem[1][0]}
-                                    />
+                                    <div className="tbpad-10">
+                                        <HanjaExampleResult
+                                            result={sameHanjaItem[1][0]}
+                                        />
+                                    </div>
                                     {/* second item in example. */}
-                                    <HanjaExampleResult
-                                        result={sameHanjaItem[1][1]}
-                                    />
+                                    <div className="tbpad-10">
+                                        <HanjaExampleResult
+                                            result={sameHanjaItem[1][1]}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </li>
