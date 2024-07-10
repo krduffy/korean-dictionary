@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
+import ErrorMessage from "../messages/ErrorMessage.jsx";
+import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 
 import "./form-styles.css";
 
@@ -99,13 +101,18 @@ const AddExampleForm = ({
                     내가 그린 &#123;기린&#125; 그림은... -&gt; 내가 그린{" "}
                     <span className="underlined">기린</span> 그림은...
                 </div>
+                <div className="form-tip">
+                    예문 수정이나 추가하신 뒤 저장 버튼을 누르시면 저장됩니다.
+                </div>
 
                 <br />
                 <div className="horizontal-bar" />
                 <br />
 
                 {exampleList.length == 0 ? (
-                    <div className="no-examples-text">예문이 없습니다.</div>
+                    <div className="word-emphasized-box textcentered">
+                        예문이 없습니다.
+                    </div>
                 ) : (
                     exampleList.map((example, index) => (
                         <div
@@ -116,69 +123,112 @@ const AddExampleForm = ({
                                 <div>예문 {index + 1}</div>
                                 <div
                                     /* color is overriden; curved box just for shape. */
-                                    className="curved-box-shape item-delete-button textcentered lrpad-10 pointer"
+                                    className="curved-box-shape item-delete-button textcentered pad-10 pointer"
                                     onClick={() => deleteExampleByIndex(index)}
                                 >
-                                    예문 삭제
+                                    삭제
                                 </div>
                             </div>
 
-                            <div className="pad-10">
-                                <dl>
-                                    <dt className="text-area-container-dt">
-                                        예문 (필수)
-                                    </dt>
-                                    <dd className="text-area-container-dd">
-                                        <textarea
-                                            className="add-example-text-area"
-                                            value={example.example}
-                                            onChange={(event) =>
-                                                updateExampleInfo(
-                                                    index,
-                                                    "example",
-                                                    event.target.value
-                                                )
-                                            }
-                                        ></textarea>
-                                    </dd>
-                                </dl>
-                                <dl>
-                                    <dt className="text-area-container-dt">
-                                        출처 (선택)
-                                    </dt>
-                                    <dd className="text-area-container-dd">
-                                        <textarea
-                                            className="add-example-text-area"
-                                            value={example.source}
-                                            onChange={(event) =>
-                                                updateExampleInfo(
-                                                    index,
-                                                    "source",
-                                                    event.target.value
-                                                )
-                                            }
-                                        ></textarea>
-                                    </dd>
-                                </dl>
+                            <div
+                                className="full-width"
+                                style={{
+                                    display: "grid",
+                                    height: "200px",
+                                    padding: "20px",
+                                    rowGap: "20px",
+                                }}
+                            >
+                                <div
+                                    className=""
+                                    style={{
+                                        gridRow: "1 / 2",
+                                        gridColumn: "1 / 2",
+                                    }}
+                                >
+                                    예문 (필수)
+                                </div>
+                                <div
+                                    style={{
+                                        gridRow: "1 / 2",
+                                        gridColumn: "2 / 6",
+                                    }}
+                                >
+                                    <textarea
+                                        className="full-width full-height"
+                                        value={example.example}
+                                        onChange={(event) =>
+                                            updateExampleInfo(
+                                                index,
+                                                "example",
+                                                event.target.value
+                                            )
+                                        }
+                                    ></textarea>
+                                </div>
+
+                                <div
+                                    className=""
+                                    style={{
+                                        gridRow: "2 / 3",
+                                        gridColumn: "1 / 2",
+                                    }}
+                                >
+                                    출처 (선택)
+                                </div>
+                                <div
+                                    style={{
+                                        gridRow: "2 / 3",
+                                        gridColumn: "2 / 6",
+                                    }}
+                                >
+                                    <textarea
+                                        className="full-width full-height"
+                                        value={example.source}
+                                        onChange={(event) =>
+                                            updateExampleInfo(
+                                                index,
+                                                "source",
+                                                event.target.value
+                                            )
+                                        }
+                                    ></textarea>
+                                </div>
                             </div>
                         </div>
                     ))
                 )}
 
-                <div className="add-example-form-lower-bar">
+                <div
+                    className="full-width space-children-horizontal tbpad-10"
+                    style={{
+                        paddingLeft: "30px",
+                        paddingRight: "30px",
+                    }}
+                >
                     <button
                         onClick={addNewExample}
-                        className="add-new-example-button"
+                        style={{ backgroundColor: "#222222" }}
                     >
                         예문 추가
                     </button>
-                    <br />
                     <button
                         onClick={(e) => handleSubmit(e)}
-                        className="add-example-submit-button"
+                        style={{ backgroundColor: "#222222" }}
                     >
                         저장
                     </button>
+                </div>
+
+                {/* Status update area */}
+                <div className="textcentered tbpad-10">
+                    {successful ? (
+                        <div>예문 데이터 저장이 성공했습니다.</div>
+                    ) : error ? (
+                        <ErrorMessage errorResponse={response} />
+                    ) : (
+                        loading && <LoadingMessage />
+                    )}
                 </div>
             </div>
         </div>

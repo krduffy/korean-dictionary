@@ -25,35 +25,6 @@
     width: 100%;
 }
 
-.add-example-text-area {
-    width: 90%;
-    height: 100%;
-}
-
-.text-area-container {
-    display: table;
-    width: 100%;
-}
-
-.text-area-container-dt,
-.text-area-container-dd {
-    display: table-cell;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-.text-area-container-dt {
-    vertical-align: top;
-    white-space: nowrap;
-    width: 20%;
-}
-
-.text-area-container-dd {
-    width: 80%;
-    text-align: right;
-    height: 50px;
-}
-
 .add-header,
 .form-tip,
 .add-item-submit-button,
@@ -95,6 +66,7 @@
     display: list-item;
     font-size: small;
     padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .item-delete-button {
