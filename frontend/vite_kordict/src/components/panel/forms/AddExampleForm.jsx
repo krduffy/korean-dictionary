@@ -85,98 +85,101 @@ const AddExampleForm = ({
     };
 
     return (
-        <div className="add-example-form">
-            <div className="section-header">예문 수정</div>
+        <div className="curved-box">
+            <div className="curved-box-header">예문 수정</div>
 
-            <div className="form-tip">
-                추가하시는 단어는 본인만 보실 수 있습니다.
-            </div>
-
-            <div className="form-tip">
-                예문 입력 시 중활고에 담는 단어 아래에 밑줄을 그려줍니다.
+            <div className="pad-10">
+                <div className="form-tip">
+                    추가하시는 단어는 본인만 보실 수 있습니다.
+                </div>
+                <div className="form-tip">
+                    예문 입력 시 중활고에 담는 단어 아래에 밑줄을 그려줍니다.
+                </div>
                 <div className="form-tip-detail">
                     내가 그린 &#123;기린&#125; 그림은... -&gt; 내가 그린{" "}
-                    <span style={{ textDecoration: "underline" }}>기린</span>{" "}
-                    그림은...
+                    <span className="underlined">기린</span> 그림은...
                 </div>
-            </div>
 
-            <br />
+                <br />
+                <div className="horizontal-bar" />
+                <br />
 
-            <div className="horizontal-bar" />
-
-            <br />
-
-            {exampleList.length == 0 ? (
-                <div className="no-examples-text">예문이 없습니다.</div>
-            ) : (
-                exampleList.map((example, index) => (
-                    <div className="text-area-container" key={index}>
-                        <div className="item-section-header">
-                            <div className="item-number-title">
-                                예문 {index + 1}
+                {exampleList.length == 0 ? (
+                    <div className="no-examples-text">예문이 없습니다.</div>
+                ) : (
+                    exampleList.map((example, index) => (
+                        <div
+                            className="curved-box-nest1 tbmargin-10"
+                            key={index}
+                        >
+                            <div className="curved-box-header space-children-horizontal">
+                                <div>예문 {index + 1}</div>
+                                <div
+                                    /* color is overriden; curved box just for shape. */
+                                    className="curved-box-shape item-delete-button textcentered lrpad-10 pointer"
+                                    onClick={() => deleteExampleByIndex(index)}
+                                >
+                                    예문 삭제
+                                </div>
                             </div>
-                            <div
-                                className="item-delete-button"
-                                onClick={() => deleteExampleByIndex(index)}
-                            >
-                                예문 삭제
+
+                            <div className="pad-10">
+                                <dl>
+                                    <dt className="text-area-container-dt">
+                                        예문 (필수)
+                                    </dt>
+                                    <dd className="text-area-container-dd">
+                                        <textarea
+                                            className="add-example-text-area"
+                                            value={example.example}
+                                            onChange={(event) =>
+                                                updateExampleInfo(
+                                                    index,
+                                                    "example",
+                                                    event.target.value
+                                                )
+                                            }
+                                        ></textarea>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt className="text-area-container-dt">
+                                        출처 (선택)
+                                    </dt>
+                                    <dd className="text-area-container-dd">
+                                        <textarea
+                                            className="add-example-text-area"
+                                            value={example.source}
+                                            onChange={(event) =>
+                                                updateExampleInfo(
+                                                    index,
+                                                    "source",
+                                                    event.target.value
+                                                )
+                                            }
+                                        ></textarea>
+                                    </dd>
+                                </dl>
                             </div>
                         </div>
-                        <dl>
-                            <dt className="text-area-container-dt">
-                                예문 (필수)
-                            </dt>
-                            <dd className="text-area-container-dd">
-                                <textarea
-                                    className="add-example-text-area"
-                                    value={example.example}
-                                    onChange={(event) =>
-                                        updateExampleInfo(
-                                            index,
-                                            "example",
-                                            event.target.value
-                                        )
-                                    }
-                                ></textarea>
-                            </dd>
-                        </dl>
-                        <dl>
-                            <dt className="text-area-container-dt">
-                                출처 (선택)
-                            </dt>
-                            <dd className="text-area-container-dd">
-                                <textarea
-                                    className="add-example-text-area"
-                                    value={example.source}
-                                    onChange={(event) =>
-                                        updateExampleInfo(
-                                            index,
-                                            "source",
-                                            event.target.value
-                                        )
-                                    }
-                                ></textarea>
-                            </dd>
-                        </dl>
-                    </div>
-                ))
-            )}
+                    ))
+                )}
 
-            <div className="add-example-form-lower-bar">
-                <button
-                    onClick={addNewExample}
-                    className="add-new-example-button"
-                >
-                    예문 추가
-                </button>
-                <br />
-                <button
-                    onClick={(e) => handleSubmit(e)}
-                    className="add-example-submit-button"
-                >
-                    저장
-                </button>
+                <div className="add-example-form-lower-bar">
+                    <button
+                        onClick={addNewExample}
+                        className="add-new-example-button"
+                    >
+                        예문 추가
+                    </button>
+                    <br />
+                    <button
+                        onClick={(e) => handleSubmit(e)}
+                        className="add-example-submit-button"
+                    >
+                        저장
+                    </button>
+                </div>
             </div>
         </div>
     );

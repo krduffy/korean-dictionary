@@ -25,6 +25,11 @@ ul {
     border: transparent;
 }
 
+.curved-box-shape {
+    border-radius: 8px;
+    border: transparent;
+}
+
 /* (nested 1 level down) */
 .curved-box-nest1 {
     background-color: #222222;

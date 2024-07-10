@@ -36,8 +36,12 @@ const EditWordForm = ({ targetCode }) => {
             ) : (
                 <div className="korean-word-view">
                     {wordData["word"] && (
-                        <span className="word-header">
-                            <span>{wordData["word"]}</span>
+                        <span
+                            style={{
+                                fontSize: "40px",
+                            }}
+                        >
+                            {wordData["word"]}
                         </span>
                     )}
 
