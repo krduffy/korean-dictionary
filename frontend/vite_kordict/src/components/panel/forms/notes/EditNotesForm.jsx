@@ -53,8 +53,10 @@ const EditNotesForm = ({ wordTargetCode, initiallyExistingNotes }) => {
                         />
                     ))
                 ) : (
-                    <div className="word-emphasized-box textcentered">
-                        노트가 없습니다.
+                    <div className="center-children-horizontal">
+                        <span className="word-emphasized-box">
+                            노트가 없습니다.
+                        </span>
                     </div>
                 )}
                 {notes && (

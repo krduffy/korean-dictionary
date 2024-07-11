@@ -48,7 +48,6 @@ const AddNoteForm = ({
                     className="full-width"
                     style={{
                         display: "grid",
-                        height: "200px",
                         padding: "20px",
                         rowGap: "20px",
                     }}
@@ -62,13 +61,13 @@ const AddNoteForm = ({
                     >
                         이미지 (필수){" "}
                         <span style={{ fontSize: "12px" }}>
-                            .png, .jpg, .gif 허용
+                            .png, .jpg, .gif 지원
                         </span>
                     </div>
                     <div
                         style={{
                             gridRow: "1 / 2",
-                            gridColumn: "2 / 6",
+                            gridColumn: "2 / 3",
                         }}
                     >
                         <FileUpload
@@ -90,7 +89,7 @@ const AddNoteForm = ({
                         value={formData.note_text}
                         style={{
                             gridRow: "2 / 3",
-                            gridColumn: "2 / 6",
+                            gridColumn: "2 / 3",
                         }}
                         onChange={(event) => {
                             updateFormDataField(
@@ -99,7 +98,13 @@ const AddNoteForm = ({
                             );
                         }}
                     ></textarea>
-                    <div className="full-width tbmargin-10 center-children-horizontal">
+                    <div
+                        className="full-width tbmargin-10 center-children-horizontal"
+                        style={{
+                            gridRow: "3 / 4",
+                            gridColumn: "1 / 3",
+                        }}
+                    >
                         <button
                             onClick={(e) => handleSubmit(e)}
                             className="add-example-submit-button"

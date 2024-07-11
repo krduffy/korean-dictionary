@@ -115,8 +115,10 @@ const AddExampleForm = ({
                 <br />
 
                 {exampleList.length == 0 ? (
-                    <div className="word-emphasized-box textcentered">
-                        예문이 없습니다.
+                    <div className="center-children-horizontal">
+                        <span className="word-emphasized-box">
+                            예문이 없습니다.
+                        </span>
                     </div>
                 ) : (
                     exampleList.map((example, index) => (

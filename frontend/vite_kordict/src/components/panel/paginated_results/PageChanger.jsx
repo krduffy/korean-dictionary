@@ -2,8 +2,6 @@ import React from "react";
 
 import PropTypes from "prop-types";
 
-import "./styles/page-changer-styles.css";
-
 const PageChanger = ({
     page,
     hasNextPage,
@@ -16,41 +14,49 @@ const PageChanger = ({
     };
 
     return (
-        <div id="page-changer-container-div">
+        <div
+            className="space-children-horizontal"
+            style={{
+                paddingLeft: "15%",
+                paddingRight: "15%",
+            }}
+        >
             {/* gray out the left button if there is no left page*/}
 
             {page - 1 > 0 ? (
                 <button
-                    className="page-left-button"
-                    id="page-left-button-exists"
+                    style={{ backgroundColor: "var(--cyan)" }}
                     onClick={() => handleClick(page - 1)}
                 >
                     ◀
                 </button>
             ) : (
                 <button
-                    className="page-left-button"
-                    id="page-left-button-grayed-out"
+                    style={{
+                        cursor: "not-allowed",
+                        backgroundColor: "transparent",
+                    }}
                 >
                     ◁
                 </button>
             )}
 
-            <div id="page-number-display">{page}</div>
+            <span id="page-number-display">{page}</span>
 
             {/* gray out the right button if there is no right page*/}
             {hasNextPage ? (
                 <button
-                    className="page-right-button"
-                    id="page-right-button-exists"
+                    style={{ backgroundColor: "var(--cyan)" }}
                     onClick={() => handleClick(page + 1)}
                 >
                     ▶
                 </button>
             ) : (
                 <button
-                    className="page-right-button"
-                    id="page-right-button-grayed-out"
+                    style={{
+                        cursor: "not-allowed",
+                        backgroundColor: "transparent",
+                    }}
                 >
                     ▷
                 </button>

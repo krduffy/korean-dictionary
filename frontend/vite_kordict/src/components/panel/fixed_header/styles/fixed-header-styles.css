@@ -24,12 +24,12 @@
 }
 
 .fixed-header button.activated-button {
-    background-color: #25254d;
+    background-color: var(--bluepurple);
     text-shadow: 0 0 15px white;
 }
 
 .fixed-header button.enabled-navigation-button {
-    background-color: #344e61;
+    background-color: var(--cyan);
 }
 
 .fixed-header button.disabled-navigation-button {

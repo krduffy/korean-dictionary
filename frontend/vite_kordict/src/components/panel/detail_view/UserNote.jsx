@@ -89,12 +89,20 @@ UserNoteGrid.propTypes = {
  */
 export const UserNoteDetail = ({ noteData }) => {
     return (
-        <div className="user-note-detail">
-            <img
-                className="user-note-image-detail"
-                src={BASE_URL + noteData["note_image"]}
-            ></img>
-            <div className="user-note-text-detail">{noteData.note_text}</div>
+        <div className="curved-box pad-10">
+            <div className="center-children-horizontal">
+                <img
+                    style={{
+                        minWidth: "200px",
+                        maxWidth: "100%",
+                        maxHeight: "800px",
+                    }}
+                    src={BASE_URL + noteData["note_image"]}
+                ></img>
+            </div>
+            <div className="full-width textcentered tbpad-15">
+                {noteData.note_text}
+            </div>
         </div>
     );
 };
