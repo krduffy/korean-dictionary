@@ -122,7 +122,6 @@ const AddExampleForm = ({
                             <div className="curved-box-header space-children-horizontal">
                                 <div>예문 {index + 1}</div>
                                 <div
-                                    /* color is overriden; curved box just for shape. */
                                     className="curved-box-shape item-delete-button textcentered pad-10 pointer"
                                     onClick={() => deleteExampleByIndex(index)}
                                 >

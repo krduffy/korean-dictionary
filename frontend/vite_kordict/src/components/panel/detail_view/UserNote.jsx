@@ -1,10 +1,10 @@
-import { ViewContext } from "../Panel";
-
 import React, { useContext } from "react";
 
 import PropTypes from "prop-types";
 
 import { BASE_URL } from "../../../constants.js";
+
+import { ViewContext } from "../Panel.jsx";
 
 /**
  * A component for rendering a user note as a boxed note in a grid of notes.
@@ -13,14 +13,18 @@ import { BASE_URL } from "../../../constants.js";
  * @param {Object} props.noteData - The note data map containing `note_image` and `note_text` keys.
  * @returns {React.JSX.Element} The rendered UserNote component.
  */
-export const UserNote = ({ noteData, disableClick }) => {
+export const UserNote = ({ noteData, disableClick, nestLevel }) => {
     const viewContext = useContext(ViewContext);
     const updateViewAndPushToHistory =
         viewContext["updateViewAndPushToHistory"];
 
     return (
         <div
-            className="user-note-container"
+            className={
+                nestLevel
+                    ? `curved-box-nest${nestLevel} pad-10 textcentered`
+                    : "curved-box pad-10 textcentered"
+            }
             onClick={() => {
                 if (!disableClick) {
                     updateViewAndPushToHistory({
@@ -35,10 +39,10 @@ export const UserNote = ({ noteData, disableClick }) => {
             }}
         >
             <img
-                className="user-note-image"
+                className="full-width"
                 src={BASE_URL + noteData["note_image"]}
             ></img>
-            <div className="user-note-text">{noteData.note_text}</div>
+            <div className="tbmargin-10">{noteData.note_text}</div>
         </div>
     );
 };

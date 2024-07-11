@@ -54,7 +54,6 @@ const AddNoteForm = ({
                     <FileUpload
                         updateFormDataField={updateFormDataField}
                         fieldToUpdate={"note_image"}
-                        uniqueId=""
                     />
                 </div>
 
@@ -62,7 +61,7 @@ const AddNoteForm = ({
                     onClick={(e) => handleSubmit(e)}
                     className="add-example-submit-button"
                 >
-                    노트 추가
+                    추가
                 </button>
             </form>
         </React.Fragment>

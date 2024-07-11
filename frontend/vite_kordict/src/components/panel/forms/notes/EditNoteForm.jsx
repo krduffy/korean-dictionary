@@ -40,34 +40,35 @@ const EditNoteForm = ({ noteData, num, updateNodeById, deleteNoteById }) => {
     };
 
     return (
-        <div style={{ width: "100%" }}>
-            <div className="item-section-header">
-                <div className="item-number-title">노트 {num}</div>
+        <div className="full-width curved-box-nest1">
+            <div className="curved-box-header space-children-horizontal">
+                <div>노트 {num}</div>
                 <DeleteNoteForm
                     deleteNoteById={deleteNoteById}
                     noteId={noteData.id}
                 />
             </div>
 
-            <div style={{ display: "grid" }}>
+            <div className="pad-10" style={{ display: "grid" }}>
                 <UserNote
                     style={{ gridRow: "1 / 2", gridColumn: "1 / 2" }}
                     noteData={noteData}
                     disableClick={true}
+                    nestLevel={2}
                 />
 
                 <div style={{ gridRow: "1 / 2", gridColumn: "2 / 3" }}>
-                    <div>이 노트 수정</div>
                     <form encType="multipart/form-data">
-                        <div style={{ width: "75%", padding: "5px" }}>
-                            <span>새로운 사진 놓기</span>
+                        <div className="pad-10">
+                            <span>다른 이미지로 바꾸기 (선택)</span>
                             <FileUpload
                                 updateFormDataField={updateFormDataField}
                                 fieldToUpdate={"note_image"}
                             />
                         </div>
 
-                        <div style={{ width: "25%", padding: "5px" }}>
+                        <div className="pad-10">
+                            <span>새로운 글을 붙이기 (선택)</span>
                             <textarea
                                 className="note-text-area"
                                 value={formData.note_text}
@@ -78,14 +79,13 @@ const EditNoteForm = ({ noteData, num, updateNodeById, deleteNoteById }) => {
                                     );
                                 }}
                             ></textarea>
-
-                            <button
-                                onClick={(e) => handleSubmit(e)}
-                                className="add-example-submit-button"
-                            >
-                                수정 완료
-                            </button>
                         </div>
+                        <button
+                            onClick={(e) => handleSubmit(e)}
+                            className="add-example-submit-button"
+                        >
+                            저장
+                        </button>
                     </form>
                 </div>
             </div>
@@ -124,10 +124,10 @@ const DeleteNoteForm = ({ deleteNoteById, noteId }) => {
     }, [successful, error]);
 
     return (
-        <>
+        <div>
             <div
                 ref={deleteButtonRef}
-                className="item-delete-button"
+                className="curved-box-shape item-delete-button textcentered pad-10 pointer"
                 onClick={() => {
                     const deleteUrl = `api/delete_note/${noteId}`;
 
@@ -150,20 +150,20 @@ const DeleteNoteForm = ({ deleteNoteById, noteId }) => {
                 >
                     {error ? (
                         <ErrorMessage errorResponse={response} />
-                    ) : successful ? (
-                        <div
-                            style={{
-                                color: "green",
-                                fontSize: "30px",
-                            }}
-                        >
-                            삭제 성공
-                        </div>
                     ) : (
-                        <></>
+                        successful && (
+                            <div
+                                style={{
+                                    color: "green",
+                                    fontSize: "30px",
+                                }}
+                            >
+                                삭제 성공
+                            </div>
+                        )
                     )}
                 </PopupBox>
             )}
-        </>
+        </div>
     );
 };

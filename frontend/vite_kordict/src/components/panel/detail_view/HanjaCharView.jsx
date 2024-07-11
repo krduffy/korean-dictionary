@@ -76,7 +76,6 @@ const HanjaCharView = ({ hanjaChar }) => {
                             >
                                 <div
                                     style={{
-                                        paddingLeft: "20px",
                                         paddingBottom: "10px",
                                     }}
                                 >

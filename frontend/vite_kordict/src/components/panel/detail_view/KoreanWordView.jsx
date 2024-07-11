@@ -114,7 +114,7 @@ const KoreanWordView = ({ targetCode }) => {
                             {wordData["notes"].length > 0 && (
                                 <div className="curved-box tbmargin-10">
                                     <p className="curved-box-header">
-                                        내가 추가한 노트
+                                        내가 추가한 이미지
                                     </p>
                                     <div
                                         className="pad-10"
@@ -129,6 +129,8 @@ const KoreanWordView = ({ targetCode }) => {
                                         {wordData["notes"].map((data, id) => (
                                             <UserNote
                                                 noteData={data}
+                                                disableClick={false}
+                                                nestLevel={1}
                                                 key={id}
                                             />
                                         ))}
