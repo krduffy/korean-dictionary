@@ -34,11 +34,11 @@ const EditNotesForm = ({ wordTargetCode, initiallyExistingNotes }) => {
 
             <div className="pad-10">
                 <div className="form-tip">
-                    노트는 따로 저장됩니다. 2개 이상의 노트를 추가하시면
-                    노트마다 저장 버튼을 클릭하시길 바랍니다.
+                    노트는 따로 저장됩니다. 2개 이상의 노트를 수정이나 추가를
+                    하시면 노트마다 저장 버튼을 누르시길 바랍니다.
                 </div>
                 <div className="form-tip">
-                    노트를 삭제하신 후 복구할 수는{" "}
+                    노트를 삭제하신 후 복구할 수가{" "}
                     <span style={{ color: "red" }}>없습니다.</span>
                 </div>
                 <br /> <div className="horizontal-bar" /> <br />
@@ -58,11 +58,13 @@ const EditNotesForm = ({ wordTargetCode, initiallyExistingNotes }) => {
                     </div>
                 )}
                 {notes && (
-                    <AddNoteForm
-                        wordTargetCode={wordTargetCode}
-                        initiallyExistingNotes={notes}
-                        appendNote={appendNote}
-                    />
+                    <div className="tbmargin-10">
+                        <AddNoteForm
+                            wordTargetCode={wordTargetCode}
+                            initiallyExistingNotes={notes}
+                            appendNote={appendNote}
+                        />
+                    </div>
                 )}
             </div>
         </div>

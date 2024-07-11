@@ -91,6 +91,12 @@ ul {
     align-items: center;
     justify-content: space-between;
 }
+
+.center-children-horizontal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 /* */
 
 /* Padding */

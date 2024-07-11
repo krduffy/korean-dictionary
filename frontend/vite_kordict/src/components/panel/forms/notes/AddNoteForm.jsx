@@ -40,31 +40,76 @@ const AddNoteForm = ({
     }, [successful]);
 
     return (
-        <React.Fragment>
+        <div className="curved-box-nest1">
+            <div className="curved-box-header">새로운 노트 추가</div>
+
             <form encType="multipart/form-data">
-                <textarea
-                    className="note-text-area"
-                    value={formData.note_text}
-                    onChange={(event) => {
-                        updateFormDataField("note_text", event.target.value);
+                <div
+                    className="full-width"
+                    style={{
+                        display: "grid",
+                        height: "200px",
+                        padding: "20px",
+                        rowGap: "20px",
                     }}
-                ></textarea>
-
-                <div>
-                    <FileUpload
-                        updateFormDataField={updateFormDataField}
-                        fieldToUpdate={"note_image"}
-                    />
-                </div>
-
-                <button
-                    onClick={(e) => handleSubmit(e)}
-                    className="add-example-submit-button"
                 >
-                    추가
-                </button>
+                    <div
+                        className=""
+                        style={{
+                            gridRow: "1 / 2",
+                            gridColumn: "1 / 2",
+                        }}
+                    >
+                        이미지 (필수){" "}
+                        <span style={{ fontSize: "12px" }}>
+                            .png, .jpg, .gif 허용
+                        </span>
+                    </div>
+                    <div
+                        style={{
+                            gridRow: "1 / 2",
+                            gridColumn: "2 / 6",
+                        }}
+                    >
+                        <FileUpload
+                            updateFormDataField={updateFormDataField}
+                            fieldToUpdate={"note_image"}
+                        />
+                    </div>
+
+                    <div
+                        style={{
+                            gridRow: "2 / 3",
+                            gridColumn: "1 / 2",
+                        }}
+                    >
+                        글 (선택)
+                    </div>
+                    <textarea
+                        className="note-text-area"
+                        value={formData.note_text}
+                        style={{
+                            gridRow: "2 / 3",
+                            gridColumn: "2 / 6",
+                        }}
+                        onChange={(event) => {
+                            updateFormDataField(
+                                "note_text",
+                                event.target.value
+                            );
+                        }}
+                    ></textarea>
+                    <div className="full-width tbmargin-10 center-children-horizontal">
+                        <button
+                            onClick={(e) => handleSubmit(e)}
+                            className="add-example-submit-button"
+                        >
+                            추가
+                        </button>
+                    </div>
+                </div>
             </form>
-        </React.Fragment>
+        </div>
     );
 };
 

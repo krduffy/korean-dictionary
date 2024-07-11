@@ -49,29 +49,32 @@ const EditNoteForm = ({ noteData, num, updateNodeById, deleteNoteById }) => {
                 />
             </div>
 
-            <div className="pad-10" style={{ display: "grid" }}>
-                <UserNote
-                    style={{ gridRow: "1 / 2", gridColumn: "1 / 2" }}
-                    noteData={noteData}
-                    disableClick={true}
-                    nestLevel={2}
-                />
+            <form encType="multipart/form-data" className="pad-10">
+                <div style={{ display: "inline-block", maxWidth: "50%" }}>
+                    <UserNote
+                        noteData={noteData}
+                        disableClick={true}
+                        nestLevel={2}
+                    />
+                </div>
 
-                <div style={{ gridRow: "1 / 2", gridColumn: "2 / 3" }}>
-                    <form encType="multipart/form-data">
-                        <div className="pad-10">
-                            <span>다른 이미지로 바꾸기 (선택)</span>
+                <div style={{ display: "inline-block", maxWidth: "50%" }}>
+                    <div className="pad-10">
+                        <div className="pad-10">다른 이미지로 바꾸기:</div>
+                        <div style={{ textAlign: "right" }}>
                             <FileUpload
                                 updateFormDataField={updateFormDataField}
                                 fieldToUpdate={"note_image"}
                             />
                         </div>
+                    </div>
 
-                        <div className="pad-10">
-                            <span>새로운 글을 붙이기 (선택)</span>
+                    <div className="pad-10">
+                        <div className="pad-10">새로운 글을 붙이기:</div>
+                        <div>
                             <textarea
-                                className="note-text-area"
                                 value={formData.note_text}
+                                className="full-width"
                                 onChange={(event) => {
                                     updateFormDataField(
                                         "note_text",
@@ -80,15 +83,13 @@ const EditNoteForm = ({ noteData, num, updateNodeById, deleteNoteById }) => {
                                 }}
                             ></textarea>
                         </div>
-                        <button
-                            onClick={(e) => handleSubmit(e)}
-                            className="add-example-submit-button"
-                        >
-                            저장
-                        </button>
-                    </form>
+                    </div>
+
+                    <div className="full-width pad-10 tbmargin-10 center-children-horizontal">
+                        <button onClick={(e) => handleSubmit(e)}>저장</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };

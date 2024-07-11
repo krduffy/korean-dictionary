@@ -102,7 +102,12 @@ const AddExampleForm = ({
                     <span className="underlined">기린</span> 그림은...
                 </div>
                 <div className="form-tip">
-                    예문 수정이나 추가하신 뒤 저장 버튼을 누르시면 저장됩니다.
+                    저장은 각 예문 수정하신 뒤 하지 않으셔도 됩니다. 버튼을
+                    누르시면 한번에 모든 예문이 저장됩니다.
+                </div>
+                <div className="form-tip">
+                    예문을 삭제하신 후 복구할 수가{" "}
+                    <span style={{ color: "red" }}>없습니다.</span>
                 </div>
 
                 <br />

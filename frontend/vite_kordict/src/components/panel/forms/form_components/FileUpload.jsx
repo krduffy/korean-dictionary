@@ -23,9 +23,9 @@ const FileUpload = ({ updateFormDataField, fieldToUpdate }) => {
                         handleFileChange(event);
                     }}
                 ></input>
-                <span>파일 찾아보기</span>
-            </label>
-            <span ref={selectedFileTextRef} className="selected-file-span">
+                <span>파일 찾아보기...</span>
+            </label>{" "}
+            <span ref={selectedFileTextRef} style={{ fontSize: "11px" }}>
                 선택한 파일이 없습니다.
             </span>
         </>

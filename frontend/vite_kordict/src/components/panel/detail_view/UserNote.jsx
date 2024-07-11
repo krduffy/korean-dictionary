@@ -39,7 +39,8 @@ export const UserNote = ({ noteData, disableClick, nestLevel }) => {
             }}
         >
             <img
-                className="full-width"
+                className=""
+                style={{ maxHeight: "200px" }}
                 src={BASE_URL + noteData["note_image"]}
             ></img>
             <div className="tbmargin-10">{noteData.note_text}</div>

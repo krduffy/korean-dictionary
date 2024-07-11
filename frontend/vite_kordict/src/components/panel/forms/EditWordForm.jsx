@@ -46,22 +46,26 @@ const EditWordForm = ({ targetCode }) => {
                     )}
 
                     {wordData["example_info"] && (
-                        <AddExampleForm
-                            wordTargetCode={targetCode}
-                            senseTargetCode={
-                                wordData.example_info["target_code"]
-                            }
-                            initiallyExistingExamples={
-                                wordData.example_info["examples"]
-                            }
-                        />
+                        <div className="tbmargin-10">
+                            <AddExampleForm
+                                wordTargetCode={targetCode}
+                                senseTargetCode={
+                                    wordData.example_info["target_code"]
+                                }
+                                initiallyExistingExamples={
+                                    wordData.example_info["examples"]
+                                }
+                            />
+                        </div>
                     )}
 
                     {wordData.notes && (
-                        <EditNotesForm
-                            wordTargetCode={targetCode}
-                            initiallyExistingNotes={wordData["notes"]}
-                        />
+                        <div className="tbmargin-10">
+                            <EditNotesForm
+                                wordTargetCode={targetCode}
+                                initiallyExistingNotes={wordData["notes"]}
+                            />
+                        </div>
                     )}
                 </div>
             )}
