@@ -132,9 +132,6 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
                         setError(true);
                     } else {
                         /* on success */
-
-                        console.log(asJSON);
-
                         const additionalInfo = {};
 
                         additionalInfo["word"] = asJSON["word"]

@@ -22,7 +22,7 @@ urlpatterns = [
   
   path('korean_word_edit_info/<pk>', KoreanWordForEditingView.as_view()),
 
-  path('create_sense/', CreateSenseView.as_view()),
+  path('create_sense/', CreateExamplesSenseView.as_view()),
   path('delete_sense/<pk>', DeleteSenseView.as_view()),
   
   path('create_note/', CreateNoteView.as_view()),

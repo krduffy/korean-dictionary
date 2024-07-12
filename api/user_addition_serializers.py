@@ -58,6 +58,7 @@ class UserField(serializers.PrimaryKeyRelatedField):
         except DictionaryUser.DoesNotExist:
             return None
 
+# user word serializer currently not in use due to words not being able to be added
 class UserWordSerializer(serializers.Serializer):
   word = serializers.CharField(
         max_length=100, 
@@ -132,9 +133,64 @@ class UserSenseSerializer(serializers.Serializer):
         for field_name in ['type', 'category', 'pos', 'additional_info']:
             self.fields[field_name].required = False
 
+class UserExamplesSenseSerializer(serializers.Serializer):
+  referent = KoreanWordField(queryset = KoreanWord.objects.all())
+  # adding word-level (not sense-level) example sentences technically creates a sense
+  # with order zero that has definition ""
+  definition = serializers.CharField(required=True)
+  type = serializers.CharField(required=False)
+  order = serializers.IntegerField(required=True)
+  category = serializers.CharField(required=False)
+  pos = serializers.CharField(required=False)
+  additional_info = serializers.JSONField(
+     required=True)
+  creator = UserField(queryset = DictionaryUser.objects.all())
+
+  class Meta:
+    model = Sense
+    fields = ['referent', 'definition', 'type', 'order', 'category', 'pos', 
+              'additional_info', 'creator']
+
+  def create(self, validated_data):
+    return Sense.objects.create(**validated_data)
+  
+  def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name in ['type', 'category', 'pos', 'additional_info']:
+            self.fields[field_name].required = False
+  
+  def validate_additional_info(self, value):
+    if not isinstance(value, dict):
+      raise serializers.ValidationError("예문들은 포맷이 틀립니다.")
+
+    for key, item in value.items():
+      
+      if key == 'example_info':      
+
+        if not isinstance(item, list):
+          raise serializers.ValidationError(f"{item}는 리스트 형태여야 됩니다.")
+
+        if len(item) == 0:
+          raise serializers.ValidationError("저장할 예문이 없습니다.")
+
+        for item_dict in item:
+          if not isinstance(item_dict, dict):
+            raise serializers.ValidationError(f"{item_dict}는 딕셔내리 형태여야 됩니다.")
+
+          if 'example' not in item_dict.keys() or not item_dict['example']:
+            raise serializers.ValidationError("모든 예문은 문장 부분이 필수입니다.")
+              
+    return value
+
 class UserNoteValidator(serializers.ModelSerializer):
   word_ref = KoreanWordField(queryset=KoreanWord.objects.all())
-  note_image = serializers.ImageField(required=False)
+  note_image = serializers.ImageField(
+     required=True,
+     error_messages = {
+        'required': '이미지는 필수입니다.',
+        'blank': '이미지는 필수입니다.' 
+     })
+  # order not really used; may eventually allow explicit control over order in which notes appear
   order = serializers.IntegerField()
   note_text = serializers.CharField(required=False)
   creator = UserField(queryset = DictionaryUser.objects.all())

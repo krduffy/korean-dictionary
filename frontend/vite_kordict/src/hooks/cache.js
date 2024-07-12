@@ -82,9 +82,12 @@ export const processRequest = (url, method, additionalInfo) => {
         updateWordKnownOrStudied(true);
     } else if (new RegExp("^api/toggle_word_s").test(url)) {
         updateWordKnownOrStudied(false);
-    } else if (new RegExp("^api/create_s").test(url)) {
-        /* adding example */
+    } else if (new RegExp("^api/create_sense").test(url)) {
+        /* adding examples */
         deleteDetailViewAndEditView(additionalInfo["referent"]["target_code"]);
+    } else if (new RegExp("^api/delete_sense").test(url)) {
+        /* deleting examples */
+        deleteDetailViewAndEditView(additionalInfo["referent"]);
     } else if (new RegExp("^api/.*note").test(url)) {
         /* adding note */
         deleteDetailViewAndEditView(additionalInfo["word_ref"]);

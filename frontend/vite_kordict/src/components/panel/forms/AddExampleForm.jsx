@@ -55,10 +55,13 @@ const AddExampleForm = ({
         e.preventDefault();
 
         const url =
-            exampleList.length > 0
-                ? "api/create_sense/"
-                : `api/delete_sense/${senseTargetCode}`;
-        const method = exampleList.length > 0 ? "POST" : "DELETE";
+            initiallyExistingExamples.length > 0 && exampleList.length === 0
+                ? `api/delete_sense/${senseTargetCode}`
+                : "api/create_sense/";
+        const method =
+            initiallyExistingExamples.length > 0 && exampleList.length === 0
+                ? "DELETE"
+                : "POST";
 
         apiModify(url, authInfo["token"], formData, method);
     };

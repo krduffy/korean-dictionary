@@ -5,13 +5,12 @@ from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from .user_addition_models import UserNote
-from .user_addition_serializers import UserNoteValidator, UserNoteSerializer, UserSenseSerializer, UserWordSerializer, KoreanWordForEditingSerializer
+from .user_addition_serializers import UserNoteValidator, UserNoteSerializer, UserExamplesSenseSerializer, UserWordSerializer, KoreanWordForEditingSerializer
 from .dictionary_models import HanjaCharacter, KoreanWord, Sense
 from .dictionary_serializers import HanjaCharacterSerializer, KoreanWordSerializer, SenseSerializer, KoreanSerializerForHanja, WordOriginSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
-import random
 from django.db import transaction
 from rest_framework.parsers import MultiPartParser, FormParser
 import os
@@ -112,30 +111,42 @@ class CreateWordView(APIView):
     else:
       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class CreateSenseView(APIView):
+class CreateExamplesSenseView(APIView):
   permission_classes = (IsAuthenticated,)
 
   def post(self, request):
     data = request.data
     data['creator'] = request.user.pk
-    serializer = UserSenseSerializer(data = data, context={'request': request})
+    serializer = UserExamplesSenseSerializer(data = data, context={'request': request})
     if serializer.is_valid():
         # delete the previous if it exists; this method is essentially PUT
         # need to ensure atomicity so that a sense cannot be deleted without its
         # replacement being added
+
+        new_data = serializer.validated_data
+
         with transaction.atomic():
           prev_sense = Sense.objects.all().filter(
               order = 0).filter( 
               referent = serializer.validated_data['referent']).filter(
               creator = serializer.validated_data['creator'])
           
+          prev_sense_data = None
           if prev_sense.exists():
-            prev_sense.delete()
+            prev_sense_data = prev_sense.first()
+
+          if prev_sense_data and new_data['additional_info'] == prev_sense_data.additional_info:
+            return Response({'errors': {'바꾸신 내용이 없습니다.'}}, status=status.HTTP_400_BAD_REQUEST)
+
+          prev_sense.delete()
 
           serializer.save()
           return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
-      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+      all_errors = []
+      for error_list in serializer.errors.values():
+          all_errors.extend(error_list)
+      return Response({'errors': all_errors}, status=status.HTTP_400_BAD_REQUEST)
 
 class DeleteSenseView(APIView):
   """API view to delete a sense from its pk."""
@@ -146,16 +157,17 @@ class DeleteSenseView(APIView):
     
     senses = Sense.objects.all().filter(pk = pk)
     if not senses.exists():
-      return Response({"error": "삭제할 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+      return Response({"errors": ["삭제할 수 없습니다."]}, status=status.HTTP_404_NOT_FOUND)
     
     sense = senses.first()
 
     if sense.creator is None or sense.creator != request.user:
-      return Response({"error": "삭제할 수 없습니다."}, status=status.HTTP_403_FORBIDDEN)
+      return Response({"errors": ["삭제할 수 없습니다."]}, status=status.HTTP_403_FORBIDDEN)
     
     with transaction.atomic():
+      serialized_data = SenseSerializer(sense).data
       sense.delete()
-      return Response({"message": "삭제가 성공했습니다."}, status=status.HTTP_200_OK)
+      return Response(serialized_data, status=status.HTTP_200_OK)
 
 class UpdateWordView(UpdateAPIView):
   """API view to update a word from its pk."""
@@ -518,8 +530,6 @@ class HanjaGameView(APIView):
               supplied_characters.append(character)
         index += 1
 
-    print(supplied_characters)
-
     def reorder(list, seed):
       # this is only meant for lists of length not more than 16
       new_list = ['' for _ in range (0, len(list))]
@@ -561,7 +571,6 @@ class HanjaGameSolutionVerifierView(APIView):
   def post(self, request):
 
     words = request.data['words']
-    print(words)
 
     if words is None:
       return Response({
