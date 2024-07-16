@@ -3,8 +3,6 @@ import React, { useContext } from "react";
 import { AuthenticationInfoContext } from "../../App.jsx";
 import LogoutButton from "../accounts/LogoutButton.jsx";
 
-import "./navbar-styles.css";
-
 /**
  * A component for the nav bar at the top of the screen. Contains buttons for logging in, logging out,
  * creating an account, and the currently logged in user depending on if any user is logged in.
@@ -17,18 +15,34 @@ const NavBar = ({ setNavState }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
     return (
-        <div id="navbar">
-            <div id="navbar-dictionary-title">한국어사전</div>
+        <div
+            className="space-children-horizontal full-width pad-10"
+            style={{
+                backgroundColor: "black",
+            }}
+        >
+            <div
+                className="curved-box-shape pad-10 underlined"
+                style={{
+                    backgroundColor: "var(--bluepurple)",
+                    marginLeft: "15px",
+                    fontSize: "12px",
+                }}
+            >
+                한국어 사전
+            </div>
 
             {authInfo["username"] ? (
-                <React.Fragment>
-                    <span id="username-display">{authInfo["username"]}님</span>
+                <>
+                    <span style={{ zIndex: "100" }}>
+                        {authInfo["username"]}님
+                    </span>
                     <LogoutButton />
-                </React.Fragment>
+                </>
             ) : (
                 <div>
                     <button
-                        id="create-account-button"
+                        className="lrmargin-10"
                         onClick={() => {
                             setNavState("create_account");
                         }}
@@ -36,7 +50,7 @@ const NavBar = ({ setNavState }) => {
                         새로운 계정 만들기
                     </button>
                     <button
-                        id="login-button"
+                        className="lrmargin-10"
                         onClick={() => {
                             setNavState("login");
                         }}

@@ -230,41 +230,28 @@ const NLPLoadingIndicator = ({ fromX, fromY }) => {
 
     return (
         showIndicator && (
-            <div
-                style={{
-                    fontSize: "20px",
-                }}
-            >
-                <PopupBox
-                    fromX={fromX}
-                    fromY={fromY}
-                    padding={10}
-                    positioning="fit"
-                >
-                    <TrailingDotCustomMessage
-                        customMessage={"단어를 찾는 중"}
-                    />
-                </PopupBox>
-            </div>
-        )
-    );
-};
-
-const NLPErrorMessage = ({ fromX, fromY, errorResponse }) => {
-    return (
-        <div
-            style={{
-                fontSize: "20px",
-            }}
-        >
             <PopupBox
                 fromX={fromX}
                 fromY={fromY}
                 padding={10}
                 positioning="fit"
             >
-                <ErrorMessage errorResponse={errorResponse} />
+                <div style={{ fontSize: "20px" }}>
+                    <TrailingDotCustomMessage
+                        customMessage={"단어를 찾는 중"}
+                    />
+                </div>
             </PopupBox>
-        </div>
+        )
+    );
+};
+
+const NLPErrorMessage = ({ fromX, fromY, errorResponse }) => {
+    return (
+        <PopupBox fromX={fromX} fromY={fromY} padding={10} positioning="fit">
+            <div style={{ fontSize: "20px" }}>
+                <ErrorMessage errorResponse={errorResponse} />
+            </div>
+        </PopupBox>
     );
 };
