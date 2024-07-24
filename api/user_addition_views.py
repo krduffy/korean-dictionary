@@ -269,7 +269,7 @@ class UserKnownWords(generics.ListAPIView):
 
   def get_queryset(self):
     known_words = self.request.user.known_words.all()
-    return known_words
+    return known_words.order_by('target_code')
   
 class UserStudyWords(generics.ListAPIView):
   """API view to retrieve the list of all study words for the authenticated user."""
@@ -279,7 +279,7 @@ class UserStudyWords(generics.ListAPIView):
 
   def get_queryset(self):
     study_words = self.request.user.study_words.all()
-    return study_words
+    return study_words.order_by('target_code')
   
 class HomepageInfoView(APIView):
   """
