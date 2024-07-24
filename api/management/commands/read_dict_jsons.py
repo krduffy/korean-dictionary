@@ -24,7 +24,7 @@ class Command(BaseCommand):
     if file == 'all':
       json_files = [os.path.join(dict_dir, fileindir) for fileindir in os.listdir(dict_dir)]
     else:
-      json_files.append(os.path.join(dict_dir, file))
+      json_files.append(file)
 
     for dict_file in json_files:
 

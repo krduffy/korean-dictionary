@@ -1,0 +1,39 @@
+
+FROM python:3.11-slim AS builder
+
+# gcc and libpq-dev are not in python slim but are needed for psycopg2
+RUN apt-get update && apt-get install -y gcc libpq-dev
+
+RUN python -m venv venv
+
+ENV PATH="/venv/bin:$PATH"
+
+COPY requirements.txt /backend-workdir/
+RUN pip install --no-cache-dir -r /backend-workdir/requirements.txt
+
+FROM python:3.11-slim
+
+RUN apt-get update && apt-get install -y libpq-dev
+RUN rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /venv /venv
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PATH="/venv/bin:$PATH"
+
+WORKDIR /backend-workdir
+COPY api ./api
+COPY dictionary_users ./dictionary_users
+COPY kordict_project ./kordict_project
+COPY manage.py .
+COPY fill_init_db.sh .
+
+EXPOSE 8000
+
+RUN echo '#!/bin/sh' > /start.sh && \
+    echo './fill_init_db.sh' >> /start.sh && \
+    echo 'python manage.py runserver 0.0.0.0:8000' >> /start.sh && \
+    chmod +x /start.sh
+
+CMD ["/start.sh"]

@@ -1,0 +1,38 @@
+services:
+  backend:
+    environment:
+      - DB_NAME=korean-dict-db
+      - DB_USER=username
+      - DB_PASSWORD=password
+      - DB_HOST=db
+      - DB_PORT=5432
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.database
+    environment:
+      POSTGRES_DB: korean-dict-db
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.frontend
+    ports:
+      - "5173:5173"
+
+volumes:
+  postgres_data:
