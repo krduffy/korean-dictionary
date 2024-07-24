@@ -14,6 +14,8 @@ class Command(BaseCommand):
     updated = 0
     processed = 0
 
+    chars_to_update = []
+
     for character_object in HanjaCharacter.objects.all():
 
       def get_exam_rank_num(exam_rank):
@@ -32,11 +34,12 @@ class Command(BaseCommand):
         return exam_rank_num
       
       character_object.result_ranking = get_exam_rank_num(character_object.exam_level)
-      character_object.save()
-      updated += 1
+      chars_to_update.append(character_object)
 
       processed += 1
       if processed % 500 == 0:
         self.stdout.write(f'Processed {processed} characters')
+    
+    updated = HanjaCharacter.objects.bulk_update(chars_to_update, ['result_ranking'], batch_size=1000)
 
     self.stdout.write(self.style.SUCCESS(f'Successfully finished executing command; updated {updated} characters'))

@@ -22,16 +22,24 @@ def validate_hanja_data(hanja_char_data):
     value = hanja_char_data.get(field, "")
     if not re.match(pattern, value):
       if not value == "":
-        print(f"Manually check for character {hanja_char_data.get("character", "?")}; field {field} violates regex rules.")
+        print("Manually check for character {0}; field {1} violates regex rules.".format(
+          hanja_char_data.get("character", "?"), field))
         return False
   return True
 
 class Command(BaseCommand):
   
+  def add_arguments(self, parser):
+    parser.add_argument('hanja_fname', type=str, help='Path to the hanja JSON file')
+    parser.add_argument('hanzi_fname', type=str, help='Path to the hanzi text file')
+
   @no_translations
   def handle(self, *args, **kwargs):
-    hanja_fname = "api\\management\\dict_files\\hanja.json"
-    hanzi_fname = "api\\management\\dict_files\\makemeahanzi-data.txt"
+    # usually
+    #hanja_fname = "api\\management\\dict_files\\hanja.json"
+    #hanzi_fname = "api\\management\\dict_files\\makemeahanzi-data.txt"
+    hanja_fname = kwargs['hanja_fname']
+    hanzi_fname = kwargs['hanzi_fname']
 
     written_chars = 0
 

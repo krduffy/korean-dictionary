@@ -17,6 +17,7 @@ class Command(BaseCommand):
   def handle(self, *args, **kwargs):
     dict_dir = "api\\management\\dict_files\\우리말샘"
     json_files = []
+    BATCH_SIZE = 1000
 
     file = kwargs['fname']
     if not file:
@@ -26,21 +27,37 @@ class Command(BaseCommand):
     else:
       json_files.append(file)
 
-    for dict_file in json_files:
+    senses_to_add = []
 
+    for dict_file in json_files:
       with open(dict_file, mode='r', encoding='utf-8') as raw_file:
         dict_json = json.load(raw_file)
+        
         for sense_structure in dict_json["channel"]["item"]:
-          add_sense(sense_structure)
-        self.stdout.write('Finished adding all senses in file "%s"' % dict_file)
-    
+          senses_to_add.append(get_as_sense(sense_structure))
+          
+          if len(senses_to_add) >= BATCH_SIZE:
+            Sense.objects.bulk_create(senses_to_add)
+            self.stdout.write(f'Created {len(senses_to_add)} senses in bulk.')
+            senses_to_add = []
+
+    if senses_to_add:
+      Sense.objects.bulk_create(senses_to_add)
+      self.stdout.write(f'Created {len(senses_to_add)} senses in bulk.')
+
     # Now that they have all been read in.
     if file == 'all':
         # For relation_info:
       # 1. delete 001, 002 etc numbers at end of word string and remove ^ and -
       # 2. change target_code of word from its sense target code to the word's target code
       # 3. remove link (unused).
+      
+      senses_to_update = []
+
       for sense in Sense.objects.all():
+
+        changed = False
+
         if "relation_info" in sense.additional_info and sense.additional_info["relation_info"]:
           
           for relinfo in sense.additional_info["relation_info"]:
@@ -51,8 +68,8 @@ class Command(BaseCommand):
               relinfo.pop("link_target_code", None)
             relinfo.pop("link", None)
 
-          sense.save()
-
+          changed = True
+            
         # For proverb info:
         # 1. Change target code as above.
         # 2. Remove link as above.
@@ -64,7 +81,13 @@ class Command(BaseCommand):
               provinfo.pop("link_target_code", None)
             provinfo.pop("link", None)
           
-          sense.save()
+          changed = True
+
+        if changed:
+          senses_to_update.append(sense)
+        
+      Sense.objects.bulk_update(senses_to_update, ['additional_info'], batch_size=BATCH_SIZE)
+
     self.stdout.write(self.style.SUCCESS('Successfully finished executing command'))
 
 # Recursively changes everything in the obj passed in (a channelitem dictionary).
@@ -81,7 +104,7 @@ def recursively_clean_channelitem(obj):
         return obj
 
 # channel_item follows the general structure of ./json_structure.txt
-def add_sense(channel_item):
+def get_as_sense(channel_item):
 
   channel_item = recursively_clean_channelitem(channel_item)
 
@@ -125,7 +148,7 @@ def add_sense(channel_item):
                     category = sense_category, 
                     pos = sense_pos, 
                     additional_info = sense_additional_info)
-  new_sense.save()
+  return new_sense
   
 # Returns 0 if word was added successfully.
 # Returns 1 if word is already in the database.

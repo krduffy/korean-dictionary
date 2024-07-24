@@ -68,15 +68,19 @@ const HomePage = ({
                                     }
                                 />
 
-                                <SameHanjaSection
-                                    sameHanjaData={homepageData.same_hanja}
-                                />
+                                {homepageData.same_hanja && (
+                                    <SameHanjaSection
+                                        sameHanjaData={homepageData.same_hanja}
+                                    />
+                                )}
 
-                                <StudyWordSection
-                                    studyWordData={
-                                        homepageData.random_study_words
-                                    }
-                                />
+                                {homepageData.random_study_words && (
+                                    <StudyWordSection
+                                        studyWordData={
+                                            homepageData.random_study_words
+                                        }
+                                    />
+                                )}
                             </div>
                         )
                     )}
