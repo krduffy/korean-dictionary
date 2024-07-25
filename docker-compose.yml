@@ -9,6 +9,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.backend
+    image: krduffy/korean-dictionary:backend
     ports:
       - "8000:8000"
     depends_on:
@@ -18,6 +19,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.database
+    image: krduffy/korean-dictionary:db
     environment:
       POSTGRES_DB: korean-dict-db
       POSTGRES_USER: username
@@ -29,5 +31,6 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile.frontend
+    image: krduffy/korean-dictionary:frontend
     ports:
       - "5173:5173"
