@@ -49,10 +49,10 @@ This project is licensed under the GNU General Public License v3.0 (GPL-3.0). Se
 
 This project uses various third-party resources and libraries, each with its own license:
 
-- Data from Urimalsaem (우리말샘): [Creative Commons Attribution-ShareAlike 2.0 Korea (CC BY-SA 2.0 KR)](https://creativecommons.org/licenses/by-sa/2.0/kr/)
-- Data from Namuwiki (나무위키): [Creative Commons Attribution-ShareAlike 2.0 Korea (CC BY-SA 2.0 KR)](https://creativecommons.org/licenses/by-sa/2.0/kr/)
-- Hanzi Writer: [MIT License](https://github.com/chanind/hanzi-writer/blob/master/LICENSE)
-- Data from makemeahanzi: [GNU Lesser General Public License (LGPL)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
-- konlpy: [GNU General Public License (GPL)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+- Data from Urimalsaem (우리말샘): [Creative Commons Attribution-ShareAlike 2.0 Korea (CC BY-SA 2.0 KR)]()
+- Data from Namuwiki (나무위키): [Creative Commons Attribution-NonCommercial-ShareAlike 2.0 Korea (CC BY-NC-SA 2.0 KR)](LICENSES/by-nc-sa-2.0-kr.txt)
+- Hanzi Writer: [MIT License](LICENSES/mit.txt)
+- Data from makemeahanzi: [GNU Lesser General Public License (LGPL)](LICENSES/lgpl.txt)
+- konlpy: [GNU General Public License (GPL)](LICENSES/gpl.txt)
 
 Please refer to each project's license for more details on their terms of use.
