@@ -97,9 +97,10 @@ const GetUnknownWordsForm = () => {
                 ) : error ? (
                     <ErrorMessage errorResponse={response} />
                 ) : unknownWords.length == 0 ? (
-                    <div>
-                        {interactedRef?.current === true &&
-                            "모르는 단어가 없습니다."}
+                    <div className="center-children-horizontal ">
+                        {interactedRef?.current === true && (
+                            <span>모르는 단어가 없습니다.</span>
+                        )}
                     </div>
                 ) : (
                     <>

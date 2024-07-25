@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from .models import DictionaryUser
+from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate
-
+import re
 
 class UserSerializer(serializers.ModelSerializer):
   class Meta:
@@ -36,7 +37,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         username = attrs.get('username', '')
         if DictionaryUser.objects.filter(username=username).exists():
-            raise serializers.ValidationError({'아이디': '이미 사용 중인 아이디입니다.'})
+          raise serializers.ValidationError({'아이디': '이미 사용 중인 아이디입니다.'})
         return attrs
 
     def create(self, validated_data):

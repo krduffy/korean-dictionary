@@ -487,7 +487,7 @@ class HanjaGameView(APIView):
     
     if not hanja_path:
       return Response({
-        "errors": ["Could not find path."]
+        "errors": ["아는 단어가 부족하여 게임을 생성할 수 없었습니다."]
       }, status=status.HTTP_404_NOT_FOUND)
 
     path_length = len(hanja_path)

@@ -47,7 +47,7 @@ const HomePage = ({
         <React.Fragment>
             {authInfo["token"] == null ? (
                 <div className="lrpad-15 textcentered underlined">
-                    로그인 후 개인에 맞는 홈페이가 볼 수 있습니다.
+                    로그인 후 개인에 맞는 홈페이지를 볼 수 있습니다.
                 </div>
             ) : (
                 <div>
@@ -68,13 +68,14 @@ const HomePage = ({
                                     }
                                 />
 
-                                {homepageData.same_hanja && (
+                                {Object.keys(homepageData.same_hanja).length >
+                                    0 && (
                                     <SameHanjaSection
                                         sameHanjaData={homepageData.same_hanja}
                                     />
                                 )}
 
-                                {homepageData.random_study_words && (
+                                {homepageData.random_study_words.length > 0 && (
                                     <StudyWordSection
                                         studyWordData={
                                             homepageData.random_study_words

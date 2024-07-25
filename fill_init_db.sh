@@ -12,12 +12,22 @@ if [ "$TABLES" -eq "0" ]; then
   echo "Database is empty. Running migrations and initial data load..."
   SAMPLE_DATA_DIR="api/management/sample_docker_data"
 
+  echo "Migrating..."
   python manage.py migrate
+
+  echo "Filling sample database..."
   python manage.py read_dict_jsons "$SAMPLE_DATA_DIR/sample.json"
   python manage.py remove_html
+
+  echo "Adding Hanja characters to database..."
   python manage.py read_hanja_txt "$SAMPLE_DATA_DIR/hanja_sample.json" "$SAMPLE_DATA_DIR/makemeahanzi-data.txt"
   python manage.py replace_radicals "$SAMPLE_DATA_DIR/makemeahanzi-data.txt"
   python manage.py add_hanja_level
+  
+  echo "Adding test user..."
+  python manage.py add_superuser
+
+  echo "Completed database initialization."
 else
   echo "Database is not empty. Skipping initialization."
 fi
