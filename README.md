@@ -49,7 +49,7 @@ This project is licensed under the GNU General Public License v3.0 (GPL-3.0). Se
 
 This project uses various third-party resources and libraries, each with its own license:
 
-- Data from Urimalsaem (우리말샘): [Creative Commons Attribution-ShareAlike 2.0 Korea (CC BY-SA 2.0 KR)]()
+- Data from Urimalsaem (우리말샘): [Creative Commons Attribution-ShareAlike 2.0 Korea (CC BY-SA 2.0 KR)](LICENSES/by-nc-sa-2.0-kr.txt)
 - Data from Namuwiki (나무위키): [Creative Commons Attribution-NonCommercial-ShareAlike 2.0 Korea (CC BY-NC-SA 2.0 KR)](LICENSES/by-nc-sa-2.0-kr.txt)
 - Hanzi Writer: [MIT License](LICENSES/mit.txt)
 - Data from makemeahanzi: [GNU Lesser General Public License (LGPL)](LICENSES/lgpl.txt)
