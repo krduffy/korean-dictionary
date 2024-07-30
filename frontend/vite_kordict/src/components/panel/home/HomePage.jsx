@@ -223,7 +223,7 @@ const SameHanjaSection = ({ sameHanjaData }) => {
                         <li key={id}>
                             <div className="flex full-width">
                                 <div
-                                    className="pointer"
+                                    className="pointer textcentered"
                                     style={{
                                         width: "100px",
                                         height: "100px",
@@ -240,35 +240,42 @@ const SameHanjaSection = ({ sameHanjaData }) => {
                                         });
                                     }}
                                 >
-                                    <HanjaWriter
-                                        character={sameHanjaItem[0]}
-                                        writerArgs={{
-                                            width: 100,
-                                            height: 100,
-                                            showCharacter: false,
-                                            showOutline: false,
-                                            strokeAnimationSpeed: 3,
-                                            delayBetweenStrokes: 5,
-                                            onLoadCharDataSuccess: () => {
-                                                setTimeout(() => {
-                                                    if (ref.current) {
-                                                        ref.current.animateCharacter();
-                                                    }
-                                                }, 1000);
-                                            },
-                                            onLoadCharDataError: () => {
-                                                setHanjaDataLoadError(true);
-                                                console.log(
-                                                    `failed to load data for ${sameHanjaItem[0]}`
-                                                );
-                                            },
-                                        }}
-                                        ref={ref}
-                                    />
-                                    {/* failsafe for if the data doesnt load properly.
-                                    it will instead print the static unicode symbol */}
-                                    {hanjaDataLoadError && (
-                                        <span>{sameHanjaItem[0]}</span>
+                                    {!hanjaDataLoadError ? (
+                                        <HanjaWriter
+                                            character={sameHanjaItem[0]}
+                                            writerArgs={{
+                                                width: 100,
+                                                height: 100,
+                                                showCharacter: false,
+                                                showOutline: false,
+                                                strokeAnimationSpeed: 3,
+                                                delayBetweenStrokes: 5,
+                                                onLoadCharDataSuccess: () => {
+                                                    setTimeout(() => {
+                                                        if (ref.current) {
+                                                            ref.current.animateCharacter();
+                                                        }
+                                                    }, 1000);
+                                                },
+                                                onLoadCharDataError: () => {
+                                                    setHanjaDataLoadError(true);
+                                                    console.log(
+                                                        `failed to load data for ${sameHanjaItem[0]}`
+                                                    );
+                                                },
+                                            }}
+                                            ref={ref}
+                                        />
+                                    ) : (
+                                        /* failsafe for if the data doesnt load properly.
+                                    it will instead print the static unicode symbol */
+                                        <span
+                                            style={{
+                                                fontSize: "50px",
+                                            }}
+                                        >
+                                            {sameHanjaItem[0]}
+                                        </span>
                                     )}
                                 </div>
                                 <div className="same-hanja-section-examples">

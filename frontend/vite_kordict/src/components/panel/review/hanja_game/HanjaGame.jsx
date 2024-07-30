@@ -1,10 +1,4 @@
-import React, {
-    useContext,
-    useEffect,
-    useLayoutEffect,
-    useRef,
-    useState,
-} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -17,7 +11,6 @@ import { AuthenticationInfoContext } from "../../../../App.jsx";
 import { ViewContext } from "../../Panel.jsx";
 import ErrorMessage from "../../messages/ErrorMessage.jsx";
 import { LoadingMessage } from "../../messages/LoadingMessage.jsx";
-import HanjaCharacterSpan from "../../string_formatters/HanjaCharacterSpan.jsx";
 import ConnectionBoard from "./ConnectionBoard.jsx";
 import SubmitArea from "./SubmitArea.jsx";
 import UsableCharactersBoard from "./UsableCharactersBoard.jsx";
@@ -126,8 +119,6 @@ const HanjaGame = ({ initialSeed }) => {
 
     const getGame = () => {
         const setData = async () => {
-            console.log("in get game : cur is " + currentSeedRef.current);
-
             const data = await apiFetch(
                 `api/hanja_game_info/?length=${HANJA_GAME_LENGTH}&seed=${currentSeedRef.current}`,
                 authInfo["token"]

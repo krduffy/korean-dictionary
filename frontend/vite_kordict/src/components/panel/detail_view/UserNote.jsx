@@ -25,6 +25,10 @@ export const UserNote = ({ noteData, disableClick, nestLevel }) => {
                     ? `curved-box-nest${nestLevel} pad-10 textcentered`
                     : "curved-box pad-10 textcentered"
             }
+            style={{
+                /* zoom in because clicking brings up the full view of the image in the note. */
+                cursor: disableClick ? "" : "zoom-in",
+            }}
             onClick={() => {
                 if (!disableClick) {
                     updateViewAndPushToHistory({
@@ -40,7 +44,7 @@ export const UserNote = ({ noteData, disableClick, nestLevel }) => {
         >
             <img
                 className=""
-                style={{ maxHeight: "200px" }}
+                style={{ maxHeight: "200px", maxWidth: "100%" }}
                 src={BASE_URL + noteData["note_image"]}
             ></img>
             <div className="tbmargin-10">{noteData.note_text}</div>

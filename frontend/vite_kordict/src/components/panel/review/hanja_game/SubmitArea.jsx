@@ -122,15 +122,34 @@ const InstructionQuestionMark = ({ startFrom, goTo }) => {
 
 const SuccessArea = ({ getNextGame }) => {
     return (
-        <div>
-            성공!
-            <button
-                onClick={() => {
-                    getNextGame();
+        <div
+            className="textcentered lrpad-10 space-children-vertical"
+            style={{
+                gridRow: "1 / 5",
+                gridColumn: "1 / 2",
+                paddingTop: "20px",
+                paddingBottom: "20px",
+            }}
+        >
+            <div
+                className="full-width textcentered"
+                style={{
+                    color: "var(--gold)",
+                    fontSize: "24px",
                 }}
             >
-                다른 게임 하기
-            </button>
+                성공!
+            </div>
+            <div className="center-children-horizontal pad-10">
+                <button
+                    className="full-width"
+                    onClick={() => {
+                        getNextGame();
+                    }}
+                >
+                    다른 게임 풀어보기
+                </button>
+            </div>
         </div>
     );
 };

@@ -618,7 +618,14 @@ class HanjaGameSolutionVerifierView(APIView):
 
     errors = []
     
+    final_index = 3
+
     for i in range (len(words)):
+
+      if words[i] == "":
+        final_index = i - 1
+        break
+
       errors_for_character = []
 
       if not KoreanWord.objects.filter(origin__exact = words[i]).exists():
@@ -627,6 +634,8 @@ class HanjaGameSolutionVerifierView(APIView):
       for character in words[i]:
         if character not in allowed_characters:
           errors_for_character.append(f"{character}는 게임용 한자가 아닙니다.")
+        if character == go_to:
+          word_with_final_index = i
 
       if i > 0:
         found_link = False
@@ -638,12 +647,16 @@ class HanjaGameSolutionVerifierView(APIView):
           errors_for_character.append("이전 줄 한자어와 공통 한자가 포함되지 않습니다.")
 
       errors.append(errors_for_character)
+
+      # if true then it was just found
+      if i == final_index:
+        break
     
     if start_from not in words[0]:
       errors[0].append("첫 한자어는 출발 자가 포함되어야 합니다.")
     
-    if go_to not in words[len(words) - 1]:
-      errors[len(words) - 1].append("마지막 한자어는 도착 자가 포함되어야 합니다.")
+    if go_to not in words[final_index]:
+      errors[final_index].append("마지막 한자어는 도착 자가 포함되어야 합니다.")
 
     for error_list in errors:
       if len(error_list) > 0:

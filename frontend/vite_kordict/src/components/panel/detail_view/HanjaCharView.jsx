@@ -48,9 +48,13 @@ const HanjaCharView = ({ hanjaChar }) => {
     return (
         <>
             {loading ? (
-                <LoadingMessage />
+                <>
+                    <AbridgedMainInfo character={hanjaChar} />{" "}
+                    <LoadingMessage />
+                </>
             ) : error ? (
                 <>
+                    <AbridgedMainInfo character={hanjaChar} />
                     <ErrorMessage errorResponse={response} />
                     <br />
                 </>
@@ -366,6 +370,27 @@ const HanjaCharView = ({ hanjaChar }) => {
                 </div>
             )}
         </>
+    );
+};
+
+const AbridgedMainInfo = ({ character }) => {
+    return (
+        <div
+            className=" main-info-section lrpad-10"
+            style={{
+                /* 150 is to make room for hanja writer */
+                width: "calc(100% - 150px)",
+                display: "inline-block",
+                verticalAlign: "top",
+                /* padding to prevent stuttering when toggling from 
+                                       hanja tester to stroke playback */
+                paddingBottom: "20px",
+                fontSize: "40px",
+                paddingRight: "20px",
+            }}
+        >
+            {character}
+        </div>
     );
 };
 

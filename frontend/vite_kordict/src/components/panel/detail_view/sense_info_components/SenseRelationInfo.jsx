@@ -12,6 +12,7 @@ const SenseRelationInfo = ({ relationInfo }) => {
         "높임말",
         "옛말",
         "참고 어휘",
+        "본말"
     ];
 
     const updateViewAndPushToHistory =

@@ -15,6 +15,7 @@ ul {
     --brownred: #59211b;
     --bluepurple: #25254d;
     --cyan: #344e61;
+    --gold: rgb(218, 165, 32);
 }
 
 .shaded-background {
@@ -91,6 +92,12 @@ ul {
 .space-children-horizontal {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+}
+
+.space-children-vertical {
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
 }
 
