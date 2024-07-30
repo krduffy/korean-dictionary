@@ -1,5 +1,5 @@
 export const cache = {};
-export const CACHE_CAPACITY = 200;
+export const CACHE_CAPACITY = 300;
 
 let itemsStored = 0;
 
@@ -149,9 +149,15 @@ const changeUserDataInPlace = (url, userDataKey, newBoolean, targetCode) => {
 export const cachePut = (url, response) => {
     if (Object.keys(cache).includes(url)) {
         cache[url].lastAccessed = ++counter;
+    } else {
+        cache[url] = {
+            lastAccessed: ++counter,
+            response: response,
+        };
+        itemsStored++;
     }
 
-    if (itemsStored >= CACHE_CAPACITY) {
+    if (itemsStored > CACHE_CAPACITY) {
         /* evict least recently used */
 
         let lowest = Infinity;
@@ -169,11 +175,8 @@ export const cachePut = (url, response) => {
         itemsStored--;
     }
 
-    cache[url] = {
-        lastAccessed: ++counter,
-        response: response,
-    };
-    itemsStored++;
+    console.log(cache);
+    console.log(itemsStored);
 };
 
 /* Not currently used for anything because logging in and out just calls the clear cache function */
