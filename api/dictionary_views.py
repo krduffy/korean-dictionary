@@ -1,4 +1,5 @@
 
+import django
 from rest_framework import status
 from django.http import JsonResponse
 from django.db.models import Case, When, Value, BooleanField, Q
@@ -75,8 +76,12 @@ class KoreanWordList(generics.ListAPIView):
     # Word is not hanja input
     regized_search_term = '^' + search_term + '$'
 
+    try: 
+      re.compile(regized_search_term)
+    except re.error:
+      regized_search_term = re.escape(regized_search_term)
+
     queryset = queryset.filter(word__iregex = regized_search_term)
-    
 
     if self.request.user.is_authenticated:
       return prioritize_known_or_studying(queryset=queryset, user=self.request.user)

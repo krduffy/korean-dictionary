@@ -98,7 +98,7 @@ const HanjaCharView = ({ hanjaChar }) => {
                                     </span>
                                 </div>
 
-                                <div className="full-width pad-10">
+                                <div className="full-width">
                                     <table
                                         style={{
                                             width: "50%",

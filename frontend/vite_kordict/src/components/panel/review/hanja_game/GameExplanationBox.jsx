@@ -5,6 +5,9 @@ import PopupBox from "../../string_formatters/PopupBox.jsx";
 import "./hanja-game-styles.css";
 
 const GameExplanationBox = ({ fromX, fromY }) => {
+    /* from the highlighting in ConnectionBoard */
+    const colors = ["#800000", "#994D00", "#004000", "#000080", "#400040"];
+
     return (
         <PopupBox fromX={fromX} fromY={fromY} positioning="fit" padding={25}>
             <div
@@ -56,6 +59,10 @@ const GameExplanationBox = ({ fromX, fromY }) => {
                             출발 자, 도착 자 둘 다 포함되는 한자어가 있다면
                             갈끔하게 1자로만 완료할 수 있습니다.
                         </li>
+                        <li>
+                            이어지는 자는 같은 색이 물들여집니다. 마지막 줄에
+                            도착 자를 들이시면 색이 자동으로 변합니다.
+                        </li>
                     </ul>
                 </div>
 
@@ -63,26 +70,53 @@ const GameExplanationBox = ({ fromX, fromY }) => {
                     예시:
                     <ul className="explanation-list">
                         <li style={{ paddingBottom: "5px" }}>
-                            출발 자 <span style={{ color: "red" }}>金</span>부터
-                            도착 자{" "}
-                            <span style={{ color: "midnightblue" }}>出</span>
+                            출발 자{" "}
+                            <span style={{ backgroundColor: colors[0] }}>
+                                金
+                            </span>
+                            부터 도착 자{" "}
+                            <span style={{ backgroundColor: colors[4] }}>
+                                出
+                            </span>
                             까지 잇기:
                         </li>
                         <li>
-                            금요일 <span style={{ color: "red" }}>金</span>
-                            <span style={{ color: "orange" }}>曜</span>日
+                            금요일{" "}
+                            <span style={{ backgroundColor: colors[0] }}>
+                                金
+                            </span>
+                            <span style={{ backgroundColor: colors[1] }}>
+                                曜
+                            </span>
+                            日
                         </li>
                         <li>
-                            화요일 <span style={{ color: "yellow" }}>火</span>
-                            <span style={{ color: "orange" }}>曜</span>日
+                            화요일{" "}
+                            <span style={{ backgroundColor: colors[2] }}>
+                                火
+                            </span>
+                            <span style={{ backgroundColor: colors[1] }}>
+                                曜
+                            </span>
+                            日
                         </li>
                         <li>
-                            분화 <span style={{ color: "green" }}>噴</span>
-                            <span style={{ color: "yellow" }}>火</span>
+                            분화{" "}
+                            <span style={{ backgroundColor: colors[3] }}>
+                                噴
+                            </span>
+                            <span style={{ backgroundColor: colors[2] }}>
+                                火
+                            </span>
                         </li>
                         <li>
-                            분출 <span style={{ color: "green" }}>噴</span>
-                            <span style={{ color: "midnightblue" }}>出</span>
+                            분출{" "}
+                            <span style={{ backgroundColor: colors[3] }}>
+                                噴
+                            </span>
+                            <span style={{ backgroundColor: colors[4] }}>
+                                出
+                            </span>
                         </li>
                     </ul>
                 </div>
