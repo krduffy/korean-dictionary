@@ -2,6 +2,30 @@
 
 A Korean dictionary web application for intermediate learners of Korean.
 
+## Features
+
+- Search words in the Korean dictionary (select 한 next to the search bar) or the Hanja dictionary (select 漢 next to the search bar).
+
+  For Korean words:  
+    - View information about a word's meanings, examples of its usage, its history, relations with other words, and more.
+  
+  For Hanja characters:  
+    - View information about a character's meaning, Korean words that contain the character, and more.
+    - Practice writing the character with a testing feature.
+    
+- Click on words in most sentences to automatically search for the word in the Korean dictionary. This can be inaccurate.
+- Move between pages viewed with the arrows to the right of the search bar.
+- Paste clipboard contents into the search bar with the button to the immediate left of the search bar.
+- All features are panel-specific; the settings of one half of the screen do not affect the other.
+- If you only want one panel, click the down arrow at the far right of the top bar to hide a panel's contents.
+
+If you create an account and log in, the following features are also available:
+- The ability to add personal (and private) example sentences and pictures to any Korean word's dictionary entry.
+- Add words to your list of known words and your list of words you are currently studying.
+- All Korean word result lists are reordered to move words you know or are studying to the top of the results.
+- View a homepage with access to:
+  - A reminder about words in your study list and words you know with a shared Hanja character.
+  - A Hanja game to review the Hanja origins of Korean words.
 
 ## Inspiration
 The goal of this project was to combine the best parts of several existing resources for Korean learners/general learners:  
@@ -56,3 +80,5 @@ This project uses various third-party resources and libraries, each with its own
 - konlpy: [GNU General Public License (GPL)](LICENSES/gpl.txt)
 
 Please refer to each project's license for more details on their terms of use.
+  - A tool to expedite the process of adding words to your list of known words.
+  - Lists of your known words and study words.
