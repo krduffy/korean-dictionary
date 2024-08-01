@@ -1,5 +1,7 @@
 # korean-dictionary
 
+* 이 문서는 한국어로도 읽을 수 있습니다. [바로가기](README_kr.md)
+
 A Korean dictionary web application for intermediate learners of Korean.
 
 ## Features
@@ -24,8 +26,10 @@ If you create an account and log in, the following features are also available:
 - Add words to your list of known words and your list of words you are currently studying.
 - All Korean word result lists are reordered to move words you know or are studying to the top of the results.
 - View a homepage with access to:
+  - Lists of your known words and studying words.
   - A reminder about words in your study list and words you know with a shared Hanja character.
   - A Hanja game to review the Hanja origins of Korean words.
+  - A tool to expedite the process of adding words to your list of known words.
 
 ## Inspiration
 The goal of this project was to combine the best parts of several existing resources for Korean learners/general learners:  
@@ -49,7 +53,7 @@ The following resources are used in this project:
 * [makemeahanzi](https://www.skishore.me/makemeahanzi/) ([git](https://github.com/skishore/makemeahanzi)) for Hanja character data
 * [konlpy](https://konlpy.org/en/latest/) ([git](https://github.com/konlpy/konlpy)) for Korean language processing  
 
-## Running / Trying the Dictionary
+## Trying the Dictionary
 
 There are two options for locally running a test dictionary with an abridged dataset, both of which use [Docker](https://www.docker.com/).
 
@@ -80,5 +84,3 @@ This project uses various third-party resources and libraries, each with its own
 - konlpy: [GNU General Public License (GPL)](LICENSES/gpl.txt)
 
 Please refer to each project's license for more details on their terms of use.
-  - A tool to expedite the process of adding words to your list of known words.
-  - Lists of your known words and study words.
