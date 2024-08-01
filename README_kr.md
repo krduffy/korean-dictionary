@@ -55,6 +55,10 @@ This document is also available in English. [Go to English version](README.md)
 
 [다커(Docker)](https://www.docker.com/)가 로컬에서 설치되어 있으면 사전을 써볼 수 있으며, 이는 두 가지 방법이 있습니다.
 
+다커를 깔아놓기가 안 하고 싶으시다면 예시 동영상을 보실 수 있습니다.
+
+[![예시 동영상 링크](https://img.youtube.com/vi/u57sR2-4sS8/0.jpg)](https://www.youtube.com/watch?v=u57sR2-4sS8)
+
 사전을 사용해보면 아이디 '척척박사'와 비밀번호 'secret'으로 로그인할 수 있습니다. 이 계정은 사전에 모든 단어를 알고 있으니까 한자 게임을 편하게 해볼 수 있습니다. 
 (이미 알던 단어를 아는 단어 목록에 추가하는 과정이 수십 시간이 걸립니다.) 
 
