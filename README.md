@@ -16,6 +16,7 @@ A Korean dictionary web application for intermediate learners of Korean.
     - Practice writing the character with a testing feature.
     
 - Click on words in most sentences to automatically search for the word in the Korean dictionary. This can be inaccurate.
+- Hover over most Hanja characters to view their meanings and some words containing the character. Click to search for the character in the Hanja dictionary.
 - Move between pages viewed with the arrows to the right of the search bar.
 - Paste clipboard contents into the search bar with the button to the immediate left of the search bar.
 - All features are panel-specific; the settings of one half of the screen do not affect the other.
@@ -56,6 +57,10 @@ The following resources are used in this project:
 ## Trying the Dictionary
 
 There are two options for locally running a test dictionary with an abridged dataset, both of which use [Docker](https://www.docker.com/).
+
+If you do not have Docker installed or do not want to install Docker, you can instead watch a demo video here. There are English subtitles available.
+
+[![Link to demo video](https://img.youtube.com/vi/u57sR2-4sS8/0.jpg)](https://www.youtube.com/watch?v=u57sR2-4sS8)
 
 If you use either option to run the dictionary, you can log in with the username '척척박사' and the password 'secret'. This account knows every word in the dictionary,
 which is good for trying the Hanja game without spending hours adding words to the known list.

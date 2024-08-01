@@ -9,6 +9,7 @@ This document is also available in English. [Go to English version](README.md)
   - 한국어 단어는 뜻풀이, 용례, 역사적인 형태 같은 정보를 확인할 수 있으며 한자는 훈음, 해당 한자가 담긴 한국어 단어 목록 같은 정보를 확인할 수 있습니다.
   - 한자는 획순을 보거나 획순 시험을 해볼 수도 있습니다.
 - 대부분 문장은 어떤 단어를 클릭하면 한국어 사전에 검색됩니다.
+- 대부분 한자 위에 마우스를 올려놓으면 훈음과 해당 한자가 담긴 단어가 보입니다. 클릭하면 한자 사전에 검색됩니다.
 - 검색어 구역 오른쪽에 있는 화살표를 클릭하면 이전 페이지나 이후 페이지로 이동할 수 있습니다.
 - 검색어 구역 바로 왼쪽에 있는 버튼을 누르면 복사한 내용을 검색어로 붙여내기를 합니다.
 - 화면이 갈라져 있는데 모든 특징은 해당 화면 절반에만 유효합니다.
@@ -41,7 +42,7 @@ This document is also available in English. [Go to English version](README.md)
 
 백엔드: Django  
 * [REST framework](https://www.django-rest-framework.org)  
-* [Knox](https://github.com/jazzband/django-rest-knox) (계정 입증)
+* [Knox](https://github.com/jazzband/django-rest-knox) (계정 인증)
 
 이 프로젝트는 다음 리소스를 이용합니다.  
 * [우리말샘](https://opendict.korean.go.kr/main)의 기본 사전 데이터  
@@ -53,6 +54,10 @@ This document is also available in English. [Go to English version](README.md)
 ## 사전을 직접 써보기
 
 [다커(Docker)](https://www.docker.com/)가 로컬에서 설치되어 있으면 사전을 써볼 수 있으며, 이는 두 가지 방법이 있습니다.
+
+다커를 깔아놓기가 안 하고 싶으시다면 예시 동영상을 보실 수 있습니다. 본 동영상은 소리가 안 나니 자막을 켜고 보시길 바랍니다.
+
+[![예시 동영상 링크](https://img.youtube.com/vi/u57sR2-4sS8/0.jpg)](https://www.youtube.com/watch?v=u57sR2-4sS8)
 
 사전을 사용해보면 아이디 '척척박사'와 비밀번호 'secret'으로 로그인할 수 있습니다. 이 계정은 사전에 모든 단어를 알고 있으니까 한자 게임을 편하게 해볼 수 있습니다. 
 (이미 알던 단어를 아는 단어 목록에 추가하는 과정이 수십 시간이 걸립니다.) 
