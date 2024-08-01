@@ -18,7 +18,7 @@ class Command(BaseCommand):
     all_known_tcs = list(KoreanWord.objects.filter(known_by__isnull = False).values_list('target_code', flat=True))
     matches = []
 
-    max_words = 2000
+    max_words = 250
 
     found_tcs = []
 
@@ -37,8 +37,12 @@ class Command(BaseCommand):
 
             if tc in found_tcs:
               matches.append(channel_item)
-          
+
         self.stdout.write('Finished checking senses in file "%s"' % dict_file)
+          
+      if len(found_tcs) >= max_words:
+        self.stdout.write('Hit max words; breaking.')
+        break
 
     new_file = ".\\sample.json"
     with open(new_file, 'w', encoding='utf-8') as sample_json:
