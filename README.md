@@ -1,6 +1,6 @@
 # korean-dictionary
 
-* 이 문서는 한국어로도 읽을 수 있습니다. [바로가기](README_kr.md)
+이 문서는 한국어로도 읽을 수 있습니다. [바로가기](README_kr.md)
 
 A Korean dictionary web application for intermediate learners of Korean.
 
