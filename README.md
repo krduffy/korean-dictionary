@@ -58,6 +58,10 @@ The following resources are used in this project:
 
 There are two options for locally running a test dictionary with an abridged dataset, both of which use [Docker](https://www.docker.com/).
 
+If you do not have Docker installed or do not want to install Docker, you can instead watch a demo video here. There are English subtitles available.
+
+[![Link to demo video](https://img.youtube.com/vi/u57sR2-4sS8/0.jpg)](https://www.youtube.com/watch?v=u57sR2-4sS8)
+
 If you use either option to run the dictionary, you can log in with the username '척척박사' and the password 'secret'. This account knows every word in the dictionary,
 which is good for trying the Hanja game without spending hours adding words to the known list.
 
