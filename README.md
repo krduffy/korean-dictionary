@@ -57,6 +57,9 @@ The following resources are used in this project:
 
 There are two options for locally running a test dictionary with an abridged dataset, both of which use [Docker](https://www.docker.com/).
 
+If you use either option to run the dictionary, you can log in with the username '척척박사' and the password 'secret'. This account knows every word in the dictionary,
+which is good for trying the Hanja game without spending hours adding words to the known list.
+
 ### Run Locally with Docker Compose
 1. Download this repository.
 2. Run the command `docker-compose up --build` in the downloaded project's top-level directory (/korean-dictionary).
