@@ -55,7 +55,7 @@ This document is also available in English. [Go to English version](README.md)
 
 [다커(Docker)](https://www.docker.com/)가 로컬에서 설치되어 있으면 사전을 써볼 수 있으며, 이는 두 가지 방법이 있습니다.
 
-다커를 깔아놓기가 안 하고 싶으시다면 예시 동영상을 보실 수 있습니다.
+다커를 깔아놓기가 안 하고 싶으시다면 예시 동영상을 보실 수 있습니다. 본 동영상은 소리가 안 나니 자막을 켜고 보시길 바랍니다.
 
 [![예시 동영상 링크](https://img.youtube.com/vi/u57sR2-4sS8/0.jpg)](https://www.youtube.com/watch?v=u57sR2-4sS8)
 
