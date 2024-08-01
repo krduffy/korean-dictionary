@@ -16,6 +16,7 @@ A Korean dictionary web application for intermediate learners of Korean.
     - Practice writing the character with a testing feature.
     
 - Click on words in most sentences to automatically search for the word in the Korean dictionary. This can be inaccurate.
+- Hover over most Hanja characters to view their meanings and some words containing the character. Click to search for the character in the Hanja dictionary.
 - Move between pages viewed with the arrows to the right of the search bar.
 - Paste clipboard contents into the search bar with the button to the immediate left of the search bar.
 - All features are panel-specific; the settings of one half of the screen do not affect the other.
