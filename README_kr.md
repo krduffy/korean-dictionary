@@ -42,7 +42,7 @@ This document is also available in English. [Go to English version](README.md)
 
 백엔드: Django  
 * [REST framework](https://www.django-rest-framework.org)  
-* [Knox](https://github.com/jazzband/django-rest-knox) (계정 입증)
+* [Knox](https://github.com/jazzband/django-rest-knox) (계정 인증)
 
 이 프로젝트는 다음 리소스를 이용합니다.  
 * [우리말샘](https://opendict.korean.go.kr/main)의 기본 사전 데이터  
