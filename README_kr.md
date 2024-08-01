@@ -54,6 +54,9 @@ This document is also available in English. [Go to English version](README.md)
 
 [다커(Docker)](https://www.docker.com/)가 로컬에서 설치되어 있으면 사전을 써볼 수 있으며, 이는 두 가지 방법이 있습니다.
 
+사전을 사용해보면 아이디 '척척박사'와 비밀번호 'secret'으로 로그인할 수 있습니다. 이 계정은 사전에 모든 단어를 알고 있으니까 한자 게임을 편하게 해볼 수 있습니다. 
+(이미 알던 단어를 아는 단어 목록에 추가하는 과정이 수십 시간이 걸립니다.) 
+
 ### Docker Compose 사용법
 1. 이 리포지토리를 다운받습니다.
 2. 다운받은 최상위 디렉터리(/korean-dictionary)에서 `docker-compose up --build` 명령어를 실행합니다.
