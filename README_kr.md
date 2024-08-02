@@ -55,12 +55,21 @@ This document is also available in English. [Go to English version](README.md)
 
 [다커(Docker)](https://www.docker.com/)가 로컬에서 설치되어 있으면 사전을 써볼 수 있으며, 이는 두 가지 방법이 있습니다.
 
+시도해보시면 명심할 점:
+1. 단어수가 높으면 다커컨테이너 용량도 증가하니 데이터베이스는 거의 모든 단어가 누락되어 있습니다.
+2. 사전을 사용해보면 아이디 '척척박사'와 비밀번호 'secret'으로 로그인할 수 있습니다. 이 계정은 사전에 모든 단어를 알고 있으니까 한자 게임을 편하게 해볼 수 있습니다. 
+(이미 알던 단어를 아는 단어 목록에 추가하는 과정이 수십 시간이 걸립니다.) 
+
 다커를 깔아놓기가 안 하고 싶으시다면 예시 동영상을 보실 수 있습니다. 본 동영상은 소리가 안 나니 자막을 켜고 보시길 바랍니다.
 
 [![예시 동영상 링크](https://img.youtube.com/vi/u57sR2-4sS8/0.jpg)](https://www.youtube.com/watch?v=u57sR2-4sS8)
 
-사전을 사용해보면 아이디 '척척박사'와 비밀번호 'secret'으로 로그인할 수 있습니다. 이 계정은 사전에 모든 단어를 알고 있으니까 한자 게임을 편하게 해볼 수 있습니다. 
-(이미 알던 단어를 아는 단어 목록에 추가하는 과정이 수십 시간이 걸립니다.) 
+### Docker Pull 사용법
+1. 터미널에서 `docker pull krduffy/korean-dictionary:latest` 명령어를 실행합니다.
+이는 본인 컴퓨터에 [이 프로젝트의 다커 리포지토리](https://hub.docker.com/repository/docker/krduffy/korean-dictionary/general)를
+복사해놓읍니다.
+2. 컨테이너를 작동하는 `docker run -p 5173:5173 krduffy/korean-dictionary:latest` 명령어를 실행합니다.
+3. 로컬호스트 포트 5173 ([링크](http://localhost:5173/))로 이동하면 사전을 써볼 수 있습니다.
 
 ### Docker Compose 사용법
 1. 이 리포지토리를 다운받습니다.
@@ -71,13 +80,6 @@ This document is also available in English. [Go to English version](README.md)
 
 #### 사전 데이터베이스 초기화
 데이터베이스 초기화하려면, 최상위 디렉터리에서 `docker-compose down -v` 명령어를 실행했다가 `docker-compose up --build` 명령어를 실행합니다.  
-
-### Docker Pull 사용법
-1. 터미널에서 `docker pull krduffy/korean-dictionary:latest` 명령어를 실행합니다.
-이는 본인 컴퓨터에 [이 프로젝트의 다커 리포지토리](https://hub.docker.com/repository/docker/krduffy/korean-dictionary/general)를
-복사해놓읍니다.
-2. 컨테이너를 작동하는 `docker run -p 5173:5173 krduffy/korean-dictionary:latest` 명령어를 실행합니다.
-3. 로컬호스트 포트 5173 ([링크](http://localhost:5173/))로 이동하면 사전을 써볼 수 있습니다.
 
 ## 라이선스
 
