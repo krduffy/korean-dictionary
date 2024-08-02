@@ -4,6 +4,14 @@
 
 A Korean dictionary web application for intermediate-advanced learners of Korean.
 
+## Table of Contents
+- [Features](#features)
+- [Inspiration](#inspiration)
+- [Technologies and Additional Resources](#technologies-and-additional-resources)
+- [Trying the Dictionary](#trying-the-dictionary)
+  - [Use Docker Compose](#use-docker-compose)
+- [License](#license)
+
 ## Features
 
 - Search words in the Korean dictionary (select 한 next to the search bar) or the Hanja dictionary (select 漢 next to the search bar).
@@ -68,7 +76,7 @@ If you do not have Docker installed or do not want to install Docker, you can in
 
 [![Link to demo video](https://img.youtube.com/vi/u57sR2-4sS8/0.jpg)](https://www.youtube.com/watch?v=u57sR2-4sS8)
 
-### Use Docker Pull
+### Use Docker Compose
 1. [Download the docker-compose.yml](docker-compose.yml) file for the project to your machine.
 2. In the directory with the .yml file, run `docker-compose up -d` to pull [the docker repository for this project](https://hub.docker.com/repository/docker/krduffy/korean-dictionary/general) and start running the image.
 3. Go to localhost port 5173 ([link](http://localhost:5173/)) to use the dictionary. It may take a second for the database to fill, so you may have network errors on API calls
