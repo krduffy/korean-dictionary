@@ -4,6 +4,14 @@ This document is also available in English. [Go to English version](README.md)
 
 한국어 중급 학생을 위한 웹 사전입니다.
 
+## 목차
+- [특징](#특징)
+- [만들게 된 계기](#만들게-된-계기)
+- [도구와 다른 리소스](#도구와-다른-리소스)
+- [사전을 직접 써보기](#사전을-직접-써보기)
+  - [Docker Compose 사용법](#docker-compose-사용법)
+- [라이선스](#라이선스)
+
 ## 특징
 - 검색어 구역 옆에 '한'을 선택해서 한국어 대사전에 검색하거나, '漢' 한자를 선택해서 한자 사전에 검색할 수 있습니다.
   - 한국어 단어는 뜻풀이, 용례, 역사적인 형태 같은 정보를 확인할 수 있으며 한자는 훈음, 해당 한자가 담긴 한국어 단어 목록 같은 정보를 확인할 수 있습니다.
@@ -37,7 +45,7 @@ This document is also available in English. [Go to English version](README.md)
 붙여서 맥락을 '저장'할 수 있게 됩니다. 또 단어를 검색 결과 순위에 올려밀릴 시스템을 통해서 한자 용례를 볼 때 정확하고 유익한 순서로 나열돼
 있습니다. 즉, 종이 사전 여백에다 적을 수 있듯이 개인적인 맥락을 적을 수 있는 전자 사전을 만들고 싶었습니다.
 
-## 도구와 다른 출처
+## 도구와 다른 리소스
 프론트엔드: 리액트 + CSS
 
 백엔드: Django  
@@ -55,29 +63,21 @@ This document is also available in English. [Go to English version](README.md)
 
 [다커(Docker)](https://www.docker.com/)가 로컬에서 설치되어 있으면 사전을 써볼 수 있으며, 이는 두 가지 방법이 있습니다.
 
+시도해보시면 명심할 점:
+1. 단어수가 높으면 다커컨테이너 용량도 증가하니 데이터베이스는 거의 모든 단어가 누락되어 있습니다.
+2. 가나다순으로 처음이니 누락되지 않은 단어는 첫 글자 총성이 주로 ㄱ입니다.
+3. 어떤 검색어를 입력해도 결과가 계속 안 나오지 않으면 모든 단어를 보여주는 '.*'를 검색해보세요.
+4. 사전을 사용해보면 아이디 '척척박사'와 비밀번호 'secret'으로 로그인할 수 있습니다. 이 계정은 사전에 모든 단어를 알고 있으니까 한자 게임을 편하게 해볼 수 있습니다. 
+(이미 알던 단어를 아는 단어 목록에 추가하는 과정이 수십 시간이 걸립니다.) 
+
 다커를 깔아놓기가 안 하고 싶으시다면 예시 동영상을 보실 수 있습니다. 본 동영상은 소리가 안 나니 자막을 켜고 보시길 바랍니다.
 
 [![예시 동영상 링크](https://img.youtube.com/vi/u57sR2-4sS8/0.jpg)](https://www.youtube.com/watch?v=u57sR2-4sS8)
 
-사전을 사용해보면 아이디 '척척박사'와 비밀번호 'secret'으로 로그인할 수 있습니다. 이 계정은 사전에 모든 단어를 알고 있으니까 한자 게임을 편하게 해볼 수 있습니다. 
-(이미 알던 단어를 아는 단어 목록에 추가하는 과정이 수십 시간이 걸립니다.) 
-
 ### Docker Compose 사용법
-1. 이 리포지토리를 다운받습니다.
-2. 다운받은 최상위 디렉터리(/korean-dictionary)에서 `docker-compose up --build` 명령어를 실행합니다.
-3. 데이터베이스가 채워져 "Completed database initialization."이 터미널에 인쇄될 때까지 기다립니다.
-   사전의 다커 컨테이너를 한 번 멈춘 다음에 또 작동할 경우 이 단계가 건너뛰어집니다.
-4. 로컬호스트 포트 5173 ([링크](http://localhost:5173/))로 이동하면 사전을 써볼 수 있습니다.  
-
-#### 사전 데이터베이스 초기화
-데이터베이스 초기화하려면, 최상위 디렉터리에서 `docker-compose down -v` 명령어를 실행했다가 `docker-compose up --build` 명령어를 실행합니다.  
-
-### Docker Pull 사용법
-1. 터미널에서 `docker pull krduffy/korean-dictionary:latest` 명령어를 실행합니다.
-이는 본인 컴퓨터에 [이 프로젝트의 다커 리포지토리](https://hub.docker.com/repository/docker/krduffy/korean-dictionary/general)를
-복사해놓읍니다.
-2. 컨테이너를 작동하는 `docker run -p 5173:5173 krduffy/korean-dictionary:latest` 명령어를 실행합니다.
-3. 로컬호스트 포트 5173 ([링크](http://localhost:5173/))로 이동하면 사전을 써볼 수 있습니다.
+1. [docker-compose.yml](docker-compose.yml) 파일을 본인 컴퓨터로 다운받으세요.
+2. .yml 파일이 있는 디렉터리에서 `docker-compose up -d` 명령어를 실행하세요. [다커 리포지토리](https://hub.docker.com/repository/docker/krduffy/korean-dictionary/general)를 다운받고 이미지를 작동하는 명령어입니다.
+3. 로컬호스트 포트 5173 ([링크](http://localhost:5173/))로 이동하면 사전을 써볼 수 있습니다. 데이터베이스가 채워졌을 때까지 네트워크 오류가 발생할 수도 있으나 잠시만 기다리시고 다시 시도해보시면 됩니다.
 
 ## 라이선스
 
