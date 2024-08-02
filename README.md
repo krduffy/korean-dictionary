@@ -56,7 +56,7 @@ The following resources are used in this project:
 
 ## Trying the Dictionary
 
-There are two options for locally running a test dictionary with an abridged dataset, both of which use [Docker](https://www.docker.com/).
+You can try the dictionary yourself using [Docker](https://www.docker.com/).
 
 Things to be aware of:  
 1. **The dictionary does not have any English support!**  
@@ -69,18 +69,10 @@ If you do not have Docker installed or do not want to install Docker, you can in
 [![Link to demo video](https://img.youtube.com/vi/u57sR2-4sS8/0.jpg)](https://www.youtube.com/watch?v=u57sR2-4sS8)
 
 ### Use Docker Pull
-1. Run `docker pull krduffy/korean-dictionary:latest` to pull [the docker repository for this project](https://hub.docker.com/repository/docker/krduffy/korean-dictionary/general) to your machine.
-2. Run the container using `docker run -p 5173:5173 krduffy/korean-dictionary:latest`.
-3. Go to localhost port 5173 ([link](http://localhost:5173/)) to use the dictionary.
-
-### Use Docker Compose
-1. Download this repository.
-2. Run the command `docker-compose up --build` in the downloaded project's top-level directory (/korean-dictionary).
-3. Wait for the sample database to be populated. "Completed database initialization." will be printed when this process completes. On subsequent launches, this step will be skipped.
-4. Go to localhost port 5173 ([link](http://localhost:5173/)) to use the dictionary.  
-
-#### Resetting the Dictionary  
-To reset the database to its initial state, run `docker-compose down -v` in the top-level directory and then rerun with `docker-compose up --build`.  
+1. [Download the docker-compose.yml](https://github.com/krduffy/korean-dictionary/raw/main/docker-compose.yml) file for the project to your machine.
+2. In the directory with the .yml file, run `docker-compose up -d` to pull [the docker repository for this project](https://hub.docker.com/repository/docker/krduffy/korean-dictionary/general) and start running the image.
+3. Go to localhost port 5173 ([link](http://localhost:5173/)) to use the dictionary. It may take a second for the database to fill, so you may have network errors on API calls
+until it is done populating.
 
 ## License
 
