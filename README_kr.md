@@ -4,6 +4,14 @@ This document is also available in English. [Go to English version](README.md)
 
 한국어 중급 학생을 위한 웹 사전입니다.
 
+## 목차
+- [특징](#특징)
+- [만들게 된 계기](#만들게-된-계기)
+- [도구와 다른 리소스](#도구와-다른-리소스)
+- [사전을 직접 써보기](#사전을-직접-써보기)
+  - [Docker Compose 사용법](#docker-compose-사용법)
+- [라이선스](#라이선스)
+
 ## 특징
 - 검색어 구역 옆에 '한'을 선택해서 한국어 대사전에 검색하거나, '漢' 한자를 선택해서 한자 사전에 검색할 수 있습니다.
   - 한국어 단어는 뜻풀이, 용례, 역사적인 형태 같은 정보를 확인할 수 있으며 한자는 훈음, 해당 한자가 담긴 한국어 단어 목록 같은 정보를 확인할 수 있습니다.
@@ -37,7 +45,7 @@ This document is also available in English. [Go to English version](README.md)
 붙여서 맥락을 '저장'할 수 있게 됩니다. 또 단어를 검색 결과 순위에 올려밀릴 시스템을 통해서 한자 용례를 볼 때 정확하고 유익한 순서로 나열돼
 있습니다. 즉, 종이 사전 여백에다 적을 수 있듯이 개인적인 맥락을 적을 수 있는 전자 사전을 만들고 싶었습니다.
 
-## 도구와 다른 출처
+## 도구와 다른 리소스
 프론트엔드: 리액트 + CSS
 
 백엔드: Django  
@@ -66,7 +74,7 @@ This document is also available in English. [Go to English version](README.md)
 
 [![예시 동영상 링크](https://img.youtube.com/vi/u57sR2-4sS8/0.jpg)](https://www.youtube.com/watch?v=u57sR2-4sS8)
 
-### Docker Pull 사용법
+### Docker Compose 사용법
 1. [docker-compose.yml](docker-compose.yml) 파일을 본인 컴퓨터로 다운받으세요.
 2. .yml 파일이 있는 디렉터리에서 `docker-compose up -d` 명령어를 실행하세요. [다커 리포지토리](https://hub.docker.com/repository/docker/krduffy/korean-dictionary/general)를 다운받고 이미지를 작동하는 명령어입니다.
 3. 로컬호스트 포트 5173 ([링크](http://localhost:5173/))로 이동하면 사전을 써볼 수 있습니다. 데이터베이스가 채워졌을 때까지 네트워크 오류가 발생할 수도 있으나 잠시만 기다리시고 다시 시도해보시면 됩니다.
