@@ -26,6 +26,7 @@ const App = () => {
                 <div id="nav-bar-container">
                     <NavBar setNavState={setNavState} />
                 </div>
+
                 <div className="blue-bar" />
 
                 <div id="both-panels-container">

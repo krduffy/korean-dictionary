@@ -4,7 +4,7 @@
     font-weight: 400;
 
     color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
+    color: rgb(222, 222, 222);
     background-color: #242424;
 
     font-synthesis: none;
@@ -13,6 +13,7 @@
     -moz-osx-font-smoothing: grayscale;
 
     --min-screen-width: 600px;
+    --min-screen-height: 400px;
 }
 
 body {

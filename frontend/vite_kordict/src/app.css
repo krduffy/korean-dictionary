@@ -234,14 +234,14 @@ button:focus-visible {
     height: 100vh;
     width: 100vw;
     min-width: var(--min-screen-width);
-    overflow: scroll;
+    min-height: var(--min-screen-height);
+    overflow: hidden;
 }
 
 #nav-bar-container {
     display: flex;
     width: 100%;
     height: 7.5%;
-    min-height: 50px;
 }
 
 /* This is to extend the bar from the sides of the panels upward. Because the panels are unaware 
@@ -251,17 +251,15 @@ button:focus-visible {
     content: "";
     position: absolute;
     top: 0;
-    left: max(calc(50% - 5px), calc(calc(var(--min-screen-width) / 2) - 5px));
+    left: max(calc(50% - 5px), calc(var(--min-screen-width) / 2 - 5px));
     width: 10px;
     background-color: #0c0245;
-    height: 100%;
+    height: max(100%, var(--min-screen-height));
 }
 
 #both-panels-container {
     display: flex;
     height: 92.5%;
-    /* 50 min height of navbar*/
-    max-height: calc(100vh - 50px);
     width: 100%;
 }
 
@@ -271,12 +269,15 @@ button:focus-visible {
     width: 50%;
     display: inline-block;
     overflow-y: scroll;
+
+    scrollbar-width: thin;
+    scrollbar-gutter: 5px;
 }
 
 #left-panel-container {
-    border-right: 5px solid #0c0245;
+    margin-right: 5px;
 }
 
 #right-panel-container {
-    border-left: 5px solid #0c0245;
+    margin-left: 5px;
 }
