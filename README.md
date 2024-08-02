@@ -2,7 +2,7 @@
 
 이 문서는 한국어로도 읽을 수 있습니다. [바로가기](README_kr.md)
 
-A Korean dictionary web application for intermediate learners of Korean.
+A Korean dictionary web application for intermediate-advanced learners of Korean.
 
 ## Features
 
@@ -58,14 +58,22 @@ The following resources are used in this project:
 
 There are two options for locally running a test dictionary with an abridged dataset, both of which use [Docker](https://www.docker.com/).
 
+Things to be aware of:  
+1. **The dictionary does not have any English support!**  
+2. The abridged dataset is very small to keep container sizes smaller. Most of the words in the dictionary start with ㄱ because it is first alphabetically. You can also search '.*' to see every word.  
+3. You can log in with the username '척척박사' and the password 'secret'. This account knows every word in the dictionary,
+which is good for trying the Hanja game without spending hours adding words to the known list.  
+
 If you do not have Docker installed or do not want to install Docker, you can instead watch a demo video here. There are English subtitles available.
 
 [![Link to demo video](https://img.youtube.com/vi/u57sR2-4sS8/0.jpg)](https://www.youtube.com/watch?v=u57sR2-4sS8)
 
-If you use either option to run the dictionary, you can log in with the username '척척박사' and the password 'secret'. This account knows every word in the dictionary,
-which is good for trying the Hanja game without spending hours adding words to the known list.
+### Use Docker Pull
+1. Run `docker pull krduffy/korean-dictionary:latest` to pull [the docker repository for this project](https://hub.docker.com/repository/docker/krduffy/korean-dictionary/general) to your machine.
+2. Run the container using `docker run -p 5173:5173 krduffy/korean-dictionary:latest`.
+3. Go to localhost port 5173 ([link](http://localhost:5173/)) to use the dictionary.
 
-### Run Locally with Docker Compose
+### Use Docker Compose
 1. Download this repository.
 2. Run the command `docker-compose up --build` in the downloaded project's top-level directory (/korean-dictionary).
 3. Wait for the sample database to be populated. "Completed database initialization." will be printed when this process completes. On subsequent launches, this step will be skipped.
@@ -73,11 +81,6 @@ which is good for trying the Hanja game without spending hours adding words to t
 
 #### Resetting the Dictionary  
 To reset the database to its initial state, run `docker-compose down -v` in the top-level directory and then rerun with `docker-compose up --build`.  
-
-### Use Docker Pull
-1. Run `docker pull krduffy/korean-dictionary:latest` to pull [the docker repository for this project](https://hub.docker.com/repository/docker/krduffy/korean-dictionary/general) to your machine.
-2. Run the container using `docker run -p 5173:5173 krduffy/korean-dictionary:latest`.
-3. Go to localhost port 5173 ([link](http://localhost:5173/)) to use the dictionary.
 
 ## License
 
