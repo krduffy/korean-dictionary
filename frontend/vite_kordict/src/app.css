@@ -106,6 +106,12 @@ ul {
     align-items: center;
     justify-content: center;
 }
+
+.center-on-screen {
+    position: absolute;
+    left: max(50%, calc(var(--min-screen-width) / 2));
+    transform: translateX(-50%);
+}
 /* */
 
 /* Padding */

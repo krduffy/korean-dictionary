@@ -25,7 +25,6 @@ const NavBar = ({ setNavState }) => {
                 className="curved-box-shape pad-10 underlined"
                 style={{
                     backgroundColor: "var(--bluepurple)",
-                    marginLeft: "15px",
                     fontSize: "12px",
                 }}
             >
@@ -34,7 +33,12 @@ const NavBar = ({ setNavState }) => {
 
             {authInfo["username"] ? (
                 <>
-                    <span style={{ zIndex: "100" }}>
+                    <span
+                        className="center-on-screen"
+                        style={{
+                            zIndex: "100",
+                        }}
+                    >
                         {authInfo["username"]}님
                     </span>
                     <LogoutButton />
