@@ -192,7 +192,7 @@ class UserNoteValidator(serializers.ModelSerializer):
      })
   # order not really used; may eventually allow explicit control over order in which notes appear
   order = serializers.IntegerField()
-  note_text = serializers.CharField(required=False)
+  note_text = serializers.CharField(required=False, allow_blank=True)
   creator = UserField(queryset = DictionaryUser.objects.all())
 
   class Meta:

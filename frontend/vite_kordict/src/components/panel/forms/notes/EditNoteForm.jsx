@@ -5,7 +5,6 @@ import {
     getPanelCenterX,
     getPanelCenterY,
 } from "../../../../../util/mathUtils.js";
-import { BASE_URL } from "../../../../constants.js";
 import { useAPIModifier } from "../../../../hooks/useAPIModifier.js";
 
 import { AuthenticationInfoContext } from "../../../../App.jsx";
@@ -15,8 +14,12 @@ import { LoadingMessage } from "../../messages/LoadingMessage.jsx";
 import PopupBox from "../../string_formatters/PopupBox.jsx";
 import FileUpload from "../form_components/FileUpload.jsx";
 
+const MESSAGE_BUFFER_TIME = 3500;
+
 const EditNoteForm = ({ noteData, num, updateNodeById, deleteNoteById }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
+
+    const updateButtonRef = useRef(null);
 
     const {
         formData,
@@ -26,7 +29,12 @@ const EditNoteForm = ({ noteData, num, updateNodeById, deleteNoteById }) => {
         response,
         error,
         loading,
-    } = useAPIModifier(true);
+    } = useAPIModifier(true, {
+        /* if "" is sent then it is not picked up in the form data, maybe due to being multipart.
+           to get around this " " is sent. when notes are rendered, they will not be different
+           from having null note_text vs having " " because both values are falsy */
+        note_text: " ",
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -38,6 +46,14 @@ const EditNoteForm = ({ noteData, num, updateNodeById, deleteNoteById }) => {
             "PATCH"
         );
     };
+
+    /* Currently this is not executed because updating a note causes cache invalidation anyway
+    useEffect(() => {
+      if (successful) {
+        updateNodeById()
+      }
+    }, [successful]);
+    */
 
     return (
         <div className="full-width curved-box-nest1">
@@ -86,10 +102,24 @@ const EditNoteForm = ({ noteData, num, updateNodeById, deleteNoteById }) => {
                     </div>
 
                     <div className="full-width pad-10 tbmargin-10 center-children-horizontal">
-                        <button onClick={(e) => handleSubmit(e)}>저장</button>
+                        <button
+                            ref={updateButtonRef}
+                            onClick={(e) => handleSubmit(e)}
+                        >
+                            저장
+                        </button>
                     </div>
                 </div>
             </form>
+
+            <APIMessager
+                relativeToRef={updateButtonRef}
+                loading={loading}
+                successful={successful}
+                error={error}
+                response={response}
+                printWhenSuccessful={"저장이 성공했습니다."}
+            />
         </div>
     );
 };
@@ -98,31 +128,23 @@ export default EditNoteForm;
 
 const DeleteNoteForm = ({ deleteNoteById, noteId }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
-    const { apiModify, successful, response, error } = useAPIModifier(true);
+    const {
+        formData,
+        updateFormDataField,
+        apiModify,
+        successful,
+        response,
+        error,
+        loading,
+    } = useAPIModifier(true);
 
     const deleteButtonRef = useRef(null);
 
-    const [showMessage, setShowMessage] = useState(false);
-
-    const DELETE_BUFFER_TIME = 3500;
-
     useEffect(() => {
-        if (showMessage) {
-            setTimeout(() => {
-                setShowMessage(false);
-            }, DELETE_BUFFER_TIME);
+        if (successful) {
+            setTimeout(() => deleteNoteById(noteId), MESSAGE_BUFFER_TIME);
         }
-    }, [showMessage]);
-
-    useEffect(() => {
-        if (successful || error) {
-            setShowMessage(true);
-
-            if (successful) {
-                setTimeout(() => deleteNoteById(noteId), DELETE_BUFFER_TIME);
-            }
-        }
-    }, [successful, error]);
+    }, [successful]);
 
     return (
         <div>
@@ -137,34 +159,72 @@ const DeleteNoteForm = ({ deleteNoteById, noteId }) => {
             >
                 노트 삭제
             </div>
-
-            {showMessage && (
-                <PopupBox
-                    fromX={(() => {
-                        const dim = getElementSizing(deleteButtonRef);
-                        const x = dim.centerX - dim.paddingX;
-                        return getPanelCenterX(x);
-                    })()}
-                    fromY={getPanelCenterY()}
-                    positioning="center-around"
-                    padding={0}
-                >
-                    {error ? (
-                        <ErrorMessage errorResponse={response} />
-                    ) : (
-                        successful && (
-                            <div
-                                style={{
-                                    color: "green",
-                                    fontSize: "30px",
-                                }}
-                            >
-                                삭제 성공
-                            </div>
-                        )
-                    )}
-                </PopupBox>
-            )}
+            <APIMessager
+                relativeToRef={deleteButtonRef}
+                loading={loading}
+                successful={successful}
+                error={error}
+                response={response}
+                printWhenSuccessful={"삭제가 성공했습니다."}
+            />
         </div>
+    );
+};
+
+const APIMessager = ({
+    relativeToRef,
+    loading,
+    successful,
+    error,
+    response,
+    printWhenSuccessful,
+}) => {
+    const [showMessage, setShowMessage] = useState(false);
+
+    useEffect(() => {
+        if (loading || successful || error) {
+            setShowMessage(true);
+            setTimeout(() => setShowMessage(false), MESSAGE_BUFFER_TIME);
+        }
+    }, [loading, successful, error]);
+
+    useEffect(() => {
+        if (showMessage) {
+            setTimeout(() => {
+                setShowMessage(false);
+            }, MESSAGE_BUFFER_TIME);
+        }
+    }, [showMessage]);
+
+    return showMessage ? (
+        <PopupBox
+            fromX={(() => {
+                const dim = getElementSizing(relativeToRef);
+                const x = dim.centerX - dim.paddingX;
+                return getPanelCenterX(x);
+            })()}
+            fromY={getPanelCenterY()}
+            positioning="center-around"
+            padding={0}
+        >
+            {loading ? (
+                <LoadingMessage />
+            ) : error ? (
+                <ErrorMessage errorResponse={response} />
+            ) : (
+                successful && (
+                    <div
+                        style={{
+                            color: "green",
+                            fontSize: "30px",
+                        }}
+                    >
+                        {printWhenSuccessful}
+                    </div>
+                )
+            )}
+        </PopupBox>
+    ) : (
+        <></>
     );
 };

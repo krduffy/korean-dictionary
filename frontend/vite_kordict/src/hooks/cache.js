@@ -77,6 +77,8 @@ export const processRequest = (url, method, additionalInfo) => {
         delete cache[`api/korean_word_edit_info/${targetCode}`];
     };
 
+    console.log("URL IS " + url);
+
     /* toggle_word_known */
     if (new RegExp("^api/toggle_word_k").test(url)) {
         updateWordKnownOrStudied(true);
@@ -88,8 +90,10 @@ export const processRequest = (url, method, additionalInfo) => {
     } else if (new RegExp("^api/delete_sense").test(url)) {
         /* deleting examples */
         deleteDetailViewAndEditView(additionalInfo["referent"]);
-    } else if (new RegExp("^api/.*note").test(url)) {
-        /* adding note */
+    } else if (new RegExp("^api/update_note.*").test(url)) {
+        deleteDetailViewAndEditView(additionalInfo["word_ref"]["target_code"]);
+    } else if (new RegExp("^api/.*note.*").test(url)) {
+        /* adding or deleting note */
         deleteDetailViewAndEditView(additionalInfo["word_ref"]);
     } else if (new RegExp("^user/login").test(url)) {
         clearCache();
