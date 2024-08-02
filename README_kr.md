@@ -67,21 +67,9 @@ This document is also available in English. [Go to English version](README.md)
 [![예시 동영상 링크](https://img.youtube.com/vi/u57sR2-4sS8/0.jpg)](https://www.youtube.com/watch?v=u57sR2-4sS8)
 
 ### Docker Pull 사용법
-1. 터미널에서 `docker pull krduffy/korean-dictionary:latest` 명령어를 실행합니다.
-이는 본인 컴퓨터에 [이 프로젝트의 다커 리포지토리](https://hub.docker.com/repository/docker/krduffy/korean-dictionary/general)를
-복사해놓읍니다.
-2. 컨테이너를 작동하는 `docker run -p 5173:5173 krduffy/korean-dictionary:latest` 명령어를 실행합니다.
-3. 로컬호스트 포트 5173 ([링크](http://localhost:5173/))로 이동하면 사전을 써볼 수 있습니다.
-
-### Docker Compose 사용법
-1. 이 리포지토리를 다운받습니다.
-2. 다운받은 최상위 디렉터리(/korean-dictionary)에서 `docker-compose up --build` 명령어를 실행합니다.
-3. 데이터베이스가 채워져 "Completed database initialization."이 터미널에 인쇄될 때까지 기다립니다.
-   사전의 다커 컨테이너를 한 번 멈춘 다음에 또 작동할 경우 이 단계가 건너뛰어집니다.
-4. 로컬호스트 포트 5173 ([링크](http://localhost:5173/))로 이동하면 사전을 써볼 수 있습니다.  
-
-#### 사전 데이터베이스 초기화
-데이터베이스 초기화하려면, 최상위 디렉터리에서 `docker-compose down -v` 명령어를 실행했다가 `docker-compose up --build` 명령어를 실행합니다.  
+1. [docker-compose.yml](docker-compose.yml) 파일을 본인 컴퓨터로 다운받으세요.
+2. .yml 파일이 있는 디렉터리에서 `docker-compose up -d` 명령어를 실행하세요. [다커 리포지토리](https://hub.docker.com/repository/docker/krduffy/korean-dictionary/general)를 다운받고 이미지를 작동하는 명령어입니다.
+3. 로컬호스트 포트 5173 ([링크](http://localhost:5173/))로 이동하면 사전을 써볼 수 있습니다. 데이터베이스가 채워졌을 때까지 네트워크 오류가 발생할 수도 있으나 잠시만 기다리시고 다시 시도해보시면 됩니다.
 
 ## 라이선스
 
