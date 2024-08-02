@@ -46,9 +46,14 @@ const HomePage = ({
     return (
         <React.Fragment>
             {authInfo["token"] == null ? (
-                <div className="lrpad-15 textcentered underlined">
-                    로그인 후 개인에 맞는 홈페이지를 볼 수 있습니다.
-                </div>
+                <>
+                    <div
+                        className="lrpad-15 textcentered underlined"
+                        style={{ marginTop: "50px", marginBottom: "50px" }}
+                    >
+                        로그인 후 개인에 맞는 홈페이지를 볼 수 있습니다.
+                    </div>
+                </>
             ) : (
                 <div>
                     {loading ? (
@@ -103,6 +108,9 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
         <div className="space-children-horizontal pad-10">
             <button
                 className="pad-10"
+                style={{
+                    borderColor: "#777777",
+                }}
                 onClick={() => {
                     const newSeed = Math.floor(Math.random() * 1000000);
 
@@ -124,6 +132,9 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
             </button>
             <button
                 className="pad-10"
+                style={{
+                    borderColor: "#777777",
+                }}
                 onClick={() => {
                     backToHanjaGameOrPushNewGame();
                 }}
@@ -133,6 +144,9 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
             </button>
             <button
                 className="pad-10"
+                style={{
+                    borderColor: "#777777",
+                }}
                 onClick={() => {
                     updateViewAndPushToHistory({
                         view: "get_unknown_words",
@@ -149,6 +163,9 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
             </button>
             <button
                 className="pad-10"
+                style={{
+                    borderColor: "#777777",
+                }}
                 onClick={() => {
                     updateViewAndPushToHistory({
                         view: "user_known_words",
@@ -165,6 +182,9 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
             </button>
             <button
                 className="pad-10"
+                style={{
+                    borderColor: "#777777",
+                }}
                 onClick={() => {
                     updateViewAndPushToHistory({
                         view: "user_study_words",

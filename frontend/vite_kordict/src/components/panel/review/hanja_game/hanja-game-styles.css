@@ -196,11 +196,8 @@
 }
 
 .instruction-question-mark {
-    display: inline-block;
-    background-color: darkcyan;
+    background-color: var(--cyan);
     cursor: help;
-    border: thin white solid;
-    border-radius: 5px;
     padding: 15px;
 }
 
@@ -209,9 +206,15 @@
     place-items: center;
 }
 
+.instruction-question-mark,
 .hanja-game-submit-button {
-    background-color: goldenrod;
+    border: thin white solid;
+    border-radius: 5px;
     display: inline-block;
+}
+
+.hanja-game-submit-button {
+    background-color: var(--deepred);
 }
 
 .explanation-list {

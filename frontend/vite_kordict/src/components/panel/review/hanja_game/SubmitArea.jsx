@@ -208,6 +208,7 @@ const IndividualWordFeedbackArea = ({ errorList }) => {
                 }}
                 style={{
                     backgroundColor: errorList.length > 0 ? "red" : "green",
+                    cursor: "help",
                 }}
             >
                 {errorList.length > 0 ? "⚠" : "☑"}

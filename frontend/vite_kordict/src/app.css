@@ -9,6 +9,14 @@ ul {
     list-style: none;
 }
 
+a:link {
+    color: skyblue;
+}
+
+a:visited {
+    color: #dda0dd;
+}
+
 #main-page {
     --deepblue: #221c91;
     --deepred: #400903;
@@ -16,10 +24,19 @@ ul {
     --bluepurple: #25254d;
     --cyan: #344e61;
     --gold: rgb(218, 165, 32);
+    --shaded: #1a1a1a;
 }
 
 .shaded-background {
-    background-color: #1a1a1a;
+    background-color: var(--shaded);
+}
+
+input[type="text"],
+input[type="password"],
+textarea {
+    background-color: #333333;
+    border: 1px solid #777777;
+    color: lightgray;
 }
 
 .curved-box {
@@ -185,13 +202,14 @@ textarea {
 }
 
 button {
+    color: lightgray;
     border-radius: 8px;
     border: 1px solid transparent;
     padding: 10px;
     font-size: 12px;
     font-weight: 500;
     font-family: inherit;
-    background-color: #1a1a1a;
+    background-color: #333333;
     cursor: pointer;
     transition: border-color 0.25s;
 }
@@ -221,7 +239,7 @@ button:focus-visible {
 .horizontal-bar {
     width: 75%;
     height: 2px;
-    background-color: rgba(128, 128, 128, 0.2);
+    background-color: rgb(128, 128, 128);
     margin-left: 12.5%;
     margin-right: 12.5%;
 }

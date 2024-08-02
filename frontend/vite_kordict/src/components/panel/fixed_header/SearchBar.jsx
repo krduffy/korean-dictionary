@@ -151,6 +151,8 @@ const SearchBar = () => {
                     type="text"
                     placeholder="검색어를 입력해주세요"
                     value={boxContent}
+                    className="lrmargin-10"
+                    style={{ padding: "2px" }}
                     onChange={(e) => {
                         setBoxContent(sanitize(e.target.value));
                     }}
