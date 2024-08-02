@@ -241,6 +241,7 @@ button:focus-visible {
     width: 100vw;
     min-width: var(--min-screen-width);
     min-height: var(--min-screen-height);
+
     overflow: hidden;
 }
 
@@ -273,11 +274,8 @@ button:focus-visible {
     height: 100%;
     flex: auto;
     width: 50%;
-    display: inline-block;
-    overflow-y: scroll;
-
-    scrollbar-width: thin;
-    scrollbar-gutter: 5px;
+    display: flex;
+    flex-direction: column;
 }
 
 #left-panel-container {

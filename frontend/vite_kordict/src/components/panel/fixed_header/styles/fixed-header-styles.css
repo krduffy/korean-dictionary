@@ -1,8 +1,6 @@
 .fixed-header {
     min-height: 40px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 10px;
     background-color: black;
     width: 100%;
     display: flex;
