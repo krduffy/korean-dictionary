@@ -77,13 +77,25 @@ export const processRequest = (url, method, additionalInfo) => {
         delete cache[`api/korean_word_edit_info/${targetCode}`];
     };
 
+    const deleteAllMatchingRegex = (regex) => {
+        const allCachedUrls = Object.keys(cache);
+
+        allCachedUrls.forEach((url) => {
+            if (regex.test(url)) {
+                delete cache[url];
+            }
+        });
+    };
+
     console.log("URL IS " + url);
 
     /* toggle_word_known */
     if (new RegExp("^api/toggle_word_k").test(url)) {
         updateWordKnownOrStudied(true);
+        deleteAllMatchingRegex(new RegExp("^api/user_known_words.*"));
     } else if (new RegExp("^api/toggle_word_s").test(url)) {
         updateWordKnownOrStudied(false);
+        deleteAllMatchingRegex(new RegExp("^api/user_study_words.*"));
     } else if (new RegExp("^api/create_sense").test(url)) {
         /* adding examples */
         deleteDetailViewAndEditView(additionalInfo["referent"]["target_code"]);
