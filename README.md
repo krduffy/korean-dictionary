@@ -16,12 +16,15 @@ A Korean dictionary web application for intermediate-advanced learners of Korean
 
 - Search words in the Korean dictionary (select 한 next to the search bar) or the Hanja dictionary (select 漢 next to the search bar).
 
-  For Korean words:  
+  For Korean words:
     - View information about a word's meanings, examples of its usage, its history, relations with other words, and more.
+    - You can use the characters . or * to search using basic regex patterns if desired.
   
   For Hanja characters:  
     - View information about a character's meaning, Korean words that contain the character, and more.
     - Practice writing the character with a testing feature.
+    - You can search a level on the administered Hanja exam to get the characters at that level (search '8급', '준4급', '미배정', ...).
+    - You can search '.*' to match with all Hanja characters. Arbitrary regex patterns are not supported.
     
 - Click on words in most sentences to automatically search for the word in the Korean dictionary. This can be inaccurate.
 - Hover over most Hanja characters to view their meanings and some words containing the character. Click to search for the character in the Hanja dictionary.
