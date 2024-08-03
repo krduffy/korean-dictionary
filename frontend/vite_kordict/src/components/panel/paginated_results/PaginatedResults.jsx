@@ -112,10 +112,10 @@ const PaginatedResults = ({ searchType, searchTerm, nestLevel }) => {
 
     return (
         <>
-            {loading || !searchResults || !searchResults.results ? (
-                <LoadingMessage />
-            ) : error ? (
+            {error ? (
                 <ErrorMessage errorResponse={response} />
+            ) : loading || !searchResults || !searchResults.results ? (
+                <LoadingMessage />
             ) : searchResults.count === 0 ? (
                 ["search_korean", "search_hanja"].includes(searchType) ? (
                     <div className="no-results-indicator">

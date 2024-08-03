@@ -715,4 +715,3 @@ class UnknownWordsView(APIView):
         user_doesnt_know_unique.append(word)
     
     return Response({'unknown': user_doesnt_know_unique}, status=status.HTTP_200_OK)
-    
