@@ -260,12 +260,34 @@ class HanjaList(generics.ListAPIView):
 
   def get_queryset(self):
 
+    def basic_ordering(queryset):
+      return queryset.order_by("-result_ranking", "strokes", "character")
+
     queryset = HanjaCharacter.objects.all()
     
     # Search term is korean, hanja, or both but even 1 hanja just
       # makes the whole search into a search of the Hanja dictionary.
     search_term = self.request.query_params.get('search_term', '')
+
+    # Retrieving all
+    if search_term == '.*':
+      return basic_ordering(queryset)
+
+    # Searching with education level
+    if search_term in [
+      '미배정',
+      '특급', '준특급',
+      '1급', '준1급',   '2급', '준2급', 
+      '3급', '준3급',   '4급', '준4급', 
+      '5급', '준5급',   '6급', '준6급', 
+      '7급', '준7급',   '8급'
+    ]:
+      return basic_ordering(queryset.filter(exam_level = search_term))
+
+    # Searching for words
+
     input_language = "kor"
+
     for character in search_term:
       if is_hanja(character):
         input_language = "han"
@@ -275,7 +297,7 @@ class HanjaList(generics.ListAPIView):
       queryset = queryset.filter(meaning_reading__contains = search_term)
 
       if len(search_term) != 1:
-        return queryset
+        return basic_ordering(queryset)
       
       # if length is 1, move results where this is the reading (always exactly 1 character) instead
       # of a substring of the meaning (1+ characters) to the front of the queryset; almost 

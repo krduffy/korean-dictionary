@@ -73,6 +73,13 @@ textarea {
     border: transparent;
 }
 
+.single-line-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
 .curved-box-header {
     font-size: 20px;
     background-color: #312f36;
@@ -290,8 +297,8 @@ button:focus-visible {
 
 .panel-container {
     height: 100%;
-    flex: auto;
-    width: 50%;
+    width: calc(50% - 5px);
+    max-width: calc(50% - 5px);
     display: flex;
     flex-direction: column;
 }

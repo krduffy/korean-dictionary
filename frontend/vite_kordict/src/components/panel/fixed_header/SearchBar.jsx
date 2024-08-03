@@ -37,6 +37,8 @@ const SearchBar = () => {
             "\u0061-\u007a", // a-z
             "\u0041-\u005a", // A-Z
 
+            "\u0030-\u0039", // 0-9
+
             "\u0020", // space
             "\u002a", // asterisk (*)
             "\u002e", // period (.)

@@ -48,6 +48,7 @@ const HanjaAnimationPlayer = ({ hanjaChar, setShowTest, onLoad }) => {
                     writerArgs={{
                         width: 150,
                         height: 150,
+                        delayBetweenStrokes: 250,
                         onLoadCharDataSuccess: () => {
                             // if the control panel is not shown only after character load then there
                             // is a flash of the control panel before quickly disappearing, which is

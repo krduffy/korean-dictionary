@@ -42,7 +42,11 @@ const HanjaResult = ({ result }) => {
                 <div style={{ width: "20%" }}>{result["exam_level"]}</div>
                 <div style={{ width: "20%" }}>{result["strokes"]}획</div>
             </div>
-            <div className="hanja-result-bottom">{result["explanation"]}</div>
+            <div className="hanja-result-bottom">
+                <div className="single-line-ellipsis">
+                    {result["explanation"]}
+                </div>
+            </div>
             <div className="source">
                 출처:{" "}
                 <Href
