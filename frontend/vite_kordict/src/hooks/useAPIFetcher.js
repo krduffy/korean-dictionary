@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { BASE_URL } from "../constants.js";
+import { CACHE_HIT_FAKED_TIME_MS } from "../constants.js";
 import { cachePut, cacheRetrieve } from "./cache.js";
 
 /**
@@ -18,6 +19,7 @@ import { cachePut, cacheRetrieve } from "./cache.js";
 export function useAPIFetcher() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const [successful, setSuccessful] = useState(false);
 
     const [response, setResponse] = useState(null);
 
@@ -46,15 +48,15 @@ export function useAPIFetcher() {
      */
     const apiFetch = async (url, token) => {
         setLoading(true);
+        setSuccessful(false);
         setError(false);
 
         const cachedResponse = cacheRetrieve(url);
         if (cachedResponse) {
             /* Responses that result in error are not cached, so not a consideration */
-
-            /* Looks better to have loading appear briefly */
-            const delay = 250;
-            await new Promise((resolve) => setTimeout(resolve, delay));
+            await new Promise((resolve) =>
+                setTimeout(resolve, CACHE_HIT_FAKED_TIME_MS)
+            );
 
             return new Promise((resolve) => {
                 resolve(cachedResponse);
@@ -75,6 +77,7 @@ export function useAPIFetcher() {
                     throw new Error("Network error.");
                 } else {
                     cachePut(url, data);
+                    setSuccessful(true);
                     return data;
                 }
             } catch (error) {
@@ -110,5 +113,5 @@ export function useAPIFetcher() {
         }
     };
 
-    return { apiFetch, apiPrefetch, loading, error, response };
+    return { apiFetch, apiPrefetch, loading, successful, error, response };
 }
