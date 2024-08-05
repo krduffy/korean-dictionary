@@ -273,16 +273,31 @@ class HanjaList(generics.ListAPIView):
     if search_term == '.*':
       return basic_ordering(queryset)
 
+    def get_search_term_model_field(search_term, model_field):
+      match = re.search(f'{model_field}\[(.*?)\]', search_term)
+      return match.group(1) if match else None
+
     # Searching with education level
-    if search_term in [
-      '미배정',
-      '특급', '준특급',
-      '1급', '준1급',   '2급', '준2급', 
-      '3급', '준3급',   '4급', '준4급', 
-      '5급', '준5급',   '6급', '준6급', 
-      '7급', '준7급',   '8급'
-    ]:
-      return basic_ordering(queryset.filter(exam_level = search_term))
+    exam_level = get_search_term_model_field(search_term=search_term, model_field='급별')
+    if exam_level:
+      return basic_ordering(queryset.filter(exam_level = exam_level))
+
+    # Searching for radical.
+    radical = get_search_term_model_field(search_term=search_term, model_field='부수')
+    if radical:
+      # mmah is appended to some to signify source is not namuwiki
+      return basic_ordering(queryset.filter(radical__startswith = radical))
+    
+    # Searching for component characters. 
+    component_characters = get_search_term_model_field(search_term=search_term, model_field='모양자 분해')
+    if component_characters:
+      for character in component_characters:
+        queryset = queryset.filter(decomposition__contains = character)
+      return basic_ordering(queryset)
+  
+    explanation_substring = get_search_term_model_field(search_term=search_term, model_field='설명')
+    if explanation_substring:
+      return basic_ordering(queryset.filter(explanation__icontains = explanation_substring))
 
     # Searching for words
 
