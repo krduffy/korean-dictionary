@@ -36,7 +36,10 @@ const HanjaCharacterSpan = ({ character, overrideDisplay, disableClick }) => {
     const viewHanjaDetail = () => {
         updateViewAndPushToHistory({
             view: "detail_hanja",
-            value: character,
+            value: {
+                search_term: character,
+                initial_page: 1,
+            },
             searchBarInitialState: {
                 boxContent: character,
                 dictionary: "hanja",
@@ -50,14 +53,7 @@ const HanjaCharacterSpan = ({ character, overrideDisplay, disableClick }) => {
     };
 
     return (
-        <span>
-            {showHoverBox && (
-                <HanjaHoverBox
-                    character={character}
-                    mouseX={mousePosition.x}
-                    mouseY={mousePosition.y}
-                />
-            )}
+        <>
             <span
                 className="hanja-char"
                 onMouseOver={handleMouseEnter}
@@ -70,7 +66,14 @@ const HanjaCharacterSpan = ({ character, overrideDisplay, disableClick }) => {
             >
                 {overrideDisplay ? overrideDisplay : character}
             </span>
-        </span>
+            {showHoverBox && (
+                <HanjaHoverBox
+                    character={character}
+                    mouseX={mousePosition.x}
+                    mouseY={mousePosition.y}
+                />
+            )}
+        </>
     );
 };
 

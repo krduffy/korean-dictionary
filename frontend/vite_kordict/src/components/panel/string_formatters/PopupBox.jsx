@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 
 import PropTypes from "prop-types";
+import { createPortal } from "react-dom";
 
 import { fitBoxX, fitBoxY } from "../../../../util/mathUtils.js";
 
@@ -42,7 +43,7 @@ const PopupBox = ({ children, fromX, fromY, positioning, padding }) => {
         }
     }, [fromX, fromY, padding, positioning]);
 
-    return (
+    return createPortal(
         <div
             ref={divRef}
             className="popup-box"
@@ -52,7 +53,8 @@ const PopupBox = ({ children, fromX, fromY, positioning, padding }) => {
             }}
         >
             {children}
-        </div>
+        </div>,
+        document.body
     );
 };
 

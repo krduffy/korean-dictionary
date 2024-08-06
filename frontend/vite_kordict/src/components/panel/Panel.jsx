@@ -96,13 +96,23 @@ const Panel = () => {
             case "search_hanja":
             case "user_known_words":
             case "user_study_words":
+                console.log(value.initial_page);
                 return (
-                    <PaginatedResults searchType={view} searchTerm={value} />
+                    <PaginatedResults
+                        searchType={view}
+                        searchTerm={value.search_term}
+                        initialPage={value.initial_page}
+                    />
                 );
             case "detail_korean":
                 return <KoreanWordView targetCode={value} />;
             case "detail_hanja":
-                return <HanjaCharView hanjaChar={value} />;
+                return (
+                    <HanjaCharView
+                        hanjaChar={value.search_term}
+                        initialPage={value.initial_page}
+                    />
+                );
             case "homepage":
                 return (
                     <HomePage

@@ -72,7 +72,10 @@ const SearchBar = () => {
         if (dictionary === "korean")
             updateViewAndPushToHistory({
                 view: "search_korean",
-                value: fixedContent,
+                value: {
+                    search_term: fixedContent,
+                    initial_page: 1,
+                },
                 searchBarInitialState: {
                     boxContent: fixedContent,
                     dictionary: "korean",
@@ -81,25 +84,20 @@ const SearchBar = () => {
         else if (dictionary === "hanja") {
             // if a single character then just render the detail view for that instead
             // of a single search result that the user would then need to click on
-            if (fixedContent.match(/^[\u4E00-\u9FFF]$/g)) {
-                updateViewAndPushToHistory({
-                    view: "detail_hanja",
-                    value: fixedContent,
-                    searchBarInitialState: {
-                        boxContent: fixedContent,
-                        dictionary: "hanja",
-                    },
-                });
-            } else {
-                updateViewAndPushToHistory({
-                    view: "search_hanja",
-                    value: fixedContent,
-                    searchBarInitialState: {
-                        boxContent: fixedContent,
-                        dictionary: "hanja",
-                    },
-                });
-            }
+
+            updateViewAndPushToHistory({
+                view: fixedContent.match(/^[\u4E00-\u9FFF]$/g)
+                    ? "detail_hanja"
+                    : "search_hanja",
+                value: {
+                    search_term: fixedContent,
+                    initial_page: "1",
+                },
+                searchBarInitialState: {
+                    boxContent: fixedContent,
+                    dictionary: "hanja",
+                },
+            });
         }
     };
 

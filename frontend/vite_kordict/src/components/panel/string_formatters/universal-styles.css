@@ -10,7 +10,7 @@
     position: absolute;
     background-color: #3d3f47;
     border: 1px solid #ccc;
-    z-index: 100;
+    z-index: 1000;
     padding: 0;
     margin: 0;
 }

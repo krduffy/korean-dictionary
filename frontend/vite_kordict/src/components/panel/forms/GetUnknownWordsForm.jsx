@@ -75,6 +75,7 @@ const GetUnknownWordsForm = () => {
                     className="input-box"
                     onChange={(event) => setTextContent(event.target.value)}
                 ></textarea>
+
                 <div className="input-button-container">
                     <button
                         onClick={() => {
@@ -97,7 +98,7 @@ const GetUnknownWordsForm = () => {
                 ) : error ? (
                     <ErrorMessage errorResponse={response} />
                 ) : unknownWords.length == 0 ? (
-                    <div className="center-children-horizontal ">
+                    <div className="center-children-horizontal">
                         {interactedRef?.current === true && (
                             <span>모르는 단어가 없습니다.</span>
                         )}

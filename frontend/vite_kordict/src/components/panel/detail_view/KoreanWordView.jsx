@@ -58,9 +58,14 @@ const KoreanWordView = ({ targetCode }) => {
                             }}
                         >
                             <span>{wordData["word"]}</span>
-                            {"  "}
+
                             {wordData["origin"] && (
-                                <StringWithHanja string={wordData["origin"]} />
+                                <>
+                                    {" "}
+                                    <StringWithHanja
+                                        string={wordData["origin"]}
+                                    />
+                                </>
                             )}
                         </div>
 

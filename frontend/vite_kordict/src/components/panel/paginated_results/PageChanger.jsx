@@ -84,7 +84,7 @@ const PageChanger = ({ page, numPages, setPageFunction, hasInteractedRef }) => {
 
 PageChanger.propTypes = {
     page: PropTypes.number.isRequired,
-    hasNextPage: PropTypes.bool.isRequired,
+    numPages: PropTypes.number.isRequired,
     setPageFunction: PropTypes.func.isRequired,
 };
 

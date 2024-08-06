@@ -12,6 +12,7 @@ import { getTopicMarker } from "../../../../util/stringUtils.js";
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
+import { ViewContext } from "../Panel.jsx";
 import ErrorMessage from "../messages/ErrorMessage.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import HanjaExampleResult from "./HanjaExampleResult.jsx";
@@ -21,10 +22,21 @@ import PageChanger from "./PageChanger.jsx";
 
 import "./styles/results.css";
 
-const PaginatedResults = ({ searchType, searchTerm, nestLevel }) => {
-    const [currentPage, setCurrentPage] = useState(1);
+const PaginatedResults = ({
+    searchType,
+    searchTerm,
+    initialPage,
+    nestLevel,
+}) => {
+    const [currentPage, setCurrentPage] = useState(initialPage);
     const [searchResults, setSearchResults] = useState({});
     const { apiFetch, loading, error, response } = useAPIFetcher();
+
+    const viewContext = useContext(ViewContext);
+    const currentView = viewContext["currentView"];
+    const updateCurrentViewInHistory =
+        viewContext["updateCurrentViewInHistory"];
+
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
     /* For spamproofing the results. An indicator of which request is most recent */
@@ -64,18 +76,36 @@ const PaginatedResults = ({ searchType, searchTerm, nestLevel }) => {
 
     useEffect(() => {
         updateSearchResults();
+
+        /* */
+        const newView = {
+            view: currentView.view,
+            value: {
+                ...currentView.value,
+                initial_page: currentPage,
+            },
+            searchBarInitialState: currentView.searchBarInitialState,
+        };
+
+        updateCurrentViewInHistory(newView);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage]);
 
     useEffect(() => {
-        if (currentPage != 1) {
-            /* implicitly updates results */
-            setCurrentPage(1);
+        if (initialPage !== currentPage) {
+            setCurrentPage(initialPage);
         } else {
             updateSearchResults();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchTerm, searchType]);
+    }, [searchTerm, searchType, initialPage]);
+
+    useEffect(() => {
+        if (currentPage !== initialPage) {
+            updateSearchResults();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPage]);
 
     /* to force waiting for data update before rerendering on prop change */
     const typeAndResultsMatch = () => {

@@ -13,7 +13,10 @@ const HanjaResult = ({ result }) => {
     const viewHanjaDetail = (character) => {
         viewContext["updateViewAndPushToHistory"]({
             view: "detail_hanja",
-            value: character,
+            value: {
+                search_term: character,
+                initial_page: 1,
+            },
             searchBarInitialState: {
                 boxContent: character,
                 dictionary: "hanja",

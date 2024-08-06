@@ -53,6 +53,11 @@ export const getTopicMarker = (string) => {
 /* Returns what a key on the english keyboard maps to on the korean keyboard, or
    `key` if `key` does not map to a different key on the korean keyboard. */
 const engKeyToKoreanKey = (key) => {
+    const caseMatters = ["Q", "W", "E", "R", "T"];
+    if (!caseMatters.includes(key)) {
+        key = key.toLowerCase();
+    }
+
     switch (key) {
         case "q":
             return "ㅂ";

@@ -252,7 +252,10 @@ const SameHanjaSection = ({ sameHanjaData }) => {
                                     onClick={() => {
                                         updateViewAndPushToHistory({
                                             view: "detail_hanja",
-                                            value: sameHanjaItem[0],
+                                            value: {
+                                                search_term: sameHanjaItem[0],
+                                                initial_page: 1,
+                                            },
                                             searchBarInitialState: {
                                                 boxContent: sameHanjaItem[0],
                                                 dictionary: "hanja",

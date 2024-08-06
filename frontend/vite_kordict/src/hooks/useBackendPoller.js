@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { BACKEND_POLLING_INTERVAL_MS, BASE_URL } from "../constants.js";
 
 export const useBackendPoller = () => {
     const [backendAvailable, setBackendAvailable] = useState(false);
+    let startedPolling = useRef(false);
 
     /* Api fetcher is not used to fetch the urls in this hook to prevent the result from ever
        being cached. */
@@ -28,7 +29,10 @@ export const useBackendPoller = () => {
     };
 
     useEffect(() => {
-        poll();
+        if (!startedPolling.current) {
+            startedPolling.current = true;
+            poll();
+        }
     }, []);
 
     return { backendAvailable };

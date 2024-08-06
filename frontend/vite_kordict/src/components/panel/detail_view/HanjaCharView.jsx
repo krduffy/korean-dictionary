@@ -24,7 +24,7 @@ import "./styles/hanja-char-view-styles.css";
  * @param {string} props.hanjaChar - The character to view data for. Should consist of exactly one (`hanjaChar.length == 1`) hanja character.
  * @returns {React.JSX.Element} The rendered HanjaCharView component.
  */
-const HanjaCharView = ({ hanjaChar }) => {
+const HanjaCharView = ({ hanjaChar, initialPage }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
     const [charData, setCharData] = useState({});
     const { apiFetch, loading, error, response } = useAPIFetcher();
@@ -364,6 +364,7 @@ const HanjaCharView = ({ hanjaChar }) => {
                         <PaginatedResults
                             searchType="search_hanja_examples"
                             searchTerm={hanjaChar}
+                            initialPage={initialPage}
                             nestLevel={1}
                         />
                     </div>
