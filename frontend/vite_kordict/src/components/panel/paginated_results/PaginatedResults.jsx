@@ -1,24 +1,13 @@
-import React, {
-    useContext,
-    useEffect,
-    useLayoutEffect,
-    useRef,
-    useState,
-} from "react";
+import React from "react";
 
 import PropTypes from "prop-types";
 
 import { getTopicMarker } from "../../../../util/stringUtils.js";
-import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
-import { AuthenticationInfoContext } from "../../../App.jsx";
-import { ViewContext } from "../Panel.jsx";
 import ErrorMessage from "../messages/ErrorMessage.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
-import HanjaExampleResult from "./HanjaExampleResult.jsx";
-import HanjaResult from "./HanjaResult.jsx";
-import KoreanResult from "./KoreanResult.jsx";
 import PageChanger from "./PageChanger.jsx";
+import { usePaginatedResults } from "./usePaginatedResults.jsx";
 
 import "./styles/results.css";
 
@@ -28,117 +17,18 @@ const PaginatedResults = ({
     initialPage,
     nestLevel,
 }) => {
-    const [currentPage, setCurrentPage] = useState(initialPage);
-    const [searchResults, setSearchResults] = useState({});
-    const { apiFetch, loading, error, response } = useAPIFetcher();
-
-    const viewContext = useContext(ViewContext);
-    const currentView = viewContext["currentView"];
-    const updateCurrentViewInHistory =
-        viewContext["updateCurrentViewInHistory"];
-
-    const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
-
-    /* For spamproofing the results. An indicator of which request is most recent */
-    const requestRef = useRef(0);
-
-    const resultDivRef = useRef(null);
-    const hasInteractedRef = useRef(false);
-
-    const updateSearchResults = async () => {
-        requestRef.current++;
-        const requestNum = requestRef.current;
-
-        let apiUrl = `api/${searchType}/?page=${currentPage}`;
-
-        /* Add parameters to certain search types */
-        if (searchType === "search_korean" || searchType === "search_hanja") {
-            apiUrl = apiUrl + `&search_term=${searchTerm}`;
-        } else if (searchType === "search_hanja_examples") {
-            apiUrl = apiUrl + `&character=${searchTerm}`;
-        }
-
-        const results = await apiFetch(apiUrl, authInfo["token"]);
-
-        if (requestNum == requestRef.current) {
-            setSearchResults(results);
-        }
-    };
-
-    useLayoutEffect(() => {
-        if (hasInteractedRef.current) {
-            resultDivRef.current?.scrollIntoView({
-                top: 0,
-                behavior: "smooth",
-            });
-        }
-    }, [searchResults]);
-
-    useEffect(() => {
-        updateSearchResults();
-
-        /* */
-        const newView = {
-            view: currentView.view,
-            value: {
-                ...currentView.value,
-                initial_page: currentPage,
-            },
-            searchBarInitialState: currentView.searchBarInitialState,
-        };
-
-        updateCurrentViewInHistory(newView);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage]);
-
-    useEffect(() => {
-        if (initialPage !== currentPage) {
-            setCurrentPage(initialPage);
-        } else {
-            updateSearchResults();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchTerm, searchType, initialPage]);
-
-    useEffect(() => {
-        if (currentPage !== initialPage) {
-            updateSearchResults();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage]);
-
-    /* to force waiting for data update before rerendering on prop change */
-    const typeAndResultsMatch = () => {
-        const firstResult = searchResults["results"][0];
-
-        /* test for existence of a field only present for specific search type */
-
-        if (
-            searchType === "search_korean" ||
-            searchType === "user_known_words" ||
-            searchType === "user_study_words"
-        ) {
-            return firstResult.senses != null;
-        } else if (searchType === "search_hanja") {
-            return firstResult.meaning_reading != null;
-        } else if (searchType === "search_hanja_examples") {
-            return firstResult.first_definition != null;
-        }
-    };
-
-    const getResultComponent = (result) => {
-        if (
-            searchType === "search_korean" ||
-            searchType === "user_known_words" ||
-            searchType === "user_study_words"
-        ) {
-            return <KoreanResult result={result} />;
-        } else if (searchType === "search_hanja") {
-            return <HanjaResult result={result} />;
-        } else if (searchType === "search_hanja_examples") {
-            return <HanjaExampleResult result={result} />;
-        }
-    };
+    const {
+        currentPage,
+        setCurrentPage,
+        searchResults,
+        loading,
+        error,
+        response,
+        typeAndResultsMatch,
+        getResultComponent,
+        resultDivRef,
+        hasInteractedRef,
+    } = usePaginatedResults(searchType, searchTerm, initialPage);
 
     return (
         <>
@@ -147,16 +37,10 @@ const PaginatedResults = ({
             ) : loading || !searchResults || !searchResults.results ? (
                 <LoadingMessage />
             ) : searchResults.count === 0 ? (
-                ["search_korean", "search_hanja"].includes(searchType) ? (
-                    <div className="no-results-indicator">
-                        검색어 {"'"}
-                        {searchTerm}
-                        {"'"}
-                        {getTopicMarker(searchTerm)} 결과가 없습니다.
-                    </div>
-                ) : (
-                    <div className="no-results-indicator">결과가 없습니다.</div>
-                )
+                <NoResultsMessage
+                    searchType={searchType}
+                    searchTerm={searchTerm}
+                />
             ) : (
                 typeAndResultsMatch() && (
                     <div className="paginated-results" ref={resultDivRef}>
@@ -166,28 +50,13 @@ const PaginatedResults = ({
                             {Math.min(searchResults.count, currentPage * 10)})
                         </div>
 
-                        {searchResults.results &&
-                            searchResults.results.map((result, id) => {
-                                if (nestLevel) {
-                                    return (
-                                        <div
-                                            key={id}
-                                            className={`curved-box-nest${nestLevel} pad-10 tbmargin-10`}
-                                        >
-                                            {getResultComponent(result)}
-                                        </div>
-                                    );
-                                } else {
-                                    return (
-                                        <div
-                                            key={id}
-                                            className="curved-box pad-10 tbmargin-10"
-                                        >
-                                            {getResultComponent(result)}
-                                        </div>
-                                    );
-                                }
-                            })}
+                        {searchResults.results && (
+                            <ResultsList
+                                results={searchResults.results}
+                                nestLevel={nestLevel}
+                                getResultComponent={getResultComponent}
+                            />
+                        )}
 
                         {/* 10 is page size */}
                         {searchResults.count > 10 && (
@@ -217,3 +86,37 @@ PaginatedResults.propTypes = {
 };
 
 export default PaginatedResults;
+
+const NoResultsMessage = ({ searchType, searchTerm }) => {
+    return ["search_korean", "search_hanja"].includes(searchType) ? (
+        <div className="no-results-indicator">
+            검색어 {"'"}
+            {searchTerm}
+            {"'"}
+            {getTopicMarker(searchTerm)} 결과가 없습니다.
+        </div>
+    ) : (
+        <div className="no-results-indicator">결과가 없습니다.</div>
+    );
+};
+
+const ResultsList = ({ results, nestLevel, getResultComponent }) => {
+    return results.map((result, id) => {
+        if (nestLevel) {
+            return (
+                <div
+                    key={id}
+                    className={`curved-box-nest${nestLevel} pad-10 tbmargin-10`}
+                >
+                    {getResultComponent(result)}
+                </div>
+            );
+        } else {
+            return (
+                <div key={id} className="curved-box pad-10 tbmargin-10">
+                    {getResultComponent(result)}
+                </div>
+            );
+        }
+    });
+};
