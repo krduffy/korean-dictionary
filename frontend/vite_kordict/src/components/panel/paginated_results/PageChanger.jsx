@@ -2,12 +2,7 @@ import React from "react";
 
 import PropTypes from "prop-types";
 
-const PageChanger = ({
-    page,
-    hasNextPage,
-    setPageFunction,
-    hasInteractedRef,
-}) => {
+const PageChanger = ({ page, numPages, setPageFunction, hasInteractedRef }) => {
     const handleClick = (newPage) => {
         hasInteractedRef.current = true;
         setPageFunction(newPage);
@@ -22,6 +17,17 @@ const PageChanger = ({
             }}
         >
             {/* gray out the left button if there is no left page*/}
+
+            {page != 1 ? (
+                <span
+                    onClick={() => handleClick(1)}
+                    className="clickable-result page-number-display"
+                >
+                    1
+                </span>
+            ) : (
+                <span className="page-number-display">-</span>
+            )}
 
             {page - 1 > 0 ? (
                 <button
@@ -41,10 +47,10 @@ const PageChanger = ({
                 </button>
             )}
 
-            <span id="page-number-display">{page}</span>
+            <span className="page-number-display">{page}</span>
 
             {/* gray out the right button if there is no right page*/}
-            {hasNextPage ? (
+            {page + 1 <= numPages ? (
                 <button
                     style={{ backgroundColor: "var(--cyan)" }}
                     onClick={() => handleClick(page + 1)}
@@ -60,6 +66,17 @@ const PageChanger = ({
                 >
                     ▷
                 </button>
+            )}
+
+            {page < numPages ? (
+                <span
+                    onClick={() => handleClick(numPages)}
+                    className="clickable-result page-number-display"
+                >
+                    {numPages}
+                </span>
+            ) : (
+                <span className="page-number-display">-</span>
             )}
         </div>
     );

@@ -163,7 +163,7 @@ const PaginatedResults = ({ searchType, searchTerm, nestLevel }) => {
                         {searchResults.count > 10 && (
                             <PageChanger
                                 page={currentPage}
-                                hasNextPage={searchResults.next != null}
+                                numPages={Math.ceil(searchResults.count / 10)}
                                 setPageFunction={setCurrentPage}
                                 hasInteractedRef={hasInteractedRef}
                             />
