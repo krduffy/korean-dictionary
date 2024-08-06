@@ -30,7 +30,7 @@ const StringWithNLP = ({ string, hasExamples }) => {
         }
 
         /* if there are examples, then an example is considered a single word
-       even if it is a phrase that really consists of several words. */
+           even if it is a phrase that really consists of several words. */
         const splitAlongCurly = stringWithWords.split(/({.*?})/g);
         let words = [];
 

@@ -1,6 +1,8 @@
 import { fitBoxX, fitBoxY } from "../../../../util/mathUtils";
+import { getBasicDetailHanjaView } from "../../../../util/viewUtils";
 import { ViewContext } from "../Panel";
 import HanjaHoverBox from "./HanjaHoverBox";
+import PanelSpecificClickableText from "./PanelSpecificClickableText";
 
 import React, { useContext, useState } from "react";
 
@@ -11,9 +13,6 @@ import "./universal-styles.css";
 const HanjaCharacterSpan = ({ character, overrideDisplay, disableClick }) => {
     const [showHoverBox, setShowHoverBox] = useState(false);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const updateViewAndPushToHistory =
-        useContext(ViewContext)["updateViewAndPushToHistory"];
-    const currentView = useContext(ViewContext)["currentView"];
 
     const handleMouseEnter = (event) => {
         event.stopPropagation();
@@ -26,46 +25,28 @@ const HanjaCharacterSpan = ({ character, overrideDisplay, disableClick }) => {
         setShowHoverBox(false);
     };
 
-    const notAlreadyViewing = () => {
-        return (
-            character != currentView["value"] &&
-            currentView["view"] !== "hanja_detail"
-        );
-    };
+    const getViewOnPush = () => {
+        if (!disableClick) {
+            return getBasicDetailHanjaView(character);
+        }
 
-    const viewHanjaDetail = () => {
-        updateViewAndPushToHistory({
-            view: "detail_hanja",
-            value: {
-                search_term: character,
-                initial_page: 1,
-            },
-            searchBarInitialState: {
-                boxContent: character,
-                dictionary: "hanja",
-            },
-        });
-    };
-
-    const handleClick = (event) => {
-        event.stopPropagation();
-        if (!disableClick && notAlreadyViewing()) viewHanjaDetail(character);
+        return null;
     };
 
     return (
         <>
-            <span
-                className="hanja-char"
-                onMouseOver={handleMouseEnter}
-                onMouseOut={handleMouseLeave}
-                style={{
-                    cursor:
-                        notAlreadyViewing() && !disableClick ? "pointer" : "",
-                }}
-                onClick={handleClick}
+            <PanelSpecificClickableText
+                getViewOnPush={getViewOnPush}
+                disableStyling={true}
             >
-                {overrideDisplay ? overrideDisplay : character}
-            </span>
+                <span
+                    className="hanja-char"
+                    onMouseOver={handleMouseEnter}
+                    onMouseOut={handleMouseLeave}
+                >
+                    {overrideDisplay || character}
+                </span>
+            </PanelSpecificClickableText>
             {showHoverBox && (
                 <HanjaHoverBox
                     character={character}

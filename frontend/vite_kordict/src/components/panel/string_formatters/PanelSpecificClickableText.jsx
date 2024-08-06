@@ -7,6 +7,7 @@ const PanelSpecificClickableText = ({
     text,
     viewOnPush,
     getViewOnPush,
+    disableStyling,
 }) => {
     const pushView = useContext(ViewContext)["pushView"];
 
@@ -24,7 +25,7 @@ const PanelSpecificClickableText = ({
 
     return (
         <span
-            className="clickable-result"
+            className={disableStyling ? "" : "clickable-result"}
             onClick={handleClick}
             onContextMenu={handleRightClick}
         >
