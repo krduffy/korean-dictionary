@@ -1,18 +1,15 @@
-import { getElementSizing } from "../../../../util/domUtils";
-import { getBasicSearchKoreanView } from "../../../../util/viewUtils";
-import { AuthenticationInfoContext } from "../../../App";
-import { useAPIModifier } from "../../../hooks/useAPIModifier";
-import { ViewContext } from "../Panel";
-import ErrorMessage from "../messages/ErrorMessage";
-import {
-    LoadingMessage,
-    TrailingDotCustomMessage,
-} from "../messages/LoadingMessage";
-import PanelSpecificClickableText from "./PanelSpecificClickableText";
-import PopupBox from "./PopupBox";
-import StringWithHanja from "./StringWithHanja";
-
 import React, { useContext, useEffect, useRef, useState } from "react";
+
+import { getElementSizing } from "../../../../util/domUtils.js";
+import { getBasicSearchKoreanView } from "../../../../util/viewUtils.js";
+import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
+
+import { AuthenticationInfoContext } from "../../../App.jsx";
+import ErrorMessage from "../messages/ErrorMessage.jsx";
+import { TrailingDotCustomMessage } from "../messages/LoadingMessage.jsx";
+import PanelSpecificClickableText from "./PanelSpecificClickableText.jsx";
+import PopupBox from "./PopupBox.jsx";
+import StringWithHanja from "./StringWithHanja.jsx";
 
 import "./universal-styles.css";
 

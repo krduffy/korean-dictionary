@@ -1,12 +1,11 @@
-import { fitBoxX, fitBoxY } from "../../../../util/mathUtils";
-import { getBasicDetailHanjaView } from "../../../../util/viewUtils";
-import { ViewContext } from "../Panel";
-import HanjaHoverBox from "./HanjaHoverBox";
-import PanelSpecificClickableText from "./PanelSpecificClickableText";
-
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import PropTypes from "prop-types";
+
+import { getBasicDetailHanjaView } from "../../../../util/viewUtils.js";
+
+import HanjaHoverBox from "./HanjaHoverBox.jsx";
+import PanelSpecificClickableText from "./PanelSpecificClickableText.jsx";
 
 import "./universal-styles.css";
 

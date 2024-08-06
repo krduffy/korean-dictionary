@@ -1,19 +1,24 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
+import {
+    getBasicSearchKoreanView,
+    getBasicUnknownWordsView,
+} from "../../../../util/viewUtils.js";
 import { useAPIModifier } from "../../../hooks/useAPIModifier.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
+import { ViewContext } from "../Panel.jsx";
 import ErrorMessage from "../messages/ErrorMessage.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
-import ClipboardCopier from "../string_formatters/ClipboardCopier.jsx";
+import PanelSpecificClickableText from "../string_formatters/PanelSpecificClickableText.jsx";
 
 import "./unknown-word-styles.css";
 
-const GetUnknownWordsForm = () => {
+const GetUnknownWordsForm = ({ initialTextContent, initialUnknownWords }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
-    const [textContent, setTextContent] = useState("");
-    const [unknownWords, setUnknownWords] = useState([]);
+    const [textContent, setTextContent] = useState(initialTextContent);
+    const [unknownWords, setUnknownWords] = useState(initialUnknownWords);
 
     const interactedRef = useRef(false);
 
@@ -25,13 +30,35 @@ const GetUnknownWordsForm = () => {
         response,
         error,
         loading,
-    } = useAPIModifier({
-        text: "",
+    } = useAPIModifier(true, {
+        text: initialTextContent,
     });
+
+    const updateCurrentViewInHistory =
+        useContext(ViewContext)["updateCurrentViewInHistory"];
+
+    const updateHistory = () => {
+        const basicView = getBasicUnknownWordsView();
+
+        const newView = {
+            view: basicView.view,
+            value: {
+                initialTextContent: textContent,
+                initialUnknownWords: unknownWords,
+            },
+            searchBarInitialState: { ...basicView.searchBarInitialState },
+        };
+
+        updateCurrentViewInHistory(newView);
+    };
 
     useEffect(() => {
         updateFormDataField("text", textContent);
     }, [textContent]);
+
+    useEffect(() => {
+        updateHistory();
+    }, [JSON.stringify(unknownWords)]);
 
     useEffect(() => {
         if (successful) {
@@ -52,45 +79,15 @@ const GetUnknownWordsForm = () => {
         <>
             <div className="form-upper-bar">모르는 단어 찾기 도구</div>
 
-            <div className="form-tip">
-                상자에 입력어를 넣으시면 모르는 단어를 찾는 도구입니다.
-                <div className="form-tip-detail">
-                    사전을 처음으로 사용하는 데 본인이 아는 단어가 모르는
-                    설정으로 되어 있습니다. 아는 단어가 검색 결과에 우선되고
-                    한자 용례로 제공되니 아는 단어가 많을 수록 사전 사용이 더욱
-                    유익해집니다.
-                </div>
-            </div>
+            <FormTips />
 
-            <div className="form-tip">
-                이 페이지를 벗어나면 입력어가 저장되지{" "}
-                <span style={{ textDecoration: "underline", color: "red" }}>
-                    않으니
-                </span>{" "}
-                주의하세요.
-            </div>
-
-            <div className="input-box-and-button-container">
-                <textarea
-                    className="input-box"
-                    onChange={(event) => setTextContent(event.target.value)}
-                ></textarea>
-
-                <div className="input-button-container">
-                    <button
-                        onClick={() => {
-                            if (!loading) {
-                                interactedRef.current = true;
-                                handleSubmit();
-                            }
-                        }}
-                        style={{ cursor: loading ? "not-allowed" : "pointer" }}
-                        className="find-words-button"
-                    >
-                        분석
-                    </button>
-                </div>
-            </div>
+            <SubmitArea
+                textContent={textContent}
+                setTextContent={setTextContent}
+                loading={loading}
+                interactedRef={interactedRef}
+                handleSubmit={handleSubmit}
+            />
 
             <div className="lower-information">
                 {loading ? (
@@ -111,8 +108,12 @@ const GetUnknownWordsForm = () => {
                         <div className="unknown-words-box">
                             {unknownWords.map((word, index) => (
                                 <span key={index} className="unknown-word">
-                                    {word}
-                                    <ClipboardCopier string={word} />
+                                    <PanelSpecificClickableText
+                                        text={word}
+                                        viewOnPush={getBasicSearchKoreanView(
+                                            word
+                                        )}
+                                    />
                                 </span>
                             ))}
                         </div>
@@ -124,3 +125,59 @@ const GetUnknownWordsForm = () => {
 };
 
 export default GetUnknownWordsForm;
+
+const FormTips = () => {
+    return (
+        <>
+            <div className="form-tip">
+                상자에 입력어를 넣으시면 모르는 단어를 찾는 도구입니다.
+                <div className="form-tip-detail">
+                    사전을 처음으로 사용하는 데 본인이 아는 단어가 모르는
+                    설정으로 되어 있습니다. 아는 단어가 검색 결과에 우선되고
+                    한자 용례로 제공되니 아는 단어가 많을 수록 사전 사용이 더욱
+                    유익해집니다.
+                </div>
+            </div>
+            <div className="form-tip">
+                이 페이지를 벗어나면 입력어가 저장되지{" "}
+                <span style={{ textDecoration: "underline", color: "red" }}>
+                    않으니
+                </span>{" "}
+                주의하세요.
+            </div>{" "}
+        </>
+    );
+};
+
+const SubmitArea = ({
+    textContent,
+    setTextContent,
+    loading,
+    interactedRef,
+    handleSubmit,
+}) => {
+    return (
+        <div className="input-box-and-button-container">
+            <textarea
+                className="input-box"
+                value={textContent}
+                onChange={(event) => setTextContent(event.target.value)}
+            />
+
+            <div className="input-button-container">
+                <button
+                    onClick={() => {
+                        if (!loading) {
+                            interactedRef.current = true;
+                            handleSubmit();
+                        }
+                    }}
+                    style={{ cursor: loading ? "not-allowed" : "pointer" }}
+                    className="find-words-button"
+                >
+                    분석
+                </button>
+            </div>
+        </div>
+    );
+};

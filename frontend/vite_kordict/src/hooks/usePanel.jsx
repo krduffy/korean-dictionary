@@ -123,7 +123,12 @@ export const usePanel = () => {
             case "edit_word":
                 return <EditWordForm targetCode={value} />;
             case "get_unknown_words":
-                return <GetUnknownWordsForm />;
+                return (
+                    <GetUnknownWordsForm
+                        initialTextContent={value.initialTextContent}
+                        initialUnknownWords={value.initialUnknownWords}
+                    />
+                );
             case "detail_note":
                 return <UserNoteDetail noteData={value} />;
         }

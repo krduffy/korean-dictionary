@@ -33,3 +33,17 @@ export const getBasicSearchKoreanView = (searchTerm) => {
         },
     };
 };
+
+export const getBasicUnknownWordsView = () => {
+    return {
+        view: "get_unknown_words",
+        value: {
+            initialTextContent: "",
+            initialUnknownWords: [],
+        },
+        searchBarInitialState: {
+            boxContent: "",
+            dictionary: "korean",
+        },
+    };
+};
