@@ -127,6 +127,7 @@ export const usePanel = () => {
                     <GetUnknownWordsForm
                         initialTextContent={value.initialTextContent}
                         initialUnknownWords={value.initialUnknownWords}
+                        alreadyInteracted={value.alreadyInteracted}
                     />
                 );
             case "detail_note":

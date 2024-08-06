@@ -40,6 +40,7 @@ export const getBasicUnknownWordsView = () => {
         value: {
             initialTextContent: "",
             initialUnknownWords: [],
+            alreadyInteracted: false,
         },
         searchBarInitialState: {
             boxContent: "",

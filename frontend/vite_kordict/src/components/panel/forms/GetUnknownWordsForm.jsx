@@ -11,16 +11,20 @@ import { ViewContext } from "../Panel.jsx";
 import ErrorMessage from "../messages/ErrorMessage.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import PanelSpecificClickableText from "../string_formatters/PanelSpecificClickableText.jsx";
+import TruncatorDropdown from "../string_formatters/TruncatorDropdown.jsx";
 
 import "./unknown-word-styles.css";
 
-const GetUnknownWordsForm = ({ initialTextContent, initialUnknownWords }) => {
+const GetUnknownWordsForm = ({
+    initialTextContent,
+    initialUnknownWords,
+    alreadyInteracted,
+}) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
     const [textContent, setTextContent] = useState(initialTextContent);
     const [unknownWords, setUnknownWords] = useState(initialUnknownWords);
-
-    const interactedRef = useRef(false);
+    const [interacted, setInteracted] = useState(alreadyInteracted);
 
     const {
         formData,
@@ -45,9 +49,12 @@ const GetUnknownWordsForm = ({ initialTextContent, initialUnknownWords }) => {
             value: {
                 initialTextContent: textContent,
                 initialUnknownWords: unknownWords,
+                alreadyInteracted: interacted,
             },
             searchBarInitialState: { ...basicView.searchBarInitialState },
         };
+
+        console.log(newView);
 
         updateCurrentViewInHistory(newView);
     };
@@ -58,7 +65,7 @@ const GetUnknownWordsForm = ({ initialTextContent, initialUnknownWords }) => {
 
     useEffect(() => {
         updateHistory();
-    }, [JSON.stringify(unknownWords)]);
+    }, [interacted, JSON.stringify(unknownWords)]);
 
     useEffect(() => {
         if (successful) {
@@ -77,7 +84,16 @@ const GetUnknownWordsForm = ({ initialTextContent, initialUnknownWords }) => {
 
     return (
         <>
-            <div className="form-upper-bar">모르는 단어 찾기 도구</div>
+            <div
+                className="curved-box textcentered pad-10"
+                style={{
+                    fontSize: "30px",
+                    marginBottom: "10px",
+                    backgroundColor: "var(--deepred)",
+                }}
+            >
+                모르는 단어 찾기 도구
+            </div>
 
             <FormTips />
 
@@ -85,41 +101,26 @@ const GetUnknownWordsForm = ({ initialTextContent, initialUnknownWords }) => {
                 textContent={textContent}
                 setTextContent={setTextContent}
                 loading={loading}
-                interactedRef={interactedRef}
+                setInteracted={setInteracted}
                 handleSubmit={handleSubmit}
             />
 
-            <div className="lower-information">
-                {loading ? (
-                    <LoadingMessage />
-                ) : error ? (
-                    <ErrorMessage errorResponse={response} />
-                ) : unknownWords.length == 0 ? (
-                    <div className="center-children-horizontal">
-                        {interactedRef?.current === true && (
-                            <span>모르는 단어가 없습니다.</span>
-                        )}
-                    </div>
-                ) : (
-                    <>
-                        <div className="unknown-words-box-header">
-                            모르는 단어
-                        </div>
-                        <div className="unknown-words-box">
-                            {unknownWords.map((word, index) => (
-                                <span key={index} className="unknown-word">
-                                    <PanelSpecificClickableText
-                                        text={word}
-                                        viewOnPush={getBasicSearchKoreanView(
-                                            word
-                                        )}
-                                    />
-                                </span>
-                            ))}
-                        </div>
-                    </>
-                )}
-            </div>
+            {(interacted || unknownWords.length > 0) && (
+                <div
+                    className="lower-information"
+                    style={{
+                        marginTop: "20px",
+                    }}
+                >
+                    {loading ? (
+                        <LoadingMessage />
+                    ) : error ? (
+                        <ErrorMessage errorResponse={response} />
+                    ) : (
+                        <UnknownWordsSection unknownWords={unknownWords} />
+                    )}
+                </div>
+            )}
         </>
     );
 };
@@ -127,25 +128,27 @@ const GetUnknownWordsForm = ({ initialTextContent, initialUnknownWords }) => {
 export default GetUnknownWordsForm;
 
 const FormTips = () => {
+    const ref = useRef(null);
+
     return (
-        <>
-            <div className="form-tip">
-                상자에 입력어를 넣으시면 모르는 단어를 찾는 도구입니다.
-                <div className="form-tip-detail">
-                    사전을 처음으로 사용하는 데 본인이 아는 단어가 모르는
-                    설정으로 되어 있습니다. 아는 단어가 검색 결과에 우선되고
-                    한자 용례로 제공되니 아는 단어가 많을 수록 사전 사용이 더욱
-                    유익해집니다.
+        <TruncatorDropdown onCollapseScrollToRef={ref}>
+            <div>
+                <div ref={ref} className="form-tip">
+                    상자에 있는 입력어를 넣으시면 모르는 단어를 찾는 도구입니다.
+                    <div className="form-tip-detail">
+                        분석 버튼을 누르신 다음에 찾아드립니다. 나오는 단어를
+                        클릭하시면 한국어 사전에 검색됩니다.
+                    </div>
+                    <div className="form-tip-detail">
+                        틀릴 수는 있으니 주의하세요.
+                    </div>
+                </div>
+                <div className="form-tip">
+                    이 페이지를 벗어나셔도 입력어와 결과가 저장되니 걱정하지
+                    않으셔도 됩니다.
                 </div>
             </div>
-            <div className="form-tip">
-                이 페이지를 벗어나면 입력어가 저장되지{" "}
-                <span style={{ textDecoration: "underline", color: "red" }}>
-                    않으니
-                </span>{" "}
-                주의하세요.
-            </div>{" "}
-        </>
+        </TruncatorDropdown>
     );
 };
 
@@ -153,7 +156,7 @@ const SubmitArea = ({
     textContent,
     setTextContent,
     loading,
-    interactedRef,
+    setInteracted,
     handleSubmit,
 }) => {
     return (
@@ -168,7 +171,7 @@ const SubmitArea = ({
                 <button
                     onClick={() => {
                         if (!loading) {
-                            interactedRef.current = true;
+                            setInteracted(true);
                             handleSubmit();
                         }
                     }}
@@ -179,5 +182,46 @@ const SubmitArea = ({
                 </button>
             </div>
         </div>
+    );
+};
+
+const UnknownWordsSection = ({ unknownWords }) => {
+    return (
+        <>
+            <div
+                className="full-width center-children-horizontal"
+                style={{
+                    marginBottom: "20px",
+                }}
+            >
+                <span
+                    className="curved-box-shape"
+                    style={{
+                        fontSize: "20px",
+                        backgroundColor: "var(--deepred)",
+                        borderColor: "white",
+                        padding: "5px",
+                    }}
+                >
+                    ─ 모르는 단어 ─
+                </span>
+            </div>
+            {unknownWords.length > 0 ? (
+                <div className="unknown-words-box">
+                    {unknownWords.map((word, index) => (
+                        <span key={index} className="unknown-word">
+                            <PanelSpecificClickableText
+                                text={word}
+                                viewOnPush={getBasicSearchKoreanView(word)}
+                            />
+                        </span>
+                    ))}
+                </div>
+            ) : (
+                <div className="full-width textcentered">
+                    모르는 단어가 없습니다.
+                </div>
+            )}
+        </>
     );
 };

@@ -246,7 +246,8 @@ button:focus-visible {
 .horizontal-bar {
     width: 75%;
     height: 2px;
-    background-color: rgb(128, 128, 128);
+    flex-shrink: 0;
+    background-color: #444444;
     margin-left: 12.5%;
     margin-right: 12.5%;
 }
