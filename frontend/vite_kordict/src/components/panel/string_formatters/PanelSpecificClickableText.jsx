@@ -10,8 +10,17 @@ const PanelSpecificClickableText = ({ text, viewOnPush }) => {
         pushView(event, viewOnPush);
     };
 
+    const handleRightClick = (event) => {
+        event.preventDefault();
+        handleClick(event);
+    };
+
     return (
-        <span className="clickable-result" onClick={handleClick}>
+        <span
+            className="clickable-result"
+            onClick={handleClick}
+            onContextMenu={handleRightClick}
+        >
             {text}
         </span>
     );

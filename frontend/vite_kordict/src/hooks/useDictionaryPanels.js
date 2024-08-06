@@ -11,8 +11,8 @@ export const useDictionaryPanels = () => {
     const addPushView = (usePanelObject, leftOrRight) => {
         /* checks if ctrl is being held down */
         const pushView = (event, newView) => {
-            if (event.ctrlKey) {
-                /* search in other panel. */
+            /* ctrl key or right click causes view to come up in other panel */
+            if (event.ctrlKey || event.button === 2) {
                 if (leftOrRight === "right") {
                     useLeftPanel.updateViewAndPushToHistory(newView);
                 } else if (leftOrRight === "left") {
