@@ -34,6 +34,20 @@ export const getBasicSearchKoreanView = (searchTerm) => {
     };
 };
 
+export const getBasicSearchHanjaView = (character) => {
+    return {
+        view: "search_hanja",
+        value: {
+            search_term: character,
+            initial_page: 1,
+        },
+        searchBarInitialState: {
+            boxContent: character,
+            dictionary: "hanja",
+        },
+    };
+};
+
 export const getBasicUnknownWordsView = () => {
     return {
         view: "get_unknown_words",

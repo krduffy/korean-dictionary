@@ -2,6 +2,11 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { getElementSizing } from "../../../../util/domUtils.js";
 import { engKeyboardToKorean } from "../../../../util/stringUtils.js";
+import {
+    getBasicDetailHanjaView,
+    getBasicSearchHanjaView,
+    getBasicSearchKoreanView,
+} from "../../../../util/viewUtils.js";
 
 import { ViewContext } from "../Panel.jsx";
 import PopupBox from "../string_formatters/PopupBox.jsx";
@@ -25,32 +30,6 @@ const SearchBar = () => {
         setDictionary(searchBarInitialState["dictionary"]);
     }, [searchBarInitialState]);
 
-    const sanitize = (content) => {
-        const allowedUnicodeRanges = [
-            // Korean Hangul characters
-            "\uAC00-\uD7AF", // Hangul Syllables
-            "\u1100-\u11FF", // Hangul Jamo
-            "\u3130-\u318F", // Hangul Compatibility Jamo
-            "\uA960-\uA97F", // Hangul Jamo Extended-A
-            "\uD7B0-\uD7FF", // Hangul Jamo Extended-B
-
-            "\u0061-\u007a", // a-z
-            "\u0041-\u005a", // A-Z
-
-            "\u0030-\u0039", // 0-9
-
-            "\u0020", // space
-            "\u002a", // asterisk (*)
-            "\u002e", // period (.)
-
-            "\u4e00-\u9fff", // Hanja characters (CJK Unified Ideographs)
-        ];
-
-        const pattern = new RegExp(`[^${allowedUnicodeRanges.join("")}]`, "g");
-
-        return content.replace(pattern, "");
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -69,81 +48,30 @@ const SearchBar = () => {
         /* visual changes */
         setBoxContent(fixedContent);
 
-        if (dictionary === "korean")
-            updateViewAndPushToHistory({
-                view: "search_korean",
-                value: {
-                    search_term: fixedContent,
-                    initial_page: 1,
-                },
-                searchBarInitialState: {
-                    boxContent: fixedContent,
-                    dictionary: "korean",
-                },
-            });
-        else if (dictionary === "hanja") {
+        if (dictionary === "korean") {
+            updateViewAndPushToHistory(getBasicSearchKoreanView(fixedContent));
+        } else if (dictionary === "hanja") {
             // if a single character then just render the detail view for that instead
             // of a single search result that the user would then need to click on
 
-            updateViewAndPushToHistory({
-                view: fixedContent.match(/^[\u4E00-\u9FFF]$/g)
-                    ? "detail_hanja"
-                    : "search_hanja",
-                value: {
-                    search_term: fixedContent,
-                    initial_page: "1",
-                },
-                searchBarInitialState: {
-                    boxContent: fixedContent,
-                    dictionary: "hanja",
-                },
-            });
+            if (fixedContent.match(/^[\u4E00-\u9FFF]$/g)) {
+                updateViewAndPushToHistory(
+                    getBasicDetailHanjaView(fixedContent)
+                );
+            } else {
+                updateViewAndPushToHistory(
+                    getBasicSearchHanjaView(fixedContent)
+                );
+            }
         }
     };
 
     return (
         <div className="search-bar">
-            <div className="dictionary-button-container">
-                <button
-                    className={
-                        dictionary === "korean"
-                            ? "activated-button"
-                            : "not-activated-button"
-                    }
-                    onClick={() => setDictionary("korean")}
-                    title="한국어 사전 검색"
-                >
-                    한
-                </button>
-                <button
-                    className={
-                        dictionary === "hanja"
-                            ? "activated-button"
-                            : "not-activated-button"
-                    }
-                    onClick={() => setDictionary("hanja")}
-                    title="한자 사전 검색"
-                >
-                    漢
-                </button>
-                <button
-                    onClick={() => {
-                        navigator.clipboard
-                            .readText()
-                            .then((clipboardData) => {
-                                setBoxContent(clipboardData);
-                            })
-                            .catch((err) => {
-                                console.error(
-                                    "Error pasting clipboard content: " + err
-                                );
-                            });
-                    }}
-                    title="붙여넣기"
-                >
-                    🗐⤳
-                </button>
-            </div>
+            <DictionaryButtons
+                dictionary={dictionary}
+                setDictionary={setDictionary}
+            />
 
             <form className="form-content" onSubmit={handleSubmit}>
                 <input
@@ -154,7 +82,7 @@ const SearchBar = () => {
                     className="lrmargin-10"
                     style={{ padding: "2px" }}
                     onChange={(e) => {
-                        setBoxContent(sanitize(e.target.value));
+                        setBoxContent(e.target.value.trim());
                     }}
                     onKeyDown={(e) => {
                         if (e.key == "Enter") handleSubmit(e);
@@ -163,30 +91,60 @@ const SearchBar = () => {
                 <button type="submit">검색</button>
             </form>
 
-            {showChangedMessage &&
-                (() => {
-                    const dim = getElementSizing(barRef);
-
-                    return (
-                        <PopupBox
-                            fromX={dim.centerX}
-                            fromY={dim.centerY}
-                            positioning={"above"}
-                            padding={dim.paddingY + 10}
-                        >
-                            <div
-                                style={{
-                                    paddingLeft: "10px",
-                                    paddingRight: "10px",
-                                }}
-                            >
-                                영문 입력이 한글로 자동 변환되었습니다.
-                            </div>
-                        </PopupBox>
-                    );
-                })()}
+            {showChangedMessage && <ChangedToHangulMessage barRef={barRef} />}
         </div>
     );
 };
 
 export default SearchBar;
+
+const DictionaryButtons = ({ dictionary, setDictionary }) => {
+    return (
+        <div className="dictionary-button-container">
+            <button
+                className={
+                    dictionary === "korean"
+                        ? "activated-button"
+                        : "not-activated-button"
+                }
+                onClick={() => setDictionary("korean")}
+                title="한국어 사전 검색"
+            >
+                한
+            </button>
+            <button
+                className={
+                    dictionary === "hanja"
+                        ? "activated-button"
+                        : "not-activated-button"
+                }
+                onClick={() => setDictionary("hanja")}
+                title="한자 사전 검색"
+            >
+                漢
+            </button>
+        </div>
+    );
+};
+
+const ChangedToHangulMessage = ({ barRef }) => {
+    const dim = getElementSizing(barRef);
+
+    return (
+        <PopupBox
+            fromX={dim.centerX}
+            fromY={dim.centerY}
+            positioning={"above"}
+            padding={dim.paddingY + 10}
+        >
+            <div
+                style={{
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                }}
+            >
+                영문 입력이 한글로 자동 변환되었습니다.
+            </div>
+        </PopupBox>
+    );
+};
