@@ -22,3 +22,14 @@ export const getBasicDetailHanjaView = (character) => {
         },
     };
 };
+
+export const getBasicSearchKoreanView = (searchTerm) => {
+    return {
+        view: "search_korean",
+        value: { search_term: searchTerm, initial_page: 1 },
+        searchBarInitialState: {
+            boxContent: searchTerm,
+            dictionary: "korean",
+        },
+    };
+};

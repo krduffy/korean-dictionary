@@ -2,12 +2,19 @@ import React, { useContext } from "react";
 
 import { ViewContext } from "../Panel.jsx";
 
-const PanelSpecificClickableText = ({ text, viewOnPush }) => {
+const PanelSpecificClickableText = ({
+    children,
+    text,
+    viewOnPush,
+    getViewOnPush,
+}) => {
     const pushView = useContext(ViewContext)["pushView"];
 
-    const handleClick = (event) => {
+    const handleClick = async (event) => {
         event.stopPropagation();
-        pushView(event, viewOnPush);
+
+        pushView(event, viewOnPush ? viewOnPush : await getViewOnPush());
+        console.log(getViewOnPush());
     };
 
     const handleRightClick = (event) => {
@@ -21,7 +28,7 @@ const PanelSpecificClickableText = ({ text, viewOnPush }) => {
             onClick={handleClick}
             onContextMenu={handleRightClick}
         >
-            {text}
+            {children || text}
         </span>
     );
 };

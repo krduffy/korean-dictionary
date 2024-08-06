@@ -1,6 +1,5 @@
 import React, { createContext } from "react";
 
-import { usePanel } from "../../hooks/usePanel.jsx";
 import PanelHeader from "./fixed_header/PanelHeader.jsx";
 
 import "./panel-styles.css";

@@ -90,8 +90,9 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
      * @param {string} token - An optional authentication token to send with the request.
      * @param {Object} body - A dictionary of keys and values to send in the body of the request.
      * @param {string} method - The method of the request (POST, DELETE, ...).
+     * @returns {Promise<any>} A Promise that resolves with the response data or rejects with an error.
      */
-    const apiModify = (url, token, body, method) => {
+    const apiModify = async (url, token, body, method) => {
         const fullUrl = BASE_URL + url;
 
         setSuccessful(false);
@@ -109,56 +110,48 @@ export const useAPIModifier = (useFormDataObject = true, initialJSONObject) => {
             headers.append("Content-Type", "application/json");
         }
 
-        fetch(fullUrl, {
-            method: method,
-            body: body,
-            headers: headers,
-        }).then((response) => {
-            response
-                .text()
-                .then((res) => {
-                    let asJSON;
-                    try {
-                        asJSON = JSON.parse(res);
-                    } catch {
-                        /* return blank if any error */
-                        asJSON = {};
-                    }
-                    setResponse(asJSON);
-                    return asJSON;
-                })
-                .then((asJSON) => {
-                    if (!response.ok) {
-                        setError(true);
-                    } else {
-                        /* on success */
-                        const additionalInfo = {};
+        try {
+            const response = await fetch(fullUrl, {
+                method: method,
+                body: body,
+                headers: headers,
+            });
 
-                        additionalInfo["word"] = asJSON["word"]
-                            ? asJSON["word"]
-                            : "";
-                        additionalInfo["target_code"] = asJSON["target_code"]
-                            ? asJSON["target_code"]
-                            : "";
-                        additionalInfo["word_ref"] = asJSON["word_ref"]
-                            ? asJSON["word_ref"]
-                            : null;
-                        additionalInfo["referent"] = asJSON["referent"]
-                            ? asJSON["referent"]
-                            : null;
-                        additionalInfo["origin"] = asJSON["origin"]
-                            ? asJSON["origin"]
-                            : "";
+            const text = await response.text();
+            let asJSON;
 
-                        processRequest(url, method, additionalInfo);
+            try {
+                asJSON = JSON.parse(text);
+            } catch {
+                asJSON = {};
+            }
 
-                        setSuccessful(true);
-                    }
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        });
+            setResponse(asJSON);
+
+            if (!response.ok) {
+                setError(true);
+                return asJSON;
+            } else {
+                const additionalInfo = {
+                    word: asJSON["word"] || "",
+                    target_code: asJSON["target_code"] || "",
+                    word_ref: asJSON["word_ref"] || null,
+                    referent: asJSON["referent"] || null,
+                    origin: asJSON["origin"] || "",
+                };
+
+                processRequest(url, method, additionalInfo);
+
+                setSuccessful(true);
+                return asJSON;
+            }
+        } catch (err) {
+            setError(true);
+            console.error("Fetch error:", err);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
     };
 
     return {

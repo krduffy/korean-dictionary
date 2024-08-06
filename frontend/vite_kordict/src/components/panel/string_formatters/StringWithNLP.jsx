@@ -1,3 +1,4 @@
+import { getBasicSearchKoreanView } from "../../../../util/viewUtils";
 import { AuthenticationInfoContext } from "../../../App";
 import { useAPIModifier } from "../../../hooks/useAPIModifier";
 import { ViewContext } from "../Panel";
@@ -6,6 +7,7 @@ import {
     LoadingMessage,
     TrailingDotCustomMessage,
 } from "../messages/LoadingMessage";
+import PanelSpecificClickableText from "./PanelSpecificClickableText";
 import PopupBox from "./PopupBox";
 import StringWithHanja from "./StringWithHanja";
 
@@ -96,53 +98,22 @@ const StringWithNLP = ({ string, hasExamples }) => {
 export default StringWithNLP;
 
 const WordWithNLP = ({ word, fullSentence }) => {
-    const [mouseInside, setMouseInside] = useState(false);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
     const [showErrorBox, setShowErrorBox] = useState(false);
 
-    {
-        /* does not actually modify but needs to make post request because full sentence
-      can become too long to store in a url for a get request. none of the form data
-      are ever changed*/
-    }
+    /* does not actually modify but needs to make post request because full sentence
+       can become too long to store in a url for a get request. none of the form data
+       are ever changed*/
     const { formData, apiModify, successful, response, error, loading } =
         useAPIModifier(true, {
             text: fullSentence,
             mouse_over: word,
         });
 
-    const splitBulleted = (sentenceString) => {
-        /* 전기를 일으키는 시설을 갖춘 곳 
-       수력ㆍ화력ㆍ원자력ㆍ풍력ㆍ조력ㆍ태양광ㆍ지열 
-       따위로 발전기를 돌려 전기를 일으킨다.
-
-       ^ a string like this where there are a bunch of nouns separated by no space but instead a 
-      ㆍ are annoying to click on because it is all considered one word. so here, they are split
-      with spaces. 
-     */
-        return sentenceString.replace("ㆍ", " ㆍ ");
-    };
-
-    const currentView = useContext(ViewContext)["currentView"];
-
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
-    const updateViewAndPushToHistory =
-        useContext(ViewContext)["updateViewAndPushToHistory"];
-
-    const handleClick = (e) => {
-        e.preventDefault();
-        setMousePosition({ x: e.clientX, y: e.clientY });
-
-        apiModify(
-            "api/korean_word_lemma/",
-            authInfo["token"],
-            formData,
-            "POST"
-        );
-    };
-
+    /*
     const alreadyViewing = (koreanWord) => {
         if (
             currentView["view"] === "search_korean" &&
@@ -157,23 +128,23 @@ const WordWithNLP = ({ word, fullSentence }) => {
         }
         return false;
     };
+    */
 
-    useEffect(() => {
-        if (response) {
-            if (response.found) {
-                if (!alreadyViewing(response.found)) {
-                    updateViewAndPushToHistory({
-                        view: "search_korean",
-                        value: response.found,
-                        searchBarInitialState: {
-                            boxContent: response.found,
-                            dictionary: "korean",
-                        },
-                    });
-                }
-            }
+    const getViewOnPush = async () => {
+        const response = await apiModify(
+            "api/korean_word_lemma/",
+            authInfo["token"],
+            formData,
+            "POST"
+        );
+
+        if (response?.found) {
+            return getBasicSearchKoreanView(response.found);
         }
-    }, [response]);
+
+        /* does nothing since changing view to the same one is blocked */
+        return null;
+    };
 
     useEffect(() => {
         if (error) {
@@ -187,18 +158,15 @@ const WordWithNLP = ({ word, fullSentence }) => {
 
     return (
         <React.Fragment>
-            <span
-                className={mouseInside ? "clickable-result" : ""}
-                onMouseOver={() => {
-                    setMouseInside(true);
+            <PanelSpecificClickableText
+                getViewOnPush={async () => {
+                    const view = await getViewOnPush();
+                    return view;
                 }}
-                onMouseOut={() => {
-                    setMouseInside(false);
-                }}
-                onClick={handleClick}
             >
                 <StringWithHanja string={word} />
-            </span>
+            </PanelSpecificClickableText>
+
             <span>
                 {loading && (
                     <NLPLoadingIndicator

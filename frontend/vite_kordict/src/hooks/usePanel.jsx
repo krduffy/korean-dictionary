@@ -46,12 +46,16 @@ export const usePanel = () => {
     });
 
     const updateViewAndPushToHistory = (newView) => {
-        pushViewToHistory(newView);
-        setCurrentView(newView);
+        if (newView) {
+            pushViewToHistory(newView);
+            setCurrentView(newView);
+        }
     };
 
     const updateViewWithoutPushingToHistory = (newView) => {
-        setCurrentView(newView);
+        if (newView) {
+            setCurrentView(newView);
+        }
     };
 
     const backToHomepage = () => {
