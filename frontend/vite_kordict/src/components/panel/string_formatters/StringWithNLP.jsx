@@ -1,3 +1,4 @@
+import { getElementSizing } from "../../../../util/domUtils";
 import { getBasicSearchKoreanView } from "../../../../util/viewUtils";
 import { AuthenticationInfoContext } from "../../../App";
 import { useAPIModifier } from "../../../hooks/useAPIModifier";
@@ -11,7 +12,7 @@ import PanelSpecificClickableText from "./PanelSpecificClickableText";
 import PopupBox from "./PopupBox";
 import StringWithHanja from "./StringWithHanja";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import "./universal-styles.css";
 
@@ -98,37 +99,22 @@ const StringWithNLP = ({ string, hasExamples }) => {
 export default StringWithNLP;
 
 const WordWithNLP = ({ word, fullSentence }) => {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
     const [showErrorBox, setShowErrorBox] = useState(false);
 
     /* does not actually modify but needs to make post request because full sentence
        can become too long to store in a url for a get request. none of the form data
        are ever changed*/
-    const { formData, apiModify, successful, response, error, loading } =
-        useAPIModifier(true, {
+    const { formData, apiModify, response, error, loading } = useAPIModifier(
+        true,
+        {
             text: fullSentence,
             mouse_over: word,
-        });
+        }
+    );
 
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
-    /*
-    const alreadyViewing = (koreanWord) => {
-        if (
-            currentView["view"] === "search_korean" &&
-            currentView["value"] === koreanWord
-        ) {
-            return true;
-        } else if (
-            currentView["view"] === "detail_korean" &&
-            currentView["searchBarInitialState"]["boxContent"] === koreanWord
-        ) {
-            return true;
-        }
-        return false;
-    };
-    */
+    const wordSpanRef = useRef(null);
 
     const getViewOnPush = async () => {
         const response = await apiModify(
@@ -158,29 +144,36 @@ const WordWithNLP = ({ word, fullSentence }) => {
 
     return (
         <React.Fragment>
-            <PanelSpecificClickableText
-                getViewOnPush={async () => {
-                    const view = await getViewOnPush();
-                    return view;
-                }}
-            >
-                <StringWithHanja string={word} />
-            </PanelSpecificClickableText>
+            <span ref={wordSpanRef}>
+                <PanelSpecificClickableText getViewOnPush={getViewOnPush}>
+                    <StringWithHanja string={word} />
+                </PanelSpecificClickableText>
+            </span>
 
             <span>
-                {loading && (
-                    <NLPLoadingIndicator
-                        fromX={mousePosition.x}
-                        fromY={mousePosition.y}
-                    />
-                )}
-                {showErrorBox && (
-                    <NLPErrorMessage
-                        fromX={mousePosition.x}
-                        fromY={mousePosition.y}
-                        errorResponse={response}
-                    />
-                )}
+                {loading &&
+                    (() => {
+                        const dim = getElementSizing(wordSpanRef);
+
+                        return (
+                            <NLPLoadingIndicator
+                                fromX={dim.centerX}
+                                fromY={dim.centerY}
+                            />
+                        );
+                    })()}
+                {showErrorBox &&
+                    (() => {
+                        const dim = getElementSizing(wordSpanRef);
+
+                        return (
+                            <NLPErrorMessage
+                                fromX={dim.centerX}
+                                fromY={dim.centerY}
+                                errorResponse={response}
+                            />
+                        );
+                    })()}
             </span>
         </React.Fragment>
     );
