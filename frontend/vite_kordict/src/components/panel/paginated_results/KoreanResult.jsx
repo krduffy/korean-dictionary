@@ -1,38 +1,30 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import PropTypes from "prop-types";
 
-import { ViewContext } from "../Panel.jsx";
+import { getBasicDetailKoreanView } from "../../../../util/viewUtils.js";
+
 import KnowStudyToggles from "../detail_view/KnowStudyToggles.jsx";
 import Href from "../string_formatters/Href.jsx";
+import PanelSpecificClickableText from "../string_formatters/PanelSpecificClickableText.jsx";
 import StringWithHanja from "../string_formatters/StringWithHanja.jsx";
 import StringWithNLP from "../string_formatters/StringWithNLP.jsx";
 
 import "./styles/korean-result-styles.css";
 
 const KoreanResult = ({ result }) => {
-    const viewContext = useContext(ViewContext);
-
-    const viewKoreanDetail = (targetCode) => {
-        viewContext["updateViewAndPushToHistory"]({
-            view: "detail_korean",
-            value: targetCode,
-            searchBarInitialState: {
-                boxContent: result["word"],
-                dictionary: "korean",
-            },
-        });
-    };
-
     return (
         <div className="result_box">
             <div className="header">
                 <div>
-                    <span
-                        onClick={() => viewKoreanDetail(result.target_code)}
-                        className="word_header clickable-result"
-                    >
-                        {result.word}
+                    <span className="word_header clickable-result">
+                        <PanelSpecificClickableText
+                            text={result.word}
+                            viewOnPush={getBasicDetailKoreanView(
+                                result.word,
+                                result.target_code
+                            )}
+                        />
                     </span>
 
                     {"   "}

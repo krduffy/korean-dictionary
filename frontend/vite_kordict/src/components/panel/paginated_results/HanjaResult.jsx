@@ -1,40 +1,26 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import PropTypes from "prop-types";
 
-import { ViewContext } from "../Panel.jsx";
+import { getBasicDetailHanjaView } from "../../../../util/viewUtils.js";
+
 import Href from "../string_formatters/Href.jsx";
+import PanelSpecificClickableText from "../string_formatters/PanelSpecificClickableText.jsx";
 
 import "./styles/hanja-result-styles.css";
 
 const HanjaResult = ({ result }) => {
-    const viewContext = useContext(ViewContext);
-
-    const viewHanjaDetail = (character) => {
-        viewContext["updateViewAndPushToHistory"]({
-            view: "detail_hanja",
-            value: {
-                search_term: character,
-                initial_page: 1,
-            },
-            searchBarInitialState: {
-                boxContent: character,
-                dictionary: "hanja",
-            },
-        });
-    };
-
     return (
         <div className="hanja-result-container">
             <div className="hanja-result-top">
                 <div style={{ width: "60%" }}>
-                    <div
-                        className="hanja-clickable-result"
-                        onClick={() => {
-                            viewHanjaDetail(result["character"]);
-                        }}
-                    >
-                        {result["character"]}
+                    <div className="hanja-clickable-result">
+                        <PanelSpecificClickableText
+                            text={result["character"]}
+                            viewOnPush={getBasicDetailHanjaView(
+                                result.character
+                            )}
+                        />
                     </div>
 
                     <div className="meaning-reading">
