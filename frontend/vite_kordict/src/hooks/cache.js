@@ -87,8 +87,6 @@ export const processRequest = (url, method, additionalInfo) => {
         });
     };
 
-    console.log("URL IS " + url);
-
     /* toggle_word_known */
     if (new RegExp("^api/toggle_word_k").test(url)) {
         updateWordKnownOrStudied(true);
@@ -190,9 +188,6 @@ export const cachePut = (url, response) => {
         delete cache[urlToEvict];
         itemsStored--;
     }
-
-    console.log(cache);
-    console.log(itemsStored);
 };
 
 /* Not currently used for anything because logging in and out just calls the clear cache function */

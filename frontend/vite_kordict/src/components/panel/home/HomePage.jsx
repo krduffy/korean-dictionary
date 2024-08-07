@@ -1,71 +1,56 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
+import { getNewSeed } from "../../../../util/mathUtils.js";
 import {
+    getBasicDetailHanjaView,
+    getBasicHomepageView,
     getBasicUnknownWordsView,
+    getNewKnownWordsView,
     getNewStudyWordView,
 } from "../../../../util/viewUtils.js";
-import { HANJA_GAME_LENGTH } from "../../../constants.js";
-import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
+import { useHomePage } from "./useHomePage.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
 import { ViewContext } from "../Panel.jsx";
 import HanjaWriter from "../hanja-writing/HanjaWriter.jsx";
-import ErrorMessage from "../messages/ErrorMessage.jsx";
-import { LoadingMessage } from "../messages/LoadingMessage.jsx";
+import LoadErrorOrChild from "../messages/LoadErrorOrChild.jsx.jsx";
 import HanjaExampleResult from "../paginated_results/HanjaExampleResult.jsx";
 import KoreanResult from "../paginated_results/KoreanResult.jsx";
+import PanelSpecificClickableText from "../string_formatters/PanelSpecificClickableText.jsx";
 
 const HomePage = ({
     initialSeed,
     initialHanjaGameSeed,
     backToHanjaGameOrPushNewGame,
 }) => {
-    const [homepageData, setHomepageData] = useState();
+    const {
+        homepageData,
+        loading,
+        error,
+        response,
+        setSeed,
+        updateViewAndPushToHistory,
+    } = useHomePage(initialSeed, initialHanjaGameSeed);
+
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
-    const { apiFetch, apiPrefetch, loading, error, response } = useAPIFetcher();
-    const [seed, setSeed] = useState(initialSeed);
-
-    const viewContext = useContext(ViewContext);
-    const updateViewAndPushToHistory =
-        viewContext["updateViewAndPushToHistory"];
-
-    useEffect(() => {
-        if (authInfo["token"]) {
-            const setData = async () => {
-                const data = await apiFetch(
-                    `api/homepage_info/?seed=${seed}`,
-                    authInfo["token"]
-                );
-
-                setHomepageData(data);
-            };
-            setData();
-
-            const hanjaUrl = `api/hanja_game_info/?length=${HANJA_GAME_LENGTH}&seed=${initialHanjaGameSeed}`;
-            apiPrefetch(hanjaUrl, authInfo["token"]);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [seed, authInfo["token"]]);
 
     return (
         <React.Fragment>
-            {authInfo["token"] == null ? (
-                <>
-                    <div
-                        className="lrpad-15 textcentered underlined"
-                        style={{ marginTop: "50px", marginBottom: "50px" }}
-                    >
-                        로그인 후 개인에 맞는 홈페이지를 볼 수 있습니다.
-                    </div>
-                </>
+            {!authInfo.token ? (
+                <div
+                    className="lrpad-15 textcentered underlined"
+                    style={{ marginTop: "50px", marginBottom: "50px" }}
+                >
+                    로그인 후 개인에 맞는 홈페이지를 볼 수 있습니다.
+                </div>
             ) : (
                 <div>
-                    {loading ? (
-                        <LoadingMessage />
-                    ) : error ? (
-                        <ErrorMessage errorResponse={response} />
-                    ) : (
-                        homepageData && (
+                    <LoadErrorOrChild
+                        loading={loading}
+                        error={error}
+                        response={response}
+                    >
+                        {homepageData && (
                             <div>
                                 <ButtonSection
                                     updateViewAndPushToHistory={
@@ -92,8 +77,8 @@ const HomePage = ({
                                     />
                                 )}
                             </div>
-                        )
-                    )}
+                        )}
+                    </LoadErrorOrChild>
                 </div>
             )}
         </React.Fragment>
@@ -116,19 +101,11 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
                     borderColor: "#777777",
                 }}
                 onClick={() => {
-                    const newSeed = Math.floor(Math.random() * 1000000);
-
-                    const newView = {
-                        view: "homepage",
-                        value: newSeed,
-                        searchBarInitialState: {
-                            boxContent: "",
-                            dictionary: "korean",
-                        },
-                    };
+                    const seed = getNewSeed();
+                    const newView = getBasicHomepageView(seed);
 
                     updateCurrentViewInHistory(newView);
-                    setSeed(newSeed);
+                    setSeed(seed);
                 }}
                 title="홈페이지에 보이는 단어 바꾸기"
             >
@@ -164,14 +141,7 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
                     borderColor: "#777777",
                 }}
                 onClick={() => {
-                    updateViewAndPushToHistory({
-                        view: "user_known_words",
-                        value: "",
-                        searchBarInitialState: {
-                            boxContent: "",
-                            dictionary: "korean",
-                        },
-                    });
+                    updateViewAndPushToHistory(getNewKnownWordsView());
                 }}
                 title="아는 단어 추가 도우미로 바로가기"
             >
@@ -210,14 +180,6 @@ const StudyWordSection = ({ studyWordData }) => {
 };
 
 const SameHanjaSection = ({ sameHanjaData }) => {
-    const [hanjaDataLoadError, setHanjaDataLoadError] = useState(false);
-
-    const ref = useRef(null);
-
-    const viewContext = useContext(ViewContext);
-    const updateViewAndPushToHistory =
-        viewContext["updateViewAndPushToHistory"];
-
     return (
         <div
             className="curved-box flex full-width tbmargin-10"
@@ -231,84 +193,82 @@ const SameHanjaSection = ({ sameHanjaData }) => {
                 {sameHanjaData &&
                     Object.entries(sameHanjaData).map((sameHanjaItem, id) => (
                         <li key={id}>
-                            <div className="flex full-width">
-                                <div
-                                    className="pointer textcentered"
-                                    style={{
-                                        width: "100px",
-                                        height: "100px",
-                                        alignSelf: "center",
-                                    }}
-                                    onClick={() => {
-                                        updateViewAndPushToHistory({
-                                            view: "detail_hanja",
-                                            value: {
-                                                search_term: sameHanjaItem[0],
-                                                initial_page: 1,
-                                            },
-                                            searchBarInitialState: {
-                                                boxContent: sameHanjaItem[0],
-                                                dictionary: "hanja",
-                                            },
-                                        });
-                                    }}
-                                >
-                                    {!hanjaDataLoadError ? (
-                                        <HanjaWriter
-                                            character={sameHanjaItem[0]}
-                                            writerArgs={{
-                                                width: 100,
-                                                height: 100,
-                                                showCharacter: false,
-                                                showOutline: false,
-                                                strokeAnimationSpeed: 3,
-                                                delayBetweenStrokes: 5,
-                                                onLoadCharDataSuccess: () => {
-                                                    setTimeout(() => {
-                                                        if (ref.current) {
-                                                            ref.current.animateCharacter();
-                                                        }
-                                                    }, 1000);
-                                                },
-                                                onLoadCharDataError: () => {
-                                                    setHanjaDataLoadError(true);
-                                                    console.log(
-                                                        `failed to load data for ${sameHanjaItem[0]}`
-                                                    );
-                                                },
-                                            }}
-                                            ref={ref}
-                                        />
-                                    ) : (
-                                        /* failsafe for if the data doesnt load properly.
-                                    it will instead print the static unicode symbol */
-                                        <span
-                                            style={{
-                                                fontSize: "50px",
-                                            }}
-                                        >
-                                            {sameHanjaItem[0]}
-                                        </span>
-                                    )}
-                                </div>
-                                <div className="same-hanja-section-examples">
-                                    {/* first item in example. */}
-                                    <div className="tbpad-10">
-                                        <HanjaExampleResult
-                                            result={sameHanjaItem[1][0]}
-                                        />
-                                    </div>
-                                    {/* second item in example. */}
-                                    <div className="tbpad-10">
-                                        <HanjaExampleResult
-                                            result={sameHanjaItem[1][1]}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
+                            <SingleSameHanjaExample
+                                sameHanjaItem={sameHanjaItem}
+                            />
                         </li>
                     ))}
             </ul>
+        </div>
+    );
+};
+
+const SingleSameHanjaExample = ({ sameHanjaItem }) => {
+    const [hanjaDataLoadError, setHanjaDataLoadError] = useState(false);
+
+    const ref = useRef(null);
+    return (
+        <div className="flex full-width">
+            <div
+                className="pointer textcentered"
+                style={{
+                    width: "100px",
+                    height: "100px",
+                    alignSelf: "center",
+                }}
+            >
+                <PanelSpecificClickableText
+                    viewOnPush={getBasicDetailHanjaView(sameHanjaItem[0])}
+                >
+                    {!hanjaDataLoadError ? (
+                        <HanjaWriter
+                            character={sameHanjaItem[0]}
+                            writerArgs={{
+                                width: 100,
+                                height: 100,
+                                showCharacter: false,
+                                showOutline: false,
+                                strokeAnimationSpeed: 3,
+                                delayBetweenStrokes: 5,
+                                onLoadCharDataSuccess: () => {
+                                    setTimeout(() => {
+                                        if (ref.current) {
+                                            ref.current.animateCharacter();
+                                        }
+                                    }, 1000);
+                                },
+                                onLoadCharDataError: () => {
+                                    setHanjaDataLoadError(true);
+                                    console.log(
+                                        `failed to load data for ${sameHanjaItem[0]}`
+                                    );
+                                },
+                            }}
+                            ref={ref}
+                        />
+                    ) : (
+                        /* failsafe for if the data doesnt load properly.
+                                    it will instead print the static unicode symbol */
+                        <span
+                            style={{
+                                fontSize: "50px",
+                            }}
+                        >
+                            {sameHanjaItem[0]}
+                        </span>
+                    )}
+                </PanelSpecificClickableText>
+            </div>
+            <div className="same-hanja-section-examples">
+                {/* first item in example. */}
+                <div className="tbpad-10">
+                    <HanjaExampleResult result={sameHanjaItem[1][0]} />
+                </div>
+                {/* second item in example. */}
+                <div className="tbpad-10">
+                    <HanjaExampleResult result={sameHanjaItem[1][1]} />
+                </div>
+            </div>
         </div>
     );
 };

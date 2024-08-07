@@ -15,7 +15,6 @@ const PanelSpecificClickableText = ({
         event.stopPropagation();
 
         pushView(event, viewOnPush ? viewOnPush : await getViewOnPush());
-        console.log(getViewOnPush());
     };
 
     const handleRightClick = (event) => {

@@ -4,12 +4,17 @@ import PopupBox from "../../string_formatters/PopupBox.jsx";
 
 import "./hanja-game-styles.css";
 
-const GameExplanationBox = ({ fromX, fromY }) => {
+const GameExplanationBox = ({ fromX, fromY, popupPadding }) => {
     /* from the highlighting in ConnectionBoard */
     const colors = ["#800000", "#994D00", "#004000", "#000080", "#400040"];
 
     return (
-        <PopupBox fromX={fromX} fromY={fromY} positioning="fit" padding={25}>
+        <PopupBox
+            fromX={fromX}
+            fromY={fromY}
+            positioning="fit"
+            padding={popupPadding}
+        >
             <div
                 style={{ textAlign: "left", padding: "10px" }}
                 className="game-explanation-box"

@@ -1,7 +1,5 @@
 import React from "react";
 
-import { useDrag } from "react-dnd";
-
 import CharacterSquare from "./CharacterSquare.jsx";
 
 import "./hanja-game-styles.css";

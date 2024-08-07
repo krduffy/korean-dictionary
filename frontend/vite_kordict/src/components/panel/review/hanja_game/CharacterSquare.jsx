@@ -26,7 +26,6 @@ const CharacterSquare = ({ character, itemTypes }) => {
                     <HanjaCharacterSpan
                         character={character}
                         overrideDisplay={"?"}
-                        disableClick={true}
                     />
                 </div>
                 <div className="copier-container">

@@ -7,6 +7,7 @@ import { AuthenticationInfoContext } from "../../../../App.jsx";
 import ErrorMessage from "../../messages/ErrorMessage.jsx";
 import HanjaCharacterSpan from "../../string_formatters/HanjaCharacterSpan.jsx";
 import PopupBox from "../../string_formatters/PopupBox.jsx";
+import StringWithHanja from "../../string_formatters/StringWithHanja.jsx";
 import GameExplanationBox from "./GameExplanationBox.jsx";
 
 import "./hanja-game-styles.css";
@@ -61,20 +62,14 @@ const SubmitArea = ({
                 <div>
                     출발 자:{" "}
                     <span style={{ cursor: "help" }}>
-                        <HanjaCharacterSpan
-                            character={startFrom}
-                            disableClick={true}
-                        />
+                        <StringWithHanja string={startFrom} />
                     </span>
                 </div>
                 <div>⇓</div>{" "}
                 <div>
                     도착 자:{" "}
                     <span style={{ cursor: "help" }}>
-                        <HanjaCharacterSpan
-                            character={goTo}
-                            disableClick={true}
-                        />
+                        <StringWithHanja string={goTo} />
                     </span>
                 </div>
                 <br />
@@ -100,7 +95,13 @@ const InstructionQuestionMark = ({ startFrom, goTo }) => {
 
     const renderInstructions = () => {
         const dim = getElementSizing(questionMarkRef);
-        return <GameExplanationBox fromX={dim.centerX} fromY={dim.centerY} />;
+        return (
+            <GameExplanationBox
+                fromX={dim.centerX}
+                fromY={dim.centerY}
+                popupPadding={dim.paddingX + 10}
+            />
+        );
     };
 
     return (
@@ -181,7 +182,7 @@ const IndividualWordFeedbackArea = ({ errorList }) => {
 
         return (
             <PopupBox
-                padding={5}
+                padding={dim.paddingX + 10}
                 positioning="fit"
                 fromX={dim.centerX}
                 fromY={dim.centerY}

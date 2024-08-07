@@ -6,9 +6,7 @@ import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
 import { ViewContext } from "../Panel.jsx";
-import ErrorMessage from "../messages/ErrorMessage.jsx";
 import LoadErrorOrChild from "../messages/LoadErrorOrChild.jsx.jsx";
-import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import StringWithHanja from "../string_formatters/StringWithHanja.jsx";
 import KnowStudyToggles from "./KnowStudyToggles.jsx";
 import UserNote from "./UserNote.jsx";
