@@ -4,15 +4,13 @@ import { useAPIFetcher } from "../../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../../App.jsx";
 
-export const useStudyWordReview = () => {
+export const useStudyWordReview = ({ initialSettings }) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
     const { apiFetch, apiPrefetch, loading, successful, error, response } =
         useAPIFetcher();
 
-    const [settings, setSettings] = useState({
-        showPager: true,
-    });
+    const [settings, setSettings] = useState(initialSettings);
     const changeSetting = (settingKey, newValue) => {
         const newSettings = {
             ...settings,
@@ -42,7 +40,7 @@ export const useStudyWordReview = () => {
     }, []);
 
     useEffect(() => {
-        setCurrentTargetCode(allTargetCodesRef.current[currentNumber]);
+        setCurrentTargetCode(allTargetCodesRef.current[currentNumber - 1]);
         for (
             let i = Math.max(currentNumber - 3, 0);
             i <
@@ -69,5 +67,7 @@ export const useStudyWordReview = () => {
         numWords,
         setCurrentNumber,
         currentTargetCode,
+        settings,
+        changeSetting,
     };
 };
