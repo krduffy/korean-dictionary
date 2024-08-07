@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { getTopicMarker } from "../../../../util/stringUtils.js";
 
 import ErrorMessage from "../messages/ErrorMessage.jsx";
+import LoadErrorOrChild from "../messages/LoadErrorOrChild.jsx.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import PageChanger from "./PageChanger.jsx";
 import { usePaginatedResults } from "./usePaginatedResults.jsx";
@@ -31,17 +32,21 @@ const PaginatedResults = ({
     } = usePaginatedResults(searchType, searchTerm, initialPage);
 
     return (
-        <>
-            {error ? (
-                <ErrorMessage errorResponse={response} />
-            ) : loading || !searchResults || !searchResults.results ? (
-                <LoadingMessage />
-            ) : searchResults.count === 0 ? (
+        <LoadErrorOrChild
+            checkErrorFirst={true}
+            error={error}
+            customLoadingCondition={() => {
+                return loading || !searchResults || !searchResults.results;
+            }}
+            response={response}
+        >
+            {searchResults.count === 0 ? (
                 <NoResultsMessage
                     searchType={searchType}
                     searchTerm={searchTerm}
                 />
             ) : (
+                searchResults.results &&
                 typeAndResultsMatch() && (
                     <div className="paginated-results" ref={resultDivRef}>
                         <div className="result-count-indicator">
@@ -70,7 +75,7 @@ const PaginatedResults = ({
                     </div>
                 )
             )}
-        </>
+        </LoadErrorOrChild>
     );
 };
 

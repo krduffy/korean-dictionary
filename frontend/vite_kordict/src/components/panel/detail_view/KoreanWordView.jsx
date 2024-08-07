@@ -7,6 +7,7 @@ import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 import { AuthenticationInfoContext } from "../../../App.jsx";
 import { ViewContext } from "../Panel.jsx";
 import ErrorMessage from "../messages/ErrorMessage.jsx";
+import LoadErrorOrChild from "../messages/LoadErrorOrChild.jsx.jsx";
 import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import StringWithHanja from "../string_formatters/StringWithHanja.jsx";
 import KnowStudyToggles from "./KnowStudyToggles.jsx";
@@ -42,186 +43,64 @@ const KoreanWordView = ({ targetCode }) => {
     }, [targetCode]);
 
     return (
-        <>
-            {loading ? (
-                <LoadingMessage />
-            ) : error ? (
-                <ErrorMessage errorResponse={response} />
-            ) : (
-                wordData && (
-                    <>
-                        {/* WORD ITSELF AND ORIGIN, eg
+        <LoadErrorOrChild loading={loading} error={error} response={response}>
+            {wordData && (
+                <>
+                    {/* WORD ITSELF AND ORIGIN, eg
                               사과 沙果/砂果        */}
-                        <div
-                            style={{
-                                fontSize: "50px",
-                            }}
-                        >
-                            <span>{wordData["word"]}</span>
+                    <WordAndOrigin
+                        word={wordData.word}
+                        origin={wordData.origin}
+                    />
 
-                            {wordData["origin"] && (
-                                <>
-                                    {" "}
-                                    <StringWithHanja
-                                        string={wordData["origin"]}
-                                    />
-                                </>
-                            )}
-                        </div>
-
-                        {/* Type of word (어휘 등), buttons for known and studying, 
+                    {/* Type of word (어휘 등), buttons for known and studying, 
                             button for editing        */}
-                        <div
-                            className="space-children-horizontal tbpad-10"
-                            style={{ fontSize: "20px" }}
-                        >
-                            <span className="word-extra-info word-emphasized-box">
-                                {wordData["word_type"]}
-                            </span>
+                    <TypeAndUserButtons
+                        wordType={wordData.word_type}
+                        userData={wordData.user_data}
+                        updateViewAndPushToHistory={updateViewAndPushToHistory}
+                        targetCode={wordData.target_code}
+                    />
 
-                            {wordData?.user_data && (
-                                <button
-                                    onClick={() => {
-                                        updateViewAndPushToHistory({
-                                            view: "edit_word",
-                                            value: wordData["target_code"],
-                                            searchBarInitialState: {
-                                                boxContent: "",
-                                                dictionary: "korean",
-                                            },
-                                        });
-                                    }}
-                                >
-                                    노트 및 예문 수정
-                                </button>
+                    {/* Lower section */}
+
+                    {/* NOTES */}
+                    {wordData.notes.length > 0 && (
+                        <NoteSection notes={wordData.notes} />
+                    )}
+
+                    {/* SENSE #0 (USER EXAMPLES) 
+                            Component returns null if sense #0 does not exist. */}
+                    <UserExampleSentencesSection senses={wordData.senses} />
+
+                    {/* OTHER SENSES */}
+                    {wordData["senses"] && (
+                        <SenseSection
+                            senses={wordData.senses.filter(
+                                (data) => data.order !== 0
                             )}
+                        />
+                    )}
 
-                            {wordData?.user_data && (
-                                <KnowStudyToggles
-                                    targetCode={wordData["target_code"]}
-                                    initiallyKnown={
-                                        wordData["user_data"]["is_known"]
-                                    }
-                                    initiallyStudied={
-                                        wordData["user_data"]["is_studied"]
-                                    }
-                                />
-                            )}
-                            {/*wordData["created_by_user"] && (
-                                <span className="word-extra-info">
-                                    내가 추가한 단어
-                                </span>
-                            )*/}
-                        </div>
-
-                        <div>
-                            {/* NOTES */}
-                            {wordData["notes"].length > 0 && (
-                                <div className="curved-box tbmargin-10">
-                                    <p className="curved-box-header">
-                                        내가 추가한 이미지
-                                    </p>
-                                    <div
-                                        className="pad-10"
-                                        style={{
-                                            display: "grid",
-                                            gridTemplateColumns:
-                                                "repeat(3, 1fr)",
-                                            gridAutoRows: "minmax(100px, auto)",
-                                            gap: "8px",
-                                        }}
-                                    >
-                                        {wordData["notes"].map((data, id) => (
-                                            <UserNote
-                                                noteData={data}
-                                                disableClick={false}
-                                                nestLevel={1}
-                                                key={id}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* SENSE #0 (USER EXAMPLES) */}
-                            {wordData["senses"].some(
-                                (data) => data.order === 0
-                            ) && (
-                                <div className="curved-box tbmargin-10">
-                                    <div className="curved-box-header">
-                                        내가 추가한 예문
-                                    </div>
-                                    <div
-                                        style={{
-                                            marginTop: "10px",
-                                            marginBottom: "10px",
-                                        }}
-                                        key={0}
-                                    >
-                                        <KoreanSenseView
-                                            senseData={wordData["senses"].find(
-                                                (data) => data.order === 0
-                                            )}
-                                        />
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* OTHER SENSES */}
-                            {wordData["senses"] && (
-                                <div className="curved-box tbmargin-10">
-                                    <div className="curved-box-header">
-                                        뜻풀이
-                                    </div>
-                                    <div className="pad-10">
-                                        {wordData["senses"]
-                                            .filter((data) => data.order !== 0)
-                                            .map((data) => (
-                                                <div
-                                                    className="curved-box-nest1"
-                                                    style={{
-                                                        margin: "10px",
-                                                    }}
-                                                    key={data["target_code"]}
-                                                >
-                                                    <KoreanSenseView
-                                                        senseData={data}
-                                                    />
-                                                </div>
-                                            ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* HISTORY 
+                    {/* HISTORY 
                             History is stored at the sense level to allow for
                             individual histories for different senses of the same
                             word in the case that they need to be separately rendered
                             Right now, only the first sense's history is shown at the bottom
                             because most of the senses have the same history */}
 
-                            {wordData.senses?.[0]?.additional_info
-                                ?.history_info && (
-                                <div className="curved-box tbmargin-10">
-                                    <div className="curved-box-header">
-                                        역사 정보
-                                    </div>
-                                    <div className="pad-10">
-                                        <SenseHistoryInfo
-                                            historyInfo={
-                                                wordData["senses"][0][
-                                                    "additional_info"
-                                                ]["history_info"]
-                                            }
-                                        />
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </>
-                )
+                    {wordData.senses?.[0]?.additional_info?.history_info && (
+                        <HistorySection
+                            historyInfo={
+                                wordData["senses"][0]["additional_info"][
+                                    "history_info"
+                                ]
+                            }
+                        />
+                    )}
+                </>
             )}
-        </>
+        </LoadErrorOrChild>
     );
 };
 
@@ -230,3 +109,150 @@ KoreanWordView.propTypes = {
 };
 
 export default KoreanWordView;
+
+const WordAndOrigin = ({ word, origin }) => {
+    return (
+        <div
+            style={{
+                fontSize: "50px",
+            }}
+        >
+            <span>{word}</span>
+
+            {origin && (
+                <>
+                    {" "}
+                    <StringWithHanja string={origin} />
+                </>
+            )}
+        </div>
+    );
+};
+
+const TypeAndUserButtons = ({
+    wordType,
+    userData,
+    updateViewAndPushToHistory,
+    targetCode,
+}) => {
+    return (
+        <div
+            className="space-children-horizontal tbpad-10"
+            style={{ fontSize: "20px" }}
+        >
+            <span className="word-extra-info word-emphasized-box">
+                {wordType}
+            </span>
+
+            {userData && (
+                <button
+                    onClick={() => {
+                        updateViewAndPushToHistory({
+                            view: "edit_word",
+                            value: targetCode,
+                            searchBarInitialState: {
+                                boxContent: "",
+                                dictionary: "korean",
+                            },
+                        });
+                    }}
+                >
+                    노트 및 예문 수정
+                </button>
+            )}
+
+            {userData && (
+                <KnowStudyToggles
+                    targetCode={targetCode}
+                    initiallyKnown={userData.is_known}
+                    initiallyStudied={userData.is_studied}
+                />
+            )}
+            {/*wordData["created_by_user"] && (
+                                <span className="word-extra-info">
+                                    내가 추가한 단어
+                                </span>
+                            )*/}
+        </div>
+    );
+};
+
+const NoteSection = ({ notes }) => {
+    return (
+        <div className="curved-box tbmargin-10">
+            <p className="curved-box-header">내가 추가한 이미지</p>
+            <div
+                className="pad-10"
+                style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3, 1fr)",
+                    gridAutoRows: "minmax(100px, auto)",
+                    gap: "8px",
+                }}
+            >
+                {notes.map((data, id) => (
+                    <UserNote
+                        noteData={data}
+                        disableClick={false}
+                        nestLevel={1}
+                        key={id}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const UserExampleSentencesSection = ({ senses }) => {
+    const senseNumZero = senses.find((data) => data.order === 0);
+
+    if (!senseNumZero) {
+        return null;
+    } else
+        return (
+            <div className="curved-box tbmargin-10">
+                <div className="curved-box-header">내가 추가한 예문</div>
+                <div
+                    style={{
+                        marginTop: "10px",
+                        marginBottom: "10px",
+                    }}
+                    key={0}
+                >
+                    <KoreanSenseView senseData={senseNumZero} />
+                </div>
+            </div>
+        );
+};
+
+const SenseSection = ({ senses }) => {
+    return (
+        <div className="curved-box tbmargin-10">
+            <div className="curved-box-header">뜻풀이</div>
+            <div className="pad-10">
+                {senses.map((data) => (
+                    <div
+                        className="curved-box-nest1"
+                        style={{
+                            margin: "10px",
+                        }}
+                        key={data["target_code"]}
+                    >
+                        <KoreanSenseView senseData={data} />
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const HistorySection = ({ historyInfo }) => {
+    return (
+        <div className="curved-box tbmargin-10">
+            <div className="curved-box-header">역사 정보</div>
+            <div className="pad-10">
+                <SenseHistoryInfo historyInfo={historyInfo} />
+            </div>
+        </div>
+    );
+};
