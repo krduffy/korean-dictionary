@@ -93,9 +93,7 @@ export const getNewReviewView = () => {
     return {
         view: "study_word_review",
         value: {
-            initialTextContent: "",
-            initialUnknownWords: [],
-            alreadyInteracted: false,
+            initialCurrentNumber: 1,
         },
         searchBarInitialState: {
             boxContent: "",

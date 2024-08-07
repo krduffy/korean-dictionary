@@ -7,7 +7,7 @@ import KoreanWordView from "../../detail_view/KoreanWordView.jsx";
 import LoadErrorOrChild from "../../messages/LoadErrorOrChild.jsx.jsx";
 import PageChanger from "../../paginated_results/PageChanger.jsx";
 
-const StudyWordReview = () => {
+const StudyWordReview = ({ initialCurrentNumber }) => {
     const {
         loading,
         successful,
@@ -20,6 +20,7 @@ const StudyWordReview = () => {
         settings,
         changeSetting,
     } = useStudyWordReview({
+        initialCurrentNumber: initialCurrentNumber,
         initialSettings: {
             shortcuts: {
                 enable: true,

@@ -15,10 +15,10 @@ const StudyWordsPage = ({ initialPage }) => {
 
     return (
         <>
-            <button onClick={handleReviewButtonClick}>go to review</button>
+            <button onClick={handleReviewButtonClick}>학습</button>
             <PaginatedResults
                 searchType={"user_study_words"}
-                searchTerm={""}
+                searchTerm={""} /* not used for searchType user_study_words */
                 initialPage={initialPage}
             />
         </>

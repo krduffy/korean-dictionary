@@ -15,6 +15,7 @@ export const ViewContext = createContext(null);
 const Panel = ({ panelFuncs }) => {
     const {
         currentView,
+        getCurrentViewCopy,
         updateViewAndPushToHistory,
         updateViewWithoutPushingToHistory,
         backToHomepage,
@@ -39,6 +40,7 @@ const Panel = ({ panelFuncs }) => {
         <ViewContext.Provider
             value={{
                 currentView: currentView,
+                getCurrentViewCopy: getCurrentViewCopy,
                 pushView: pushView,
                 updateViewAndPushToHistory: updateViewAndPushToHistory,
                 updateViewWithoutPushingToHistory:

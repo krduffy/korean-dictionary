@@ -29,6 +29,10 @@ export const usePanel = () => {
         },
     });
 
+    const getCurrentViewCopy = () => {
+        return JSON.parse(JSON.stringify(currentView));
+    };
+
     const {
         pushViewToHistory,
         canNavigateBack,
@@ -98,7 +102,6 @@ export const usePanel = () => {
                     />
                 );
             case "user_study_words":
-                console.table(view, value);
                 return <StudyWordsPage initialPage={value.initial_page} />;
             case "detail_korean":
                 return <KoreanWordView targetCode={value} />;
@@ -124,7 +127,11 @@ export const usePanel = () => {
             case "hanja_game":
                 return <HanjaGame initialSeed={value} />;
             case "study_word_review":
-                return <StudyWordReview />;
+                return (
+                    <StudyWordReview
+                        initialCurrentNumber={value.initialCurrentNumber}
+                    />
+                );
             /* Add word is not currently in the application */
             case "edit_word":
                 return <EditWordForm targetCode={value} />;
@@ -147,6 +154,7 @@ export const usePanel = () => {
 
     return {
         currentView,
+        getCurrentViewCopy,
         updateViewAndPushToHistory,
         updateViewWithoutPushingToHistory,
         backToHomepage,

@@ -16,6 +16,7 @@ const PageChanger = ({ page, numPages, setPageFunction, hasInteractedRef }) => {
             style={{
                 paddingLeft: "15%",
                 paddingRight: "15%",
+                gap: "25px",
             }}
         >
             {/* gray out the left button if there is no left page*/}
@@ -24,16 +25,26 @@ const PageChanger = ({ page, numPages, setPageFunction, hasInteractedRef }) => {
                 <span
                     onClick={() => handleClick(1)}
                     className="clickable-result page-number-display"
+                    style={{ flex: "1 1 0", textAlign: "center" }}
                 >
                     1
                 </span>
             ) : (
-                <span className="page-number-display">-</span>
+                <span
+                    className="page-number-display"
+                    style={{ flex: "1 1 0", textAlign: "center" }}
+                >
+                    -
+                </span>
             )}
 
             {page - 1 > 0 ? (
                 <button
-                    style={{ backgroundColor: "var(--cyan)" }}
+                    style={{
+                        backgroundColor: "var(--cyan)",
+                        flex: "1 1 0",
+                        textAlign: "center",
+                    }}
                     onClick={() => handleClick(page - 1)}
                 >
                     ◀
@@ -43,18 +54,29 @@ const PageChanger = ({ page, numPages, setPageFunction, hasInteractedRef }) => {
                     style={{
                         cursor: "not-allowed",
                         backgroundColor: "transparent",
+                        flex: "1 1 0",
+                        textAlign: "center",
                     }}
                 >
                     ◁
                 </button>
             )}
 
-            <span className="page-number-display">{page}</span>
+            <span
+                className="page-number-display"
+                style={{ flex: "1 1 0", textAlign: "center" }}
+            >
+                {page}
+            </span>
 
             {/* gray out the right button if there is no right page*/}
             {page + 1 <= numPages ? (
                 <button
-                    style={{ backgroundColor: "var(--cyan)" }}
+                    style={{
+                        backgroundColor: "var(--cyan)",
+                        flex: "1 1 0",
+                        textAlign: "center",
+                    }}
                     onClick={() => handleClick(page + 1)}
                 >
                     ▶
@@ -64,6 +86,8 @@ const PageChanger = ({ page, numPages, setPageFunction, hasInteractedRef }) => {
                     style={{
                         cursor: "not-allowed",
                         backgroundColor: "transparent",
+                        flex: "1 1 0",
+                        textAlign: "center",
                     }}
                 >
                     ▷
@@ -74,11 +98,17 @@ const PageChanger = ({ page, numPages, setPageFunction, hasInteractedRef }) => {
                 <span
                     onClick={() => handleClick(numPages)}
                     className="clickable-result page-number-display"
+                    style={{ flex: "1 1 0", textAlign: "center" }}
                 >
                     {numPages}
                 </span>
             ) : (
-                <span className="page-number-display">-</span>
+                <span
+                    className="page-number-display"
+                    style={{ flex: "1 1 0", textAlign: "center" }}
+                >
+                    -
+                </span>
             )}
         </div>
     );

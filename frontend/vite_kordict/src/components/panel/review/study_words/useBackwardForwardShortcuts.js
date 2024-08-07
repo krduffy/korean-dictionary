@@ -14,7 +14,6 @@ export const useBackwardForwardShortcuts = (
 
     const checkKeyDown = useCallback(
         (event) => {
-            console.log(event.key);
             if (
                 event.key === forwardKey &&
                 currentNumberRef.current < numWords

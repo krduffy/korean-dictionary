@@ -3,9 +3,18 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useAPIFetcher } from "../../../../hooks/useAPIFetcher.js";
 
 import { AuthenticationInfoContext } from "../../../../App.jsx";
+import { ViewContext } from "../../Panel.jsx";
 
-export const useStudyWordReview = ({ initialSettings }) => {
+export const useStudyWordReview = ({
+    initialCurrentNumber,
+    initialSettings,
+}) => {
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
+
+    const viewContext = useContext(ViewContext);
+    const updateCurrentViewInHistory =
+        viewContext["updateCurrentViewInHistory"];
+    const getCurrentViewCopy = viewContext["getCurrentViewCopy"];
 
     const { apiFetch, apiPrefetch, loading, successful, error, response } =
         useAPIFetcher();
@@ -55,7 +64,24 @@ export const useStudyWordReview = ({ initialSettings }) => {
     }, [allTargetCodesRef.current, currentNumber]);
 
     useEffect(() => {
-        setNumWords(allTargetCodesRef.current.length);
+        const currentViewCopy = getCurrentViewCopy();
+        const updatedView = {
+            ...currentViewCopy,
+            value: {
+                ...currentViewCopy.value,
+                initialCurrentNumber: currentNumber,
+            },
+        };
+        updateCurrentViewInHistory(updatedView);
+    }, [currentNumber]);
+
+    useEffect(() => {
+        const numFetched = allTargetCodesRef.current.length;
+        setNumWords(numFetched);
+
+        if (numFetched > 0) {
+            setCurrentNumber(Math.min(numFetched, initialCurrentNumber));
+        }
     }, [allTargetCodesRef.current]);
 
     return {
