@@ -112,3 +112,15 @@ export const getBasicHomepageView = (seed) => {
         },
     };
 };
+
+/* to avoid unnecessary api calls this accepts the entire note data object */
+export const getBasicDetailNoteView = (noteData) => {
+    return {
+        view: "detail_note",
+        value: noteData,
+        searchBarInitialState: {
+            boxContent: "",
+            dictionary: "korean",
+        },
+    };
+};

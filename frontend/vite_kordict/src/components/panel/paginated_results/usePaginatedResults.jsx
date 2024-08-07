@@ -7,6 +7,7 @@ import React, {
 } from "react";
 
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
+import { useSpamProtectedSetter } from "../../../hooks/useSpamProtectedSetter.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
 import { ViewContext } from "../Panel.jsx";
@@ -26,16 +27,10 @@ export const usePaginatedResults = (searchType, searchTerm, initialPage) => {
 
     const authInfo = useContext(AuthenticationInfoContext)["authInfo"];
 
-    /* For spamproofing the results. An indicator of which request is most recent */
-    const requestRef = useRef(0);
-
     const resultDivRef = useRef(null);
     const hasInteractedRef = useRef(false);
 
-    const updateSearchResults = async () => {
-        requestRef.current++;
-        const requestNum = requestRef.current;
-
+    const asyncGetResults = async () => {
         let apiUrl = `api/${searchType}/?page=${currentPage}`;
 
         /* Add parameters to certain search types */
@@ -45,12 +40,14 @@ export const usePaginatedResults = (searchType, searchTerm, initialPage) => {
             apiUrl = apiUrl + `&character=${searchTerm}`;
         }
 
-        const results = await apiFetch(apiUrl, authInfo["token"]);
-
-        if (requestNum == requestRef.current) {
-            setSearchResults(results);
-        }
+        const data = await apiFetch(apiUrl, authInfo["token"]);
+        return data;
     };
+
+    const updateSearchResults = useSpamProtectedSetter({
+        dataGetter: asyncGetResults,
+        setter: setSearchResults,
+    });
 
     useLayoutEffect(() => {
         if (hasInteractedRef.current) {

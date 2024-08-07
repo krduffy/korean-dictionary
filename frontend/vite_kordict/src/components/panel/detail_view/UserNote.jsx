@@ -2,9 +2,11 @@ import React, { useContext } from "react";
 
 import PropTypes from "prop-types";
 
+import { getBasicDetailNoteView } from "../../../../util/viewUtils.js";
 import { BASE_URL } from "../../../constants.js";
 
 import { ViewContext } from "../Panel.jsx";
+import PanelSpecificClickableText from "../string_formatters/PanelSpecificClickableText.jsx";
 
 /**
  * A component for rendering a user note as a boxed note in a grid of notes.
@@ -29,25 +31,20 @@ export const UserNote = ({ noteData, disableClick, nestLevel }) => {
                 /* zoom in because clicking brings up the full view of the image in the note. */
                 cursor: disableClick ? "" : "zoom-in",
             }}
-            onClick={() => {
-                if (!disableClick) {
-                    updateViewAndPushToHistory({
-                        view: "detail_note",
-                        value: noteData,
-                        searchBarInitialState: {
-                            boxContent: "",
-                            dictionary: "korean",
-                        },
-                    });
-                }
-            }}
         >
-            <img
-                className=""
-                style={{ maxHeight: "200px", maxWidth: "100%" }}
-                src={BASE_URL + noteData["note_image"]}
-            ></img>
-            <div className="tbmargin-10">{noteData.note_text}</div>
+            <PanelSpecificClickableText
+                getViewOnPush={() => {
+                    if (disableClick) return null;
+                    return getBasicDetailNoteView(noteData);
+                }}
+            >
+                <img
+                    className=""
+                    style={{ maxHeight: "200px", maxWidth: "100%" }}
+                    src={BASE_URL + noteData["note_image"]}
+                ></img>
+                <div className="tbmargin-10">{noteData.note_text}</div>
+            </PanelSpecificClickableText>
         </div>
     );
 };

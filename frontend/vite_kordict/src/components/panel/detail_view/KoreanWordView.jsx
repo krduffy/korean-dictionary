@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
+import { useSpamProtectedSetter } from "../../../hooks/useSpamProtectedSetter.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
 import { ViewContext } from "../Panel.jsx";
@@ -27,16 +28,21 @@ const KoreanWordView = ({ targetCode }) => {
     const updateViewAndPushToHistory =
         useContext(ViewContext)["updateViewAndPushToHistory"];
 
-    useEffect(() => {
-        const setData = async () => {
-            const data = await apiFetch(
-                `api/korean_word/${targetCode}`,
-                authInfo["token"]
-            );
-            setWordData(data);
-        };
+    const getData = async () => {
+        const data = await apiFetch(
+            `api/korean_word/${targetCode}`,
+            authInfo["token"]
+        );
+        return data;
+    };
 
-        setData();
+    const spamProtectedSetData = useSpamProtectedSetter({
+        dataGetter: getData,
+        setter: setWordData,
+    });
+
+    useEffect(() => {
+        spamProtectedSetData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [targetCode]);
 
