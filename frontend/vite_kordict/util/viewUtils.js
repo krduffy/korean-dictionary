@@ -62,3 +62,31 @@ export const getBasicUnknownWordsView = () => {
         },
     };
 };
+
+export const getNewStudyWordView = () => {
+    return {
+        view: "user_study_words",
+        value: {
+            initial_page: 1,
+        },
+        searchBarInitialState: {
+            boxContent: "",
+            dictionary: "korean",
+        },
+    };
+};
+
+export const getNewReviewView = () => {
+    return {
+        view: "study_word_review",
+        value: {
+            initialTextContent: "",
+            initialUnknownWords: [],
+            alreadyInteracted: false,
+        },
+        searchBarInitialState: {
+            boxContent: "",
+            dictionary: "korean",
+        },
+    };
+};

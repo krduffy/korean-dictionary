@@ -7,9 +7,6 @@ urlpatterns = [
   path('korean_word/<pk>', KoreanWordDetail.as_view()),
   path('korean_word_lemma/', KoreanWordAnalyze.as_view()),
 
-  # temp
-  path('search_sense/', TempSense.as_view()),
-
   path('search_hanja/', HanjaList.as_view()),
   path('hanja_char/<pk>', HanjaDetail.as_view()),
   path('search_hanja_examples/', HanjaExamples.as_view()),
@@ -33,6 +30,7 @@ urlpatterns = [
 
   path('user_known_words/', UserKnownWords.as_view()),
   path('user_study_words/', UserStudyWords.as_view()),
+  path('user_study_words_target_codes/', UserStudyWordTargetCodes.as_view()),
 
   path('user_unknown_words/', UnknownWordsView.as_view()),
 

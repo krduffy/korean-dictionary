@@ -280,6 +280,23 @@ class UserStudyWords(generics.ListAPIView):
   def get_queryset(self):
     study_words = self.request.user.study_words.all()
     return study_words.order_by('target_code')
+
+class UserStudyWordTargetCodes(APIView):
+
+  permission_classes = (IsAuthenticated, )
+
+  def get(self, request):
+    max_returned = 1000
+    words = (
+      self.request.user.study_words
+      .values_list('target_code', flat=True)
+      .order_by('target_code')[:max_returned]
+    )
+
+    if not words:
+      return Response({'errors': ['공부하는 단어가 없습니다.']}, status=status.HTTP_404_NOT_FOUND)
+
+    return Response({'target_codes': list(words)}, status=status.HTTP_200_OK)
   
 class HomepageInfoView(APIView):
   """
@@ -666,7 +683,6 @@ class HanjaGameSolutionVerifierView(APIView):
     
     return Response("좋습니다", status=status.HTTP_200_OK)
     
-
 class UnknownWordsView(APIView):
   """
     API view to retrieve all words in a given text that the authenticated user does not know any 

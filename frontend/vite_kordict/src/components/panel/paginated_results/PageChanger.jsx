@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 
 const PageChanger = ({ page, numPages, setPageFunction, hasInteractedRef }) => {
     const handleClick = (newPage) => {
-        hasInteractedRef.current = true;
+        if (hasInteractedRef?.current) {
+            hasInteractedRef.current = true;
+        }
         setPageFunction(newPage);
     };
 

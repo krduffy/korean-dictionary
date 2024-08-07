@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { getBasicUnknownWordsView } from "../../../../util/viewUtils.js";
+import {
+    getBasicUnknownWordsView,
+    getNewStudyWordView,
+} from "../../../../util/viewUtils.js";
 import { HANJA_GAME_LENGTH } from "../../../constants.js";
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 
@@ -180,14 +183,7 @@ const ButtonSection = ({ setSeed, backToHanjaGameOrPushNewGame }) => {
                     borderColor: "#777777",
                 }}
                 onClick={() => {
-                    updateViewAndPushToHistory({
-                        view: "user_study_words",
-                        value: "",
-                        searchBarInitialState: {
-                            boxContent: "",
-                            dictionary: "korean",
-                        },
-                    });
+                    updateViewAndPushToHistory(getNewStudyWordView);
                 }}
                 title="아는 단어 추가 도우미로 바로가기"
             >

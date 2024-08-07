@@ -11,6 +11,8 @@ import GetUnknownWordsForm from "../components/panel/forms/GetUnknownWordsForm.j
 import HomePage from "../components/panel/home/HomePage.jsx";
 import PaginatedResults from "../components/panel/paginated_results/PaginatedResults.jsx";
 import HanjaGame from "../components/panel/review/hanja_game/HanjaGame.jsx";
+import StudyWordReview from "../components/panel/review/study_words/StudyWordReview.jsx";
+import StudyWordsPage from "../components/panel/review/study_words/StudyWordsPage.jsx";
 
 export const usePanel = () => {
     /* homepage seed doesnt need to be a state because the value in the view stores it */
@@ -88,7 +90,6 @@ export const usePanel = () => {
             case "search_korean":
             case "search_hanja":
             case "user_known_words":
-            case "user_study_words":
                 return (
                     <PaginatedResults
                         searchType={view}
@@ -96,6 +97,9 @@ export const usePanel = () => {
                         initialPage={value.initial_page}
                     />
                 );
+            case "user_study_words":
+                console.table(view, value);
+                return <StudyWordsPage initialPage={value.initial_page} />;
             case "detail_korean":
                 return <KoreanWordView targetCode={value} />;
             case "detail_hanja":
@@ -119,6 +123,8 @@ export const usePanel = () => {
                 );
             case "hanja_game":
                 return <HanjaGame initialSeed={value} />;
+            case "study_word_review":
+                return <StudyWordReview />;
             /* Add word is not currently in the application */
             case "edit_word":
                 return <EditWordForm targetCode={value} />;
