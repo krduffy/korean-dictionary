@@ -2,7 +2,8 @@ export const BASE_URL = "http://127.0.0.1:8000/";
 
 export const HANJA_GAME_LENGTH = 4;
 
-export const ERROR_BLOCK_TIME_MS = 2000;
+export const GET_REQUEST_DEBOUNCE_TIME_MS = 500;
+export const ERROR_BLOCK_TIME_MS = 1000;
 export const BACKEND_POLLING_INTERVAL_MS = 10000;
 export const CACHE_HIT_FAKED_TIME_MS = 150;
 export const DATABASE_UNAVAILABLE_MESSAGE_BUFFER_TIME_MS = 1000;

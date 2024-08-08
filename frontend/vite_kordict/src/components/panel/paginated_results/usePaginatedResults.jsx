@@ -7,6 +7,7 @@ import React, {
 } from "react";
 
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
+import { useDebounce } from "../../../hooks/useDebounce.js";
 import { useSpamProtectedSetter } from "../../../hooks/useSpamProtectedSetter.js";
 
 import { AuthenticationInfoContext } from "../../../App.jsx";
@@ -44,10 +45,12 @@ export const usePaginatedResults = (searchType, searchTerm, initialPage) => {
         return data;
     };
 
-    const updateSearchResults = useSpamProtectedSetter({
-        dataGetter: asyncGetResults,
-        setter: setSearchResults,
-    });
+    const updateSearchResults = useDebounce(
+        useSpamProtectedSetter({
+            dataGetter: asyncGetResults,
+            setter: setSearchResults,
+        })
+    );
 
     useLayoutEffect(() => {
         if (hasInteractedRef.current) {
@@ -56,7 +59,7 @@ export const usePaginatedResults = (searchType, searchTerm, initialPage) => {
                 behavior: "smooth",
             });
         }
-    }, [searchResults]);
+    }, [JSON.stringify(searchResults)]);
 
     useEffect(() => {
         updateSearchResults();
