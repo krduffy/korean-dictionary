@@ -385,7 +385,7 @@ const HanjaTableDataRow = ({
                         )}
                         disableStyling={true}
                     >
-                        <span title="이 급수별 검색하기" className="pointer">
+                        <span title="이 변수로 검색하기" className="pointer">
                             {" "}
                             🔍
                         </span>

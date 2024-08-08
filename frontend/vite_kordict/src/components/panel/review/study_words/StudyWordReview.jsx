@@ -1,13 +1,12 @@
 import React, { useRef, useState } from "react";
 
-import { getElementSizing } from "../../../../../util/domUtils.js";
 import { useBackwardForwardShortcuts } from "./useBackwardForwardShortcuts.js";
 import { useStudyWordReview } from "./useStudyWordReview.js";
 
 import KoreanWordView from "../../detail_view/KoreanWordView.jsx";
 import LoadErrorOrChild from "../../messages/LoadErrorOrChild.jsx.jsx";
 import PageChanger from "../../paginated_results/PageChanger.jsx";
-import PopupBox from "../../string_formatters/PopupBox.jsx";
+import SettingsMenu from "./SettingsMenu.jsx";
 
 const StudyWordReview = ({ initialCurrentNumber, initialSettings }) => {
     const {
@@ -68,13 +67,15 @@ const TopInfoBar = ({
     );
 
     return (
-        <>
-            <div
-                className="full-width flex space-children-horizontal pad-5"
-                style={{
-                    backgroundColor: "var(--bluepurple)",
-                }}
-            >
+        <div
+            className="pad-10 curved-box-shape"
+            style={{
+                marginBottom: "20px",
+                border: "1px gray solid",
+                backgroundColor: "var(--bluepurple)",
+            }}
+        >
+            <div className="full-width flex space-children-horizontal">
                 <div
                     className="textcentered"
                     style={{
@@ -108,7 +109,7 @@ const TopInfoBar = ({
                     setPageFunction={setCurrentNumber}
                 />
             )}
-        </>
+        </div>
     );
 };
 
@@ -122,7 +123,7 @@ const SettingsGear = ({ settings, changeSetting }) => {
                 title="학습 설정 보기"
                 className="pointer"
                 ref={gearRef}
-                onClick={() => setShowMenu(true)}
+                onClick={() => setShowMenu(!showMenu)}
             >
                 ⚙️
             </span>
@@ -135,90 +136,5 @@ const SettingsGear = ({ settings, changeSetting }) => {
                 />
             )}
         </>
-    );
-};
-
-const SettingsMenu = ({ gearRef, settings, changeSetting, setShowMenu }) => {
-    const gearDim = getElementSizing(gearRef);
-
-    return (
-        <PopupBox
-            fromX={gearDim.centerX}
-            fromY={gearDim.centerY}
-            padding={gearDim.paddingX + 5}
-            positioning={"fit"}
-        >
-            {/* Top bar with title and X to close */}
-            <div className="full-width">
-                <div
-                    className="textcentered"
-                    style={{ width: "90%", display: "inline-block" }}
-                >
-                    학습 설정
-                </div>
-                <div
-                    style={{
-                        cursor: "pointer",
-                        width: "10%",
-                        display: "inline-block",
-                    }}
-                    onClick={() => {
-                        setShowMenu(false);
-                    }}
-                >
-                    ✖
-                </div>
-            </div>
-
-            {/* List of settings */}
-            <ListOfSettings settings={settings} changeSetting={changeSetting} />
-        </PopupBox>
-    );
-};
-
-const ListOfSettings = ({ settings, changeSetting }) => {
-    const changeShortcutSetting = (key, newValue) => {
-        const newShortcutsSetting = {
-            ...settings.shortcuts,
-            [key]: newValue,
-        };
-        console.log(newShortcutsSetting);
-        changeSetting("shortcuts", newShortcutsSetting);
-    };
-
-    return (
-        <div>
-            <div>
-                <span
-                    onClick={() => {
-                        changeSetting("showPager", !settings.showPager);
-                    }}
-                >
-                    {settings.showPager ? "☑" : "☐"}
-                </span>
-                <span>페이지 우/좌 이동기 표시</span>
-            </div>
-
-            {settings.shortcuts && (
-                <div>
-                    {/* Enabling shortcuts*/}
-                    <div>
-                        <span
-                            onClick={() => {
-                                changeShortcutSetting(
-                                    "enable",
-                                    !settings.shortcuts.enable
-                                );
-                            }}
-                        >
-                            {settings.shortcuts.enable ? "☑" : "☐"}
-                        </span>
-                        <span>키보드로 통해 우/좌 이동하기</span>
-                    </div>
-
-                    {/* Changing keys */}
-                </div>
-            )}
-        </div>
     );
 };
