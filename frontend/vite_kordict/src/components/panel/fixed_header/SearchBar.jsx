@@ -82,7 +82,7 @@ const SearchBar = () => {
                     className="lrmargin-10"
                     style={{ padding: "2px" }}
                     onChange={(e) => {
-                        setBoxContent(e.target.value.trim());
+                        setBoxContent(e.target.value);
                     }}
                     onKeyDown={(e) => {
                         if (e.key == "Enter") handleSubmit(e);

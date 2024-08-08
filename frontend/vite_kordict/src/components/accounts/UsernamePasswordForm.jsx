@@ -28,14 +28,15 @@ const UsernamePasswordForm = ({
         <div className="login-box">
             <div id="login-form-top-strip">
                 <span id="login-form-header">{title}</span>
-                <button
+                <div
                     id="cancel-login-button"
+                    style={{ cursor: "pointer" }}
                     onClick={() => {
                         setNavState("none");
                     }}
                 >
                     ✖
-                </button>
+                </div>
             </div>
             <form onSubmit={handleSubmit}>
                 <div className="input-container">

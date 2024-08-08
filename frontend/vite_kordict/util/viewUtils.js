@@ -94,6 +94,14 @@ export const getNewReviewView = () => {
         view: "study_word_review",
         value: {
             initialCurrentNumber: 1,
+            initialSettings: {
+                showPager: true,
+                shortcuts: {
+                    enable: true,
+                    backKey: "ArrowLeft",
+                    forwardKey: "ArrowRight",
+                },
+            },
         },
         searchBarInitialState: {
             boxContent: "",

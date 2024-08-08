@@ -14,7 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 import re
 import copy
 
-from .util import is_hanja, remove_all_user_additions, remove_non_user_additions, prioritize_known_or_studying, get_nouns_verbs
+from .util import atoi, is_hanja, remove_all_user_additions, remove_non_user_additions, prioritize_known_or_studying, get_nouns_verbs
 
 # Page size = 10
 class PaginationClass(PageNumberPagination):
@@ -278,7 +278,7 @@ class HanjaList(generics.ListAPIView):
       return match.group(1) if match else None
 
     # Searching with education level
-    exam_level = get_search_term_model_field(search_term=search_term, model_field='급별')
+    exam_level = get_search_term_model_field(search_term=search_term, model_field='급수별')
     if exam_level:
       return basic_ordering(queryset.filter(exam_level = exam_level))
 
@@ -294,6 +294,22 @@ class HanjaList(generics.ListAPIView):
       for character in component_characters:
         queryset = queryset.filter(decomposition__contains = character)
       return basic_ordering(queryset)
+    
+    # Searching for grade level.
+    grade_level = get_search_term_model_field(search_term=search_term, model_field='교육용')
+    if grade_level:
+      queryset = queryset.filter(grade_level = grade_level)
+      return basic_ordering(queryset)
+    
+    # Searching for number of strokes.
+    strokes = get_search_term_model_field(search_term=search_term, model_field='획수')
+    if strokes:
+      strokes = atoi(strokes.rstrip('획'))
+      if strokes:
+        queryset = queryset.filter(strokes = strokes)
+        return basic_ordering(queryset)
+      else:
+        return HanjaCharacter.objects.none()
   
     explanation_substring = get_search_term_model_field(search_term=search_term, model_field='설명')
     if explanation_substring:

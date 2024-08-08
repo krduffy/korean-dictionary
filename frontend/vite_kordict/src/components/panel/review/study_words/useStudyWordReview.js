@@ -16,6 +16,8 @@ export const useStudyWordReview = ({
         viewContext["updateCurrentViewInHistory"];
     const getCurrentViewCopy = viewContext["getCurrentViewCopy"];
 
+    const thisViewInHistory = useRef(getCurrentViewCopy());
+
     const { apiFetch, apiPrefetch, loading, successful, error, response } =
         useAPIFetcher();
 
@@ -23,7 +25,7 @@ export const useStudyWordReview = ({
     const changeSetting = (settingKey, newValue) => {
         const newSettings = {
             ...settings,
-            settingKey: newValue,
+            [settingKey]: newValue,
         };
 
         setSettings(newSettings);
@@ -64,7 +66,7 @@ export const useStudyWordReview = ({
     }, [allTargetCodesRef.current, currentNumber]);
 
     useEffect(() => {
-        const currentViewCopy = getCurrentViewCopy();
+        const currentViewCopy = thisViewInHistory.current;
         const updatedView = {
             ...currentViewCopy,
             value: {
@@ -72,8 +74,27 @@ export const useStudyWordReview = ({
                 initialCurrentNumber: currentNumber,
             },
         };
+
+        thisViewInHistory.current = updatedView;
         updateCurrentViewInHistory(updatedView);
     }, [currentNumber]);
+
+    useEffect(() => {
+        const currentViewCopy = thisViewInHistory.current;
+
+        const newView = {
+            ...currentViewCopy,
+            value: {
+                ...currentViewCopy.value,
+                initialSettings: settings,
+            },
+        };
+
+        console.log(newView);
+
+        thisViewInHistory.current = newView;
+        updateCurrentViewInHistory(newView);
+    }, [JSON.stringify(settings)]);
 
     useEffect(() => {
         const numFetched = allTargetCodesRef.current.length;

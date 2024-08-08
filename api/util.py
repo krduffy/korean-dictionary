@@ -4,6 +4,12 @@ from django.db.models.functions import Length
 
 from konlpy.tag import Kkma
 
+def atoi(str):
+  try:
+    return int(str)
+  except ValueError:
+    return None
+  
 def get_only_user_additions(queryset, allowed_user):
   """
     A function to filter out all words not created by a specific user from a queryset.

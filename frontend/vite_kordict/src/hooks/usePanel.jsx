@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-import { getNewSeed } from "../../util/mathUtils.js";
+import { getNewSeed, objsAreDeepEqual } from "../../util/mathUtils.js";
 import { useHistoryManager } from "./useHistoryManager.js";
 
 import HanjaCharView from "../components/panel/detail_view/HanjaCharView.jsx";
@@ -52,14 +52,14 @@ export const usePanel = () => {
     });
 
     const updateViewAndPushToHistory = (newView) => {
-        if (newView) {
+        if (newView && !objsAreDeepEqual(currentView, newView)) {
             pushViewToHistory(newView);
             setCurrentView(newView);
         }
     };
 
     const updateViewWithoutPushingToHistory = (newView) => {
-        if (newView) {
+        if (newView && !objsAreDeepEqual(currentView, newView)) {
             setCurrentView(newView);
         }
     };
@@ -130,6 +130,7 @@ export const usePanel = () => {
                 return (
                     <StudyWordReview
                         initialCurrentNumber={value.initialCurrentNumber}
+                        initialSettings={value.initialSettings}
                     />
                 );
             /* Add word is not currently in the application */

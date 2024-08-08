@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 import PropTypes from "prop-types";
 
+import { getBasicSearchHanjaView } from "../../../../util/viewUtils.js";
 import { useAPIFetcher } from "../../../hooks/useAPIFetcher.js";
 import { useSpamProtectedSetter } from "../../../hooks/useSpamProtectedSetter.js";
 
@@ -12,6 +13,7 @@ import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import PaginatedResults from "../paginated_results/PaginatedResults.jsx";
 import ClipboardCopier from "../string_formatters/ClipboardCopier.jsx";
 import Href from "../string_formatters/Href.jsx";
+import PanelSpecificClickableText from "../string_formatters/PanelSpecificClickableText.jsx";
 import StringWithHanja from "../string_formatters/StringWithHanja.jsx";
 import StringWithNLP from "../string_formatters/StringWithNLP.jsx";
 import TruncatorDropdown from "../string_formatters/TruncatorDropdown.jsx";
@@ -59,6 +61,7 @@ const HanjaCharView = ({ hanjaChar, initialPage }) => {
                 <>
                     <AbridgedMainInfo character={hanjaChar} />
                     <ErrorMessage errorResponse={response} />
+
                     <br />
                 </>
             ) : (
@@ -117,7 +120,6 @@ export default HanjaCharView;
 
 const MainInfoSection = ({ hanjaChar, charData }) => {
     const explanationRef = useRef(null);
-
     const [animatorLoaded, setAnimatorLoaded] = useState(false);
 
     return (
@@ -158,108 +160,12 @@ const MainInfoSection = ({ hanjaChar, charData }) => {
                         </span>
                     </div>
 
-                    <div className="full-width">
-                        <table
-                            style={{
-                                width: "50%",
-                                display: "inline-block",
-                            }}
-                        >
-                            <tbody>
-                                <tr className="main-info-table-row">
-                                    <th className="main-info-table-head">
-                                        획수
-                                    </th>
-                                    <td className="main-info-table-data">
-                                        {charData["strokes"]
-                                            ? charData["strokes"] + "획"
-                                            : "-"}
-                                    </td>
-                                </tr>
-
-                                <tr className="main-info-table-row">
-                                    <th className="main-info-table-head">
-                                        부수
-                                    </th>
-                                    <td className="main-info-table-data">
-                                        {/* if ends in mmah then it is from makemeahanzi*/}
-                                        {charData["radical"] ? (
-                                            <StringWithHanja
-                                                string={charData[
-                                                    "radical"
-                                                ].replace("mmah", "")}
-                                            />
-                                        ) : (
-                                            "-"
-                                        )}
-                                    </td>
-                                </tr>
-
-                                <tr className="main-info-table-row">
-                                    <th className="main-info-table-head">
-                                        모양자 분해
-                                    </th>
-                                    <td className="main-info-table-data">
-                                        {charData["decomposition"] ? (
-                                            <StringWithHanja
-                                                string={
-                                                    charData["decomposition"]
-                                                }
-                                            />
-                                        ) : (
-                                            "-"
-                                        )}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table
-                            style={{
-                                width: "50%",
-                                display: "inline-block",
-                            }}
-                        >
-                            <tbody>
-                                <tr className="main-info-table-row">
-                                    <th className="main-info-table-head">
-                                        급수별
-                                    </th>
-                                    <td className="main-info-table-data">
-                                        {charData["exam_level"]
-                                            ? charData["exam_level"]
-                                            : "-"}
-                                    </td>
-                                </tr>
-
-                                <tr className="main-info-table-row">
-                                    <th className="main-info-table-head">
-                                        교육용
-                                    </th>
-                                    <td className="main-info-table-data">
-                                        {charData["grade_level"]
-                                            ? charData["grade_level"]
-                                            : "-"}
-                                    </td>
-                                </tr>
-
-                                <tr className="main-info-table-row">
-                                    <th className="main-info-table-head">
-                                        유니코드
-                                    </th>
-                                    <td className="main-info-table-data">
-                                        U+
-                                        {hanjaChar
-                                            .charCodeAt(0)
-                                            .toString(16)
-                                            .toUpperCase()}
-                                    </td>
-                                    <td>
-                                        <ClipboardCopier string={hanjaChar} />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    {charData && (
+                        <HanjaDataTable
+                            charData={charData}
+                            hanjaChar={hanjaChar}
+                        />
+                    )}
                 </div>
 
                 <div
@@ -387,5 +293,112 @@ const MainInfoSection = ({ hanjaChar, charData }) => {
                 </div>
             )}
         </div>
+    );
+};
+
+const HanjaDataTable = ({ charData, hanjaChar }) => {
+    return (
+        <div className="full-width">
+            <table
+                style={{
+                    width: "50%",
+                    display: "inline-block",
+                }}
+            >
+                <tbody>
+                    {charData.strokes && (
+                        <HanjaTableDataRow
+                            nameOfData={"획수"}
+                            data={charData.strokes + "획"}
+                            addSearcher={true}
+                        />
+                    )}
+                    {charData.radical && (
+                        <HanjaTableDataRow
+                            nameOfData={"부수"}
+                            data={charData.radical?.replace("mmah", "")}
+                            addSearcher={true}
+                        />
+                    )}
+                    {charData.decomposition && (
+                        <HanjaTableDataRow
+                            nameOfData={"모양자 분해"}
+                            data={charData.decomposition}
+                        />
+                    )}
+                </tbody>
+            </table>
+            <table
+                style={{
+                    width: "50%",
+                    display: "inline-block",
+                }}
+            >
+                <tbody>
+                    {charData.exam_level && (
+                        <HanjaTableDataRow
+                            nameOfData={"급수별"}
+                            data={charData.exam_level}
+                            addSearcher={true}
+                        />
+                    )}
+                    {charData.grade_level && (
+                        <HanjaTableDataRow
+                            nameOfData={"교육용"}
+                            data={charData.grade_level}
+                            addSearcher={true}
+                        />
+                    )}
+                    <HanjaTableDataRow
+                        nameOfData={"유니코드"}
+                        data={
+                            "U+" +
+                            hanjaChar.charCodeAt(0).toString(16).toUpperCase()
+                        }
+                        addCopier={true}
+                        hanjaChar={hanjaChar}
+                    />
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+/* hanja char only required when addCopier is true */
+const HanjaTableDataRow = ({
+    nameOfData,
+    data,
+    addSearcher,
+    addCopier,
+    hanjaChar,
+}) => {
+    return (
+        <tr className="main-info-table-row">
+            <th className="main-info-table-head">{nameOfData}</th>
+            <td className="main-info-table-data">
+                <StringWithHanja string={data ? data : "-"} />
+
+                {data && addSearcher && (
+                    <PanelSpecificClickableText
+                        viewOnPush={getBasicSearchHanjaView(
+                            `${nameOfData}[${data}]`
+                        )}
+                        disableStyling={true}
+                    >
+                        <span title="이 급수별 검색하기" className="pointer">
+                            {" "}
+                            🔍
+                        </span>
+                    </PanelSpecificClickableText>
+                )}
+
+                {addCopier && hanjaChar && (
+                    <>
+                        {" "}
+                        <ClipboardCopier string={hanjaChar} />
+                    </>
+                )}
+            </td>
+        </tr>
     );
 };
