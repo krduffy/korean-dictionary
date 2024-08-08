@@ -97,7 +97,7 @@ export const getNewReviewView = () => {
             initialSettings: {
                 showPager: true,
                 shortcuts: {
-                    enable: true,
+                    enable: false,
                     backKey: "ArrowLeft",
                     forwardKey: "ArrowRight",
                 },

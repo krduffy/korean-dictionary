@@ -11,7 +11,10 @@ import CreateAccountBox from "./components/accounts/CreateAccountBox.jsx";
 import LoginBox from "./components/accounts/LoginBox.jsx";
 import NavBar from "./components/nav_bar/NavBar.jsx";
 import Panel from "./components/panel/Panel.jsx";
-import { LoadingMessage } from "./components/panel/messages/LoadingMessage.jsx";
+import {
+    LoadingMessage,
+    TrailingDotCustomMessage,
+} from "./components/panel/messages/LoadingMessage.jsx";
 
 import "./app.css";
 
@@ -61,6 +64,10 @@ const BackendUnavailablePage = () => {
             </div>
             <div className="pad-10 full-width textcentered">
                 다커 컨데이너를 방금 작동하셨다면 이 페이지에 잠깐 기다리십시오.
+            </div>
+
+            <div className="pad-10 textcentered">
+                <TrailingDotCustomMessage customMessage={"접속하려는 중"} />
             </div>
         </div>
     );

@@ -9,9 +9,8 @@
     border-radius: 5px;
     text-align: center;
     font-size: 14px;
-    background-color: #f0f0f0; /* Light grey background */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Soft shadow */
-    color: #333; /* Dark text for contrast */
+    background-color: #777777;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .input-box {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { getNewReviewView } from "../../../../../util/viewUtils.js";
 
@@ -8,6 +8,7 @@ import PaginatedResults from "../../paginated_results/PaginatedResults.jsx";
 const StudyWordsPage = ({ initialPage }) => {
     const updateViewAndPushToHistory =
         useContext(ViewContext)["updateViewAndPushToHistory"];
+    const [numResults, setNumResults] = useState(0);
 
     const handleReviewButtonClick = () => {
         updateViewAndPushToHistory(getNewReviewView());
@@ -15,11 +16,14 @@ const StudyWordsPage = ({ initialPage }) => {
 
     return (
         <>
-            <button onClick={handleReviewButtonClick}>학습</button>
+            {numResults > 0 && (
+                <button onClick={handleReviewButtonClick}>학습</button>
+            )}
             <PaginatedResults
                 searchType={"user_study_words"}
                 searchTerm={""} /* not used for searchType user_study_words */
                 initialPage={initialPage}
+                setNumResults={setNumResults}
             />
         </>
     );

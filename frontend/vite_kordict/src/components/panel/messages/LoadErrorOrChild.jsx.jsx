@@ -1,7 +1,9 @@
-import ErrorMessage from "./ErrorMessage";
-import { LoadingMessage } from "./LoadingMessage";
+import React, { useEffect, useState } from "react";
 
-import { DELAY_UNTIL_ERROR_MESSAGE_MS } from "../../../constants.js";
+import { ERROR_BLOCK_TIME_MS } from "../../../constants.js";
+
+import ErrorMessage from "./ErrorMessage.jsx";
+import { LoadingMessage } from "./LoadingMessage.jsx";
 
 /* Child cannot error if !loading and !error. It will still try to initially mount to the dom
    so redundant conditional rendering is likely to be required. */
@@ -16,28 +18,38 @@ const LoadErrorOrChild = ({
     /* checkErrorFirst for conditions that require being checked before loading */
     checkErrorFirst,
 }) => {
-    const getErrorMsgAfterDelay = () => {
+    const [errorBlock, setErrorBlock] = useState(true);
+
+    useEffect(() => {
         setTimeout(() => {
-            return <ErrorMessage errorResponse={response} />;
-        }, DELAY_UNTIL_ERROR_MESSAGE_MS);
+            setErrorBlock(false);
+        }, ERROR_BLOCK_TIME_MS);
+    }, []);
+
+    const errorOrLoading = () => {
+        return errorBlock ? (
+            <LoadingMessage />
+        ) : (
+            <ErrorMessage errorResponse={response} />
+        );
     };
 
     if (checkErrorFirst && customErrorCondition?.()) {
-        return getErrorMsgAfterDelay();
+        return errorOrLoading();
     } else if (customLoadingCondition?.()) {
         return <LoadingMessage />;
     } else if (customErrorCondition?.()) {
-        return getErrorMsgAfterDelay();
+        return errorOrLoading();
     }
 
     if (checkErrorFirst && !customErrorCondition && error) {
-        return getErrorMsgAfterDelay();
+        return errorOrLoading();
     } else if (loading && !customLoadingCondition) {
         return <LoadingMessage />;
     } else if (error && !customErrorCondition) {
-        return getErrorMsgAfterDelay();
+        return errorOrLoading();
     } else {
-        return <>{children}</>;
+        return children || null;
     }
 };
 

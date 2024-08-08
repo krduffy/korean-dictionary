@@ -172,6 +172,7 @@ const ChangeKeyBindingSelector = ({ currentKey, callbackOnChange }) => {
     return (
         <span
             ref={selectorRef}
+            className="pointer"
             onClick={() => {
                 setSelected(true);
             }}

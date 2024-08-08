@@ -73,10 +73,11 @@ export function useAPIFetcher() {
                 const data = await response.json();
                 setResponse(data);
 
+                cachePut(url, data);
+
                 if (!response.ok) {
                     throw new Error("Network error.");
                 } else {
-                    cachePut(url, data);
                     setSuccessful(true);
                     return data;
                 }
@@ -105,11 +106,8 @@ export function useAPIFetcher() {
             const headers = getHeaders(token);
 
             const response = await fetch(fullUrl, { headers });
-
-            if (response.ok) {
-                const data = await response.json();
-                cachePut(url, data);
-            }
+            const data = await response.json();
+            cachePut(url, data);
         }
     };
 

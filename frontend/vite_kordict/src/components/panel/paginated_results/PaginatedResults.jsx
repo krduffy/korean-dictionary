@@ -17,6 +17,7 @@ const PaginatedResults = ({
     searchTerm,
     initialPage,
     nestLevel,
+    setNumResults,
 }) => {
     const {
         currentPage,
@@ -29,24 +30,25 @@ const PaginatedResults = ({
         getResultComponent,
         resultDivRef,
         hasInteractedRef,
-    } = usePaginatedResults(searchType, searchTerm, initialPage);
+    } = usePaginatedResults(searchType, searchTerm, initialPage, setNumResults);
 
     return (
         <LoadErrorOrChild
-            checkErrorFirst={true}
-            error={error}
+            customErrorCondition={() => {
+                return error || (searchResults && !searchResults.results);
+            }}
             customLoadingCondition={() => {
-                return loading || !searchResults || !searchResults.results;
+                return loading || !searchResults;
             }}
             response={response}
         >
-            {searchResults.count === 0 ? (
+            {searchResults?.count === 0 ? (
                 <NoResultsMessage
                     searchType={searchType}
                     searchTerm={searchTerm}
                 />
             ) : (
-                searchResults.results &&
+                searchResults?.results &&
                 typeAndResultsMatch() && (
                     <div className="paginated-results" ref={resultDivRef}>
                         <div className="result-count-indicator">
