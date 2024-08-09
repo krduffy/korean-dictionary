@@ -13,7 +13,7 @@ const TruncatorDropdown = ({ children, onCollapseScrollToRef }) => {
         if (contentRef.current) {
             const contentHeight =
                 contentRef.current.getBoundingClientRect().height;
-            setShowButton(contentHeight == 100);
+            setShowButton(contentHeight >= 100);
         }
     }, [children]);
 

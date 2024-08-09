@@ -121,7 +121,7 @@ export const processRequest = (url, method, additionalInfo) => {
 export const cacheRetrieve = (url) => {
     if (Object.keys(cache).includes(url)) {
         cache[url].lastAccessed = ++counter;
-        return cache[url].response;
+        return cache[url];
     }
     return null;
 };
@@ -160,13 +160,14 @@ const changeUserDataInPlace = (url, userDataKey, newBoolean, targetCode) => {
  * @param {string} url - The url.
  * @param {object} response - The response.
  */
-export const cachePut = (url, response) => {
+export const cachePut = (url, response, ok) => {
     if (Object.keys(cache).includes(url)) {
         cache[url].lastAccessed = ++counter;
     } else {
         cache[url] = {
             lastAccessed: ++counter,
             response: response,
+            ok: ok,
         };
         itemsStored++;
     }

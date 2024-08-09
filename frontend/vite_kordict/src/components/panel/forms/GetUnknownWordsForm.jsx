@@ -54,8 +54,6 @@ const GetUnknownWordsForm = ({
             searchBarInitialState: { ...basicView.searchBarInitialState },
         };
 
-        console.log(newView);
-
         updateCurrentViewInHistory(newView);
     };
 
@@ -169,7 +167,8 @@ const SubmitArea = ({
 
             <div className="input-button-container">
                 <button
-                    onClick={() => {
+                    onClick={(event) => {
+                        event.stopPropagation();
                         if (!loading) {
                             setInteracted(true);
                             handleSubmit();

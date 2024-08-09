@@ -25,7 +25,6 @@ const ErrorMessage = ({ errorResponse }) => {
     };
 
     const errors = getErrors();
-    console.log(errors);
 
     return (
         <div className="error-message">

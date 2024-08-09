@@ -116,10 +116,12 @@ export const useHanjaGame = (initialSeed) => {
                 authInfo["token"]
             );
 
-            apiPrefetch(
-                `api/hanja_game_info/?length=${HANJA_GAME_LENGTH}&seed=${nextSeedRef.current}`,
-                authInfo["token"]
-            );
+            if (successful) {
+                apiPrefetch(
+                    `api/hanja_game_info/?length=${HANJA_GAME_LENGTH}&seed=${nextSeedRef.current}`,
+                    authInfo["token"]
+                );
+            }
 
             setCurrentGameData(data);
             resetConnectionRows();

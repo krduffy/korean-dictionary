@@ -91,8 +91,6 @@ export const useStudyWordReview = ({
             },
         };
 
-        console.log(newView);
-
         thisViewInHistory.current = newView;
         updateCurrentViewInHistory(newView);
     }, [JSON.stringify(settings)]);

@@ -59,7 +59,13 @@ export function useAPIFetcher() {
             );
 
             return new Promise((resolve) => {
-                resolve(cachedResponse);
+                if (cachedResponse.ok) {
+                    setSuccessful(true);
+                } else {
+                    setError(true);
+                }
+                setResponse(cachedResponse.response);
+                resolve(cachedResponse.response);
             }).finally(() => {
                 setLoading(false);
             });
@@ -73,7 +79,7 @@ export function useAPIFetcher() {
                 const data = await response.json();
                 setResponse(data);
 
-                cachePut(url, data);
+                cachePut(url, data, response.ok);
 
                 if (!response.ok) {
                     throw new Error("Network error.");
@@ -102,12 +108,12 @@ export function useAPIFetcher() {
 
         if (!alreadyCached) {
             const fullUrl = BASE_URL + url;
-
             const headers = getHeaders(token);
 
             const response = await fetch(fullUrl, { headers });
             const data = await response.json();
-            cachePut(url, data);
+
+            cachePut(url, data, response.ok);
         }
     };
 
