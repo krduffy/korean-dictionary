@@ -18,20 +18,8 @@ const LoadErrorOrChild = ({
     /* checkErrorFirst for conditions that require being checked before loading */
     checkErrorFirst,
 }) => {
-    const [errorBlock, setErrorBlock] = useState(true);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setErrorBlock(false);
-        }, ERROR_BLOCK_TIME_MS);
-    }, []);
-
     const errorOrLoading = () => {
-        return errorBlock ? (
-            <LoadingMessage />
-        ) : (
-            <ErrorMessage errorResponse={response} />
-        );
+        return <ErrorMessage errorResponse={response} />;
     };
 
     if (checkErrorFirst && customErrorCondition?.()) {

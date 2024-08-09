@@ -16,7 +16,12 @@ import HanjaExampleResult from "./HanjaExampleResult.jsx";
 import HanjaResult from "./HanjaResult.jsx";
 import KoreanResult from "./KoreanResult.jsx";
 
-export const usePaginatedResults = (searchType, searchTerm, initialPage) => {
+export const usePaginatedResults = (
+    searchType,
+    searchTerm,
+    initialPage,
+    setNumResults
+) => {
     const [currentPage, setCurrentPage] = useState(initialPage);
     const [searchResults, setSearchResults] = useState({});
     const { apiFetch, loading, error, response } = useAPIFetcher();
@@ -52,7 +57,24 @@ export const usePaginatedResults = (searchType, searchTerm, initialPage) => {
         })
     );
 
+    const updateCurrentPageIfRedirected = () => {
+        const maxPageNum = Math.ceil(searchResults.count / 10);
+
+        if (currentPage > maxPageNum) {
+            setCurrentPage(maxPageNum);
+        }
+    };
+
     useLayoutEffect(() => {
+        if (searchResults?.count > 0) {
+            updateCurrentPageIfRedirected();
+        }
+        if (searchResults?.count && setNumResults) {
+            setNumResults(searchResults.count);
+        } else if (setNumResults) {
+            setNumResults(0);
+        }
+
         if (hasInteractedRef.current) {
             resultDivRef.current?.scrollIntoView({
                 top: 0,

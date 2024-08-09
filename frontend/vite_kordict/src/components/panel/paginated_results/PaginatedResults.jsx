@@ -33,15 +33,7 @@ const PaginatedResults = ({
     } = usePaginatedResults(searchType, searchTerm, initialPage, setNumResults);
 
     return (
-        <LoadErrorOrChild
-            customErrorCondition={() => {
-                return error || (searchResults && !searchResults.results);
-            }}
-            customLoadingCondition={() => {
-                return loading || !searchResults;
-            }}
-            response={response}
-        >
+        <LoadErrorOrChild loading={loading} error={error} response={response}>
             {searchResults?.count === 0 ? (
                 <NoResultsMessage
                     searchType={searchType}

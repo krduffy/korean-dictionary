@@ -5,6 +5,8 @@ import { getNewReviewView } from "../../../../../util/viewUtils.js";
 import { ViewContext } from "../../Panel.jsx";
 import PaginatedResults from "../../paginated_results/PaginatedResults.jsx";
 
+import "./study-styles.css";
+
 const StudyWordsPage = ({ initialPage }) => {
     const updateViewAndPushToHistory =
         useContext(ViewContext)["updateViewAndPushToHistory"];
@@ -17,7 +19,12 @@ const StudyWordsPage = ({ initialPage }) => {
     return (
         <>
             {numResults > 0 && (
-                <button onClick={handleReviewButtonClick}>학습</button>
+                <button
+                    onClick={handleReviewButtonClick}
+                    className="go-to-study-button"
+                >
+                    학습
+                </button>
             )}
             <PaginatedResults
                 searchType={"user_study_words"}

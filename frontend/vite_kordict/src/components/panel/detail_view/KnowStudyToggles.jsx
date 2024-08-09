@@ -148,7 +148,7 @@ const StudiedOrNotStudiedButton = ({ targetCode, initiallyStudied }) => {
     return (
         <span
             className="pointer pad-10 round-corners"
-            style={{ backgroundColor: wordIsStudied ? "#946821" : "gray" }}
+            style={{ backgroundColor: wordIsStudied ? "var(--gold)" : "gray" }}
             onClick={() => {
                 handleClick();
             }}

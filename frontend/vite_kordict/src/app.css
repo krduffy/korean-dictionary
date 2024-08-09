@@ -23,8 +23,8 @@ a:visited {
     --brownred: #59211b;
     --bluepurple: #25254d;
     --cyan: #344e61;
-    --gold: rgb(218, 165, 32);
     --shaded: #1a1a1a;
+    --gold: rgb(148, 104, 33);
 }
 
 .shaded-background {
