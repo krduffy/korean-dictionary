@@ -129,6 +129,7 @@ export const usePanel = () => {
             case "study_word_review":
                 return (
                     <StudyWordReview
+                        seed={value.seed}
                         initialCurrentNumber={value.initialCurrentNumber}
                         initialSettings={value.initialSettings}
                     />

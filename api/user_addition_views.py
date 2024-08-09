@@ -328,11 +328,12 @@ class UserStudyWordTargetCodes(APIView):
   permission_classes = (IsAuthenticated, )
 
   def get(self, request):
+
+    seed = int(self.request.query_params.get('seed', 1000))
     max_returned = 1000
     words = (
-      self.request.user.study_words
-      .values_list('target_code', flat=True)
-      .order_by('target_code')[:max_returned]
+      reorder_queryset_with_seed(self.request.user.study_words, seed)
+      .values_list('target_code', flat=True)[:max_returned]
     )
 
     if not words:

@@ -1,3 +1,5 @@
+import { getNewSeed } from "./mathUtils";
+
 export const getBasicDetailKoreanView = (word, targetCode) => {
     return {
         view: "detail_korean",
@@ -93,6 +95,7 @@ export const getNewReviewView = () => {
     return {
         view: "study_word_review",
         value: {
+            seed: getNewSeed(),
             initialCurrentNumber: 1,
             initialSettings: {
                 showPager: true,

@@ -6,6 +6,7 @@ import { AuthenticationInfoContext } from "../../../../App.jsx";
 import { ViewContext } from "../../Panel.jsx";
 
 export const useStudyWordReview = ({
+    seed,
     initialCurrentNumber,
     initialSettings,
 }) => {
@@ -38,7 +39,7 @@ export const useStudyWordReview = ({
     useEffect(() => {
         const fillTargetCodes = async () => {
             const response = await apiFetch(
-                "api/user_study_words_target_codes/",
+                `api/user_study_words_target_codes/?seed=${seed}`,
                 authInfo["token"]
             );
 

@@ -8,7 +8,7 @@ import LoadErrorOrChild from "../../messages/LoadErrorOrChild.jsx.jsx";
 import PageChanger from "../../paginated_results/PageChanger.jsx";
 import SettingsMenu from "./SettingsMenu.jsx";
 
-const StudyWordReview = ({ initialCurrentNumber, initialSettings }) => {
+const StudyWordReview = ({ seed, initialCurrentNumber, initialSettings }) => {
     const {
         loading,
         error,
@@ -20,6 +20,7 @@ const StudyWordReview = ({ initialCurrentNumber, initialSettings }) => {
         settings,
         changeSetting,
     } = useStudyWordReview({
+        seed: seed,
         initialCurrentNumber: initialCurrentNumber,
         initialSettings: initialSettings,
     });
