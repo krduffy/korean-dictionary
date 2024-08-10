@@ -70,6 +70,18 @@ export const processRequest = (url, method, additionalInfo) => {
                 additionalInfo["target_code"]
             );
         }
+
+        const homepages = Object.keys(cache).filter((url) => {
+            return url.startsWith("api/homepage_info");
+        });
+        for (let i = 0; i < homepages.length; i++) {
+            changeUserDataInPlace(
+                homepages[i],
+                updateKnown ? "is_known" : "is_studied",
+                method === "PUT" ? true : false,
+                additionalInfo["target_code"]
+            );
+        }
     };
 
     const deleteDetailViewAndEditView = (targetCode) => {
@@ -136,21 +148,25 @@ const changeUserDataInPlace = (url, userDataKey, newBoolean, targetCode) => {
 
     const cacheItem = fromCache.response;
 
+    const checkIfApplicableForItem = (data) => {
+        if (data["target_code"] == targetCode && data["user_data"]) {
+            data["user_data"][userDataKey] = newBoolean;
+        }
+    };
+
+    const checkAll = (arrayOfItems) => {
+        arrayOfItems.forEach((itemData) => {
+            checkIfApplicableForItem(itemData);
+        });
+    };
+
     /* List of search results in search_korean */
     if (cacheItem.results != null) {
-        cacheItem.results.forEach((wordData) => {
-            if (
-                wordData["target_code"] == targetCode &&
-                wordData["user_data"]
-            ) {
-                wordData["user_data"][userDataKey] = newBoolean;
-            }
-        });
-    } else if (
-        cacheItem["target_code"] == targetCode &&
-        cacheItem["user_data"]
-    ) {
-        cacheItem["user_data"][userDataKey] = newBoolean;
+        checkAll(cacheItem.results);
+    } else if (cacheItem.random_study_words) {
+        checkAll(cacheItem.random_study_words);
+    } else {
+        checkIfApplicableForItem(cacheItem);
     }
 };
 

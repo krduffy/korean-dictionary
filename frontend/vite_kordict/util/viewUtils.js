@@ -72,7 +72,7 @@ export const getNewKnownWordsView = () => {
             initial_page: 1,
         },
         searchBarInitialState: {
-            boxContent: "",
+            boxContent: "아는 단어 목록",
             dictionary: "korean",
         },
     };
@@ -85,7 +85,7 @@ export const getNewStudyWordView = () => {
             initial_page: 1,
         },
         searchBarInitialState: {
-            boxContent: "",
+            boxContent: "공부 단어 목록",
             dictionary: "korean",
         },
     };
@@ -107,7 +107,7 @@ export const getNewReviewView = () => {
             },
         },
         searchBarInitialState: {
-            boxContent: "",
+            boxContent: "암기장 단어 학습",
             dictionary: "korean",
         },
     };

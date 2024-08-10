@@ -217,7 +217,7 @@ class ToggleWordKnownView(APIView):
         serializer = KoreanWordSerializer(korean_word, context={'request': request})
         return Response(serializer.data)
       
-      return Response(status= status.HTTP_400_BAD_REQUEST, data={"detail": "Word is already known."})
+      return Response(status= status.HTTP_200_OK, data={"detail": "Word is already known."})
     except KoreanWord.DoesNotExist:
       return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -233,7 +233,7 @@ class ToggleWordKnownView(APIView):
         serializer = KoreanWordSerializer(korean_word, context={'request': request})
         return Response(serializer.data)
       
-      return Response(status= status.HTTP_400_BAD_REQUEST, data={"detail": "Word is already unknown."})
+      return Response(status= status.HTTP_200_OK, data={"detail": "Word is already unknown."})
   
     except KoreanWord.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -254,9 +254,11 @@ class ToggleWordStudiedView(APIView):
       if korean_word not in user.study_words.all():
           user.study_words.add(korean_word)
           user.save()
-
-      serializer = KoreanWordSerializer(korean_word, context={'request': request})
-      return Response(serializer.data)
+          serializer = KoreanWordSerializer(korean_word, context={'request': request})
+          return Response(serializer.data)
+      else:
+        return Response(status= status.HTTP_200_OK, data={"detail": "Word is already studied."})
+    
     except KoreanWord.DoesNotExist:
       return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -268,9 +270,10 @@ class ToggleWordStudiedView(APIView):
       if korean_word in user.study_words.all():
         user.study_words.remove(korean_word)
         user.save()
-
-      serializer = KoreanWordSerializer(korean_word, context={'request': request})
-      return Response(serializer.data)
+        serializer = KoreanWordSerializer(korean_word, context={'request': request})
+        return Response(serializer.data)
+      else:
+        return Response(status= status.HTTP_200_OK, data={"detail": "Word is already not studied."})
     except KoreanWord.DoesNotExist:
       return Response(status=status.HTTP_404_NOT_FOUND)
 

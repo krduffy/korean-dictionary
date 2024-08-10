@@ -19,8 +19,6 @@ const PageChanger = ({ page, numPages, setPageFunction, hasInteractedRef }) => {
                 gap: "25px",
             }}
         >
-            {/* gray out the left button if there is no left page*/}
-
             {page != 1 ? (
                 <span
                     onClick={() => handleClick(1)}

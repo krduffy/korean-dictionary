@@ -1,8 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import PropTypes from "prop-types";
 
-import { ViewContext } from "../../Panel.jsx";
+import { getBasicDetailKoreanView } from "../../../../../util/viewUtils.js";
+
+import PanelSpecificClickableText from "../../string_formatters/PanelSpecificClickableText.jsx";
+import StringWithNLP from "../../string_formatters/StringWithNLP.jsx";
 
 const SenseProverbInfo = ({ proverbInfo }) => {
     return (
@@ -28,32 +31,20 @@ SenseProverbInfo.propTypes = {
 };
 
 const SenseProverb = ({ proverb }) => {
-    const updateViewAndPushToHistory =
-        useContext(ViewContext)["updateViewAndPushToHistory"];
     return (
         <>
             <div style={{ paddingBottom: "5px" }}>
                 <span style={{ color: "#8e44ad" }}>{proverb.type}</span>{" "}
-                <span
-                    className="clickable-result"
-                    onClick={() => {
-                        if (proverb.link_target_code) {
-                            updateViewAndPushToHistory({
-                                view: "detail_korean",
-                                value: proverb.link_target_code,
-                                searchBarInitialState: {
-                                    boxContent: proverb.word,
-                                    dictionary: "korean",
-                                },
-                            });
-                        }
-                    }}
-                >
-                    {proverb.word}
-                </span>
+                <PanelSpecificClickableText
+                    text={proverb.word}
+                    viewOnPush={getBasicDetailKoreanView(
+                        proverb.word,
+                        proverb.link_target_code
+                    )}
+                />
             </div>
             <div style={{ position: "relative", left: "10px" }}>
-                {proverb.definition}
+                <StringWithNLP string={proverb.definition} />
             </div>
         </>
     );
@@ -64,7 +55,7 @@ SenseProverb.propTypes = {
         type: PropTypes.string.isRequired,
         word: PropTypes.string.isRequired,
         definition: PropTypes.string.isRequired,
-        link_target_code: PropTypes.number, // optional
+        link_target_code: PropTypes.number,
     }).isRequired,
 };
 

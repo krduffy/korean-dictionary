@@ -4,9 +4,7 @@ import PropTypes from "prop-types";
 
 import { getTopicMarker } from "../../../../util/stringUtils.js";
 
-import ErrorMessage from "../messages/ErrorMessage.jsx";
 import LoadErrorOrChild from "../messages/LoadErrorOrChild.jsx.jsx";
-import { LoadingMessage } from "../messages/LoadingMessage.jsx";
 import PageChanger from "./PageChanger.jsx";
 import { usePaginatedResults } from "./usePaginatedResults.jsx";
 

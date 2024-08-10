@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 
+import { getBasicDetailKoreanView } from "../../../../../util/viewUtils.js";
+
 import { ViewContext } from "../../Panel.jsx";
+import PanelSpecificClickableText from "../../string_formatters/PanelSpecificClickableText.jsx";
 
 const SenseRelationInfo = ({ relationInfo }) => {
     const possibleRelationTypes = [
@@ -12,7 +15,7 @@ const SenseRelationInfo = ({ relationInfo }) => {
         "높임말",
         "옛말",
         "참고 어휘",
-        "본말"
+        "본말",
     ];
 
     const updateViewAndPushToHistory =
@@ -46,24 +49,17 @@ const SenseRelationInfo = ({ relationInfo }) => {
                         .filter((relation) => relation["type"] === type)
                         .map((filteredRelation, innerIndex, filteredArray) => (
                             <React.Fragment key={innerIndex}>
-                                <span
-                                    className={
-                                        filteredRelation.link_target_code
-                                            ? "clickable-result"
-                                            : ""
-                                    }
-                                    key={innerIndex}
-                                    onClick={() => {
-                                        if (filteredRelation.link_target_code)
-                                            handleClick(
-                                                filteredRelation.link_target_code,
-
-                                                filteredRelation.word
-                                            );
-                                    }}
-                                >
-                                    {filteredRelation.word}
-                                </span>
+                                {filteredRelation.link_target_code ? (
+                                    <PanelSpecificClickableText
+                                        text={filteredRelation.word}
+                                        viewOnPush={getBasicDetailKoreanView(
+                                            filteredRelation.word,
+                                            filteredRelation.link_target_code
+                                        )}
+                                    />
+                                ) : (
+                                    <span>{filteredRelation.word}</span>
+                                )}
                                 {innerIndex < filteredArray.length - 1 && ", "}
                             </React.Fragment>
                         ))}
