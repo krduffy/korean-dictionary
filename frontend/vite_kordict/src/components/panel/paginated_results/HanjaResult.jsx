@@ -6,6 +6,7 @@ import { getBasicDetailHanjaView } from "../../../../util/viewUtils.js";
 
 import Href from "../string_formatters/Href.jsx";
 import PanelSpecificClickableText from "../string_formatters/PanelSpecificClickableText.jsx";
+import StringWithNLP from "../string_formatters/StringWithNLP.jsx";
 
 import "./styles/hanja-result-styles.css";
 
@@ -33,7 +34,7 @@ const HanjaResult = ({ result }) => {
             </div>
             <div className="hanja-result-bottom">
                 <div className="single-line-ellipsis">
-                    {result["explanation"]}
+                    <StringWithNLP string={result["explanation"]} />
                 </div>
             </div>
             <div className="source">

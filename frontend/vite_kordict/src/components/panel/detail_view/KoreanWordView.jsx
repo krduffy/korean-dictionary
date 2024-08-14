@@ -69,7 +69,7 @@ const KoreanWordView = ({ targetCode }) => {
                     {/* Lower section */}
 
                     {/* NOTES */}
-                    {wordData.notes.length > 0 && (
+                    {wordData.notes?.length > 0 && (
                         <NoteSection notes={wordData.notes} />
                     )}
 
@@ -78,7 +78,7 @@ const KoreanWordView = ({ targetCode }) => {
                     <UserExampleSentencesSection senses={wordData.senses} />
 
                     {/* OTHER SENSES */}
-                    {wordData["senses"] && (
+                    {wordData.senses && (
                         <SenseSection
                             senses={wordData.senses.filter(
                                 (data) => data.order !== 0

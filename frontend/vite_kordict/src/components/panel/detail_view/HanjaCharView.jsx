@@ -298,74 +298,79 @@ const MainInfoSection = ({ hanjaChar, charData }) => {
 
 const HanjaDataTable = ({ charData, hanjaChar }) => {
     return (
-        <div className="full-width">
-            <table
-                style={{
-                    width: "50%",
-                    display: "inline-block",
-                }}
-            >
-                <tbody>
-                    {charData.strokes && (
-                        <HanjaTableDataRow
-                            nameOfData={"획수"}
-                            data={charData.strokes + "획"}
-                            addSearcher={true}
-                        />
-                    )}
-                    {charData.radical && (
-                        <HanjaTableDataRow
-                            nameOfData={"부수"}
-                            data={charData.radical?.replace("mmah", "")}
-                            addSearcher={true}
-                        />
-                    )}
-                    {charData.decomposition && (
-                        <HanjaTableDataRow
-                            nameOfData={"모양자 분해"}
-                            data={charData.decomposition}
-                        />
-                    )}
-                </tbody>
-            </table>
-            <table
-                style={{
-                    width: "50%",
-                    display: "inline-block",
-                }}
-            >
-                <tbody>
-                    {charData.exam_level && (
-                        <HanjaTableDataRow
-                            nameOfData={"급수별"}
-                            data={charData.exam_level}
-                            addSearcher={true}
-                        />
-                    )}
-                    {charData.grade_level && (
-                        <HanjaTableDataRow
-                            nameOfData={"교육용"}
-                            data={charData.grade_level}
-                            addSearcher={true}
-                        />
-                    )}
-                    <HanjaTableDataRow
-                        nameOfData={"유니코드"}
-                        data={
-                            "U+" +
-                            hanjaChar.charCodeAt(0).toString(16).toUpperCase()
-                        }
-                        addCopier={true}
-                        hanjaChar={hanjaChar}
+        <div
+            className="full-width"
+            style={{
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: "10px",
+                display: "grid",
+            }}
+        >
+            <div style={{ gridRow: "1 / 2", gridColumn: "1 / 2" }}>
+                {charData.strokes && (
+                    <HanjaTableDataPair
+                        nameOfData={"획수"}
+                        data={charData.strokes + "획"}
+                        addSearcher={true}
+                        row={1}
                     />
-                </tbody>
-            </table>
+                )}
+            </div>
+            <div style={{ gridRow: "2 / 3", gridColumn: "1 / 2" }}>
+                {charData.radical && (
+                    <HanjaTableDataPair
+                        nameOfData={"부수"}
+                        data={charData.radical?.replace("mmah", "")}
+                        addSearcher={true}
+                        row={2}
+                    />
+                )}
+            </div>
+            <div style={{ gridRow: "3 / 4", gridColumn: "1 / 2" }}>
+                {charData.decomposition && (
+                    <HanjaTableDataPair
+                        nameOfData={"모양자 분해"}
+                        data={charData.decomposition}
+                        row={3}
+                    />
+                )}
+            </div>
+
+            <div style={{ gridRow: "1 / 2", gridColumn: "2 / 3" }}>
+                {charData.exam_level && (
+                    <HanjaTableDataPair
+                        nameOfData={"급수별"}
+                        data={charData.exam_level}
+                        addSearcher={true}
+                    />
+                )}
+            </div>
+            <div style={{ gridRow: "2 / 3", gridColumn: "2 / 3" }}>
+                {charData.grade_level && (
+                    <HanjaTableDataPair
+                        nameOfData={"교육용"}
+                        data={charData.grade_level}
+                        addSearcher={true}
+                    />
+                )}
+            </div>
+            <div style={{ gridRow: "3 / 4", gridColumn: "2 / 3" }}>
+                <HanjaTableDataPair
+                    nameOfData={"유니코드"}
+                    data={
+                        "U+" +
+                        hanjaChar.charCodeAt(0).toString(16).toUpperCase()
+                    }
+                    addCopier={true}
+                    hanjaChar={hanjaChar}
+                />
+            </div>
         </div>
     );
 };
 
 /* hanja char only required when addCopier is true */
-const HanjaTableDataRow = ({
+const HanjaTableDataPair = ({
     nameOfData,
     data,
     addSearcher,
@@ -373,9 +378,25 @@ const HanjaTableDataRow = ({
     hanjaChar,
 }) => {
     return (
-        <tr className="main-info-table-row">
-            <th className="main-info-table-head">{nameOfData}</th>
-            <td className="main-info-table-data">
+        <>
+            <div
+                style={{
+                    width: "50%",
+                    height: "100%",
+                    display: "inline-block",
+                    verticalAlign: "top",
+                }}
+            >
+                {nameOfData}
+            </div>
+            <div
+                style={{
+                    width: "50%",
+                    height: "100%",
+                    display: "inline-block",
+                    verticalAlign: "top",
+                }}
+            >
                 <StringWithHanja string={data ? data : "-"} />
 
                 {data && addSearcher && (
@@ -398,7 +419,7 @@ const HanjaTableDataRow = ({
                         <ClipboardCopier string={hanjaChar} />
                     </>
                 )}
-            </td>
-        </tr>
+            </div>
+        </>
     );
 };

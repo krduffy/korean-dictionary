@@ -28,6 +28,15 @@ class Command(BaseCommand):
   
   @no_translations
   def handle(self, *args, **kwargs):
+
+    exclude_file = "api\\management\\dict_files\\redirects.txt"
+    exclusions = []
+    with open(exclude_file, 'r', encoding='utf-8') as exclude_f:
+      for line in exclude_f.readlines():
+        exclusions.append(line[0])
+    
+    print(exclusions)
+
     hanja_fname = "api\\management\\dict_files\\hanja.json"
     matches = []
 
@@ -43,12 +52,22 @@ class Command(BaseCommand):
           counter += 1
         elif validate_hanja_data(hanja_char_data=hanja_char_data):
 
+          character = hanja_char_data["character"]
+
+          if character in exclusions:
+            continue
+          
           exam_level = hanja_char_data["exam_level"]
 
           if '[' in exam_level:
             exam_level = exam_level[:-3]
           
           if exam_level not in ['8급', '준7급', '7급', '준6급', '6급']:
+            continue
+
+          word_exists_with_hanja = KoreanWord.objects.filter(origin__contains = character).exists()
+
+          if not word_exists_with_hanja:
             continue
 
           matches.append(hanja_char_data)

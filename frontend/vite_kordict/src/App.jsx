@@ -63,7 +63,7 @@ const BackendUnavailablePage = () => {
                 서버에 접속할 수 없는 것 같습니다.
             </div>
             <div className="pad-10 full-width textcentered">
-                다커 컨데이너를 방금 작동하셨다면 이 페이지에 잠깐 기다리십시오.
+                다커 컨테이너를 방금 작동하셨다면 이 페이지에 잠깐 기다리십시오.
             </div>
 
             <div className="pad-10 textcentered">

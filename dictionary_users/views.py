@@ -8,6 +8,15 @@ from .serializers import UserSerializer, CreateUserSerializer, UpdateUserSeriali
 from knox import views as knox_views
 from django.contrib.auth import login
 
+def merge_error_lists(dict_of_lists):
+   
+   return_list = []
+   for k, v in dict_of_lists.items():
+      for error in v:
+         return_list.append(error)
+
+   return return_list
+
 class CreateUserAPI(CreateAPIView):
     queryset = DictionaryUser.objects.all()
     serializer_class = CreateUserSerializer
@@ -23,8 +32,9 @@ class CreateUserAPI(CreateAPIView):
         returned_data['user'] = serialized_user.data
         return Response(returned_data, status=status.HTTP_201_CREATED)
       else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({ "errors": merge_error_lists(serializer.errors) }, status=status.HTTP_400_BAD_REQUEST)
 
+# never called by end user
 class UpdateUserAPI(UpdateAPIView):
     queryset = DictionaryUser.objects.all()
     serializer_class = UpdateUserSerializer

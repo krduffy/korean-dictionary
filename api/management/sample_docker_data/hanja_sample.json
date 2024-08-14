@@ -18,33 +18,6 @@
         "explanation": "七 (일곱 칠)\n\n숫자 7과 그 서수를 나타내는 한자이다.\n"
     },
     {
-        "character": "丄",
-        "meaning_reading": "윗 상",
-        "radical": "一, 2획",
-        "strokes": "3획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "위 상(上). 위, 앞, 처음 등의 뜻을 나타내는 한자이다.\n"
-    },
-    {
-        "character": "丅",
-        "meaning_reading": "아래 하",
-        "radical": "一, 2획",
-        "strokes": "3획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "下는 '아래 하'라는 한자로, '아래', '내리다', '내려가다' 등을 뜻한다.\n"
-    },
-    {
-        "character": "万",
-        "meaning_reading": "일만 만",
-        "radical": "艸, 9획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "萬은 '일만 만'이라는 한자로, '일만(一萬)'을 뜻한다.\n\n숫자 만(10000)과 그 서수를 나타내는 한자로, '모든', '매우', '상당히', '전부', '많다', '오래 가다' 등을 뜻하기도 한다.\n\n한국과 중국에서 드물게 볼 수 있는 성씨인 만(萬)씨도 이 한자를 쓴다.\n\n창힐수입법으로는 廿田中月(TWLB)로 입력한다.\n"
-    },
-    {
         "character": "三",
         "meaning_reading": "석 삼",
         "radical": "一, 2획",
@@ -90,33 +63,6 @@
         "explanation": "누리 세\n'대(代)', '세상', '세대', '30년' 등을 뜻하는 한자다.\n"
     },
     {
-        "character": "丗",
-        "meaning_reading": "누리 세",
-        "radical": "一, 4획",
-        "strokes": "5획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "누리 세\n'대(代)', '세상', '세대', '30년' 등을 뜻하는 한자다.\n"
-    },
-    {
-        "character": "业",
-        "meaning_reading": "업 업",
-        "radical": "木, 9획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "業은 '업 업'이라는 한자로, '일', '업(業)', '직업(職業)' 등을 뜻한다. 그래서 '일 업'이라고도 한다."
-    },
-    {
-        "character": "东",
-        "meaning_reading": "동녘 동",
-        "radical": "木, 4획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "東은 '동녘 동'이라는 한자로, 방위의 일종인 '동(東)녘', '동(東)쪽'을 뜻한다.\n"
-    },
-    {
         "character": "中",
         "meaning_reading": "가운데 중",
         "radical": "丨, 3획",
@@ -135,24 +81,6 @@
         "explanation": "主는 '임금/주인 주'라는 한자로, '임금', '주인(主人)'을 뜻한다.\n"
     },
     {
-        "character": "乄",
-        "meaning_reading": "다섯 오",
-        "radical": "二, 2획",
-        "strokes": "4획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "五는 '다섯 오'라는 한자로, 숫자 5와 그 서수를 나타낸다.\n"
-    },
-    {
-        "character": "乐",
-        "meaning_reading": "노래 악, 즐길 락,  좋아할 요",
-        "radical": "木, 11획",
-        "strokes": "15획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "음악 악, 즐거울 락, 좋아할 요. 유래에 대해서는 현악기를 본뜬 글자, 신을 모시는 춤을 출 때 손에 가지는 방울을 본뜬 글자, 북 따위의 타악기를 본뜬 글자 등의 설이 존재한다. 어느 쪽이든 상형자라는 추측엔 이견이 없다.\n\n기본 음가는 '악'이고, 파생된 음가로 '락'과 '요'가 있다.[1] '락'은 주로 형용사로 사용될 때, '요'는 좋다는 뜻으로 사용된다. '락'이 두음 법칙이 적용되면 '낙'으로 표기된다(예: 낙원 樂園).\n\n이 외에 잘 사용되지 않는 음가로 '료[2]', '록[3]', '로[4]'가 있다.'료'는 시경의 진풍(陳風) 중 형문(衡門)[5]의 可以樂飢라는 구절을 '가이료기'라고 읽는 데 쓰인다.[6]'록'은 육도의 하략의 國乃安樂이라는 구절을 '국내안록'이라고 읽는 것에서 찾을 수 있다.'로'는 광운의 伯樂相馬(백로[7]상마)와 효경의 '莫善于樂'(막선우로)에서 그 기록이 보인다.\n이렇게 음가가 다양한 이유는 상고한어 시절의 발음 때문이다. 당시의 발음은 ŋrawks(백스터 기준). 여기에서 일부 발음[8]이 탈락되면서 다른 음가가 파생된 것 같다. 중국어 독음 yuè, lè, yào는 각각 한국어의 '악', '락', '요'에 대응되고 lào[9]라는 독음은 일부 지명에 사용된다. (예: 허베이성 탕산시의 乐亭/樂亭(Làotíng) 현, 산둥성 더저우시의 현급 시 乐陵/樂陵(Làolíng) 시)[10]\n\n참고로 완성형에서 가장 많이 중복된 한자로 무려 4번이나 중복 배당되었다. \n"
-    },
-    {
         "character": "九",
         "meaning_reading": "아홉 구",
         "radical": "乙, 1획",
@@ -160,33 +88,6 @@
         "grade_level": "중학교",
         "exam_level": "8급",
         "explanation": "九는 '아홉 구'라는 한자로, '아홉', '9'를 뜻한다.\n"
-    },
-    {
-        "character": "习",
-        "meaning_reading": "익힐 습",
-        "radical": "羽, 5획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "習은 '익힐 습'이라는 한자로, '익히다', '배우다', '버릇' 등을 뜻한다.\n"
-    },
-    {
-        "character": "书",
-        "meaning_reading": "글 서",
-        "radical": "曰, 6획",
-        "strokes": "10획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "書는 '글 서'라는 한자로, '글'을 뜻한다.\n"
-    },
-    {
-        "character": "乨",
-        "meaning_reading": "비로소 시",
-        "radical": "女, 5획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "비로소 시. 비로소[1], 바야흐로[2], 일찍 등의 뜻을 나타내는 한자이다.\n"
     },
     {
         "character": "事",
@@ -216,24 +117,6 @@
         "explanation": "五는 '다섯 오'라는 한자로, 숫자 5와 그 서수를 나타낸다.\n"
     },
     {
-        "character": "亖",
-        "meaning_reading": "넉 사",
-        "radical": "囗, 2획",
-        "strokes": "5획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "四는 '넉 사'라는 한자로, '넷', '4'를 뜻한다.\n"
-    },
-    {
-        "character": "亣",
-        "meaning_reading": "큰 대",
-        "radical": "大, 0획",
-        "strokes": "3획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "'큰', '커다란', '크다'라는 뜻을 가진 한자로, '태'라는 음도 있지만 보통은 '대'로 읽는다. 접두사로 쓰이면 어떠한 사물이나 단체(국가, 학교 등)에 대하여 크다는 의미 외에도 위대하다는 의미를 포함하며, 접미사로 쓰이면 대학을 뜻하기도 한다(서울대 등).\n"
-    },
-    {
         "character": "交",
         "meaning_reading": "사귈 교",
         "radical": "亠, 4획",
@@ -252,33 +135,6 @@
         "explanation": "서울, 즉 한 나라의 수도를 의미하는 글자. 수도라는 뜻 외에 10의 16승이라는 의미도 있다.\n\n이 한자의 훈으로 짐작할 수 있듯이, 서울은 본래 '수도'를 의미하는 고유어 보통명사였다가 현재 고유명사로 바뀌었다.\n"
     },
     {
-        "character": "亰",
-        "meaning_reading": "서울 경",
-        "radical": "亠, 6획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "서울, 즉 한 나라의 수도를 의미하는 글자. 수도라는 뜻 외에 10의 16승이라는 의미도 있다.\n\n이 한자의 훈으로 짐작할 수 있듯이, 서울은 본래 '수도'를 의미하는 고유어 보통명사였다가 현재 고유명사로 바뀌었다.\n"
-    },
-    {
-        "character": "亱",
-        "meaning_reading": "밤 야",
-        "radical": "夕, 5획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "夜는 '밤 야'라는 한자로, 해가 뜨지 않는 밤을 뜻한다.\n"
-    },
-    {
-        "character": "亲",
-        "meaning_reading": "친할 친",
-        "radical": "見, 9획",
-        "strokes": "16획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "親은 '친할 친'이라는 한자로, '친(親)하다', '가깝다' 또는 '부모', '직접' 등을 뜻한다.\n"
-    },
-    {
         "character": "人",
         "meaning_reading": "사람 인",
         "radical": "人, 0획",
@@ -286,24 +142,6 @@
         "grade_level": "중학교",
         "exam_level": "8급",
         "explanation": "사람 인\n\n사람이라는 뜻을 지닌 한자로, 가장 기초적이고 중요한 한자 중 하나이다.\n"
-    },
-    {
-        "character": "亻",
-        "meaning_reading": "사람 인",
-        "radical": "人, 0획",
-        "strokes": "2획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "사람 인\n\n사람이라는 뜻을 지닌 한자로, 가장 기초적이고 중요한 한자 중 하나이다.\n"
-    },
-    {
-        "character": "亼",
-        "meaning_reading": "모을 집",
-        "radical": "隹, 4획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "集은 '모을 집'이라는 한자로, '모으다'를 뜻한다.\n"
     },
     {
         "character": "今",
@@ -315,15 +153,6 @@
         "explanation": "今은 '이제 금'이라는 한자로, '이제', '지금(只今)'을 뜻한다.\n"
     },
     {
-        "character": "仝",
-        "meaning_reading": "한가지 동",
-        "radical": "口, 3획",
-        "strokes": "6획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "한가지 동(同). 한가지, 무리, 함께, 같다 등을 뜻하는 한자이다.\n"
-    },
-    {
         "character": "代",
         "meaning_reading": "대신할 대",
         "radical": "人, 3획",
@@ -333,15 +162,6 @@
         "explanation": "代는 '대신할 대'라는 한자로, '대신(代身)하다', '갈음하다'를 뜻한다.\n"
     },
     {
-        "character": "仧",
-        "meaning_reading": "길 장",
-        "radical": "長, 0획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "長은 '길 장'이라는 한자로, '길다', '우두머리', '자라다', '어른', '최고책임자', '권한자', '장인'을 뜻한다.\n"
-    },
-    {
         "character": "休",
         "meaning_reading": "쉴 휴",
         "radical": "人, 4획",
@@ -349,24 +169,6 @@
         "grade_level": "중학교",
         "exam_level": "7급",
         "explanation": "休는 '쉴 휴'라는 한자로, '쉬다', '휴식'을 뜻한다.\n"
-    },
-    {
-        "character": "会",
-        "meaning_reading": "모일 회",
-        "radical": "曰, 9획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "會는 모일 회라는 한자로, '모이다', '모으다' 등을 뜻한다.\n"
-    },
-    {
-        "character": "伩",
-        "meaning_reading": "믿을 신",
-        "radical": "人, 7획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "信은 '믿을 신'이라는 한자로, '믿다'를 뜻한다. 원래는 편지라는 뜻이었다. 그런데 편지는 중요한 내용이 담겼으므로 '정보'란 뜻이 생겼고, 정보는 믿을 만한 사람한테 전달해야 하므로 '믿다'라는 뜻이 추가되었다. 현대에 이르러서도 3가지 뜻으로 자주 쓰이는 한자이다.\n"
     },
     {
         "character": "住",
@@ -414,15 +216,6 @@
         "explanation": "例는 '법식 례'라는 한자로, '법식', '규칙', 예시(例示)'를 뜻한다.\n"
     },
     {
-        "character": "侽",
-        "meaning_reading": "사내 남",
-        "radical": "田, 2획",
-        "strokes": "7획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "사내 남(男). '사내', '남자(男子)'를 뜻하는 한자이다.\n"
-    },
-    {
         "character": "便",
         "meaning_reading": "편할 편, 똥오줌 변",
         "radical": "人, 7획",
@@ -439,24 +232,6 @@
         "grade_level": "중학교",
         "exam_level": "준6급",
         "explanation": "信은 '믿을 신'이라는 한자로, '믿다'를 뜻한다. 원래는 편지라는 뜻이었다. 그런데 편지는 중요한 내용이 담겼으므로 '정보'란 뜻이 생겼고, 정보는 믿을 만한 사람한테 전달해야 하므로 '믿다'라는 뜻이 추가되었다. 현대에 이르러서도 3가지 뜻으로 자주 쓰이는 한자이다.\n"
-    },
-    {
-        "character": "偀",
-        "meaning_reading": "꽃부리 영",
-        "radical": "艸, 5획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "英은 '꽃부리 영'이라는 한자로, '꽃부리', '뛰어나다' 혹은 '영국'이나 영어를 뜻한다.\n"
-    },
-    {
-        "character": "僠",
-        "meaning_reading": "차례 번",
-        "radical": "田, 7획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "番은 '차례 번'이라는 한자로, '차례(次例)'를 뜻한다.\n"
     },
     {
         "character": "兄",
@@ -484,15 +259,6 @@
         "grade_level": "중학교",
         "exam_level": "준6급",
         "explanation": "빛 광(光). 빛 또는 빛나는 무언가를 일컬을 때 쓰이는 한자이다.\n"
-    },
-    {
-        "character": "兘",
-        "meaning_reading": "비로소 시",
-        "radical": "女, 5획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "비로소 시. 비로소[1], 바야흐로[2], 일찍 등의 뜻을 나타내는 한자이다.\n"
     },
     {
         "character": "入",
@@ -547,42 +313,6 @@
         "grade_level": "중학교",
         "exam_level": "준6급",
         "explanation": "共은 '한가지 공'이라는 한자로, '한가지', '함께' 등을 뜻한다.\n"
-    },
-    {
-        "character": "兲",
-        "meaning_reading": "하늘 천",
-        "radical": "大, 1획",
-        "strokes": "4획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "天은 하늘 천이라는 한자로, '하늘'을 뜻한다."
-    },
-    {
-        "character": "内",
-        "meaning_reading": "안 내",
-        "radical": "入, 2획",
-        "strokes": "4획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "內는 '안 내'라는 한자로 '안', '속', '내부(內部)' 등을 뜻한다.\n"
-    },
-    {
-        "character": "军",
-        "meaning_reading": "군사 군",
-        "radical": "車, 2획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "軍은 '군사 군'이라는 한자로, '군사(軍士)', '군인(軍人)' 등을 뜻한다.\n"
-    },
-    {
-        "character": "农",
-        "meaning_reading": "농사 농",
-        "radical": "辰, 6획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "農은 '농사 농'이라는 한자로, 농사(農事)를 뜻한다. 현대 한국어에서는 의미가 확장되어 축산업에도 사용한다.[1]\n"
     },
     {
         "character": "冬",
@@ -657,15 +387,6 @@
         "explanation": "功은 '공 공'이라는 한자로, '공(功)', '공로(功勞)', '공적(功積)' 등을 뜻한다.\n"
     },
     {
-        "character": "动",
-        "meaning_reading": "움직일 동",
-        "radical": "力, 9획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "動은 '움직일 동'이라는 한자로, '움직이다'를 뜻한다.\n"
-    },
-    {
         "character": "勇",
         "meaning_reading": "날랠 용",
         "radical": "力, 7획",
@@ -693,15 +414,6 @@
         "explanation": "勝은 '이길 승'이라는 한자로, '이기다', '뛰어나다' 등을 뜻한다.\n"
     },
     {
-        "character": "勭",
-        "meaning_reading": "움직일 동",
-        "radical": "力, 9획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "動은 '움직일 동'이라는 한자로, '움직이다'를 뜻한다.\n"
-    },
-    {
         "character": "北",
         "meaning_reading": "북녘 북, 달아날 배",
         "radical": "匕, 3획",
@@ -709,15 +421,6 @@
         "grade_level": "중학교",
         "exam_level": "8급",
         "explanation": "北자는 '북녘 북, 달아날 배'라는 한자로, '북(北)녘', '북(北)쪽', '달아나다'를 뜻한다.\n"
-    },
-    {
-        "character": "区",
-        "meaning_reading": "구분할/지경 구",
-        "radical": "匸, 9획",
-        "strokes": "11획",
-        "grade_level": "고등학교",
-        "exam_level": "6급",
-        "explanation": "區는 '구분할/지경 구'라는 한자로, '구분(區分)하다', 구별(區別)하다', '지경(地境)' 등을 뜻한다. 행정구역 구는 이 한자를 쓴다.\n"
     },
     {
         "character": "區",
@@ -774,15 +477,6 @@
         "explanation": "南은 '남녘 남'이라는 한자로, '남(南)녘', '남(南)쪽'을 뜻한다.\n"
     },
     {
-        "character": "卥",
-        "meaning_reading": "서녘 서",
-        "radical": "襾, 0획",
-        "strokes": "6획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "西는 '서녘 서'라는 한자로, 방위의 하나인 '서(西)쪽'을 뜻한다. \n"
-    },
-    {
         "character": "反",
         "meaning_reading": "돌이킬/돌아올 반",
         "radical": "又, 2획",
@@ -817,15 +511,6 @@
         "grade_level": "중학교",
         "exam_level": "준7급",
         "explanation": "右는 '오른 우'라는 한자로, '오른쪽'을 뜻한다.\n"
-    },
-    {
-        "character": "号",
-        "meaning_reading": "이름 호",
-        "radical": "虍, 7획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "號는 '이름 호'라는 한자로, '이름', '부르다', '부르짖다' 등을 뜻한다. 그래서 '부르짖을 호'라고도 한다.\n"
     },
     {
         "character": "各",
@@ -909,60 +594,6 @@
         "explanation": "四는 '넉 사'라는 한자로, '넷', '4'를 뜻한다.\n"
     },
     {
-        "character": "囝",
-        "meaning_reading": "달 월",
-        "radical": "月, 0획",
-        "strokes": "4획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "月은 달 월이란 한자로 달을 의미하는 한자이며 가장 기초적이고 중요한 한자 중 하나이다.\n"
-    },
-    {
-        "character": "囯",
-        "meaning_reading": "나라 국",
-        "radical": "囗, 8획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "國자는 '나라 국'으로, 나라, 국가(國家)를 뜻하는 한자이다.\n"
-    },
-    {
-        "character": "図",
-        "meaning_reading": "그림 도",
-        "radical": "囗, 11획",
-        "strokes": "14획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "圖는 '그림 도'라는 한자로, '그림', '지도', '그리다', '꾀하다' 등의 뜻한다.\n\n일본어 훈독 はかる는 목적하다, 노리다라는 뜻인데 큰 그림이라고 생각하면 얼추 맞아떨어진다. 한국어의 '기도(企圖)', '도모(圖謀)', '의도(意圖)'와도 통하는 뜻이다.\n\n네모 안에 '몸'이 들어가 있고 '몸'의 받침 안에 또 네모가 들어가 있는, 한글과 모양이 비슷한 한자 중 하나. 사각형의내부의사각형의내부의사각형\n"
-    },
-    {
-        "character": "囸",
-        "meaning_reading": "날 일",
-        "radical": "日, 0획",
-        "strokes": "4획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "'날 일' 또는 '해 일' 이라고 읽으며,[1] 가장 기초적이고 유명한 한자 중 하나다. '해', '날' 등을 뜻한다. 일본의 약칭으로도 사용되는 한자이다."
-    },
-    {
-        "character": "国",
-        "meaning_reading": "나라 국",
-        "radical": "囗, 8획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "國자는 '나라 국'으로, 나라, 국가(國家)를 뜻하는 한자이다.\n"
-    },
-    {
-        "character": "图",
-        "meaning_reading": "그림 도",
-        "radical": "囗, 11획",
-        "strokes": "14획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "圖는 '그림 도'라는 한자로, '그림', '지도', '그리다', '꾀하다' 등의 뜻한다.\n\n일본어 훈독 はかる는 목적하다, 노리다라는 뜻인데 큰 그림이라고 생각하면 얼추 맞아떨어진다. 한국어의 '기도(企圖)', '도모(圖謀)', '의도(意圖)'와도 통하는 뜻이다.\n\n네모 안에 '몸'이 들어가 있고 '몸'의 받침 안에 또 네모가 들어가 있는, 한글과 모양이 비슷한 한자 중 하나. 사각형의내부의사각형의내부의사각형\n"
-    },
-    {
         "character": "國",
         "meaning_reading": "나라 국",
         "radical": "囗, 8획",
@@ -999,15 +630,6 @@
         "explanation": "가장 기초적이고 중요한 한자 중 하나로, '흙'을 의미하는 한자이다. \n"
     },
     {
-        "character": "圡",
-        "meaning_reading": "흙 토",
-        "radical": "土, 0획",
-        "strokes": "3획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "가장 기초적이고 중요한 한자 중 하나로, '흙'을 의미하는 한자이다. \n"
-    },
-    {
         "character": "在",
         "meaning_reading": "있을 재",
         "radical": "土, 3획",
@@ -1018,42 +640,6 @@
     },
     {
         "character": "地",
-        "meaning_reading": "땅 지",
-        "radical": "土, 3획",
-        "strokes": "6획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "地자는 '땅 지'라는 한자로, 땅, 대지(大地)를 뜻한다. '따 지'라고도 한다.\n"
-    },
-    {
-        "character": "场",
-        "meaning_reading": "마당 장",
-        "radical": "土, 9획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "마당 장. '장소', '곳'이라는 뜻을 나타내는 한자이다.\n"
-    },
-    {
-        "character": "坔",
-        "meaning_reading": "땅 지",
-        "radical": "土, 3획",
-        "strokes": "6획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "地자는 '땅 지'라는 한자로, 땅, 대지(大地)를 뜻한다. '따 지'라고도 한다.\n"
-    },
-    {
-        "character": "坣",
-        "meaning_reading": "집 당",
-        "radical": "土, 8획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "堂은 '집 당'이라는 한자로, '집'을 뜻한다.\n"
-    },
-    {
-        "character": "埊",
         "meaning_reading": "땅 지",
         "radical": "土, 3획",
         "strokes": "6획",
@@ -1080,43 +666,7 @@
         "explanation": "마당 장. '장소', '곳'이라는 뜻을 나타내는 한자이다.\n"
     },
     {
-        "character": "堺",
-        "meaning_reading": "지경 계",
-        "radical": "田, 4획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "界는 '지경 계'라는 한자로, '경계(境界)', '둘레', '세상'을 뜻한다.\n"
-    },
-    {
-        "character": "塲",
-        "meaning_reading": "마당 장",
-        "radical": "土, 9획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "마당 장. '장소', '곳'이라는 뜻을 나타내는 한자이다.\n"
-    },
-    {
-        "character": "墬",
-        "meaning_reading": "땅 지",
-        "radical": "土, 3획",
-        "strokes": "6획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "地자는 '땅 지'라는 한자로, 땅, 대지(大地)를 뜻한다. '따 지'라고도 한다.\n"
-    },
-    {
         "character": "夏",
-        "meaning_reading": "여름 하",
-        "radical": "夊, 7획",
-        "strokes": "10획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "夏는 '여름 하'라는 한자로, '여름'을 뜻한다.\n"
-    },
-    {
-        "character": "夓",
         "meaning_reading": "여름 하",
         "radical": "夊, 7획",
         "strokes": "10획",
@@ -1144,15 +694,6 @@
     },
     {
         "character": "多",
-        "meaning_reading": "많을 다",
-        "radical": "夕, 3획",
-        "strokes": "6획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "多는 '많을 다'라는 한자로, '많다'를 뜻하며 심하다, 지나치다의 뜻은 파생되었다.\n"
-    },
-    {
-        "character": "夛",
         "meaning_reading": "많을 다",
         "radical": "夕, 3획",
         "strokes": "6획",
@@ -1215,15 +756,6 @@
         "explanation": "失은 '잃을 실'이라는 한자로, '잃다', '실수(失手)하다' 등을 뜻한다.\n"
     },
     {
-        "character": "头",
-        "meaning_reading": "머리 두",
-        "radical": "頁, 7획",
-        "strokes": "16획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "頭는 '머리 두'라는 한자로, 머리를 뜻한다.\n"
-    },
-    {
         "character": "女",
         "meaning_reading": "계집 녀",
         "radical": "女, 0획",
@@ -1251,24 +783,6 @@
         "explanation": "姓은 '성 성'이라는 한자로, '성(姓)', '성씨(姓氏)' 등을 뜻한다. '성씨 성'이라고도 한다.\n"
     },
     {
-        "character": "媺",
-        "meaning_reading": "아름다울 미",
-        "radical": "羊, 3획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "美는 '아름다울 미'라는 한자로, '아름답다'를 뜻한다.\n\n유니코드에는 7F8E에 배당되었다.\n\n갑골 문자에는 머리에 장식물[1]을 인 사람의 모습으로 그려져 있다. 머리에 장식을 한 사람의 형태가 화려하고 보기 좋다는 의미에서 화려하다, 예쁘다, 아름답다는 뜻을 나타낸 것으로 해석한다. 설문해자에서는 羊(양 양)과 大(큰 대)로 이루어진 회의자로 보며, '양은 가축 중에서 주로 양식을 제공한다.'라고 설명하고 있다.\n\n일본의 문자인 히라가나 중에서 'み'는 이것을 초서체로 쓴 것이 형태가 달라져 만들어진 문자다.\n\n미국이나 아메리카 대륙을 한자식으로 부를 때 이 글자를 쓰는데, 아메리카에서 가운데 'me' 발음을 음차한 것이다. 앞의 A는 발음이 약해지기 때문이다.\n\n참고로 美는 장음으로 발음하나, 미국을 뜻하는 경우 단음으로 발음한다.\n"
-    },
-    {
-        "character": "嬍",
-        "meaning_reading": "아름다울 미",
-        "radical": "羊, 3획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "美는 '아름다울 미'라는 한자로, '아름답다'를 뜻한다.\n\n유니코드에는 7F8E에 배당되었다.\n\n갑골 문자에는 머리에 장식물[1]을 인 사람의 모습으로 그려져 있다. 머리에 장식을 한 사람의 형태가 화려하고 보기 좋다는 의미에서 화려하다, 예쁘다, 아름답다는 뜻을 나타낸 것으로 해석한다. 설문해자에서는 羊(양 양)과 大(큰 대)로 이루어진 회의자로 보며, '양은 가축 중에서 주로 양식을 제공한다.'라고 설명하고 있다.\n\n일본의 문자인 히라가나 중에서 'み'는 이것을 초서체로 쓴 것이 형태가 달라져 만들어진 문자다.\n\n미국이나 아메리카 대륙을 한자식으로 부를 때 이 글자를 쓰는데, 아메리카에서 가운데 'me' 발음을 음차한 것이다. 앞의 A는 발음이 약해지기 때문이다.\n\n참고로 美는 장음으로 발음하나, 미국을 뜻하는 경우 단음으로 발음한다.\n"
-    },
-    {
         "character": "子",
         "meaning_reading": "아들 자",
         "radical": "子, 0획",
@@ -1287,15 +801,6 @@
         "explanation": "'글자(글字)', '문자(文字)'를 뜻한다.\n\n순우리말로는 '글', '이름' 정도가 있지만 100% 매치되진 않는다.\n"
     },
     {
-        "character": "孙",
-        "meaning_reading": "손자 손",
-        "radical": "子, 7획",
-        "strokes": "10획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "孫은 '손자 손'이라는 한자로, 손자(孫子), 자손(子孫), 후손(後孫), 순우리말로는 '들매' 등을 뜻한다. 그래서 '들매 손'이라고도 한다. \n"
-    },
-    {
         "character": "孝",
         "meaning_reading": "효도 효",
         "radical": "子, 4획",
@@ -1303,24 +808,6 @@
         "grade_level": "중학교",
         "exam_level": "준7급",
         "explanation": "孝는 '효도 효'라는 한자로, '효도(孝道)', '상복', '맏자식' 등을 뜻한다.\n"
-    },
-    {
-        "character": "孞",
-        "meaning_reading": "믿을 신",
-        "radical": "人, 7획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "信은 '믿을 신'이라는 한자로, '믿다'를 뜻한다. 원래는 편지라는 뜻이었다. 그런데 편지는 중요한 내용이 담겼으므로 '정보'란 뜻이 생겼고, 정보는 믿을 만한 사람한테 전달해야 하므로 '믿다'라는 뜻이 추가되었다. 현대에 이르러서도 3가지 뜻으로 자주 쓰이는 한자이다.\n"
-    },
-    {
-        "character": "学",
-        "meaning_reading": "배울 학",
-        "radical": "子, 13획",
-        "strokes": "16획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "배울 학(學). 배우다, 공부하다, 가르침 등의 뜻을 나타내는 한자이다. 학문의 학과 ○○학[1]의 학 모두 이 한자를 쓴다. 교육과 학문이 얼마나 밀접한지 알 수 있는 부분. \n"
     },
     {
         "character": "孫",
@@ -1386,24 +873,6 @@
         "explanation": "寸은 '마디 촌'이라는 한자로, '마디', '촌수(寸數)', '작다' 등을 뜻한다.\n"
     },
     {
-        "character": "对",
-        "meaning_reading": "대할 대",
-        "radical": "寸, 11획",
-        "strokes": "14획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "對는 '대할 대'라는 한자로, '대(對)하다', '대응(對應)하다', '마주하다'를 뜻한다.\n"
-    },
-    {
-        "character": "対",
-        "meaning_reading": "대할 대",
-        "radical": "寸, 11획",
-        "strokes": "14획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "對는 '대할 대'라는 한자로, '대(對)하다', '대응(對應)하다', '마주하다'를 뜻한다.\n"
-    },
-    {
         "character": "對",
         "meaning_reading": "대할 대",
         "radical": "寸, 11획",
@@ -1438,33 +907,6 @@
         "grade_level": "중학교",
         "exam_level": "8급",
         "explanation": "山은 '메 산'이라는 한자로, '산' 혹은 '무덤'을 뜻한다. 그래서 '뫼 산'[1]이라고도 한다. '산 산'이라고 하는 경우도 간혹 있다.\n"
-    },
-    {
-        "character": "屷",
-        "meaning_reading": "모일 회",
-        "radical": "曰, 9획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "會는 모일 회라는 한자로, '모이다', '모으다' 등을 뜻한다.\n"
-    },
-    {
-        "character": "岀",
-        "meaning_reading": "날 출",
-        "radical": "凵, 3획",
-        "strokes": "5획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "出은 '날 출'이라는 한자로, '나가다', '나오다' 등의 뜻이 있다.\n"
-    },
-    {
-        "character": "嶳",
-        "meaning_reading": "땅 지",
-        "radical": "土, 3획",
-        "strokes": "6획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "地자는 '땅 지'라는 한자로, 땅, 대지(大地)를 뜻한다. '따 지'라고도 한다.\n"
     },
     {
         "character": "川",
@@ -1557,42 +999,6 @@
         "explanation": "庭은 '뜰 정'이라는 한자로, '뜰', '집안' 등을 뜻한다.\n"
     },
     {
-        "character": "廗",
-        "meaning_reading": "자리 석",
-        "radical": "巾, 7획",
-        "strokes": "10획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "席은 '자리 석'이라는 한자로, '자리', '앉다'를 뜻한다.\n"
-    },
-    {
-        "character": "开",
-        "meaning_reading": "열 개",
-        "radical": "門, 4획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "開자는 '열 개'라는 한자로, '열다', '시작하다' 등을 뜻한다."
-    },
-    {
-        "character": "弌",
-        "meaning_reading": "한 일",
-        "radical": "一, 0획",
-        "strokes": "1획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "1과 그 서수를 나타내는 한자로, 가장 기초적이고 중요한 한자들 중 하나이다.\n"
-    },
-    {
-        "character": "弎",
-        "meaning_reading": "석 삼",
-        "radical": "一, 2획",
-        "strokes": "3획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "三은 '석 삼'이라는 한자로, 숫자 3과 그 서수를 나타낸다.\n"
-    },
-    {
         "character": "式",
         "meaning_reading": "법 식",
         "radical": "弋, 3획",
@@ -1621,15 +1027,6 @@
     },
     {
         "character": "強",
-        "meaning_reading": "강할 강",
-        "radical": "弓, 8획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "強자는 '강할 강'이라는 한자로, '강(強)하다'와, 순우리말로는 '세다', '굳세다' 등의 의미를 지닌다.\n"
-    },
-    {
-        "character": "强",
         "meaning_reading": "강할 강",
         "radical": "弓, 8획",
         "strokes": "11획",
@@ -1672,24 +1069,6 @@
         "grade_level": "중학교",
         "exam_level": "7급",
         "explanation": "마음 심\n\n가장 기초가 되고 중요한 한자 중 하나로, '마음', '중심', '심장' 등을 뜻한다.\n"
-    },
-    {
-        "character": "忄",
-        "meaning_reading": "마음 심",
-        "radical": "心, 0획",
-        "strokes": "4획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "마음 심\n\n가장 기초가 되고 중요한 한자 중 하나로, '마음', '중심', '심장' 등을 뜻한다.\n"
-    },
-    {
-        "character": "忣",
-        "meaning_reading": "급할 급",
-        "radical": "心, 5획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "急은 '급할 급'이라는 한자로, '급(急)하다', '서두르다'를 뜻한다.\n"
     },
     {
         "character": "急",
@@ -1737,24 +1116,6 @@
         "explanation": "成은 '이룰 성'이라는 한자로, '이루다'를 뜻한다. "
     },
     {
-        "character": "战",
-        "meaning_reading": "싸움 전",
-        "radical": "戈, 12획",
-        "strokes": "16획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "戰은 '싸움 전'이라는 한자로, '싸움'을 뜻한다. '싸울 전'이라고도 한다.\n"
-    },
-    {
-        "character": "戦",
-        "meaning_reading": "싸움 전",
-        "radical": "戈, 12획",
-        "strokes": "16획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "戰은 '싸움 전'이라는 한자로, '싸움'을 뜻한다. '싸울 전'이라고도 한다.\n"
-    },
-    {
         "character": "戰",
         "meaning_reading": "싸움 전",
         "radical": "戈, 12획",
@@ -1782,15 +1143,6 @@
         "explanation": "손 수(手). '손', '재주', '수단', '사람' 등의 뜻을 나타내는 한자이다.\n"
     },
     {
-        "character": "扌",
-        "meaning_reading": "손 수",
-        "radical": "手, 0획",
-        "strokes": "4획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "손 수(手). '손', '재주', '수단', '사람' 등의 뜻을 나타내는 한자이다.\n"
-    },
-    {
         "character": "才",
         "meaning_reading": "재주 재",
         "radical": "手, 0획",
@@ -1798,15 +1150,6 @@
         "grade_level": "중학교",
         "exam_level": "준6급",
         "explanation": "재주 재\n\n手(손 수) 부수의 한자로, 재방변으로서 手 부수의 변형으로 쓰인다.(예)打, 揭, 指...) 이와 비슷한 경우로는 玉(구슬 옥) 부수의 변형으로 쓰여서 玉 부수에 들어간 王(임금 왕)이 있다.\n\n땅에서 새싹이 돋아나는 모습을 묘사한 글자로, 여기서 '재주' 라는 뜻이 파생되었다. 또한, 이 글자는 '있다'의 뜻으로도 쓰였다가 土(흙 토)를 추가한 在(있을 재)라는 글자로 떨어져 나갔다.\n\n일본에서는 歳와 음이 같아(サイ) 나이를 간략히 쓸 때에도 쓴다. 공식 약자로 지정된 것은 아니다.\n\n중국 본토에서는 겨우 재(纔)의 간체자로도 쓰인다. 또, 중화권 전체에서는 삐침 획이 가로 획과 세로 획에 닿아서 가타카나 オ처럼 쓴다. 한국과 일본에서는 才가 다른 부수와 결합할 때만(材, 財 등) 저렇게 쓴다."
-    },
-    {
-        "character": "扗",
-        "meaning_reading": "있을 재",
-        "radical": "土, 3획",
-        "strokes": "6획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "있을 재(在). '있다', '존재(存在)하다' 등을 뜻하는 한자이다. \n\n한국과 중국의 인명에 많이 쓰이는 한자이다."
     },
     {
         "character": "放",
@@ -1827,24 +1170,6 @@
         "explanation": "가르칠 교(敎). 가르치다, 교육, 본받다 등의 뜻을 나타내는 한자이다.\n"
     },
     {
-        "character": "教",
-        "meaning_reading": "가르칠 교",
-        "radical": "攴, 7획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "가르칠 교(敎). 가르치다, 교육, 본받다 등의 뜻을 나타내는 한자이다.\n"
-    },
-    {
-        "character": "数",
-        "meaning_reading": "셈 수",
-        "radical": "攴, 11획",
-        "strokes": "15획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "數는 '셈 수'라는 한자로, '셈', '수(數)' 등을 뜻한다. '삭'으로 읽으면 '자주','촉'으로 읽으면 '촘촘하다'라는 뜻이지만 잘 쓰이지 않는다.\n"
-    },
-    {
         "character": "數",
         "meaning_reading": "셈 수",
         "radical": "攴, 11획",
@@ -1861,15 +1186,6 @@
         "grade_level": "중학교",
         "exam_level": "7급",
         "explanation": "文은 '글월 문'이라는 한자로, 글월(문자, 글, 편지 등)을 뜻한다.\n"
-    },
-    {
-        "character": "斈",
-        "meaning_reading": "배울 학",
-        "radical": "子, 13획",
-        "strokes": "16획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "배울 학(學). 배우다, 공부하다, 가르침 등의 뜻을 나타내는 한자이다. 학문의 학과 ○○학[1]의 학 모두 이 한자를 쓴다. 교육과 학문이 얼마나 밀접한지 알 수 있는 부분. \n"
     },
     {
         "character": "新",
@@ -1917,15 +1233,6 @@
         "explanation": "'날 일' 또는 '해 일' 이라고 읽으며,[1] 가장 기초적이고 유명한 한자 중 하나다. '해', '날' 등을 뜻한다. 일본의 약칭으로도 사용되는 한자이다."
     },
     {
-        "character": "时",
-        "meaning_reading": "때 시",
-        "radical": "日, 6획",
-        "strokes": "10획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "時는 '때 시'라는 한자로, '때', '시간(時間)' 등을 뜻한다.\n"
-    },
-    {
         "character": "明",
         "meaning_reading": "밝을 명",
         "radical": "日, 4획",
@@ -1951,24 +1258,6 @@
         "grade_level": "중학교",
         "exam_level": "준6급",
         "explanation": "昨은 '어제 작'이라는 한자로, '어제', '지난날'을 뜻한다.\n"
-    },
-    {
-        "character": "昸",
-        "meaning_reading": "겨울 동",
-        "radical": "冫, 3획",
-        "strokes": "5획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "겨울 동\n\n사계절 중 겨울을 나타내는 한자이다.\n"
-    },
-    {
-        "character": "昼",
-        "meaning_reading": "낮 주",
-        "radical": "日, 7획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "晝는 '낮 주'라는 한자로, '낮', 정오를 뜻한다.\n"
     },
     {
         "character": "時",
@@ -2061,15 +1350,6 @@
         "explanation": "근본을 뜻하는 한자다.\n"
     },
     {
-        "character": "术",
-        "meaning_reading": "재주 술",
-        "radical": "行, 5획",
-        "strokes": "11획",
-        "grade_level": "고등학교",
-        "exam_level": "준6급",
-        "explanation": "術은 '재주 술'이라는 한자로, '재주', '기술(技術)' 등을 뜻한다.\n"
-    },
-    {
         "character": "朴",
         "meaning_reading": "성 박",
         "radical": "木, 2획",
@@ -2097,15 +1377,6 @@
         "explanation": "村은 '마을 촌'이라는 한자이다. '마을', '시골' 등의 의미를 가진다.\n"
     },
     {
-        "character": "来",
-        "meaning_reading": "올 래",
-        "radical": "人, 6획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "올 래(來). 오다, 이후, 앞날 등을 뜻하는 한자이다.\n"
-    },
-    {
         "character": "東",
         "meaning_reading": "동녘 동",
         "radical": "木, 4획",
@@ -2131,15 +1402,6 @@
         "grade_level": "중학교",
         "exam_level": "준6급",
         "explanation": "果는 '실과 과'라는 한자로, 식물의 열매를 뜻한다. 동일한 의미를 가진 글자로 實(열매 실)이 있다.\n\n비단 열매뿐 아니라 결과(結果), 과연(果然), 과감(果敢)함 등 여러 가지 뜻을 지닌 글자로, 그만큼 사용 빈도도 높은 편이다.\n"
-    },
-    {
-        "character": "树",
-        "meaning_reading": "나무 수",
-        "radical": "木, 12획",
-        "strokes": "16획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "樹는 '나무 수'라는 한자로, '나무', '나무를 심다', '세우다' 등을 뜻한다.\n"
     },
     {
         "character": "校",
@@ -2176,15 +1438,6 @@
         "grade_level": "중학교",
         "exam_level": "준6급",
         "explanation": "業은 '업 업'이라는 한자로, '일', '업(業)', '직업(職業)' 등을 뜻한다. 그래서 '일 업'이라고도 한다."
-    },
-    {
-        "character": "楽",
-        "meaning_reading": "노래 악, 즐길 락,  좋아할 요",
-        "radical": "木, 11획",
-        "strokes": "15획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "음악 악, 즐거울 락, 좋아할 요. 유래에 대해서는 현악기를 본뜬 글자, 신을 모시는 춤을 출 때 손에 가지는 방울을 본뜬 글자, 북 따위의 타악기를 본뜬 글자 등의 설이 존재한다. 어느 쪽이든 상형자라는 추측엔 이견이 없다.\n\n기본 음가는 '악'이고, 파생된 음가로 '락'과 '요'가 있다.[1] '락'은 주로 형용사로 사용될 때, '요'는 좋다는 뜻으로 사용된다. '락'이 두음 법칙이 적용되면 '낙'으로 표기된다(예: 낙원 樂園).\n\n이 외에 잘 사용되지 않는 음가로 '료[2]', '록[3]', '로[4]'가 있다.'료'는 시경의 진풍(陳風) 중 형문(衡門)[5]의 可以樂飢라는 구절을 '가이료기'라고 읽는 데 쓰인다.[6]'록'은 육도의 하략의 國乃安樂이라는 구절을 '국내안록'이라고 읽는 것에서 찾을 수 있다.'로'는 광운의 伯樂相馬(백로[7]상마)와 효경의 '莫善于樂'(막선우로)에서 그 기록이 보인다.\n이렇게 음가가 다양한 이유는 상고한어 시절의 발음 때문이다. 당시의 발음은 ŋrawks(백스터 기준). 여기에서 일부 발음[8]이 탈락되면서 다른 음가가 파생된 것 같다. 중국어 독음 yuè, lè, yào는 각각 한국어의 '악', '락', '요'에 대응되고 lào[9]라는 독음은 일부 지명에 사용된다. (예: 허베이성 탕산시의 乐亭/樂亭(Làotíng) 현, 산둥성 더저우시의 현급 시 乐陵/樂陵(Làolíng) 시)[10]\n\n참고로 완성형에서 가장 많이 중복된 한자로 무려 4번이나 중복 배당되었다. \n"
     },
     {
         "character": "樂",
@@ -2241,15 +1494,6 @@
         "explanation": "母는 '어미 모'라는 한자로, '어미', '엄마(어머니)', '암컷', '근본' 등을 뜻한다. 그래서 '어머니 모'라고도 한다.\n"
     },
     {
-        "character": "毎",
-        "meaning_reading": "매양 매",
-        "radical": "毋, 3획",
-        "strokes": "7획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "매양 매(每). 매양[1], 마다, 비록 등의 뜻을 나타내는 한자이다.\n"
-    },
-    {
         "character": "每",
         "meaning_reading": "매양 매",
         "radical": "毋, 3획",
@@ -2266,24 +1510,6 @@
         "grade_level": "중학교",
         "exam_level": "8급",
         "explanation": "백성 민(民). 백성, 사람, 나기 등의 뜻을 나타내는 한자이다.\n\n훈은 '백성'이지만 백성도 한자어이며 풀이하자면 '다스림을 받는 사람' 정도다."
-    },
-    {
-        "character": "気",
-        "meaning_reading": "기운 기",
-        "radical": "气, 6획",
-        "strokes": "10획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "기운 기(氣). 기운, 기백, 공기, 힘 등의 뜻을 나타내는 한자다.\n\n동양 철학에서는 이 기(氣)를 가리켜 우주와 천지만물(혹은 우주만물)의 존재와 형(形)의 근원이면서도, 천지만물을 생성 및 구성과 동시에 움직이게 하고, 변화시키는 근원적 법칙이자 존재케 만드는 에너지의 원천에 해당되는 천지의 기운 그 자체[1]이자, 만물 생성력의 근원적 힘이자 음양의 정수이며, 곧 우주삼라만상을 포함한 모든 것들을 창조하는 근원에 해당된다고 한다.[2] 그러면서, 생명과 건강에 직결되는 모든 활동의 원동력으로, 그렇기에 이 기(氣)를 모르고는 운명을 논할 수가 없는 것은 물론, 또한 기운과 기질에 따라 그 진로가 결정이 되며, 이 기가 모이고 흩어지는 것에 의하여 우주만물들이 생성이 되고 소멸이 된다고 한다.\n\n그러면서도, 존재는 하되 현대 과학기술로는 보기 힘든, 만질 수는 없으나 느낄 수가 있고 움직이고 변화하는 것[3]이며, 신체 내부의 동력원으로 숨, 빛, 소리, 냄새 등 일체 감각기관의 근본적 존재력이자, 천지간에 존재하는 모든 자연현상을 총칭하는 말이기도 하다.[4] 그 자체로 이 기(氣)가 화함으로써 형(形)을 생겨나게 하며, 형(形)으로 응취된 기와 형(形)을 따르는 氣)가 상호작용으로 조화를 이룬다고 한다.[5]\n\n그러면서, 우주의 본질이자 본원이며, 어느 곳이든 없는 곳이 없는 무소부재한 존재이자, 새로 생기지도 않는 불생불멸이며, 곧 시작도 끝도 없는 무시무종이자 불변형질과 같은 것이라고 한다. 그러면서, 기가 작용하여 만물을 형성하는 과정에서 모든 것이 음양과 오행의 법칙에서 이루어지게 된다고 한다. \n\n그러면서, 이 기는 흔히 말하는 음양과 같은 것이며, 방금 전에 서술한 음양이라고 하는 두 가지 기운이 서로 상호작용하는 과정에 의해 세계의 기초를 이루는 다섯 가지가 바로 그 유명한 오행이라고 한다. 거기에, 이 기는 어떠한 의미나 목적에 따라 시간이 진행된다 할 수가 있는 도(道)에 의하여 모였다가 흩여지게 된다고 한다."
-    },
-    {
-        "character": "氜",
-        "meaning_reading": "볕 양",
-        "radical": "阜, 9획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "陽은 '볕 양'이라는 한자로, '볕', '태양(太陽)', '양지(陽地)', '남자' 등을 뜻한다.\n"
     },
     {
         "character": "氣",
@@ -2304,15 +1530,6 @@
         "explanation": "물 수(水)\n\n가장 기초적이고 중요한 한자 중 하나로, 물을 의미하는 한자다.\n"
     },
     {
-        "character": "氵",
-        "meaning_reading": "물 수",
-        "radical": "水, 0획",
-        "strokes": "4획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "물 수(水)\n\n가장 기초적이고 중요한 한자 중 하나로, 물을 의미하는 한자다.\n"
-    },
-    {
         "character": "永",
         "meaning_reading": "길 영",
         "radical": "水, 1획",
@@ -2320,24 +1537,6 @@
         "grade_level": "중학교",
         "exam_level": "6급",
         "explanation": "길 영(永). 길다(長)는 뜻이다. 주로 무한히 긴 시간을 나타내는 데 쓰인다.\n\n사람이 물을 헤엄치는 모습을 본뜬 상형자이다. 때문에 처음에는 '헤엄치다'라는 뜻이었으나, '길다'로 가차되었다. 그래서 본래 뜻인 '헤엄치다'라는 뜻을 나타내기 위하여 永 옆에 삼수변을 붙여 泳(헤엄칠 영)이 만들어졌다.\n\n과거 평균 수명이 짧았던 시절에는 아이가 장수하기를 바라는 뜻에서 이름의 앞자리(가운데)에 이 글자를 많이 넣었다. 남아 선호 사상이 심했던 시대라서 남자아이 이름에 주로 넣었다. 1930년대~1960년대 초반에 출생신고된 사람들(특히 할아버지)의 이름 중 영수, 영호, 영식, 영철, 영준, 영훈, 영석, 영환, 영원, 영빈, 영길, 영근, 영찬 등의 이름이 많이 보이는 이유. 그런데 '영'자는 이름에 자주 쓰이는 글자이고, 촌스러운 느낌이 거의 없어 그 이후 세대나 여자들도 永 자를 사용하는 경우도 있는 편이다. 대표적인 경우가 축구선수 박주영. 그리고 한자는 다르지만 이름에 '영' 자가 들어간 경우는 연령대를 불문하고 매우 많다.\n\n일본에서 연호에 가장 많이 쓰인 한자이다. 가장 최근에 이 한자가 연호에 쓰인 것은 1848년부터 1854년까지 쓰였던 연호인 카에이(嘉永)였다."
-    },
-    {
-        "character": "氺",
-        "meaning_reading": "물 수",
-        "radical": "水, 0획",
-        "strokes": "4획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "물 수(水)\n\n가장 기초적이고 중요한 한자 중 하나로, 물을 의미하는 한자다.\n"
-    },
-    {
-        "character": "汉",
-        "meaning_reading": "한수/한나라/성 한",
-        "radical": "水, 11획",
-        "strokes": "14획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "漢자는 '한수 한' 또는 '한나라 한'으로, 한수(漢水), 한나라(現 중국)를 뜻하는 한자이다.\n\n한나라 또는 한족, 한자와 같이 汎 China라는 뜻을 가지고 있다. 그리고 '크다'와 '사내'라는 뜻도 내포하고 있다.\n\n은하수를 뜻할 때 쓰이기도 하며, '-한(漢)'이라는 사람의 뜻을 더하는 접미사[2] 로도 쓰인다.\n"
     },
     {
         "character": "江",
@@ -2421,24 +1620,6 @@
         "explanation": "맑을 청(淸). '맑다', '깨끗하다', '선명하다' 등을 뜻하는 한자이다.\n"
     },
     {
-        "character": "清",
-        "meaning_reading": "맑을 청",
-        "radical": "水, 8획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "맑을 청(淸). '맑다', '깨끗하다', '선명하다' 등을 뜻하는 한자이다.\n"
-    },
-    {
-        "character": "温",
-        "meaning_reading": "따뜻할 온",
-        "radical": "水, 10획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "溫은 '따뜻한 온'이라는 한자로, '따뜻하다', '뜨겁다' 등을 뜻한다.\n"
-    },
-    {
         "character": "溫",
         "meaning_reading": "따뜻할 온",
         "radical": "水, 10획",
@@ -2466,33 +1647,6 @@
         "explanation": "가장 기초적이고 중요한 한자 중 하나이다. 불을 의미한다.\n\n아주 기초적인 한자라서, 아마 한자 배우기를 시작한다면  水(물 수)자와 함께 이것을 가장 먼저 배울 것이다.\n"
     },
     {
-        "character": "灬",
-        "meaning_reading": "불 화",
-        "radical": "火, 0획",
-        "strokes": "4획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "가장 기초적이고 중요한 한자 중 하나이다. 불을 의미한다.\n\n아주 기초적인 한자라서, 아마 한자 배우기를 시작한다면  水(물 수)자와 함께 이것을 가장 먼저 배울 것이다.\n"
-    },
-    {
-        "character": "炚",
-        "meaning_reading": "빛 광",
-        "radical": "儿, 4획",
-        "strokes": "6획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "빛 광(光). 빛 또는 빛나는 무언가를 일컬을 때 쓰이는 한자이다.\n"
-    },
-    {
-        "character": "炛",
-        "meaning_reading": "빛 광",
-        "radical": "儿, 4획",
-        "strokes": "6획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "빛 광(光). 빛 또는 빛나는 무언가를 일컬을 때 쓰이는 한자이다.\n"
-    },
-    {
         "character": "然",
         "meaning_reading": "그럴 연",
         "radical": "火, 8획",
@@ -2502,15 +1656,6 @@
         "explanation": "然은 '그럴 연'이라는 한자로, '그렇다'를 뜻한다.\n"
     },
     {
-        "character": "爱",
-        "meaning_reading": "사랑 애",
-        "radical": "心, 9획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "愛는 '사랑 애'라는 한자로, '사랑'을 뜻하며, '즐기다'라는 뜻으로 쓰이기도 한다.\n"
-    },
-    {
         "character": "父",
         "meaning_reading": "아비 부",
         "radical": "父, 0획",
@@ -2518,24 +1663,6 @@
         "grade_level": "중학교",
         "exam_level": "8급",
         "explanation": "父는 '아비 부'라는 한자로, 아버지나 친족의 어른을 의미한다.\n"
-    },
-    {
-        "character": "牎",
-        "meaning_reading": "창 창",
-        "radical": "穴, 6획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "窓은 '창 창'이라는 한자로, 창문을 뜻한다.\n"
-    },
-    {
-        "character": "牕",
-        "meaning_reading": "창 창",
-        "radical": "穴, 6획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "窓은 '창 창'이라는 한자로, 창문을 뜻한다.\n"
     },
     {
         "character": "物",
@@ -2563,15 +1690,6 @@
         "grade_level": "중학교",
         "exam_level": "8급",
         "explanation": "王은 '임금 왕'이라는 한자로, '임금', '왕(王)'을 뜻한다. \n"
-    },
-    {
-        "character": "现",
-        "meaning_reading": "나타날 현",
-        "radical": "玉, 7획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "現은 '나타날 현'이라는 한자로, '나타나다', '지금(只今)'을 뜻한다. \n"
     },
     {
         "character": "班",
@@ -2637,15 +1755,6 @@
         "explanation": "由는 '말미암을 유'라는 한자로, '말미암다', 즉 어떤 현상의 까닭이 된다는 뜻을 지닌다. '여자의 웃는 모양'이라는 뜻도 있으며 이때는 '요'로 읽는다.\n"
     },
     {
-        "character": "电",
-        "meaning_reading": "번개 전",
-        "radical": "雨, 5획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "電은 '번개 전'이라는 한자로, '번개', '전기(電氣)', '빠르다' 등을 뜻한다.\n"
-    },
-    {
         "character": "男",
         "meaning_reading": "사내 남",
         "radical": "田, 2획",
@@ -2655,15 +1764,6 @@
         "explanation": "사내 남(男). '사내', '남자(男子)'를 뜻하는 한자이다.\n"
     },
     {
-        "character": "画",
-        "meaning_reading": "그림 화, 그을 획",
-        "radical": "田, 7획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "畫은 '그림 화' 또는 '그을 획'[1]이라는 한자로, '그림', '그리다', '긋다' 등을 뜻한다.\n"
-    },
-    {
         "character": "界",
         "meaning_reading": "지경 계",
         "radical": "田, 4획",
@@ -2671,24 +1771,6 @@
         "grade_level": "중학교",
         "exam_level": "준6급",
         "explanation": "界는 '지경 계'라는 한자로, '경계(境界)', '둘레', '세상'을 뜻한다.\n"
-    },
-    {
-        "character": "畣",
-        "meaning_reading": "대답 답",
-        "radical": "竹, 6획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "答은 '대답 답'이라는 한자로, '답(答)하다', '대답(對答)하다', '해답(解答)'을 뜻한다.\n"
-    },
-    {
-        "character": "畨",
-        "meaning_reading": "차례 번",
-        "radical": "田, 7획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "番은 '차례 번'이라는 한자로, '차례(次例)'를 뜻한다.\n"
     },
     {
         "character": "番",
@@ -2709,15 +1791,6 @@
         "explanation": "畫은 '그림 화' 또는 '그을 획'[1]이라는 한자로, '그림', '그리다', '긋다' 등을 뜻한다.\n"
     },
     {
-        "character": "畵",
-        "meaning_reading": "그림 화, 그을 획",
-        "radical": "田, 7획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "畫은 '그림 화' 또는 '그을 획'[1]이라는 한자로, '그림', '그리다', '긋다' 등을 뜻한다.\n"
-    },
-    {
         "character": "病",
         "meaning_reading": "병 병",
         "radical": "疒, 5획",
@@ -2725,15 +1798,6 @@
         "grade_level": "중학교",
         "exam_level": "6급",
         "explanation": "病은 '병 병'이라는 한자로, '병(病)', '질병(疾病)'을 뜻하고, 순우리말로는 '아픔'을 나타낸다. 용기(容器)를 뜻하는 한자인 甁(병 병)과는 한국어 음이 같지만 의미도 다르고 단음이지만, 病(병)은 장음이다. 단, 한자어로 결합해 쓰는 경우 사잇소리 현상으로 인해 [뼝]으로 발음한다.\n"
-    },
-    {
-        "character": "発",
-        "meaning_reading": "필 발",
-        "radical": "癶, 7획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "發은 '필 발'이라는 한자로, '활을 쏘다'는 뜻이다. '일어나다', '피다', '떠나다' 등 뜻은 파생되었다. 그래서 '쏠 발'이라고도 한다."
     },
     {
         "character": "登",
@@ -2790,15 +1854,6 @@
         "explanation": "直은 '곧을 직'이라는 한자로, '곧다', '바르다', '옳다' 등을 뜻한다.\n"
     },
     {
-        "character": "眀",
-        "meaning_reading": "밝을 명",
-        "radical": "日, 4획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "明은 '밝을 명'이라는 한자로, '밝다', '명백(明白)하다' 등을 뜻한다.\n"
-    },
-    {
         "character": "省",
         "meaning_reading": "살필 성, 덜 생",
         "radical": "目, 4획",
@@ -2826,15 +1881,6 @@
         "explanation": "한자를 배우지 않아도 알 수 있는 가장 기초적이고 중요한 한자 중 하나로 '돌'을 의미한다.\n"
     },
     {
-        "character": "礼",
-        "meaning_reading": "예도 례",
-        "radical": "示, 13획",
-        "strokes": "18획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "禮는 '예도 례' 또는 '예절 례'라는 한자로, 예도(禮道), 예절(禮節)을 뜻한다.\n"
-    },
-    {
         "character": "社",
         "meaning_reading": "모일 사",
         "radical": "示, 3획",
@@ -2853,15 +1899,6 @@
         "explanation": "祖는 '할아버지 조'라는 한자로, '할아버지', '조상(祖上)', '선조(先祖)' 등을 뜻한다.\n"
     },
     {
-        "character": "祘",
-        "meaning_reading": "셈 산",
-        "radical": "竹, 8획",
-        "strokes": "14획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "算은 '셈 산'이라는 한자로, 셈, 계산, 수, 꾀 등을 나타낸다.\n"
-    },
-    {
         "character": "神",
         "meaning_reading": "귀신 신",
         "radical": "示, 5획",
@@ -2878,15 +1915,6 @@
         "grade_level": "중학교",
         "exam_level": "6급",
         "explanation": "禮는 '예도 례' 또는 '예절 례'라는 한자로, 예도(禮道), 예절(禮節)을 뜻한다.\n"
-    },
-    {
-        "character": "秊",
-        "meaning_reading": "해 년",
-        "radical": "干, 3획",
-        "strokes": "6획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "해 년(年). 해, 시대, 나이 등의 뜻을 나타내는 한자이다.\n"
     },
     {
         "character": "秋",
@@ -2917,24 +1945,6 @@
     },
     {
         "character": "窓",
-        "meaning_reading": "창 창",
-        "radical": "穴, 6획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "窓은 '창 창'이라는 한자로, 창문을 뜻한다.\n"
-    },
-    {
-        "character": "窗",
-        "meaning_reading": "창 창",
-        "radical": "穴, 6획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "窓은 '창 창'이라는 한자로, 창문을 뜻한다.\n"
-    },
-    {
-        "character": "窻",
         "meaning_reading": "창 창",
         "radical": "穴, 6획",
         "strokes": "11획",
@@ -3015,15 +2025,6 @@
         "explanation": "米자는 '쌀 미'로, 쌀을 뜻하는 한자이다.\n"
     },
     {
-        "character": "糼",
-        "meaning_reading": "공 공",
-        "radical": "力, 3획",
-        "strokes": "5획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "功은 '공 공'이라는 한자로, '공(功)', '공로(功勞)', '공적(功積)' 등을 뜻한다.\n"
-    },
-    {
         "character": "紙",
         "meaning_reading": "종이 지",
         "radical": "糸, 4획",
@@ -3051,61 +2052,7 @@
         "explanation": "綠은 '푸를 록'이라는 한자로, '푸르다', '초록색(草綠色)'를 뜻한다. 한국 한정으로 산화된 금속을 뜻하는 말로도 쓴다.\n"
     },
     {
-        "character": "綫",
-        "meaning_reading": "줄 선",
-        "radical": "糸, 9획",
-        "strokes": "15획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "線은 '줄 선'이라는 한자로, '줄', '선', '실'을 뜻한다.\n"
-    },
-    {
-        "character": "緑",
-        "meaning_reading": "푸를 록",
-        "radical": "糸, 8획",
-        "strokes": "14획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "綠은 '푸를 록'이라는 한자로, '푸르다', '초록색(草綠色)'를 뜻한다. 한국 한정으로 산화된 금속을 뜻하는 말로도 쓴다.\n"
-    },
-    {
         "character": "線",
-        "meaning_reading": "줄 선",
-        "radical": "糸, 9획",
-        "strokes": "15획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "線은 '줄 선'이라는 한자로, '줄', '선', '실'을 뜻한다.\n"
-    },
-    {
-        "character": "级",
-        "meaning_reading": "등급 급",
-        "radical": "糸, 4획",
-        "strokes": "10획",
-        "grade_level": "고등학교",
-        "exam_level": "6급",
-        "explanation": "級은 '등급 급'이라는 한자로, '등급(等級)', '계급(階級)' 등을 뜻한다.\n"
-    },
-    {
-        "character": "纸",
-        "meaning_reading": "종이 지",
-        "radical": "糸, 4획",
-        "strokes": "10획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "紙는 '종이 지'라는 한자로, '종이'를 뜻한다.\n"
-    },
-    {
-        "character": "线",
-        "meaning_reading": "줄 선",
-        "radical": "糸, 9획",
-        "strokes": "15획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "線은 '줄 선'이라는 한자로, '줄', '선', '실'을 뜻한다.\n"
-    },
-    {
-        "character": "缐",
         "meaning_reading": "줄 선",
         "radical": "糸, 9획",
         "strokes": "15획",
@@ -3177,15 +2124,6 @@
         "explanation": "스스로 자(自). '스스로', '자기 자신'이라는 의미를 가지는 한자이다.\n"
     },
     {
-        "character": "舙",
-        "meaning_reading": "말씀 화",
-        "radical": "言, 6획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "話는 '말씀 화'라는 한자로, '말씀', '이야기', '말하다'를 뜻한다. 그래서 '말할 화'라고도 한다.\n"
-    },
-    {
         "character": "色",
         "meaning_reading": "빛 색",
         "radical": "色, 0획",
@@ -3240,24 +2178,6 @@
         "explanation": "萬은 '일만 만'이라는 한자로, '일만(一萬)'을 뜻한다.\n\n숫자 만(10000)과 그 서수를 나타내는 한자로, '모든', '매우', '상당히', '전부', '많다', '오래 가다' 등을 뜻하기도 한다.\n\n한국과 중국에서 드물게 볼 수 있는 성씨인 만(萬)씨도 이 한자를 쓴다.\n\n창힐수입법으로는 廿田中月(TWLB)로 입력한다.\n"
     },
     {
-        "character": "薗",
-        "meaning_reading": "동산 원",
-        "radical": "囗, 10획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "園은 '동산 원'이라는 한자로, '동산', '뜰'을 뜻한다.\n"
-    },
-    {
-        "character": "薬",
-        "meaning_reading": "약 약",
-        "radical": "艸, 15획",
-        "strokes": "19획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "藥은 '약 약'이라는 한자로, '약(medicine)'을 뜻한다.\n"
-    },
-    {
         "character": "藥",
         "meaning_reading": "약 약",
         "radical": "艸, 15획",
@@ -3295,15 +2215,6 @@
     },
     {
         "character": "衣",
-        "meaning_reading": "옷 의",
-        "radical": "衣, 0획",
-        "strokes": "6획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "衣는 '옷 의'라는 한자로, '옷', '의복(衣服)', '입다' 등을 뜻한다.\n"
-    },
-    {
-        "character": "衤",
         "meaning_reading": "옷 의",
         "radical": "衣, 0획",
         "strokes": "6획",
@@ -3357,15 +2268,6 @@
         "explanation": "言은 '말씀 언'이라는 한자로, '말씀', '언어(言語)' 등을 뜻한다.\n"
     },
     {
-        "character": "訁",
-        "meaning_reading": "말씀 언",
-        "radical": "言, 0획",
-        "strokes": "7획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "言은 '말씀 언'이라는 한자로, '말씀', '언어(言語)' 등을 뜻한다.\n"
-    },
-    {
         "character": "計",
         "meaning_reading": "셀 계",
         "radical": "言, 2획",
@@ -3393,15 +2295,6 @@
         "explanation": "記는 '기록할 기'라는 한자로, '기록(記錄)하다', '기억(記憶)하다' 등을 뜻한다.\n"
     },
     {
-        "character": "訫",
-        "meaning_reading": "믿을 신",
-        "radical": "人, 7획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "信은 '믿을 신'이라는 한자로, '믿다'를 뜻한다. 원래는 편지라는 뜻이었다. 그런데 편지는 중요한 내용이 담겼으므로 '정보'란 뜻이 생겼고, 정보는 믿을 만한 사람한테 전달해야 하므로 '믿다'라는 뜻이 추가되었다. 현대에 이르러서도 3가지 뜻으로 자주 쓰이는 한자이다.\n"
-    },
-    {
         "character": "話",
         "meaning_reading": "말씀 화",
         "radical": "言, 6획",
@@ -3420,88 +2313,7 @@
         "explanation": "語는 '말씀 어'라는 한자로, '말씀', '말', '언어(言語)', '말하다' 등을 뜻한다.\n"
     },
     {
-        "character": "読",
-        "meaning_reading": "읽을 독, 구절 두",
-        "radical": "言, 15획",
-        "strokes": "22획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "'읽을 독', '구절 두'\n\n주로 '읽다'라는 뜻을 가진 한자. 유니코드에는 U+8B80에 배정되어 있고, 창힐수입법으로는 YRGWC(卜口土田金)으로 입력한다.\n"
-    },
-    {
-        "character": "謌",
-        "meaning_reading": "노래 가",
-        "radical": "欠, 10획",
-        "strokes": "14획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "歌는 '노래 가'라는 한자로, '노래', '음악', '가곡(歌曲)' 등을 뜻한다.\n"
-    },
-    {
         "character": "讀",
-        "meaning_reading": "읽을 독, 구절 두",
-        "radical": "言, 15획",
-        "strokes": "22획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "'읽을 독', '구절 두'\n\n주로 '읽다'라는 뜻을 가진 한자. 유니코드에는 U+8B80에 배정되어 있고, 창힐수입법으로는 YRGWC(卜口土田金)으로 입력한다.\n"
-    },
-    {
-        "character": "讠",
-        "meaning_reading": "말씀 언",
-        "radical": "言, 0획",
-        "strokes": "7획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "言은 '말씀 언'이라는 한자로, '말씀', '언어(言語)' 등을 뜻한다.\n"
-    },
-    {
-        "character": "计",
-        "meaning_reading": "셀 계",
-        "radical": "言, 2획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "計는 '셀 계' 또는 '셈 계'라는 한자로, '세다', '계산하다'를 뜻한다.\n"
-    },
-    {
-        "character": "训",
-        "meaning_reading": "가르칠 훈",
-        "radical": "言, 3획",
-        "strokes": "10획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "訓은 가르칠 훈이라는 한자로, '가르치다', '한자의 새김(뜻)'을 뜻한다.\n"
-    },
-    {
-        "character": "记",
-        "meaning_reading": "기록할 기",
-        "radical": "言, 3획",
-        "strokes": "10획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "記는 '기록할 기'라는 한자로, '기록(記錄)하다', '기억(記憶)하다' 등을 뜻한다.\n"
-    },
-    {
-        "character": "话",
-        "meaning_reading": "말씀 화",
-        "radical": "言, 6획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "話는 '말씀 화'라는 한자로, '말씀', '이야기', '말하다'를 뜻한다. 그래서 '말할 화'라고도 한다.\n"
-    },
-    {
-        "character": "语",
-        "meaning_reading": "말씀 어",
-        "radical": "言, 7획",
-        "strokes": "14획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "語는 '말씀 어'라는 한자로, '말씀', '말', '언어(言語)', '말하다' 등을 뜻한다.\n"
-    },
-    {
-        "character": "读",
         "meaning_reading": "읽을 독, 구절 두",
         "radical": "言, 15획",
         "strokes": "22획",
@@ -3555,15 +2367,6 @@
         "explanation": "軍은 '군사 군'이라는 한자로, '군사(軍士)', '군인(軍人)' 등을 뜻한다.\n"
     },
     {
-        "character": "车",
-        "meaning_reading": "수레 거/차",
-        "radical": "車, 0획",
-        "strokes": "7획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "車는 '수레 거/차'라는 한자로, '수레', '수레바퀴' 등을 뜻한다.\n"
-    },
-    {
         "character": "農",
         "meaning_reading": "농사 농",
         "radical": "辰, 6획",
@@ -3573,15 +2376,6 @@
         "explanation": "農은 '농사 농'이라는 한자로, 농사(農事)를 뜻한다. 현대 한국어에서는 의미가 확장되어 축산업에도 사용한다.[1]\n"
     },
     {
-        "character": "运",
-        "meaning_reading": "옮길 운",
-        "radical": "辵, 9획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "運은 '옮길 운'이라는 한자로, '옮기다', '행운(幸運)' 등을 뜻한다.\n"
-    },
-    {
         "character": "近",
         "meaning_reading": "가까울 근",
         "radical": "辵, 4획",
@@ -3589,15 +2383,6 @@
         "grade_level": "중학교",
         "exam_level": "6급",
         "explanation": "近은 '가까울 근'이라는 한자로, '가깝다'를 뜻한다.\n"
-    },
-    {
-        "character": "远",
-        "meaning_reading": "멀 원",
-        "radical": "辵, 10획",
-        "strokes": "14획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "遠은 '멀 원'이라는 한자로, '멀다'를 뜻한다.\n"
     },
     {
         "character": "通",
@@ -3652,15 +2437,6 @@
         "grade_level": "중학교",
         "exam_level": "7급",
         "explanation": "고을 읍(邑).\n\n邑자는 사람들이 모여 거주하는 장소를 의미한다. 성벽이나 울타리의 형상인 口자 무릎을 꿇고있는 사람의 형상 卩의 회의자로 의미를 넓게보면 도시나 수도를 의미한다.\n\n대한민국에서는 행정구역 체계의 하나로 사용된다. 읍(행정구역) 참조.\n\n유니코드는 9091에 배당되었다.\n"
-    },
-    {
-        "character": "邨",
-        "meaning_reading": "마을 촌",
-        "radical": "木, 3획",
-        "strokes": "7획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "村은 '마을 촌'이라는 한자이다. '마을', '시골' 등의 의미를 가진다.\n"
     },
     {
         "character": "郡",
@@ -3726,34 +2502,7 @@
         "explanation": "金은 '쇠 금' 또는 '성 김'이라는 한자로, '쇠 금'으로 읽을 때는 모든 금속을 통틀어 이르는 말로 쓰이며, 특히 금을 지칭할 때 쓰이기도 한다. '성 김'으로 읽을 때는 한국의 김씨를 뜻하거나 지명을 이를 때 쓴다. 그래서 훈음을 땅이름 김이라 쓰는 경우도 있다.[1]\n"
     },
     {
-        "character": "釒",
-        "meaning_reading": "쇠 금, 성 김",
-        "radical": "金, 0획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "金은 '쇠 금' 또는 '성 김'이라는 한자로, '쇠 금'으로 읽을 때는 모든 금속을 통틀어 이르는 말로 쓰이며, 특히 금을 지칭할 때 쓰이기도 한다. '성 김'으로 읽을 때는 한국의 김씨를 뜻하거나 지명을 이를 때 쓴다. 그래서 훈음을 땅이름 김이라 쓰는 경우도 있다.[1]\n"
-    },
-    {
         "character": "銀",
-        "meaning_reading": "은 은",
-        "radical": "金, 6획",
-        "strokes": "14획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "은 은(銀). 은, 은빛, 화폐 등의 뜻을 나타내는 한자이다.\n"
-    },
-    {
-        "character": "钅",
-        "meaning_reading": "쇠 금, 성 김",
-        "radical": "金, 0획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "金은 '쇠 금' 또는 '성 김'이라는 한자로, '쇠 금'으로 읽을 때는 모든 금속을 통틀어 이르는 말로 쓰이며, 특히 금을 지칭할 때 쓰이기도 한다. '성 김'으로 읽을 때는 한국의 김씨를 뜻하거나 지명을 이를 때 쓴다. 그래서 훈음을 땅이름 김이라 쓰는 경우도 있다.[1]\n"
-    },
-    {
-        "character": "银",
         "meaning_reading": "은 은",
         "radical": "金, 6획",
         "strokes": "14획",
@@ -3771,34 +2520,7 @@
         "explanation": "長은 '길 장'이라는 한자로, '길다', '우두머리', '자라다', '어른', '최고책임자', '권한자', '장인'을 뜻한다.\n"
     },
     {
-        "character": "镸",
-        "meaning_reading": "길 장",
-        "radical": "長, 0획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "長은 '길 장'이라는 한자로, '길다', '우두머리', '자라다', '어른', '최고책임자', '권한자', '장인'을 뜻한다.\n"
-    },
-    {
-        "character": "长",
-        "meaning_reading": "길 장",
-        "radical": "長, 0획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "長은 '길 장'이라는 한자로, '길다', '우두머리', '자라다', '어른', '최고책임자', '권한자', '장인'을 뜻한다.\n"
-    },
-    {
         "character": "門",
-        "meaning_reading": "문 문",
-        "radical": "門, 0획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "門은 '문 문'이라는 한자로, 문(門), 집안, 방법 등을 뜻하며, 창힐수입법으로는 日弓(AN)으로 입력한다."
-    },
-    {
-        "character": "閅",
         "meaning_reading": "문 문",
         "radical": "門, 0획",
         "strokes": "8획",
@@ -3825,60 +2547,6 @@
         "explanation": "間은 '사이 간'이라는 한자로, '사이', '틈', '때' 등을 뜻한다.\n"
     },
     {
-        "character": "门",
-        "meaning_reading": "문 문",
-        "radical": "門, 0획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "門은 '문 문'이라는 한자로, 문(門), 집안, 방법 등을 뜻하며, 창힐수입법으로는 日弓(AN)으로 입력한다."
-    },
-    {
-        "character": "问",
-        "meaning_reading": "물을 문",
-        "radical": "口, 8획",
-        "strokes": "11획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "問은 '물을 문'이라는 한자로, '묻다', '질문(質問)하다'를 뜻한다.\n"
-    },
-    {
-        "character": "间",
-        "meaning_reading": "사이 간",
-        "radical": "門, 4획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "間은 '사이 간'이라는 한자로, '사이', '틈', '때' 등을 뜻한다.\n"
-    },
-    {
-        "character": "闻",
-        "meaning_reading": "들을 문",
-        "radical": "耳, 8획",
-        "strokes": "14획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "聞은 '들을 문'이라는 한자로, '듣다'를 뜻한다.\n\n희한하게도 중국어에선 '냄새 맡다'라는 뜻으로도 쓰이며, 일본어 고어로도 聞こゆ는 '냄새가 나다'라는 뜻이 있다."
-    },
-    {
-        "character": "阦",
-        "meaning_reading": "볕 양",
-        "radical": "阜, 9획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "陽은 '볕 양'이라는 한자로, '볕', '태양(太陽)', '양지(陽地)', '남자' 등을 뜻한다.\n"
-    },
-    {
-        "character": "阳",
-        "meaning_reading": "볕 양",
-        "radical": "阜, 9획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "陽은 '볕 양'이라는 한자로, '볕', '태양(太陽)', '양지(陽地)', '남자' 등을 뜻한다.\n"
-    },
-    {
         "character": "陽",
         "meaning_reading": "볕 양",
         "radical": "阜, 9획",
@@ -3889,24 +2557,6 @@
     },
     {
         "character": "集",
-        "meaning_reading": "모을 집",
-        "radical": "隹, 4획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "集은 '모을 집'이라는 한자로, '모으다'를 뜻한다.\n"
-    },
-    {
-        "character": "雦",
-        "meaning_reading": "모을 집",
-        "radical": "隹, 4획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "集은 '모을 집'이라는 한자로, '모으다'를 뜻한다.\n"
-    },
-    {
-        "character": "雧",
         "meaning_reading": "모을 집",
         "radical": "隹, 4획",
         "strokes": "12획",
@@ -3942,15 +2592,6 @@
         "explanation": "靑은 '푸를 청'이라는 한자로, '푸르다', '젊다', '고요하다'를 뜻한다.\n"
     },
     {
-        "character": "青",
-        "meaning_reading": "푸를 청",
-        "radical": "靑, 0획",
-        "strokes": "8획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "靑은 '푸를 청'이라는 한자로, '푸르다', '젊다', '고요하다'를 뜻한다.\n"
-    },
-    {
         "character": "面",
         "meaning_reading": "낯 면",
         "radical": "面, 0획",
@@ -3960,25 +2601,7 @@
         "explanation": "面은 '낯 면'이라는 한자로, '낯', '얼굴'을 뜻한다.\n"
     },
     {
-        "character": "靣",
-        "meaning_reading": "낯 면",
-        "radical": "面, 0획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "7급",
-        "explanation": "面은 '낯 면'이라는 한자로, '낯', '얼굴'을 뜻한다.\n"
-    },
-    {
         "character": "韓",
-        "meaning_reading": "나라이름 한, 성 한",
-        "radical": "韋, 8획",
-        "strokes": "17획",
-        "grade_level": "중학교",
-        "exam_level": "8급",
-        "explanation": "韓은 '나라 한'이라는 한문으로, '한국(韓國)', '한씨(韓氏)'를 뜻한다.\n\n고유명사 국가, 나라를 뜻함.\n\n대한민국 또는 한민족을 뜻한다. "
-    },
-    {
-        "character": "韩",
         "meaning_reading": "나라이름 한, 성 한",
         "radical": "韋, 8획",
         "strokes": "17획",
@@ -4014,34 +2637,7 @@
         "explanation": "題는 '제목 제'라는 한자로, '제목(題目)', '주제(主題)' 등을 뜻한다.\n"
     },
     {
-        "character": "题",
-        "meaning_reading": "제목 제",
-        "radical": "頁, 9획",
-        "strokes": "18획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "題는 '제목 제'라는 한자로, '제목(題目)', '주제(主題)' 등을 뜻한다.\n"
-    },
-    {
         "character": "風",
-        "meaning_reading": "바람 풍",
-        "radical": "風, 0획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "風은 '바람 풍'이라는 한자로, '바람', '풍속(風俗)', '풍경(風景)' 등을 뜻한다.\n"
-    },
-    {
-        "character": "飌",
-        "meaning_reading": "바람 풍",
-        "radical": "風, 0획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "風은 '바람 풍'이라는 한자로, '바람', '풍속(風俗)', '풍경(風景)' 등을 뜻한다.\n"
-    },
-    {
-        "character": "风",
         "meaning_reading": "바람 풍",
         "radical": "風, 0획",
         "strokes": "9획",
@@ -4059,43 +2655,7 @@
         "explanation": "食은 '밥 식' 또는 '먹을 식'이라는 한자로, '밥', '음식', '먹다' 등을 뜻한다.\n"
     },
     {
-        "character": "飠",
-        "meaning_reading": "밥/먹을 식",
-        "radical": "食, 0획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "食은 '밥 식' 또는 '먹을 식'이라는 한자로, '밥', '음식', '먹다' 등을 뜻한다.\n"
-    },
-    {
         "character": "飮",
-        "meaning_reading": "마실 음",
-        "radical": "食, 4획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "飮자는 '마실 음'이라는 한자로, '마시다'를 뜻한다.\n"
-    },
-    {
-        "character": "飲",
-        "meaning_reading": "마실 음",
-        "radical": "食, 4획",
-        "strokes": "13획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "飮자는 '마실 음'이라는 한자로, '마시다'를 뜻한다.\n"
-    },
-    {
-        "character": "饣",
-        "meaning_reading": "밥/먹을 식",
-        "radical": "食, 0획",
-        "strokes": "9획",
-        "grade_level": "중학교",
-        "exam_level": "준7급",
-        "explanation": "食은 '밥 식' 또는 '먹을 식'이라는 한자로, '밥', '음식', '먹다' 등을 뜻한다.\n"
-    },
-    {
-        "character": "饮",
         "meaning_reading": "마실 음",
         "radical": "食, 4획",
         "strokes": "13획",
@@ -4122,25 +2682,7 @@
         "explanation": "높을 고(高). 높다, 크다, 뛰어나다 등을 뜻하는 한자다. 접미사로서는 고등학교를 이르기도 한다.\n한글의 '흠'과 모양이 비슷하여 밈으로 쓰이기도 한다."
     },
     {
-        "character": "髙",
-        "meaning_reading": "높을 고, 성 고",
-        "radical": "高, 0획",
-        "strokes": "10획",
-        "grade_level": "중학교",
-        "exam_level": "준6급",
-        "explanation": "높을 고(高). 높다, 크다, 뛰어나다 등을 뜻하는 한자다. 접미사로서는 고등학교를 이르기도 한다.\n한글의 '흠'과 모양이 비슷하여 밈으로 쓰이기도 한다."
-    },
-    {
         "character": "黃",
-        "meaning_reading": "누를 황",
-        "radical": "黃, 0획",
-        "strokes": "12획",
-        "grade_level": "중학교",
-        "exam_level": "6급",
-        "explanation": "누를 황(黃). 누런색(노란색)이라는 뜻을 나타내는 한자이다.\n"
-    },
-    {
-        "character": "黄",
         "meaning_reading": "누를 황",
         "radical": "黃, 0획",
         "strokes": "12획",
