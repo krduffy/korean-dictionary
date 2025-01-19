@@ -5,3 +5,12 @@ db.sqlite3
 *.env
 /api/management/dict_files
 /user_note_images
+/hanzi-writer-data
+venv
+.dockerignore
+Dockerfile.backend
+Dockerfile.database
+Dockerfile.frontend
+docker-compose.yml
+fill_init_db.sh
+run.bat

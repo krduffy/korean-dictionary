@@ -1,6 +1,0 @@
-
-FROM postgres:latest
-
-ENV POSTGRES_DB=korean-dict-db
-ENV POSTGRES_USER=username
-ENV POSTGRES_PASSWORD=password

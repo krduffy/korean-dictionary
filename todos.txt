@@ -1,29 +1,10 @@
 
-Next tasks
-=================
+THINGS TO POTENTIALLY DO
 
+make it so the user can have only one panel
 
-~~~~~~~~~~~~~~~~~~~~~~~~~
-==================================
-1. TEST API VIEWS
-2. add form to update user (change pw)
-3. add actual form to create new account
-4. allow for editing and deleting of notes
-5. finalize game (
-	1. create view for checking answer
-	2. animation of 성공 on screen
-)
+scrape slang / words that are not in the base dictionary
 
-change the display of the results to have buttons for add to list
-and also make it so there are forms in the acutal dictionary to use the add views [ done for adding word ]
-
-[ next refactoring of database ]
-<sub> tags exist.
-potentially move history to end of sense list (same for all senses?) => moved, but still in wrong(?) folder
-
-
-
-쪽빛 #47519e
-
+srs / interval settings for review (like anki)
 
 
