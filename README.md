@@ -2,14 +2,15 @@
 
 이 문서는 한국어로도 읽을 수 있습니다. [바로가기](README_kr.md)
 
+** I am currently refactoring this project [here](https://github.com/krduffy/korean-dictionary-2.0) **.
+It is much better.
+
 A Korean dictionary web application for intermediate-advanced learners of Korean.
 
 ## Table of Contents
 - [Features](#features)
 - [Inspiration](#inspiration)
 - [Technologies and Additional Resources](#technologies-and-additional-resources)
-- [Trying the Dictionary](#trying-the-dictionary)
-  - [Use Docker Compose](#use-docker-compose)
 - [License](#license)
 
 ## Features
@@ -69,20 +70,6 @@ The following resources are used in this project:
 * [makemeahanzi](https://www.skishore.me/makemeahanzi/) ([git](https://github.com/skishore/makemeahanzi)) for Hanja character data
 * [konlpy](https://konlpy.org/en/latest/) ([git](https://github.com/konlpy/konlpy)) for Korean language processing  
 
-## Trying the Dictionary
-
-You can try the dictionary yourself using [Docker](https://www.docker.com/).
-
-Things to be aware of:  
-1. **The dictionary does not have any English support!**  
-2. The abridged dataset is very small to keep container sizes smaller. Most of the words in the dictionary start with ㄱ because it is first alphabetically. You can also search '.*' to see every word.  
-3. You can log in with the username '척척박사' and the password 'secret'. This account knows every word in the dictionary,
-which is good for trying the Hanja game without spending hours adding words to the known list.  
-
-### Use Docker Compose
-1. [Download the docker-compose.yml](docker-compose.yml) file for the project to your machine.
-2. In the directory with the .yml file, run `docker-compose up -d` to pull [the docker repository for this project](https://hub.docker.com/repository/docker/krduffy/korean-dictionary/general) and start running the image.
-3. Go to localhost port 5173 ([link](http://localhost:5173/)) to use the dictionary. Your page may be blocked by a network error page until the database is done being initialized.
 
 ## License
 

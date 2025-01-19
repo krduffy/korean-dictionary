@@ -2,6 +2,8 @@
 
 This document is also available in English. [Go to English version](README.md)
 
+** [이 리포지토리](https://github.com/krduffy/korean-dictionary-2.0)에서 개선하고 있습니다.
+
 한국어 중급 학생을 위한 웹 사전입니다.
 
 ## 목차
