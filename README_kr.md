@@ -2,7 +2,7 @@
 
 This document is also available in English. [Go to English version](README.md)
 
-** [이 리포지토리](https://github.com/krduffy/korean-dictionary-2.0)에서 개선하고 있습니다.
+** [이 리포지토리](https://github.com/krduffy/korean-dictionary-2.0)에서 재건(?)하고 있습니다.
 
 한국어 중급 학생을 위한 웹 사전입니다.
 
@@ -10,8 +10,6 @@ This document is also available in English. [Go to English version](README.md)
 - [특징](#특징)
 - [만들게 된 계기](#만들게-된-계기)
 - [도구와 다른 리소스](#도구와-다른-리소스)
-- [사전을 직접 써보기](#사전을-직접-써보기)
-  - [Docker Compose 사용법](#docker-compose-사용법)
 - [라이선스](#라이선스)
 
 ## 특징
@@ -65,22 +63,6 @@ This document is also available in English. [Go to English version](README.md)
 * [Hanzi Writer](https://hanziwriter.org/)([git](https://github.com/chanind/hanzi-writer))의 한자 획순 동영상
 * [makemeahanzi](https://www.skishore.me/makemeahanzi/)([git](https://github.com/skishore/makemeahanzi))의 한자 데이터
 * [konlpy](https://konlpy.org/en/latest/)([git](https://github.com/konlpy/konlpy))의 한국어 자연어처리(NLP) 알고리즘
-
-## 사전을 직접 써보기
-
-[다커(Docker)](https://www.docker.com/)가 로컬에서 설치되어 있으면 사전을 써볼 수 있으며, 이는 두 가지 방법이 있습니다.
-
-시도해보시면 명심할 점:
-1. 단어수가 높으면 다커컨테이너 용량도 증가하니 데이터베이스는 거의 모든 단어가 누락되어 있습니다.
-2. 가나다순으로 처음이니 누락되지 않은 단어는 첫 글자 총성이 주로 ㄱ입니다.
-3. 어떤 검색어를 입력해도 결과가 계속 안 나오지 않으면 모든 단어를 보여주는 '.*'를 검색해보세요.
-4. 사전을 사용해보면 아이디 '척척박사'와 비밀번호 'secret'으로 로그인할 수 있습니다. 이 계정은 사전에 모든 단어를 알고 있으니까 한자 게임을 편하게 해볼 수 있습니다. 
-(이미 알던 단어를 아는 단어 목록에 추가하는 과정이 수십 시간이 걸립니다.) 
-
-### Docker Compose 사용법
-1. [docker-compose.yml](docker-compose.yml) 파일을 본인 컴퓨터로 다운받으세요.
-2. .yml 파일이 있는 디렉터리에서 `docker-compose up -d` 명령어를 실행하세요. [다커 리포지토리](https://hub.docker.com/repository/docker/krduffy/korean-dictionary/general)를 다운받고 이미지를 작동하는 명령어입니다.
-3. 로컬호스트 포트 5173 ([링크](http://localhost:5173/))로 이동하면 사전을 써볼 수 있습니다. 데이터베이스가 채워졌을 때까지 네트워크 오류가 발생하니 사이트가 차단되어 있을 수 있습니다. 접속이 성공할 때까지 잠시 기다리시면 됩니다.
 
 ## 라이선스
 
