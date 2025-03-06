@@ -1,7 +1,5 @@
 # korean-dictionary
 
-이 문서는 한국어로도 읽을 수 있습니다. [바로가기](README_kr.md)
-
 ** I refactored this entire project. Check it out [here](https://github.com/krduffy/korean-dictionary-2.0) **.
 
 A Korean dictionary web application for intermediate-advanced learners of Korean.
